@@ -1,0 +1,3723 @@
+[
+  {
+    "is_popular": true,
+    "name": "Jabodetabek",
+    "input_type": "checkbox",
+    "value": "146,150,151,167,168,171,175,176,177,178,144,463,174",
+    "key": "fcity",
+    "icon": ""
+  },
+  {
+    "is_popular": true,
+    "name": "Kota Bandung",
+    "input_type": "checkbox",
+    "value": "165",
+    "key": "fcity",
+    "icon": ""
+  },
+  {
+    "is_popular": true,
+    "name": "DKI Jakarta",
+    "input_type": "checkbox",
+    "value": "174,175,176,177,178",
+    "key": "fcity",
+    "icon": ""
+  },
+  {
+    "is_popular": true,
+    "name": "Kota Surabaya",
+    "input_type": "checkbox",
+    "value": "252",
+    "key": "fcity",
+    "icon": ""
+  },
+  {
+    "value": "1",
+    "icon": "",
+    "name": "Kab. Aceh Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "2",
+    "icon": "",
+    "name": "Kab. Aceh Barat Daya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "3",
+    "icon": "",
+    "name": "Kab. Aceh Besar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "4",
+    "icon": "",
+    "name": "Kab. Aceh Jaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "5",
+    "icon": "",
+    "name": "Kab. Aceh Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "6",
+    "icon": "",
+    "name": "Kab. Aceh Singkil",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "7",
+    "icon": "",
+    "name": "Kab. Aceh Tamiang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "8",
+    "icon": "",
+    "name": "Kab. Aceh Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "9",
+    "icon": "",
+    "name": "Kab. Aceh Tenggara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "10",
+    "icon": "",
+    "name": "Kab. Aceh Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "11",
+    "icon": "",
+    "name": "Kab. Aceh Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "12",
+    "icon": "",
+    "name": "Kab. Bener Meriah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "13",
+    "icon": "",
+    "name": "Kab. Bireuen",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "14",
+    "icon": "",
+    "name": "Kab. Gayo Lues",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "15",
+    "icon": "",
+    "name": "Kab. Nagan Raya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "16",
+    "icon": "",
+    "name": "Kab. Pidie",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "17",
+    "icon": "",
+    "name": "Kab. Pidie Jaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "18",
+    "icon": "",
+    "name": "Kab. Simeulue",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "19",
+    "icon": "",
+    "name": "Kota Banda Aceh",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "20",
+    "icon": "",
+    "name": "Kota Langsa",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "21",
+    "icon": "",
+    "name": "Kota Lhokseumawe",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "22",
+    "icon": "",
+    "name": "Kota Sabang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "23",
+    "icon": "",
+    "name": "Kota Subulussalam",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "24",
+    "icon": "",
+    "name": "Kab. Asahan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "25",
+    "icon": "",
+    "name": "Kab. Batu Bara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "26",
+    "icon": "",
+    "name": "Kab. Dairi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "27",
+    "icon": "",
+    "name": "Kab. Deli Serdang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "28",
+    "icon": "",
+    "name": "Kab. Humbang Hasundutan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "29",
+    "icon": "",
+    "name": "Kab. Karo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "30",
+    "icon": "",
+    "name": "Kab. Labuhanbatu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "31",
+    "icon": "",
+    "name": "Kab. Langkat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "32",
+    "icon": "",
+    "name": "Kab. Mandailing Natal",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "33",
+    "icon": "",
+    "name": "Kab. Nias",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "34",
+    "icon": "",
+    "name": "Kab. Nias Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "35",
+    "icon": "",
+    "name": "Kab. Padang Lawas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "36",
+    "icon": "",
+    "name": "Kab. Padang Lawas Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "37",
+    "icon": "",
+    "name": "Kab. Pakpak Bharat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "38",
+    "icon": "",
+    "name": "Kab. Samosir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "39",
+    "icon": "",
+    "name": "Kab. Serdang Bedagai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "40",
+    "icon": "",
+    "name": "Kab. Simalungun",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "41",
+    "icon": "",
+    "name": "Kab. Tapanuli Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "42",
+    "icon": "",
+    "name": "Kab. Tapanuli Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "43",
+    "icon": "",
+    "name": "Kab. Tapanuli Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "44",
+    "icon": "",
+    "name": "Kab. Toba Samosir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "45",
+    "icon": "",
+    "name": "Kota Binjai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "46",
+    "icon": "",
+    "name": "Kota Medan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "47",
+    "icon": "",
+    "name": "Kota Padangsidimpuan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "48",
+    "icon": "",
+    "name": "Kota Pematang Siantar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "49",
+    "icon": "",
+    "name": "Kota Sibolga",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "50",
+    "icon": "",
+    "name": "Kota Tanjung Balai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "51",
+    "icon": "",
+    "name": "Kota Tebing Tinggi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "52",
+    "icon": "",
+    "name": "Kab. Bengkulu Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "53",
+    "icon": "",
+    "name": "Kab. Bengkulu Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "54",
+    "icon": "",
+    "name": "Kab. Kaur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "55",
+    "icon": "",
+    "name": "Kab. Kepahiang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "56",
+    "icon": "",
+    "name": "Kab. Lebong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "57",
+    "icon": "",
+    "name": "Kab. Muko Muko",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "58",
+    "icon": "",
+    "name": "Kab. Rejang Lebong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "59",
+    "icon": "",
+    "name": "Kab. Seluma",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "60",
+    "icon": "",
+    "name": "Kota Bengkulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "61",
+    "icon": "",
+    "name": "Kab. Batanghari",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "62",
+    "icon": "",
+    "name": "Kab. Bungo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "63",
+    "icon": "",
+    "name": "Kab. Kerinci",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "64",
+    "icon": "",
+    "name": "Kab. Merangin",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "65",
+    "icon": "",
+    "name": "Kab. Muaro Jambi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "66",
+    "icon": "",
+    "name": "Kab. Sarolangun",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "67",
+    "icon": "",
+    "name": "Kab. Tanjung Jabung Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "68",
+    "icon": "",
+    "name": "Kab. Tanjung Jabung Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "69",
+    "icon": "",
+    "name": "Kab. Tebo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "70",
+    "icon": "",
+    "name": "Kota Jambi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "71",
+    "icon": "",
+    "name": "Kab. Bengkalis",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "72",
+    "icon": "",
+    "name": "Kab. Indragiri Hilir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "73",
+    "icon": "",
+    "name": "Kab. Indragiri Hulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "74",
+    "icon": "",
+    "name": "Kab. Kampar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "75",
+    "icon": "",
+    "name": "Kab. Kepulauan Meranti",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "76",
+    "icon": "",
+    "name": "Kab. Kuantan Singingi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "77",
+    "icon": "",
+    "name": "Kab. Pelalawan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "78",
+    "icon": "",
+    "name": "Kab. Rokan Hulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "79",
+    "icon": "",
+    "name": "Kab. Rokan Hilir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "80",
+    "icon": "",
+    "name": "Kab. Siak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "81",
+    "icon": "",
+    "name": "Kota Dumai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "82",
+    "icon": "",
+    "name": "Kota Pekanbaru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "83",
+    "icon": "",
+    "name": "Kab. Agam",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "84",
+    "icon": "",
+    "name": "Kab. Dharmasraya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "85",
+    "icon": "",
+    "name": "Kab. Lima Puluh Kota",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "86",
+    "icon": "",
+    "name": "Kab. Kepulauan Mentawai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "87",
+    "icon": "",
+    "name": "Kab. Padang Pariaman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "88",
+    "icon": "",
+    "name": "Kab. Pasaman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "89",
+    "icon": "",
+    "name": "Kab. Pasaman Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "90",
+    "icon": "",
+    "name": "Kab. Pesisir Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "91",
+    "icon": "",
+    "name": "Kab. Sijunjung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "92",
+    "icon": "",
+    "name": "Kab. Solok",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "93",
+    "icon": "",
+    "name": "Kab. Solok Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "94",
+    "icon": "",
+    "name": "Kab. Tanah Datar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "95",
+    "icon": "",
+    "name": "Kota Bukittinggi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "96",
+    "icon": "",
+    "name": "Kota Padang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "97",
+    "icon": "",
+    "name": "Kota Padang Panjang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "98",
+    "icon": "",
+    "name": "Kota Pariaman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "99",
+    "icon": "",
+    "name": "Kota Payakumbuh",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "100",
+    "icon": "",
+    "name": "Kota Sawahlunto",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "101",
+    "icon": "",
+    "name": "Kota Solok",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "102",
+    "icon": "",
+    "name": "Kab. Banyuasin",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "103",
+    "icon": "",
+    "name": "Kab. Empat Lawang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "104",
+    "icon": "",
+    "name": "Kab. Lahat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "105",
+    "icon": "",
+    "name": "Kab. Muara Enim",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "106",
+    "icon": "",
+    "name": "Kab. Musi Banyuasin",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "107",
+    "icon": "",
+    "name": "Kab. Musi Rawas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "108",
+    "icon": "",
+    "name": "Kab. Ogan Ilir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "109",
+    "icon": "",
+    "name": "Kab. Ogan Komering Ilir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "110",
+    "icon": "",
+    "name": "Kab. Ogan Komering Ulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "111",
+    "icon": "",
+    "name": "Kab. Ogan Komering Ulu Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "112",
+    "icon": "",
+    "name": "Kab. Ogan Komering Ulu Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "113",
+    "icon": "",
+    "name": "Kota Lubuk Linggau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "114",
+    "icon": "",
+    "name": "Kota Pagar Alam",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "115",
+    "icon": "",
+    "name": "Kota Palembang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "116",
+    "icon": "",
+    "name": "Kota Prabumulih",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "117",
+    "icon": "",
+    "name": "Kab. Lampung Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "118",
+    "icon": "",
+    "name": "Kab. Lampung Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "119",
+    "icon": "",
+    "name": "Kab. Lampung Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "120",
+    "icon": "",
+    "name": "Kab. Lampung Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "121",
+    "icon": "",
+    "name": "Kab. Lampung Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "122",
+    "icon": "",
+    "name": "Kab. Way Kanan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "123",
+    "icon": "",
+    "name": "Kab. Tanggamus",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "124",
+    "icon": "",
+    "name": "Kab. Tulang Bawang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "125",
+    "icon": "",
+    "name": "Kab. Pesawaran",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "126",
+    "icon": "",
+    "name": "Kota Bandar Lampung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "127",
+    "icon": "",
+    "name": "Kota Metro",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "128",
+    "icon": "",
+    "name": "Kab. Bangka",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "129",
+    "icon": "",
+    "name": "Kab. Bangka Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "130",
+    "icon": "",
+    "name": "Kab. Bangka Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "131",
+    "icon": "",
+    "name": "Kab. Bangka Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "132",
+    "icon": "",
+    "name": "Kab. Belitung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "133",
+    "icon": "",
+    "name": "Kab. Belitung Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "134",
+    "icon": "",
+    "name": "Kota Pangkal Pinang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "135",
+    "icon": "",
+    "name": "Kab. Karimun",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "136",
+    "icon": "",
+    "name": "Kab. Bintan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "137",
+    "icon": "",
+    "name": "Kab. Lingga",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "138",
+    "icon": "",
+    "name": "Kab. Natuna",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "139",
+    "icon": "",
+    "name": "Kota Batam",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "140",
+    "icon": "",
+    "name": "Kota Tanjung Pinang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "141",
+    "icon": "",
+    "name": "Kab. Lebak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "142",
+    "icon": "",
+    "name": "Kab. Pandeglang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "143",
+    "icon": "",
+    "name": "Kab. Serang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "144",
+    "icon": "",
+    "name": "Kab. Tangerang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "145",
+    "icon": "",
+    "name": "Kota Cilegon",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "146",
+    "icon": "",
+    "name": "Kota Tangerang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "147",
+    "icon": "",
+    "name": "Kota Serang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "148",
+    "icon": "",
+    "name": "Kab. Bandung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "149",
+    "icon": "",
+    "name": "Kab. Bandung Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "150",
+    "icon": "",
+    "name": "Kab. Bekasi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "151",
+    "icon": "",
+    "name": "Kab. Bogor",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "152",
+    "icon": "",
+    "name": "Kab. Ciamis",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "153",
+    "icon": "",
+    "name": "Kab. Cianjur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "154",
+    "icon": "",
+    "name": "Kab. Cirebon",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "155",
+    "icon": "",
+    "name": "Kab. Garut",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "156",
+    "icon": "",
+    "name": "Kab. Indramayu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "157",
+    "icon": "",
+    "name": "Kab. Karawang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "158",
+    "icon": "",
+    "name": "Kab. Kuningan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "159",
+    "icon": "",
+    "name": "Kab. Majalengka",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "160",
+    "icon": "",
+    "name": "Kab. Purwakarta",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "161",
+    "icon": "",
+    "name": "Kab. Subang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "162",
+    "icon": "",
+    "name": "Kab. Sukabumi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "163",
+    "icon": "",
+    "name": "Kab. Sumedang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "164",
+    "icon": "",
+    "name": "Kab. Tasikmalaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "166",
+    "icon": "",
+    "name": "Kota Banjar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "167",
+    "icon": "",
+    "name": "Kota Bekasi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "168",
+    "icon": "",
+    "name": "Kota Bogor",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "169",
+    "icon": "",
+    "name": "Kota Cimahi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "170",
+    "icon": "",
+    "name": "Kota Cirebon",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "171",
+    "icon": "",
+    "name": "Kota Depok",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "172",
+    "icon": "",
+    "name": "Kota Sukabumi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "173",
+    "icon": "",
+    "name": "Kota Tasikmalaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "179",
+    "icon": "",
+    "name": "Kepulauan Seribu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "180",
+    "icon": "",
+    "name": "Kab. Banjarnegara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "181",
+    "icon": "",
+    "name": "Kab. Banyumas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "182",
+    "icon": "",
+    "name": "Kab. Batang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "183",
+    "icon": "",
+    "name": "Kab. Blora",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "184",
+    "icon": "",
+    "name": "Kab. Boyolali",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "185",
+    "icon": "",
+    "name": "Kab. Brebes",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "186",
+    "icon": "",
+    "name": "Kab. Cilacap",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "187",
+    "icon": "",
+    "name": "Kab. Demak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "188",
+    "icon": "",
+    "name": "Kab. Grobogan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "189",
+    "icon": "",
+    "name": "Kab. Jepara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "190",
+    "icon": "",
+    "name": "Kab. Karanganyar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "191",
+    "icon": "",
+    "name": "Kab. Kebumen",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "192",
+    "icon": "",
+    "name": "Kab. Kendal",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "193",
+    "icon": "",
+    "name": "Kab. Klaten",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "194",
+    "icon": "",
+    "name": "Kab. Kudus",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "195",
+    "icon": "",
+    "name": "Kab. Magelang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "196",
+    "icon": "",
+    "name": "Kab. Pati",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "197",
+    "icon": "",
+    "name": "Kab. Pekalongan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "198",
+    "icon": "",
+    "name": "Kab. Pemalang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "199",
+    "icon": "",
+    "name": "Kab. Purbalingga",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "200",
+    "icon": "",
+    "name": "Kab. Purworejo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "201",
+    "icon": "",
+    "name": "Kab. Rembang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "202",
+    "icon": "",
+    "name": "Kab. Semarang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "203",
+    "icon": "",
+    "name": "Kab. Sragen",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "204",
+    "icon": "",
+    "name": "Kab. Sukoharjo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "205",
+    "icon": "",
+    "name": "Kab. Tegal",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "206",
+    "icon": "",
+    "name": "Kab. Temanggung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "207",
+    "icon": "",
+    "name": "Kab. Wonogiri",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "208",
+    "icon": "",
+    "name": "Kab. Wonosobo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "209",
+    "icon": "",
+    "name": "Kota Magelang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "210",
+    "icon": "",
+    "name": "Kota Surakarta",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "211",
+    "icon": "",
+    "name": "Kota Salatiga",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "212",
+    "icon": "",
+    "name": "Kota Semarang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "213",
+    "icon": "",
+    "name": "Kota Pekalongan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "214",
+    "icon": "",
+    "name": "Kota Tegal",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "215",
+    "icon": "",
+    "name": "Kab. Bangkalan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "216",
+    "icon": "",
+    "name": "Kab. Banyuwangi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "217",
+    "icon": "",
+    "name": "Kab. Blitar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "218",
+    "icon": "",
+    "name": "Kab. Bojonegoro",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "219",
+    "icon": "",
+    "name": "Kab. Bondowoso",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "220",
+    "icon": "",
+    "name": "Kab. Gresik",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "221",
+    "icon": "",
+    "name": "Kab. Jember",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "222",
+    "icon": "",
+    "name": "Kab. Jombang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "223",
+    "icon": "",
+    "name": "Kab. Kediri",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "224",
+    "icon": "",
+    "name": "Kab. Lamongan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "225",
+    "icon": "",
+    "name": "Kab. Lumajang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "226",
+    "icon": "",
+    "name": "Kab. Madiun",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "227",
+    "icon": "",
+    "name": "Kab. Magetan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "228",
+    "icon": "",
+    "name": "Kab. Malang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "229",
+    "icon": "",
+    "name": "Kab. Mojokerto",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "230",
+    "icon": "",
+    "name": "Kab. Nganjuk",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "231",
+    "icon": "",
+    "name": "Kab. Ngawi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "232",
+    "icon": "",
+    "name": "Kab. Pacitan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "233",
+    "icon": "",
+    "name": "Kab. Pamekasan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "234",
+    "icon": "",
+    "name": "Kab. Pasuruan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "235",
+    "icon": "",
+    "name": "Kab. Ponorogo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "236",
+    "icon": "",
+    "name": "Kab. Probolinggo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "237",
+    "icon": "",
+    "name": "Kab. Sampang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "238",
+    "icon": "",
+    "name": "Kab. Sidoarjo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "239",
+    "icon": "",
+    "name": "Kab. Situbondo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "240",
+    "icon": "",
+    "name": "Kab. Sumenep",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "241",
+    "icon": "",
+    "name": "Kab. Trenggalek",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "242",
+    "icon": "",
+    "name": "Kab. Tuban",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "243",
+    "icon": "",
+    "name": "Kab. Tulungagung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "244",
+    "icon": "",
+    "name": "Kota Batu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "245",
+    "icon": "",
+    "name": "Kota Blitar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "246",
+    "icon": "",
+    "name": "Kota Kediri",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "247",
+    "icon": "",
+    "name": "Kota Madiun",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "248",
+    "icon": "",
+    "name": "Kota Malang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "249",
+    "icon": "",
+    "name": "Kota Mojokerto",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "250",
+    "icon": "",
+    "name": "Kota Pasuruan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "251",
+    "icon": "",
+    "name": "Kota Probolinggo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "253",
+    "icon": "",
+    "name": "Kab. Bantul",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "254",
+    "icon": "",
+    "name": "Kab. Gunungkidul",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "255",
+    "icon": "",
+    "name": "Kab. Kulon Progo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "256",
+    "icon": "",
+    "name": "Kab. Sleman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "257",
+    "icon": "",
+    "name": "Kota Yogyakarta",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "258",
+    "icon": "",
+    "name": "Kab. Badung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "259",
+    "icon": "",
+    "name": "Kab. Bangli",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "260",
+    "icon": "",
+    "name": "Kab. Buleleng",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "261",
+    "icon": "",
+    "name": "Kab. Gianyar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "262",
+    "icon": "",
+    "name": "Kab. Jembrana",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "263",
+    "icon": "",
+    "name": "Kab. Karangasem",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "264",
+    "icon": "",
+    "name": "Kab. Klungkung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "265",
+    "icon": "",
+    "name": "Kab. Tabanan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "266",
+    "icon": "",
+    "name": "Kota Denpasar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "267",
+    "icon": "",
+    "name": "Kab. Bima",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "268",
+    "icon": "",
+    "name": "Kab. Dompu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "269",
+    "icon": "",
+    "name": "Kab. Lombok Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "270",
+    "icon": "",
+    "name": "Kab. Lombok Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "271",
+    "icon": "",
+    "name": "Kab. Lombok Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "272",
+    "icon": "",
+    "name": "Kab. Sumbawa",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "273",
+    "icon": "",
+    "name": "Kab. Sumbawa Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "274",
+    "icon": "",
+    "name": "Kota Mataram",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "275",
+    "icon": "",
+    "name": "Kota Bima",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "276",
+    "icon": "",
+    "name": "Kab. Alor",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "277",
+    "icon": "",
+    "name": "Kab. Belu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "278",
+    "icon": "",
+    "name": "Kab. Ende",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "279",
+    "icon": "",
+    "name": "Kab. Flores Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "280",
+    "icon": "",
+    "name": "Kab. Kupang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "281",
+    "icon": "",
+    "name": "Kab. Lembata",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "282",
+    "icon": "",
+    "name": "Kab. Manggarai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "283",
+    "icon": "",
+    "name": "Kab. Manggarai Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "284",
+    "icon": "",
+    "name": "Kab. Manggarai Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "285",
+    "icon": "",
+    "name": "Kab. Nagekeo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "286",
+    "icon": "",
+    "name": "Kab. Ngada",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "287",
+    "icon": "",
+    "name": "Kab. Rote Ndao",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "288",
+    "icon": "",
+    "name": "Kab. Sikka",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "289",
+    "icon": "",
+    "name": "Kab. Sumba Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "290",
+    "icon": "",
+    "name": "Kab. Sumba Barat Daya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "291",
+    "icon": "",
+    "name": "Kab. Sumba Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "292",
+    "icon": "",
+    "name": "Kab. Sumba Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "293",
+    "icon": "",
+    "name": "Kab. Timor Tengah Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "294",
+    "icon": "",
+    "name": "Kab. Timor Tengah Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "295",
+    "icon": "",
+    "name": "Kota Kupang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "296",
+    "icon": "",
+    "name": "Kab. Bengkayang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "297",
+    "icon": "",
+    "name": "Kab. Kapuas Hulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "298",
+    "icon": "",
+    "name": "Kab. Ketapang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "299",
+    "icon": "",
+    "name": "Kab. Kayong Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "300",
+    "icon": "",
+    "name": "Kab. Landak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "301",
+    "icon": "",
+    "name": "Kab. Melawi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "302",
+    "icon": "",
+    "name": "Kab. Pontianak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "303",
+    "icon": "",
+    "name": "Kab. Sambas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "304",
+    "icon": "",
+    "name": "Kab. Sanggau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "305",
+    "icon": "",
+    "name": "Kab. Sekadau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "306",
+    "icon": "",
+    "name": "Kab. Sintang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "307",
+    "icon": "",
+    "name": "Kab. Kubu Raya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "308",
+    "icon": "",
+    "name": "Kota Pontianak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "309",
+    "icon": "",
+    "name": "Kota Singkawang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "310",
+    "icon": "",
+    "name": "Kab. Balangan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "311",
+    "icon": "",
+    "name": "Kab. Banjar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "312",
+    "icon": "",
+    "name": "Kab. Barito Kuala",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "313",
+    "icon": "",
+    "name": "Kab. Hulu Sungai Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "314",
+    "icon": "",
+    "name": "Kab. Hulu Sungai Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "315",
+    "icon": "",
+    "name": "Kab. Hulu Sungai Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "316",
+    "icon": "",
+    "name": "Kab. Kotabaru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "317",
+    "icon": "",
+    "name": "Kab. Tanah Laut",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "318",
+    "icon": "",
+    "name": "Kab. Tabalong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "319",
+    "icon": "",
+    "name": "Kab. Tanah Bumbu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "320",
+    "icon": "",
+    "name": "Kab. Tapin",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "321",
+    "icon": "",
+    "name": "Kota Banjarbaru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "322",
+    "icon": "",
+    "name": "Kota Banjarmasin",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "323",
+    "icon": "",
+    "name": "Kab. Barito Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "324",
+    "icon": "",
+    "name": "Kab. Barito Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "325",
+    "icon": "",
+    "name": "Kab. Barito Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "326",
+    "icon": "",
+    "name": "Kab. Gunung Mas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "327",
+    "icon": "",
+    "name": "Kab. Kapuas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "328",
+    "icon": "",
+    "name": "Kab. Katingan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "329",
+    "icon": "",
+    "name": "Kab. Kotawaringin Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "330",
+    "icon": "",
+    "name": "Kab. Kotawaringin Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "331",
+    "icon": "",
+    "name": "Kab. Lamandau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "332",
+    "icon": "",
+    "name": "Kab. Murung Raya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "333",
+    "icon": "",
+    "name": "Kab. Pulang Pisau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "334",
+    "icon": "",
+    "name": "Kab. Sukamara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "335",
+    "icon": "",
+    "name": "Kab. Seruyan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "336",
+    "icon": "",
+    "name": "Kota Palangkaraya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "337",
+    "icon": "",
+    "name": "Kab. Berau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "338",
+    "icon": "",
+    "name": "Kab. Bulungan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "339",
+    "icon": "",
+    "name": "Kab. Kutai Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "340",
+    "icon": "",
+    "name": "Kab. Kutai Kartanegara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "341",
+    "icon": "",
+    "name": "Kab. Kutai Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "342",
+    "icon": "",
+    "name": "Kab. Malinau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "343",
+    "icon": "",
+    "name": "Kab. Nunukan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "344",
+    "icon": "",
+    "name": "Kab. Paser",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "345",
+    "icon": "",
+    "name": "Kab. Penajam Paser Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "346",
+    "icon": "",
+    "name": "Kab. Tana Tidung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "347",
+    "icon": "",
+    "name": "Kota Balikpapan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "348",
+    "icon": "",
+    "name": "Kota Bontang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "349",
+    "icon": "",
+    "name": "Kota Samarinda",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "350",
+    "icon": "",
+    "name": "Kota Tarakan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "351",
+    "icon": "",
+    "name": "Kab. Boalemo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "352",
+    "icon": "",
+    "name": "Kab. Bone Bolango",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "353",
+    "icon": "",
+    "name": "Kab. Gorontalo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "354",
+    "icon": "",
+    "name": "Kab. Gorontalo Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "355",
+    "icon": "",
+    "name": "Kab. Pahuwato",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "356",
+    "icon": "",
+    "name": "Kota Gorontalo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "357",
+    "icon": "",
+    "name": "Kab. Bantaeng",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "358",
+    "icon": "",
+    "name": "Kab. Barru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "359",
+    "icon": "",
+    "name": "Kab. Bone",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "360",
+    "icon": "",
+    "name": "Kab. Bulukumba",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "361",
+    "icon": "",
+    "name": "Kab. Enrekang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "362",
+    "icon": "",
+    "name": "Kab. Gowa",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "363",
+    "icon": "",
+    "name": "Kab. Jeneponto",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "364",
+    "icon": "",
+    "name": "Kab. Luwu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "365",
+    "icon": "",
+    "name": "Kab. Luwu Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "366",
+    "icon": "",
+    "name": "Kab. Luwu Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "367",
+    "icon": "",
+    "name": "Kab. Maros",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "368",
+    "icon": "",
+    "name": "Kab. Pangkajene Kepulauan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "369",
+    "icon": "",
+    "name": "Kab. Pinrang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "370",
+    "icon": "",
+    "name": "Kab. Selayar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "371",
+    "icon": "",
+    "name": "Kab. Sinjai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "372",
+    "icon": "",
+    "name": "Kab. Sidenreng Rappang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "373",
+    "icon": "",
+    "name": "Kab. Soppeng",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "374",
+    "icon": "",
+    "name": "Kab. Takalar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "375",
+    "icon": "",
+    "name": "Kab. Tana Toraja",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "376",
+    "icon": "",
+    "name": "Kab. Toraja Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "377",
+    "icon": "",
+    "name": "Kab. Wajo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "378",
+    "icon": "",
+    "name": "Kota Makassar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "379",
+    "icon": "",
+    "name": "Kota Palopo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "380",
+    "icon": "",
+    "name": "Kota Pare Pare",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "381",
+    "icon": "",
+    "name": "Kab. Bombana",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "382",
+    "icon": "",
+    "name": "Kab. Buton",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "383",
+    "icon": "",
+    "name": "Kab. Kolaka",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "384",
+    "icon": "",
+    "name": "Kab. Kolaka Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "385",
+    "icon": "",
+    "name": "Kab. Konawe",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "386",
+    "icon": "",
+    "name": "Kab. Konawe Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "387",
+    "icon": "",
+    "name": "Kab. Muna",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "388",
+    "icon": "",
+    "name": "Kab. Wakatobi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "389",
+    "icon": "",
+    "name": "Kota Bau Bau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "390",
+    "icon": "",
+    "name": "Kota Kendari",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "391",
+    "icon": "",
+    "name": "Kab. Banggai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "392",
+    "icon": "",
+    "name": "Kab. Banggai Kepulauan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "393",
+    "icon": "",
+    "name": "Kab. Buol",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "394",
+    "icon": "",
+    "name": "Kab. Donggala",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "395",
+    "icon": "",
+    "name": "Kab. Morowali",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "396",
+    "icon": "",
+    "name": "Kab. Parigi Moutong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "397",
+    "icon": "",
+    "name": "Kab. Poso",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "398",
+    "icon": "",
+    "name": "Kab. Tojo Una Una",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "399",
+    "icon": "",
+    "name": "Kab. Toli Toli",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "400",
+    "icon": "",
+    "name": "Kota Palu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "401",
+    "icon": "",
+    "name": "Kab. Bolaang Mongondow",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "402",
+    "icon": "",
+    "name": "Kab. Bolaang Mongondow Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "403",
+    "icon": "",
+    "name": "Kab. Kepulauan Sangihe",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "404",
+    "icon": "",
+    "name": "Kab. Kepulauan Talaud",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "405",
+    "icon": "",
+    "name": "Kab. Minahasa",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "406",
+    "icon": "",
+    "name": "Kab. Minahasa Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "407",
+    "icon": "",
+    "name": "Kab. Minahasa Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "408",
+    "icon": "",
+    "name": "Kab. Minahasa Tenggara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "409",
+    "icon": "",
+    "name": "Kota Bitung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "410",
+    "icon": "",
+    "name": "Kota Manado",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "411",
+    "icon": "",
+    "name": "Kota Tomohon",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "412",
+    "icon": "",
+    "name": "Kab. Majene",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "413",
+    "icon": "",
+    "name": "Kab. Mamasa",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "414",
+    "icon": "",
+    "name": "Kab. Mamuju",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "415",
+    "icon": "",
+    "name": "Kab. Mamuju Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "416",
+    "icon": "",
+    "name": "Kab. Polewali Mandar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "417",
+    "icon": "",
+    "name": "Kab. Buru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "418",
+    "icon": "",
+    "name": "Kab. Kepulauan Aru",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "419",
+    "icon": "",
+    "name": "Kab. Maluku Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "420",
+    "icon": "",
+    "name": "Kab. Maluku Tenggara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "421",
+    "icon": "",
+    "name": "Kab Maluku Tenggara Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "422",
+    "icon": "",
+    "name": "Kab. Seram Bagian Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "423",
+    "icon": "",
+    "name": "Kab. Seram Bagian Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "424",
+    "icon": "",
+    "name": "Kota Ambon",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "425",
+    "icon": "",
+    "name": "Kab. Halmahera Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "426",
+    "icon": "",
+    "name": "Kab. Halmahera Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "427",
+    "icon": "",
+    "name": "Kab. Halmahera Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "428",
+    "icon": "",
+    "name": "Kab. Halmahera Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "429",
+    "icon": "",
+    "name": "Kab. Halmahera Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "430",
+    "icon": "",
+    "name": "Kab. Kepulauan Sula",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "431",
+    "icon": "",
+    "name": "Kota Ternate",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "432",
+    "icon": "",
+    "name": "Kota Tidore",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "433",
+    "icon": "",
+    "name": "Kab. Fak Fak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "434",
+    "icon": "",
+    "name": "Kab. Kaimana",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "435",
+    "icon": "",
+    "name": "Kab. Manokwari",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "436",
+    "icon": "",
+    "name": "Kab. Raja Ampat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "437",
+    "icon": "",
+    "name": "Kab. Sorong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "438",
+    "icon": "",
+    "name": "Kab. Sorong Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "439",
+    "icon": "",
+    "name": "Kab. Teluk Bintuni",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "440",
+    "icon": "",
+    "name": "Kab. Teluk Wondama",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "441",
+    "icon": "",
+    "name": "Kota Sorong",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "442",
+    "icon": "",
+    "name": "Kab. Asmat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "443",
+    "icon": "",
+    "name": "Kab. Biak Numfor",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "444",
+    "icon": "",
+    "name": "Kab. Boven Digoel",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "445",
+    "icon": "",
+    "name": "Kab. Jayapura",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "446",
+    "icon": "",
+    "name": "Kab. Jayawijaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "447",
+    "icon": "",
+    "name": "Kab. Keerom",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "448",
+    "icon": "",
+    "name": "Kab. Mappi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "449",
+    "icon": "",
+    "name": "Kab. Merauke",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "450",
+    "icon": "",
+    "name": "Kab. Mimika",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "451",
+    "icon": "",
+    "name": "Kab. Nabire",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "452",
+    "icon": "",
+    "name": "Kab. Paniai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "453",
+    "icon": "",
+    "name": "Kab Pegunungan Bintang",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "454",
+    "icon": "",
+    "name": "Kab. Puncak Jaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "455",
+    "icon": "",
+    "name": "Kab. Sarmi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "456",
+    "icon": "",
+    "name": "Kab. Supiori",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "457",
+    "icon": "",
+    "name": "Kab. Tolikara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "458",
+    "icon": "",
+    "name": "Kab. Waropen",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "459",
+    "icon": "",
+    "name": "Kab. Yahukimo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "460",
+    "icon": "",
+    "name": "Kab Maluku Tenggara Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "461",
+    "icon": "",
+    "name": "Kab. Mamberamo Raya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "462",
+    "icon": "",
+    "name": "Kota Jayapura",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "463",
+    "icon": "",
+    "name": "Kota Tangerang Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "464",
+    "icon": "",
+    "name": "Kab. Bengkulu Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "465",
+    "icon": "",
+    "name": "Kab. Baturaja",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "466",
+    "icon": "",
+    "name": "Kab. Bulungan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "467",
+    "icon": "",
+    "name": "Kab. Malinau",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "468",
+    "icon": "",
+    "name": "Kab. Nunukan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "469",
+    "icon": "",
+    "name": "Kab. Tana Tidung",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "470",
+    "icon": "",
+    "name": "Kota Tarakan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "471",
+    "icon": "",
+    "name": "Kab. Pringsewu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "472",
+    "icon": "",
+    "name": "Kab. Lombok Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "473",
+    "icon": "",
+    "name": "Kab. Pangandaran",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "474",
+    "icon": "",
+    "name": "Kota Kotamobagu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "475",
+    "icon": "",
+    "name": "Kota Gunungsitoli",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "476",
+    "icon": "",
+    "name": "Kota. Denpasar Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "477",
+    "icon": "",
+    "name": "Kab. Sigi",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "509",
+    "icon": "",
+    "name": "Sungai Penuh",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "510",
+    "icon": "",
+    "name": "Kota Sungai Penuh",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "511",
+    "icon": "",
+    "name": "Kab. Bolaang Mongondow Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "513",
+    "icon": "",
+    "name": "Kab. Mesuji",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "514",
+    "icon": "",
+    "name": "Kab. Kepulauan Anambas",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "515",
+    "icon": "",
+    "name": "Kab. Sabu Raijua",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "516",
+    "icon": "",
+    "name": "Kab. Labuhanbatu Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "517",
+    "icon": "",
+    "name": "Kab. Labuhanbatu Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "518",
+    "icon": "",
+    "name": "Kab. Nias Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "519",
+    "icon": "",
+    "name": "Kab. Nias Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "520",
+    "icon": "",
+    "name": "Kota Pariaman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "521",
+    "icon": "",
+    "name": "Kab. Padang Pariaman",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "522",
+    "icon": "",
+    "name": "Kab. Pesisir Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "523",
+    "icon": "",
+    "name": "Kab. Kepulauan Mentawai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "524",
+    "icon": "",
+    "name": "Kab. Penukal Abab Lematang Ilir",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "525",
+    "icon": "",
+    "name": "Kab. Tulang Bawang Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "526",
+    "icon": "",
+    "name": "Kab. Pesisir Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "527",
+    "icon": "",
+    "name": "Kab. Mahakam Ulu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "528",
+    "icon": "",
+    "name": "Kab. Mempawah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "529",
+    "icon": "",
+    "name": "Kab. Malaka",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "530",
+    "icon": "",
+    "name": "Kab. Mamuju Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "531",
+    "icon": "",
+    "name": "Kab. Kepulauan Selayar",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "532",
+    "icon": "",
+    "name": "Kab. Konawe Kepulauan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "533",
+    "icon": "",
+    "name": "Kab. Kolaka Timur",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "534",
+    "icon": "",
+    "name": "Kab. Banggai Laut",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "535",
+    "icon": "",
+    "name": "Kab. Morowali Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "536",
+    "icon": "",
+    "name": "Kab. Bolaang Mongondow Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "537",
+    "icon": "",
+    "name": "Kab. Kep. Siau Tagulandang Biaro",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "538",
+    "icon": "",
+    "name": "Kab. Buru Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "539",
+    "icon": "",
+    "name": "Kab. Maluku Barat Daya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "540",
+    "icon": "",
+    "name": "Kota Tual",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "541",
+    "icon": "",
+    "name": "Kab. Pulau Morotai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "542",
+    "icon": "",
+    "name": "Kota Tidore Kepulauan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "543",
+    "icon": "",
+    "name": "Kab. Maybrat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "544",
+    "icon": "",
+    "name": "Kab. Manokwari Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "545",
+    "icon": "",
+    "name": "Kab. Pegunungan Arfak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "546",
+    "icon": "",
+    "name": "Kab. Tambrauw",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "547",
+    "icon": "",
+    "name": "Kab. Kepulauan Yapen",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "548",
+    "icon": "",
+    "name": "Kab. Intan Jaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "549",
+    "icon": "",
+    "name": "Kab. Deiyai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "550",
+    "icon": "",
+    "name": "Kab. Dogiyai",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "551",
+    "icon": "",
+    "name": "Kab. Puncak",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "552",
+    "icon": "",
+    "name": "Kab. Yalimo",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "553",
+    "icon": "",
+    "name": "Kab. Lanny Jaya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "554",
+    "icon": "",
+    "name": "Kab. Nduga",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "555",
+    "icon": "",
+    "name": "Kab. Mamberamo Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "557",
+    "icon": "",
+    "name": "Kab. Buton Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "558",
+    "icon": "",
+    "name": "Kab. Musi Rawas Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "568",
+    "icon": "",
+    "name": "Kab. Konawe Kepulauan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "570",
+    "icon": "",
+    "name": "Kab. Buton Tengah",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "572",
+    "icon": "",
+    "name": "Kab. Buton Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "573",
+    "icon": "",
+    "name": "Kab. Muna Barat",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "574",
+    "icon": "",
+    "name": "Kab. Konawe Utara",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "577",
+    "icon": "",
+    "name": "Kota Tual",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "578",
+    "icon": "",
+    "name": "Kab. Maluku Barat Daya",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "579",
+    "icon": "",
+    "name": "Kab. Buru Selatan",
+    "key": "fcity",
+    "input_type": "checkbox"
+  },
+  {
+    "value": "580",
+    "icon": "",
+    "name": "Kab. Pulau Taliabu",
+    "key": "fcity",
+    "input_type": "checkbox"
+  }
+]
