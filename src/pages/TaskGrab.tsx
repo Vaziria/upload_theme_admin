@@ -5,18 +5,21 @@ import { emitEvent } from "../event"
 import { createTaskId, ITask } from "../model/Task"
 
 interface IState {
-  tasks: ITask[]
+  tasks: ITask[],
+  loading: boolean
 }
 
 export class TaskGrab extends React.Component<unknown, IState> {
   state: IState = {
-    tasks: []
+    tasks: [],
+    loading: true
   }
 
   async get(): Promise<void> {
     const tasks: ITask[] = await getTaskAll()
     this.setState({
-      tasks
+      tasks,
+      loading: false
     })
   }
 
@@ -107,6 +110,7 @@ export class TaskGrab extends React.Component<unknown, IState> {
 
   render(): JSX.Element {
     const tasks = this.state.tasks
+    const loading = this.state.loading
 
     return (
       <div className="mt-custom">
@@ -123,7 +127,7 @@ export class TaskGrab extends React.Component<unknown, IState> {
         <hr></hr>
         <div>
           { tasks.map((task) => this.renderTask(task)) }
-          { tasks.length === 0 &&
+          { loading &&
             <strong>Loading.......</strong>
           }
         </div>

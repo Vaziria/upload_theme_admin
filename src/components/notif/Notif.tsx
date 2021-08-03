@@ -14,9 +14,6 @@ export default class NotifButton extends React.Component<unknown, IState> {
     notifs: []
   }
 
-  async componentDidMount(): Promise<void> {
-    await this.getNotif()
-  }
 
   async getNotif(): Promise<void> {
     const notifs = await getNotifAll()
@@ -32,8 +29,11 @@ export default class NotifButton extends React.Component<unknown, IState> {
     })
   }
 
-  toggleShow(): void {
+  async toggleShow(): Promise<void> {
     const show = !this.state.show
+    if(show){
+      await this.getNotif()
+    }
     this.setState({
       show
     })

@@ -116,20 +116,10 @@ export default class TaskItem extends React.Component<IProp> {
   }
 
   renderTokoUsername(): JSX.Element {
-    const marketplace = this.props.task.marketplace
-    let content: JSX.Element | null = null
+    const task = this.props.task
 
-    if(marketplace === 'shopee'){
-      content = (
-        <div>
-          Masih Tahap Pengembangan
-        </div>
-      )
-    }
-
-    if(marketplace === 'tokopedia'){
-      const task = this.props.task
-      content = (
+    return (
+      <div>
         <div>
           <input
             defaultChecked={task.use_filter}
@@ -151,12 +141,6 @@ export default class TaskItem extends React.Component<IProp> {
             type="text"
             placeholder="example : list_username_toko.txt" />
         </div>
-      )
-    }
-
-    return (
-      <div>
-        { content }
       </div>
     )
   }

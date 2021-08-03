@@ -5,7 +5,7 @@ export interface IPublicCategCsv {
   catid: number
   parent_display_name: string
   display_name: string
-  is_collection?: number
+  is_collection: number
   status?: GrabStatus
 }
 
@@ -48,7 +48,8 @@ export function toPublicCategCsv(categ: IMainPublicCateg): IPublicCategCsv {
     parent_category: categ.parent_category,
     catid: categ.catid,
     parent_display_name: '',
-    display_name: categ.display_name
+    display_name: categ.display_name,
+    is_collection: 0
   }
 }
 
