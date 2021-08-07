@@ -37,7 +37,7 @@ interface IItemProp {
     render(): JSX.Element {
       const items: IMainPublicCateg[] = this.props.items
       return (
-        // not implemented
+        
         <select className="form-control bot" 
           onChange={(event) => this.onChange(event)}
           value={this.props.value}

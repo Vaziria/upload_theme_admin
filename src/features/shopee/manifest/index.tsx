@@ -10,7 +10,10 @@ export async function shopeeGetManifest(): Promise<void> {
   const manifest = await shopeeManifest()
   store.dispatch({
     type: 'shopee/manifest',
-    payload: manifest.public_category_repo
+    payload: {
+      publicCategory: manifest.public_category_repo,
+      category: manifest.category
+    }
   })
 }
 

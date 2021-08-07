@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Path } from './path'
 
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 type ExtractRouteParams<T> = string extends T
     ? Record<string, string>
@@ -11,6 +11,8 @@ type ExtractRouteParams<T> = string extends T
     : T extends `${infer _Start}:${infer Param}`
     ? { [k in Param]: string }
     : Record<string, never>
+
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 
 
@@ -49,7 +51,7 @@ export function TypedRedirect<P extends Path, Q extends Path>({
   params,
   push,
   from,
-}: TypedRedirectProps<P, Q>){
+}: TypedRedirectProps<P, Q>): JSX.Element {
   return (
     <Redirect
       to={buildUrl(to, params)}

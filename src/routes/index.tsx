@@ -4,6 +4,10 @@ import { TaskGrab } from "../pages/TaskGrab"
 import { Path } from "./path"
 import React from "react"
 import SettingPage from "../pages/Setting"
+import ToolPage from "../pages/Tool"
+import { createBrowserHistory } from "history"
+
+export const roothistory = createBrowserHistory()
 
 export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType }> = [
   {
@@ -17,6 +21,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/setting',
     component: SettingPage
+  },
+  {
+    path: '/tool',
+    component: ToolPage
   }
 ]
 

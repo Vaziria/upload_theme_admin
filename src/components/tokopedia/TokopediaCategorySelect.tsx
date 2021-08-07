@@ -49,7 +49,7 @@ class TokopediaCategorySelect extends React.Component<IProp> {
       <div className="form-group">
         { showLabel && <label>Tokopedia :</label> }
 
-        {/* not implemented */}
+        
         <SelectItem
           value={value[0]}
           level={1}

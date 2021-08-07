@@ -31,12 +31,12 @@ export default class NotifButton extends React.Component<unknown, IState> {
 
   async toggleShow(): Promise<void> {
     const show = !this.state.show
-    if(show){
-      await this.getNotif()
-    }
     this.setState({
       show
     })
+    if(show){
+      await this.getNotif()
+    }
   }
 
   renderList(notif: INotif): JSX.Element {
