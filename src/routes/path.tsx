@@ -3,7 +3,8 @@ export const PATHS = [
     '/customgrab',
     '/grabsetting',
     '/setting',
-    '/tool'
+    '/tool',
+    '/categmap'
   ] as const
   
 export type Path = (typeof PATHS)[number]

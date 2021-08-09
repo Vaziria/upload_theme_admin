@@ -32,6 +32,7 @@ class Tool extends React.Component<PropsFromRedux, IState> {
   }
 
   async cek(): Promise<void> {
+    await uploadAkun({data: this.state.data })
     await cekBot()
   }
 

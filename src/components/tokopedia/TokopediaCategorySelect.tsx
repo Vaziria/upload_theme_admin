@@ -4,6 +4,19 @@ import { RootState } from "../../features"
 import { ITokpedCateg } from "../../model/tokopedia/category"
 import SelectItem from "./SelectItem"
 
+export type FixedSizeArray<N extends number, T> = N extends 0 ? never[] : {
+  0: T;
+  length: N;
+} & Array<T>;
+
+export function toFixArray<M>(data: M[], fil: M): FixedSizeArray<3, M> {
+  const hasil = [...data]
+  for(let i=data.length + 1; i<3; i++){
+    hasil[i] = fil
+  }
+  return hasil as FixedSizeArray<3, M>
+} 
+
 function mapState(state: RootState){
   return {
     category: state.TokopediaManifestReducer.category
@@ -15,6 +28,7 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 
 interface IProp extends PropsFromRedux {
   showLabel?: boolean
+  disabled?: boolean
   value: [string, string, string]
   selected: (categs: [string, string, string]) => void
 }
@@ -57,6 +71,7 @@ class TokopediaCategorySelect extends React.Component<IProp> {
           shownone={ true }
           selected={(index, categ) => this.onChange(index, categ)}
           noneSelected={(index) => this.onChange(index)}
+          disabled={this.props.disabled}
         ></SelectItem>
 
         <SelectItem
@@ -66,6 +81,7 @@ class TokopediaCategorySelect extends React.Component<IProp> {
           shownone={ true }
           selected={(index, categ) => this.onChange(index, categ)}
           noneSelected={(index) => this.onChange(index)}
+          disabled={this.props.disabled}
         ></SelectItem>
 
         <SelectItem
@@ -75,6 +91,7 @@ class TokopediaCategorySelect extends React.Component<IProp> {
           shownone={ true }
           selected={(index, categ) => this.onChange(index, categ)}
           noneSelected={(index) => this.onChange(index)}
+          disabled={this.props.disabled}
         ></SelectItem>
 
         {/* <select className="form-control bot" ng-model="data[0]">

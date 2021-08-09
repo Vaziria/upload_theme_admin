@@ -19,6 +19,11 @@ const menuItem: MenuItem[] = [
     name: 'Custom Grab',
     path: '/customgrab',
     icon: 'fas fa-cloud-download-alt'
+  }, 
+  {
+    name: 'Category Mapper',
+    path: '/categmap',
+    icon: 'fas fa-th-list'
   }
 ] 
 
@@ -60,9 +65,6 @@ class SideNav extends React.Component<RouteComponentProps> {
 
               { menuItem.map((menu) => this.renderLink(menu)) }
               
-              
-              
-              <a href="/#!/categmap" className="list-group-item navi-custom"><i className="fas fa-th-list"></i> Mapper Category</a>
               <a href="/#!/productstat" className="list-group-item navi-custom"><i className="far fa-chart-bar"></i> Detail Product</a>
             </ul>
           </div>

@@ -1,3 +1,4 @@
+import { omit } from "lodash"
 import React from "react"
 import { connect, ConnectedProps } from "react-redux"
 import { RootState } from "../../features"
@@ -19,7 +20,10 @@ interface IItemProp extends PropsFromRedux {
   shownone?: boolean
   selected?: (index: number, value: ITokpedCateg) => void
   noneSelected?: (index: number) => void
+  disabled?: boolean
 }
+
+const props_key: (keyof IItemProp)[] = ["category", "level", "noneSelected", "parentid", "selected", "shownone", "value"]
 
 class SelectItem extends React.Component<IItemProp> {
 
@@ -74,11 +78,12 @@ class SelectItem extends React.Component<IItemProp> {
   }
 
   render(): JSX.Element {
-
+    const props = omit(this.props, props_key)
     const categories = this.dataScope()
-
+    // console.log(categories)
     return (
       <select className="form-control bot"
+        { ...props}
         value={this.props.value}
         onChange={(event) => this.onChange(event)}
       >
