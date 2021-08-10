@@ -11,13 +11,13 @@ interface IProp extends Omit<InputProp, 'onChange' | 'value'> {
 export default class DateSelect extends React.Component<IProp> {
 
   onChange(event: React.ChangeEvent<HTMLInputElement>): void {
-    const value: string = event.target.value.replace(/-/g, ' ')
+    const value: string = event.target.value.split('-').reverse().join(' ')
     this.props.onChange(value)
   }
 
   render(): JSX.Element {
     const props = omit(this.props, ['onChange', 'value'])
-    const value = this.props.value.replace(/\s/g, '-')
+    const value = this.props.value.split(' ').reverse().join('-')
     return (
       <input
         {...props}
