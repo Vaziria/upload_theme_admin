@@ -24,6 +24,11 @@ const menuItem: MenuItem[] = [
     name: 'Category Mapper',
     path: '/categmap',
     icon: 'fas fa-th-list'
+  },
+  {
+    name: 'Detail Product',
+    path: '/productstat',
+    icon: 'far fa-chart-bar'
   }
 ] 
 
@@ -64,8 +69,6 @@ class SideNav extends React.Component<RouteComponentProps> {
               
 
               { menuItem.map((menu) => this.renderLink(menu)) }
-              
-              <a href="/#!/productstat" className="list-group-item navi-custom"><i className="far fa-chart-bar"></i> Detail Product</a>
             </ul>
           </div>
         </nav>

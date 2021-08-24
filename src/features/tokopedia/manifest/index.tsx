@@ -14,4 +14,22 @@ export async function tokopediaGetManifest(): Promise<void> {
   })
 }
 
+export function getChainName(idnya: number): string[] {
+
+  const categories = store.getState().TokopediaManifestReducer.category
+
+  for(let i = 0; i < categories.length; i++){
+    const categ = categories[i]
+    
+    if(parseInt(categ._id) === idnya){
+      console.log(categ)
+      return categ.category
+    }
+    
+
+  }
+
+  return []
+}
+
 export default {}

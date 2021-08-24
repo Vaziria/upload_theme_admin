@@ -7,6 +7,7 @@ import SettingPage from "../pages/Setting"
 import ToolPage from "../pages/Tool"
 import { createBrowserHistory } from "history"
 import CategMap from "../pages/CategMap"
+import DetailProduct from "../pages/DetailProduct"
 
 export const roothistory = createBrowserHistory()
 
@@ -30,6 +31,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/categmap',
     component: CategMap
+  },
+  {
+    path: '/productstat',
+    component: DetailProduct
   }
 ]
 

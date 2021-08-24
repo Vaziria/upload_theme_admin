@@ -40,7 +40,7 @@ export interface IPublicCateg {
   main: IMainPublicCateg
   sub: IMainPublicCateg[]
 
-  collections?: IPopularCollection
+  collections?: IPopularCollection[]
 }
 
 export function toPublicCategCsv(categ: IMainPublicCateg): IPublicCategCsv {

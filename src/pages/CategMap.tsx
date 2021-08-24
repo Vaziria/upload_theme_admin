@@ -20,6 +20,7 @@ type IProp = RouteComponentProps & PropsFromRedux
 
 interface IState {
   mapper: ICategMapper
+  search: string,
   nav: {
     start: number,
     limit: number
@@ -29,6 +30,7 @@ interface IState {
 class CategMap extends React.Component<IProp, IState> {
   state: IState = {
     mapper: {},
+    search: '',
     nav: {
       start: 0,
       limit: 20
@@ -151,8 +153,25 @@ class CategMap extends React.Component<IProp, IState> {
 
   renderScope(): ITokpedCateg[] {
     const { start, limit } = this.state.nav
+    const { search } = this.state
     const batas = start + limit
-    return this.props.category.sort(this.sortScope).filter((value, index) => {
+    const re = new RegExp(search, 'g')
+
+    return this.props.category.sort(this.sortScope)
+    .filter(value => {
+      if(search === ''){
+        return true
+      } else {
+        const name = value.category.join(' ').toLowerCase()
+        if(name.match(re)){
+          return true
+        }
+      }
+
+      return false
+    })
+    .filter((value, index) => {
+
       if((index >= start) && (index <= batas)){
         return true
       }
@@ -162,7 +181,7 @@ class CategMap extends React.Component<IProp, IState> {
   }
 
   sortScope(categ: ITokpedCateg, categ1: ITokpedCateg): number {
-    if(categ.name > categ1.name){
+    if(categ.category.join('') > categ1.category.join('')){
       return 1
     }
     return -1
@@ -197,19 +216,45 @@ class CategMap extends React.Component<IProp, IState> {
 
 
   render(): JSX.Element {
-
+    const { start, limit } = this.state.nav
+    const { search } = this.state
     const categories = this.renderScope()
 
+    const page = ((start / limit) + 1).toString()
+
     return (
-      <div>
-        <div className="row" style={{
-          marginTop: '20px'
-        }}>
+      <div
+      style={{
+        paddingBlockStart: "20px"
+      }}
+      >
+        <div className="row">
           <div className="col">
-            <div className="mt-4" ng-controller="pagingCategmapController">
+            <strong>Search : </strong>
+            <input type="text" className="form-control"
+              style={{
+                width: '300px'
+              }}
+              value={search}
+              onChange={(e) => this.setState({ search: e.target.value })}
+            >
+            </input>
+          </div>
+          
+        </div>
+
+        <div className="row">
+          <div className="col">
+            <div className="mt-4">
               
               <button onClick={()=>this.back()} className="btn btn-sm btn-success">BACK</button>
               <button onClick={()=>this.next()} className="btn btn-sm btn-success">NEXT</button>
+              <span>
+                page : 
+                <strong>
+                  { page }
+                </strong>
+              </span>
             </div>
           </div>
           <div className="col">

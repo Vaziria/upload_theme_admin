@@ -37,6 +37,7 @@ class Tool extends React.Component<PropsFromRedux, IState> {
   }
 
   async getOrder(): Promise<void> {
+    await uploadAkun({data: this.state.data })
     await cekOrder()
   }
 

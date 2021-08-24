@@ -30,7 +30,9 @@ export class TaskGrab extends React.Component<unknown, IState> {
   updateData(id: string, data: Partial<ITask>): void {
     const tasks = this.state.tasks.map((task) => {
       if(task._id === id){
-        return { ...task, ...data }
+        const newtask = { ...task, ...data }
+        console.log(newtask)
+        return newtask
       }
 
       return task
