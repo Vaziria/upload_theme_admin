@@ -1,13 +1,15 @@
 import React from "react"
-import { deleteNamespace, getNamespaces, statCategory, statKota, statPrice } from "../api/product"
+import { aggsCategToCsv, deleteNamespace, getNamespaces, shopeeResyncCateg, statCategory, statKota, statPrice } from "../api/product"
 import MpSelect from "../components/common/MpSelect"
 import SelectRangeHarga from "../components/common/SelectRangeHarga"
 import StatCategory from "../components/stat/StatCategory"
 import StatKota from "../components/stat/StatKota"
 import StatPrice from "../components/stat/StatPrice"
 import { emitEvent } from "../event"
+import { publicChainCsvFormat } from "../features/shopee/manifest"
 import { MarketList } from "../model/Common"
 import toCurrency, { ICategoryStat, IKotaStat, IPriceStat, ProductNamespace } from "../model/product"
+import { ICategItem } from "../model/shopee/public_category"
 
 interface IState {
   mpmode: MarketList,
@@ -131,12 +133,29 @@ export default class DetailProduct extends React.Component<unknown, IState> {
       msg: `Delete namespace ${namespace}`
     })
 
+    const namespaces = await getNamespaces(this.state.mpmode)
     this.setState({
       pricestats: [],
       categstats: [],
-      kotastats: []
+      kotastats: [],
+      namespaces
     })
 
+  }
+
+  async saveCsv(): Promise<void> {
+
+    const { categstats } = this.state
+    const categpayload = categstats.map(categstat => {
+      const categ = publicChainCsvFormat(categstat._id)
+      return categ
+    }).filter(categs => categs !== false)
+
+    await aggsCategToCsv(categpayload as ICategItem[])
+
+    emitEvent('show_msg', {
+      msg: "save to category csv"
+    })
   }
 
   renderNamespace(index: number, namespace: ProductNamespace): JSX.Element {
@@ -237,6 +256,41 @@ export default class DetailProduct extends React.Component<unknown, IState> {
               />
               <label className="form-check-label">Public Category</label>
             </div>
+            
+            { is_public && mpmode == 'shopee' &&
+            
+            <span
+              style={{
+                float: "right"
+              }}
+            >
+              <a
+                style={{
+                  color: 'blue'
+                }}
+                onClick={()=>this.saveCsv()}
+              >save to csv</a>
+              <span>  |   </span>
+
+              <a
+                style={{
+                  color: 'blue'
+                }}
+                onClick={()=>{
+                  shopeeResyncCateg({
+                    marketplace: mpmode
+                  })
+
+                  emitEvent('show_msg', {
+                    msg: "menjalankan resync, lihat di cmd"
+                  })
+
+                }}
+              >resync category</a>
+            </span>
+
+            }
+            
 
             <StatCategory
               is_public={is_public}

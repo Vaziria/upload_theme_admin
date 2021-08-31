@@ -1,5 +1,6 @@
 import { store } from "../.."
 import { shopeeManifest } from "../../../api/shopee/preload"
+import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
 
 export async function shopeeGetManifest(): Promise<void> {
   const state = store.getState().ShopeeManifestReducer
@@ -16,6 +17,64 @@ export async function shopeeGetManifest(): Promise<void> {
     }
   })
 }
+
+export interface IChainCateg extends IMainPublicCateg { type: 'category' }
+export interface IChainCollection extends IPopularCollection { type: 'collection' }
+
+export type IChain = IChainCateg | IChainCollection
+
+export function publicChainCsvFormat(idnya: number): ICategItem | false {
+
+  const publicCateg = store.getState().ShopeeManifestReducer.publicCategory
+
+  for(let i=0; i < publicCateg.length; i++){
+    const categ = publicCateg[i]
+    const main = categ.main
+    const subs = categ.sub
+    const collections = categ.collections
+    
+    if(main.catid == idnya){
+      return {
+        parent_category: 0,
+        catid: main.catid,
+        parent_display_name: main.display_name,
+        display_name: ''
+      }
+    }
+
+    for(let c=0; c < subs.length; c++){
+      const sub = subs[c]
+      if(sub.catid == idnya){
+        return {
+          parent_category: sub.parent_category,
+          catid: sub.catid,
+          parent_display_name: main.display_name,
+          display_name: sub.display_name
+        }
+      }
+    }
+
+    if(collections){
+      for(let d=0; d < collections.length; d++){
+        const collection = collections[d]
+        if(collection.collection_id == idnya){
+          return {
+            parent_category: 0,
+            catid: collection.collection_id,
+            parent_display_name: main.display_name,
+            display_name: collection.collection_title,
+            is_collection: 1
+          }
+          
+        }
+      }
+    }
+
+  }
+
+  return false
+}
+
 
 export function publicChainName(idnya: number): {
   is_collection: boolean

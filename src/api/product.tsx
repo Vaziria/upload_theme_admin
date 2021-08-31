@@ -1,5 +1,6 @@
 import { MarketList } from "../model/Common"
 import { ICategoryStat, IKotaStat, IPriceStat, ProductNamespace } from "../model/product"
+import { ICategItem } from "../model/shopee/public_category"
 import client from "./client"
 
 
@@ -28,6 +29,11 @@ interface IStatCategQuery {
 
 }
 
+export async function aggsCategToCsv(categs: ICategItem[]): Promise<{ errcode: boolean }> {
+  const res = await client.post('/v1/product/categstat_to_csv', categs)
+  return res.data
+}
+
 export async function statCategory(params: IStatCategQuery): Promise<ICategoryStat[]> {
   const res = await client.get(`/v1/product/category`, {
     params
@@ -35,6 +41,12 @@ export async function statCategory(params: IStatCategQuery): Promise<ICategorySt
   return res.data
 }
 
+export async function shopeeResyncCateg(params: Omit<IStatCategQuery, 'is_public' | 'namespace'>): Promise<ICategoryStat[]> {
+  const res = await client.get(`/v1/product/resync`, {
+    params
+  })
+  return res.data
+}
 
 export async function statPrice(mode: MarketList, namespace: string, rprice: number): Promise<IPriceStat[]> {
   const res = await client.get(`/v1/product/price_range?marketplace=${mode}&namespace=${namespace}&rprice=${rprice}`)

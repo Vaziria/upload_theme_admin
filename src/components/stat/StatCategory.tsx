@@ -54,6 +54,7 @@ class StatCategory extends React.Component<IProps> {
     if(is_public){
 
       const { chain } = publicChainName(stat._id)
+
       if(chain.length > 0){
         return chain.join(' > ')
       } else {

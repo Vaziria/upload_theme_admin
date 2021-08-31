@@ -1,5 +1,14 @@
 export type GrabStatus = 'grabbed' | ''
 
+export interface ICategItem {
+  parent_category: number
+  catid: number
+  parent_display_name: string
+  display_name: string
+  is_collection?: number
+}
+
+
 export interface IPublicCategCsv {
   parent_category: number
   catid: number
