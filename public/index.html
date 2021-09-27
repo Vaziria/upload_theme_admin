@@ -26,8 +26,6 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Bot Upload</title>
-    
-
     <!--tema mas seprik-->
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -36,6 +34,20 @@
     <!-- Material Design Bootstrap -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.11/css/mdb.min.css" rel="stylesheet">
     <link href="%PUBLIC_URL%/legacy/custom.css" rel="stylesheet">
+
+    <!-- setup untuk plugin notifikasi -->
+
+    <!--<script>
+      // var exports = {"__esModule": true}
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker
+          .register("%PUBLIC_URL%/firebase-messaging-sw.js", { scope: "/" })
+          .then(function () {
+            console.log("Service Worker Registered")
+          })
+      }
+    </script> -->
+    <!-- <script type="module" src="%PUBLIC_URL%/script.js"></script> -->
 
   </head>
   <body>
@@ -65,6 +77,5 @@
       $('[data-toggle="tooltip"]').tooltip()
     })
   </script>
-
   </body>
 </html>

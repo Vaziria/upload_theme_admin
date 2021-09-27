@@ -11,6 +11,11 @@ interface MenuItem {
 
 const menuItem: MenuItem[] = [
   {
+    name: 'Promo',
+    path: '/promo',
+    icon: 'fas fa-tags'
+  },
+  {
     name: 'Tool',
     path: '/tool',
     icon: 'fas fa-hammer'

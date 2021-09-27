@@ -9,11 +9,18 @@ import AlertHead from "./components/AlertHead"
 import { BrowserRouter } from 'react-router-dom'
 import SideNav from './components/SideNav'
 import { TypedSwitch } from './routes'
+import { setupV2Notification } from './api/notif'
 
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
     await shopeeGetManifest()
     await tokopediaGetManifest()
+    try {
+      await setupV2Notification()
+    } catch (e) {
+      console.error('setup notification gagal')
+    }
+    
   }
 
   render(): JSX.Element {
