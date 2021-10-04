@@ -1,5 +1,6 @@
 import { store } from "../.."
 import { shopeeManifest } from "../../../api/shopee/preload"
+import { CategIds } from "../../../model/shopee/category"
 import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
 
 export async function shopeeGetManifest(): Promise<void> {
@@ -22,6 +23,31 @@ export interface IChainCateg extends IMainPublicCateg { type: 'category' }
 export interface IChainCollection extends IPopularCollection { type: 'collection' }
 
 export type IChain = IChainCateg | IChainCollection
+
+export function toCategIds(ids: number[]): CategIds {
+  const categ: CategIds = [0, 0, 0, 0]
+  ids.forEach((value, index) => {
+    categ[index] = value
+  })
+
+  return categ
+}
+
+export function getChainByid(idnya: number): CategIds {
+  const categories = store.getState().ShopeeManifestReducer.category
+  
+  for(let c = 0; c < categories.length; c++){
+    const category = categories[c]
+    
+    if(category.id === idnya){
+      const categ: CategIds = toCategIds(category.chain_ids)
+      categ[category.chain_ids.length] = category.id
+      return categ
+    }
+  }
+
+  return [0, 0, 0, 0]
+}
 
 export function publicChainCsvFormat(idnya: number): ICategItem | false {
 

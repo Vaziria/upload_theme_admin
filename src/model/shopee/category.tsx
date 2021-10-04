@@ -9,7 +9,7 @@ export interface IShopeeCateg {
 
   // extend sendiri
   chain_name: string[]
-  chain_ids: string[]
+  chain_ids: number[]
 }
 
 export type CategIds = [number, number, number, number]
