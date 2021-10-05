@@ -15,7 +15,7 @@ export default class AkunTextarea extends React.Component<IProp> {
     return akunstr.join("\n")
   }
 
-  onUpdate(akunraw: string): IAkun[] {
+  onUpdate(akunraw: string): void {
     const akunstr = akunraw.split("\n").filter(raw => raw !== '')
 
     const akuns: IAkun[] = akunstr.map(line => {
@@ -33,8 +33,8 @@ export default class AkunTextarea extends React.Component<IProp> {
 
       return akun
     })
-
-    return akuns
+    
+    this.props.update(akuns)
   }
 
   render(): JSX.Element {

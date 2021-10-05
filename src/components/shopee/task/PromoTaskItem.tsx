@@ -50,19 +50,26 @@ export default class PromoTaskItem extends React.Component<IProp> {
     const { query } = config
     const category_id = getChainByid(query.category_id || 0)
 
-    const promoTimeMin = Date.now() / 1000
-    const promoTimeMax = (Date.now() / 1000) - (24 * 60 * 60 * 30)
-
-    const defProdMax = (Date.now() / 1000) + (24 * 60 * 60 * 360 * 10)
-    const defProdMin = (Date.now() / 1000) - (24 * 60 * 60 * 7)
-
     return (
       <div className="row">
         <div className="col">
-          <span> Taskid : <strong>{item.id}</strong></span>
+          <div className="row">
+            <div className="col">
+              <span> Taskid : <br/><strong>{item.id}</strong></span>
+            </div>
+            <div className="col">
+              name: <input type="text" className="form-control inline"
+                value={ item.config.name }
+                onChange={(e) => this.updateConfig({ name: e.target.value })}
+              />
+            </div>
+          </div>
+          
+          
+
           <AkunTextarea
-            akuns={item.akun}
-            update={akuns => this.props.update(item.id, { akun: akuns })}
+            akuns={item.akuns}
+            update={akuns => this.props.update(item.id, { akuns })}
           ></AkunTextarea>
         </div>
         <div className="col">

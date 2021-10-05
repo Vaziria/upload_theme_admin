@@ -8,6 +8,10 @@ type IListType = '' | 'name'
 type ISearchType = 'name'
 type ISource = 'seller_center'
 
+export interface ITask {
+  task_type: 'promosi'
+}
+
 export interface IProductPageQuery {
   list_type: IListType
   search_type: ISearchType
@@ -22,6 +26,7 @@ export interface IProductPageQuery {
 }
 
 export interface IPromoConfig {
+  name: string
   query: Partial<IProductPageQuery>
   start_time: number
   end_time: number
@@ -31,8 +36,8 @@ export interface IPromoConfig {
   discount: number
 }
 
-export interface IPromosiTask {
+export interface IPromosiTask extends ITask{
   id: string
-  akun: IAkun[]
+  akuns: IAkun[]
   config: IPromoConfig
 }

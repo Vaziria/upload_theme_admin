@@ -1,20 +1,25 @@
 import { IPromosiTask } from "../../model/shopee/PromosiSetup"
+import client from "../client"
+
+// seharusnya ada di task, tapi karena implementasi belum lengkap dan masih promosi task yang support
 
 export async function getPromoTask(): Promise<IPromosiTask[]> {
-  const task: IPromosiTask = {
-    id: "1234",
-    akun: [],
-    config: {
-      count_product: 400,
-      discount: 20,
-      end_time: Date.now(),
-      start_time: Date.now(),
-      query: {}
-    }
-  }
-  return [ task ]
+  const res = await client.get('/v1/tasker/list')
+  return res.data
 }
 
-export async function savePromoTask(): Promise<void> {
-  console.log('not implemented')
+export async function runPromo(): Promise<void>{
+  await client.get('/api/scheduler')
+}
+
+export async function savePromoTask(data: IPromosiTask[]): Promise<void> {
+  await client.post(`/v1/tasker/save_task`, data)
+}
+
+export async function deletePromoTask(id: string): Promise<void> {
+  await client.delete(`/v1/tasker/${id}`,{
+    params: {
+      task_type: "promosi"
+    }
+  })
 }

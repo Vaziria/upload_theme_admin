@@ -1,7 +1,8 @@
 import React from "react"
 import * as uuid from 'uuid'
-import { getPromoTask } from "../api/shopee/promo"
+import { deletePromoTask, getPromoTask, runPromo, savePromoTask } from "../api/shopee/promo"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
+import { emitEvent } from "../event"
 import { IPromosiTask } from "../model/shopee/PromosiSetup"
 
 
@@ -22,14 +23,25 @@ export default class PromoPage extends React.Component<unknown, IState> {
 
   newTask(): void {
     const idnya = uuid.v4()
+
+    const promoTimeMin = Date.now() / 1000
+    const promoTimeMax = (Date.now() / 1000) + (24 * 60 * 60 * 30)
+
+    const defProdMax = (Date.now() / 1000)
+    const defProdMin = (Date.now() / 1000) - (24 * 60 * 60 * 7)
+
     const task: IPromosiTask = {
+      task_type: "promosi",
       id: idnya,
-      akun: [],
+      akuns: [],
       config: {
-        count_product: 0,
-        discount: 0,
-        end_time: 0,
-        start_time: 0,
+        name: "diskon sebulan",
+        count_product: 20,
+        discount: 10,
+        end_time: promoTimeMax,
+        start_time: promoTimeMin,
+        ctime_max: defProdMax,
+        ctime_min: defProdMin,
         query: {}
       }
     }
@@ -40,10 +52,16 @@ export default class PromoPage extends React.Component<unknown, IState> {
     })
   }
 
-  deleteTask(idnya: string): void {
+  async deleteTask(idnya: string): Promise<void> {
     const tasks = this.state.tasks.filter(task => task.id != idnya)
     this.setState({
       tasks
+    })
+    
+    await deletePromoTask(idnya)
+
+    emitEvent('show_msg', {
+      msg: 'delete berhasil....'
     })
   }
 
@@ -65,11 +83,17 @@ export default class PromoPage extends React.Component<unknown, IState> {
   }
 
   async saveTaskAll(): Promise<void> {
-    console.log("not implemented")
+    await savePromoTask(this.state.tasks)
+    emitEvent('show_msg', {
+      msg: 'Saving berhasil....'
+    })
   }
 
   async runTaskAll(): Promise<void> {
-    console.log("not implemented")
+    await runPromo()
+    emitEvent('show_msg', {
+      msg: 'running promo....'
+    })
   }
 
   render(): JSX.Element {
