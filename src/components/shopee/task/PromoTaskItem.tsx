@@ -44,11 +44,29 @@ export default class PromoTaskItem extends React.Component<IProp> {
     })
   }
 
+  getErrorMsg(): string {
+    const config = this.props.item.config
+    const second = config.end_time - config.start_time
+    const limit = 180 * 24 * 60 * 60
+
+    if(second >= limit){
+      return "batas maksimal promo 180 hari"
+    }
+
+    if(config.end_time < config.start_time){
+      return 'end promo error'
+    }
+
+    return ''
+  }
+
   render(): JSX.Element {
     const { item } = this.props
     const { config } = item
     const { query } = config
     const category_id = getChainByid(query.category_id || 0)
+
+    const msg = this.getErrorMsg()
 
     return (
       <div className="row">
@@ -75,7 +93,6 @@ export default class PromoTaskItem extends React.Component<IProp> {
         <div className="col">
 
           {/* tanggal promo */}
-
           <div className="row">
             <div className="col">
               Start Promo: <EPDateSelect
@@ -156,6 +173,15 @@ export default class PromoTaskItem extends React.Component<IProp> {
           <button className="btn btn-sm btn-danger"
             onClick={() => this.props.delete(item.id)}
           >delete</button>
+          {
+            msg != '' &&
+
+            <strong 
+              style={{
+                float: 'right'
+              }}
+            className="text-danger">{msg}</strong>
+          }
 
         </div>
       </div>
