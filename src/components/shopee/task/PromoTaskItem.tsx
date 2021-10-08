@@ -133,6 +133,27 @@ export default class PromoTaskItem extends React.Component<IProp> {
             </div>
           </div>
 
+
+          {/* view sold */}
+          
+          <div className="row">
+            <div className="col">
+              view kurang sama : <InputNumber
+                value={config.view}
+                changeVal={value => this.updateConfig({ view: value })}
+                className="form-control"
+              />
+            </div>
+
+            <div className="col">
+            sold kurang sama : <InputNumber
+                value={config.sold}
+                changeVal={value => this.updateConfig({ sold: value })}
+                className="form-control"
+              />
+            </div>
+          </div>
+
           {/* product created filtering */}
 
           <div className="row">

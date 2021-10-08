@@ -24,7 +24,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
   newTask(): void {
     const idnya = uuid.v4()
 
-    const promoTimeMin = Date.now() / 1000
+    const promoTimeMin = (Date.now() / 1000) + (24 * 60 * 60)
     const promoTimeMax = (Date.now() / 1000) + (24 * 60 * 60 * 30)
 
     const defProdMax = (Date.now() / 1000)
@@ -42,7 +42,9 @@ export default class PromoPage extends React.Component<unknown, IState> {
         start_time: promoTimeMin,
         ctime_max: defProdMax,
         ctime_min: defProdMin,
-        query: {}
+        query: {},
+        sold: 0,
+        view: 0
       }
     }
 

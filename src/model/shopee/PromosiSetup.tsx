@@ -34,6 +34,8 @@ export interface IPromoConfig {
   ctime_max?: number
   count_product: number
   discount: number
+  view: number
+  sold: number
 }
 
 export interface IPromosiTask extends ITask{
