@@ -1,4 +1,4 @@
-import { IPromosiTask } from "../../model/shopee/PromosiSetup"
+import { IPromosiTask, ITask } from "../../model/shopee/PromosiSetup"
 import client from "../client"
 
 // seharusnya ada di task, tapi karena implementasi belum lengkap dan masih promosi task yang support
@@ -12,7 +12,7 @@ export async function runPromo(): Promise<void>{
   await client.get('/api/scheduler')
 }
 
-export async function savePromoTask(data: IPromosiTask[]): Promise<void> {
+export async function saveTask(data: ITask[]): Promise<void> {
   await client.post(`/v1/tasker/save_task`, data)
 }
 

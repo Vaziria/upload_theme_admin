@@ -1,17 +1,28 @@
 import React from "react"
-import * as uuid from 'uuid'
-import { deletePromoTask, getPromoTask, runPromo, savePromoTask } from "../api/shopee/promo"
+import { deletePromoTask, getPromoTask, runPromo, saveTask } from "../api/shopee/promo"
+import { PromoTaskDelete } from "../components/shopee/task/PromoTaskDelete"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
 import { emitEvent } from "../event"
-import { IPromosiTask } from "../model/shopee/PromosiSetup"
+import { createTask, IPromosiTask, ITask, TaskType, taskTypes } from "../model/shopee/PromosiSetup"
 
+
+type TaskTitle  = {
+  [k in ITask['task_type']]: string
+}
+
+const taskTitle: TaskTitle = {
+  delete_promo: "Delete Promo Task",
+  promosi: 'Add Promo Task'
+}
 
 interface IState {
-  tasks: IPromosiTask[]
+  tasks: ITask[]
+  new_task_type: TaskType
 }
 export default class PromoPage extends React.Component<unknown, IState> {
   state: IState = {
-    tasks: []
+    tasks: [],
+    new_task_type: 'promosi'
   }
 
   async componentDidMount(): Promise<void> {
@@ -22,31 +33,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
   }
 
   newTask(): void {
-    const idnya = uuid.v4()
-
-    const promoTimeMin = (Date.now() / 1000) + (24 * 60 * 60)
-    const promoTimeMax = (Date.now() / 1000) + (24 * 60 * 60 * 30)
-
-    const defProdMax = (Date.now() / 1000)
-    const defProdMin = (Date.now() / 1000) - (24 * 60 * 60 * 7)
-
-    const task: IPromosiTask = {
-      task_type: "promosi",
-      id: idnya,
-      akuns: [],
-      config: {
-        name: "diskon sebulan",
-        count_product: 20,
-        discount: 10,
-        end_time: promoTimeMax,
-        start_time: promoTimeMin,
-        ctime_max: defProdMax,
-        ctime_min: defProdMin,
-        query: {},
-        sold: 0,
-        view: 0
-      }
-    }
+    const task = createTask(this.state.new_task_type)
 
     const tasks = this.state.tasks
     this.setState({
@@ -67,13 +54,14 @@ export default class PromoPage extends React.Component<unknown, IState> {
     })
   }
 
-  updateTask(idnya: string, data: Partial<IPromosiTask>): void {
+  updateTask(idnya: string, data: Partial<ITask>): void {
     const tasks = this.state.tasks.map(task => {
       if(task.id == idnya){
         return {
           ...task,
           ...data
-        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any
       }
 
       return task
@@ -85,7 +73,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
   }
 
   async saveTaskAll(): Promise<void> {
-    await savePromoTask(this.state.tasks)
+    await saveTask(this.state.tasks)
     emitEvent('show_msg', {
       msg: 'Saving berhasil....'
     })
@@ -98,12 +86,56 @@ export default class PromoPage extends React.Component<unknown, IState> {
     })
   }
 
+  renderTask(task: ITask): JSX.Element {
+
+    if(task.task_type === "promosi"){
+      return <PromoTaskItem
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></PromoTaskItem>
+
+    } else {
+      return <PromoTaskDelete
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></PromoTaskDelete>
+    }
+    
+  }
+
   render(): JSX.Element {
     const { tasks } = this.state
 
     return (
-      <div className="mt-custom">
+      <div className="mt-custom"
+        style={{
+          paddingBottom: "30px"
+        }}
+      >
         <h2 className="mt-4">Task Promo :</h2>
+
+        <select
+          className="form-control form-contro-sm"
+          style={{
+            width: "150px",
+            display: "inline"
+          }}
+          
+          value={this.state.new_task_type}
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          onChange={(event) => this.setState({ new_task_type: event.target.value as any})}
+        >
+          {
+            taskTypes.map(tasktipe => {
+              return <option
+                key={tasktipe}
+                value={tasktipe}
+              >{ taskTitle[tasktipe] }</option>
+            })
+          }
+        </select>
 
         <button className="btn btn-sm btn-primary"
           onClick={() => this.newTask()}
@@ -122,11 +154,10 @@ export default class PromoPage extends React.Component<unknown, IState> {
             tasks.map(task => {
               return (
                 <div key={task.id}>
-                <PromoTaskItem
-                  item={task}
-                  update={(id, task) => this.updateTask(id, task)}
-                  delete={id => this.deleteTask(id)}
-                ></PromoTaskItem>
+                  <h3>{ taskTitle[task.task_type] }</h3>
+                  {
+                    this.renderTask(task)
+                  }
                 </div>
               )
             })

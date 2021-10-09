@@ -21,7 +21,7 @@ const menuItem: MenuItem[] = [
     icon: 'fas fa-hammer'
   },
   {
-    name: 'Custom Grab',
+    name: 'Grab',
     path: '/customgrab',
     icon: 'fas fa-cloud-download-alt'
   }, 
