@@ -81,7 +81,8 @@ export class TaskGrab extends React.Component<unknown, IState> {
       product_url: '',
       namespace: 'default',
       tokped_categ: ["0", "0", "0"],
-      use_filter: false
+      use_filter: false,
+      keyword: ''
 
     }
 

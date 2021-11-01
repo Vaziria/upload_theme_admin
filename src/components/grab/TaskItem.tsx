@@ -145,6 +145,43 @@ export default class TaskItem extends React.Component<IProp> {
     )
   }
 
+  renderKeyword(): JSX.Element {
+    const task = this.props.task
+
+    const { marketplace } = task
+    if(marketplace === 'tokopedia'){
+      return <div>
+        <h3>not supported....</h3>
+      </div>
+    }
+    
+    return (
+      <div>
+        <div>
+          <input
+            defaultChecked={task.use_filter}
+            onChange={() => {
+              const use_filter = !this.props.task.use_filter
+              this.updateData({
+                use_filter
+              })
+            }}
+            type="checkbox"/> use filter
+          <input
+            value={task.keyword}
+            onChange={(event) => {
+              this.updateData({
+                keyword: event.target.value
+              })
+            }}
+            className="form-control"
+            type="text"
+            placeholder="example : list_keyword.txt" />
+        </div>
+      </div>
+    )
+  }
+
   renderUrlMode(): JSX.Element {
     let url = this.props.task.url
     if(!url){
@@ -200,7 +237,7 @@ export default class TaskItem extends React.Component<IProp> {
           { mode === 'dump_category' && this.renderDumpCategoryMode() }
           { mode === 'product_url' && this.renderProductUrl() }
           { mode === 'toko_username' && this.renderTokoUsername() }
-
+          { mode === 'keyword' && this.renderKeyword() }
           
         </div>
         <div className="col-4">
