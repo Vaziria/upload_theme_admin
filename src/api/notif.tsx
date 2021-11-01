@@ -1,5 +1,5 @@
 import { INotif } from "../model/Notif"
-import { getBotConfig } from "./base_setting"
+import { getBotConfiguration } from "./bot_configuration"
 import client from "./client"
 
 export async function getNotifAll(): Promise<INotif[]> {
@@ -16,7 +16,7 @@ export async function readNotifAll(): Promise<void> {
 export async function setupV2Notification(): Promise<void> {
 
   // getting bot configuration
-  const configBot = await getBotConfig();
+  const configBot = await getBotConfiguration();
 
   // belum di typing
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

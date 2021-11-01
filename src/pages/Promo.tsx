@@ -1,5 +1,7 @@
 import React from "react"
+import { getBotConfiguration, updateBotConfiguration } from "../api/bot_configuration"
 import { deletePromoTask, getPromoTask, runPromo, saveTask } from "../api/shopee/promo"
+import { InputNumber } from "../components/common/InputNumber"
 import { PromoTaskDelete } from "../components/shopee/task/PromoTaskDelete"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
 import { emitEvent } from "../event"
@@ -18,17 +20,24 @@ const taskTitle: TaskTitle = {
 interface IState {
   tasks: ITask[]
   new_task_type: TaskType
+  thread_count: number
 }
 export default class PromoPage extends React.Component<unknown, IState> {
   state: IState = {
     tasks: [],
-    new_task_type: 'promosi'
+    new_task_type: 'promosi',
+    thread_count: 0
   }
 
   async componentDidMount(): Promise<void> {
     const tasks: IPromosiTask[] = await getPromoTask()
     this.setState({
       tasks
+    })
+
+    const botConfiguration = await getBotConfiguration()
+    this.setState({
+      thread_count: botConfiguration.thread_count
     })
   }
 
@@ -74,6 +83,9 @@ export default class PromoPage extends React.Component<unknown, IState> {
 
   async saveTaskAll(): Promise<void> {
     await saveTask(this.state.tasks)
+    await updateBotConfiguration({
+      thread_count: this.state.thread_count
+    })
     emitEvent('show_msg', {
       msg: 'Saving berhasil....'
     })
@@ -106,7 +118,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
   }
 
   render(): JSX.Element {
-    const { tasks } = this.state
+    const { tasks, thread_count } = this.state
 
     return (
       <div className="mt-custom"
@@ -117,7 +129,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
         <h2 className="mt-4">Task Promo :</h2>
 
         <select
-          className="form-control form-contro-sm"
+          className="form-control form-control-sm"
           style={{
             width: "150px",
             display: "inline"
@@ -148,6 +160,17 @@ export default class PromoPage extends React.Component<unknown, IState> {
         <button className="btn btn-sm btn-primary"
           onClick={() => this.runTaskAll()}
         >run</button>
+
+        
+        Thread Count: <InputNumber
+          value={thread_count}
+          changeVal={thread_count => this.setState({thread_count})}
+          type="text" className="form-control form-control-sm"
+          style={{
+            display: "inline",
+            width: "100px"
+          }}
+          />
 
         <div>
           {
