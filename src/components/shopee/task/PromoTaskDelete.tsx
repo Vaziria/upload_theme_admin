@@ -1,5 +1,5 @@
 import React from "react"
-import { IPromosiDeleteTask, ITask } from "../../../model/shopee/PromosiSetup"
+import { IPromosiDeleteTask, ITask } from "../../../model/shopee/TaskSetup"
 import AkunTextarea from "../../common/AkunTextarea"
 
 interface IProp {

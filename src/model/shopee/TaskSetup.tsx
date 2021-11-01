@@ -9,7 +9,7 @@ type IListType = '' | 'name'
 type ISearchType = 'name'
 type ISource = 'seller_center'
 
-export const taskTypes = ['promosi', 'delete_promo'] as const
+export const taskTypes = ['promosi', 'delete_promo', 'update_product'] as const
 
 export type TaskType = typeof taskTypes[number]
 
@@ -52,8 +52,18 @@ export interface IPromosiDeleteTask {
   akuns: IAkun[]
 }
 
+// typing bakalan pindah di yang lebih spesifik not implemeted
+export interface IUpdateProductTask {
+  id: string
+  task_type: 'update_product'
+  akuns: IAkun[]
+  config: {
+    price: number
+    price_change_type: 'percent' | 'price_val'
+  }
+}
 
-export type ITask = IPromosiTask | IPromosiDeleteTask
+export type ITask = IPromosiTask | IPromosiDeleteTask | IUpdateProductTask
 
 export function createTask(tipe: TaskType): ITask {
   const idnya = uuid.v4()
@@ -84,6 +94,19 @@ export function createTask(tipe: TaskType): ITask {
     }
 
     return task
+  } else if(tipe === 'update_product') {
+    const task: IUpdateProductTask = {
+      akuns: [],
+      task_type: 'update_product',
+      id: idnya,
+      config: {
+        price: 10,
+        price_change_type: 'percent'
+      }
+    } 
+
+    return task
+    
   } else {
 
 

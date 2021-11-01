@@ -1,6 +1,6 @@
 import React from "react"
 import { getChainByid } from "../../../features/shopee/manifest"
-import { IProductPageQuery, IPromoConfig, IPromosiTask } from "../../../model/shopee/PromosiSetup"
+import { IProductPageQuery, IPromoConfig, IPromosiTask } from "../../../model/shopee/TaskSetup"
 import AkunTextarea from "../../common/AkunTextarea"
 import EPDateSelect from "../../common/EPDateSelect"
 import { InputNumber } from "../../common/InputNumber"

@@ -1,5 +1,5 @@
 import React from "react"
-import { IAkun } from "../../model/shopee/PromosiSetup"
+import { IAkun } from "../../model/shopee/TaskSetup"
 
 interface IProp {
   akuns: IAkun[]

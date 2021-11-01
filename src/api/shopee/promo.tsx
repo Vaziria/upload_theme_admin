@@ -1,4 +1,4 @@
-import { IPromosiTask, ITask } from "../../model/shopee/PromosiSetup"
+import { IPromosiTask, ITask } from "../../model/shopee/TaskSetup"
 import client from "../client"
 
 // seharusnya ada di task, tapi karena implementasi belum lengkap dan masih promosi task yang support
@@ -16,10 +16,10 @@ export async function saveTask(data: ITask[]): Promise<void> {
   await client.post(`/v1/tasker/save_task`, data)
 }
 
-export async function deletePromoTask(id: string): Promise<void> {
+export async function deletePromoTask(id: string, task_type?: ITask['task_type']): Promise<void> {
   await client.delete(`/v1/tasker/${id}`,{
     params: {
-      task_type: "promosi"
+      task_type: task_type || 'promosi'
     }
   })
 }

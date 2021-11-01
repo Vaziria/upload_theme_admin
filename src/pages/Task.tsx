@@ -4,8 +4,9 @@ import { deletePromoTask, getPromoTask, runPromo, saveTask } from "../api/shopee
 import { InputNumber } from "../components/common/InputNumber"
 import { PromoTaskDelete } from "../components/shopee/task/PromoTaskDelete"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
+import UpdatedProductTask from "../components/shopee/task/UpdateProductTask"
 import { emitEvent } from "../event"
-import { createTask, IPromosiTask, ITask, TaskType, taskTypes } from "../model/shopee/PromosiSetup"
+import { createTask, IPromosiTask, ITask, TaskType, taskTypes } from "../model/shopee/TaskSetup"
 
 
 type TaskTitle  = {
@@ -14,7 +15,8 @@ type TaskTitle  = {
 
 const taskTitle: TaskTitle = {
   delete_promo: "Delete Promo Task",
-  promosi: 'Add Promo Task'
+  promosi: 'Add Promo Task',
+  update_product: 'Update Price Arsip'
 }
 
 interface IState {
@@ -51,12 +53,18 @@ export default class PromoPage extends React.Component<unknown, IState> {
   }
 
   async deleteTask(idnya: string): Promise<void> {
-    const tasks = this.state.tasks.filter(task => task.id != idnya)
+    
+    const tasks = this.state.tasks.filter(task => {
+      if(task.id == idnya){
+        deletePromoTask(idnya, task.task_type)
+        return false
+      }
+      return true
+
+    })
     this.setState({
       tasks
     })
-    
-    await deletePromoTask(idnya)
 
     emitEvent('show_msg', {
       msg: 'delete berhasil....'
@@ -107,6 +115,13 @@ export default class PromoPage extends React.Component<unknown, IState> {
         delete={id => this.deleteTask(id)}
       ></PromoTaskItem>
 
+    }
+    else if (task.task_type === 'update_product'){
+      return <UpdatedProductTask
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></UpdatedProductTask>
     } else {
       return <PromoTaskDelete
         item={task}
@@ -126,7 +141,7 @@ export default class PromoPage extends React.Component<unknown, IState> {
           paddingBottom: "30px"
         }}
       >
-        <h2 className="mt-4">Task Promo :</h2>
+        <h2 className="mt-4">Task :</h2>
 
         <select
           className="form-control form-control-sm"
