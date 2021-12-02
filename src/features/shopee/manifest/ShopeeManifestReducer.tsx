@@ -2,6 +2,7 @@ import { IPublicCateg } from "../../../model/shopee/public_category"
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from "redux-persist"
 import { IShopeeCateg } from "../../../model/shopee/category"
+import { IShopeeShipping } from "../../../model/shopee/shipping"
 
 const hourTtl = 3*60*60*1000
 
@@ -9,17 +10,19 @@ interface IState {
   publicCategory: IPublicCateg[]
   category: IShopeeCateg[]
   ttl: number
+  shipping: IShopeeShipping[]
 }
 
 interface IAction{
   type: 'shopee/manifest'
-  payload: Pick<IState, 'category' | 'publicCategory'>
+  payload: Pick<IState, 'category' | 'publicCategory' | 'shipping'>
 }
 
 const defstate: IState = {
   publicCategory: [],
   category: [],
-  ttl: Date.now()
+  ttl: Date.now(),
+  shipping: []
 }
 
 const persistConfig = {

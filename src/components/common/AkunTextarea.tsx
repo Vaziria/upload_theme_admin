@@ -22,13 +22,20 @@ export default class AkunTextarea extends React.Component<IProp> {
       const lineraw = line.split('|')
       
       let pwd = ''
+      let namespace = ''
+
       if(lineraw.length > 1){
         pwd = lineraw[1]
       }
 
+      if(lineraw.length > 2){
+        namespace = lineraw[2]
+      }
+
       const akun: IAkun = {
         username: lineraw[0],
-        pwd
+        pwd,
+        namespace
       }
 
       return akun
@@ -42,9 +49,9 @@ export default class AkunTextarea extends React.Component<IProp> {
       <textarea
         defaultValue={this.akunString()}
         onChange={ event => this.onUpdate(event.target.value) }
-        rows={10}
+        rows={7}
         className="form-control"
-        placeholder="username|password"
+        placeholder="username|password[optional: namespace]"
       ></textarea>
     )
   }

@@ -36,7 +36,7 @@ export default class App extends React.Component {
     
               <div className="col-10">
                 <nav className="navbar fixed-top navbar-light bg-light">
-                  <ul className="justify-content-end mb-0 h1">
+                  <ul className="justify-content-end mb-0">
                     <Notif></Notif>
                   </ul>
                   <div className="ctrl justify-content-end">

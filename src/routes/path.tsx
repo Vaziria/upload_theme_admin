@@ -1,5 +1,6 @@
 export const PATHS = [
     '/',
+    '/account',
     '/customgrab',
     '/grabsetting',
     '/setting',

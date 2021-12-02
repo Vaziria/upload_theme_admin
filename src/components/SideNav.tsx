@@ -11,6 +11,11 @@ interface MenuItem {
 
 const menuItem: MenuItem[] = [
   {
+    name: 'Akun',
+    path: '/account',
+    icon: 'fas fa-users'
+  },
+  {
     name: 'Task',
     path: '/task',
     icon: 'fas fa-tasks'
@@ -68,7 +73,6 @@ class SideNav extends React.Component<RouteComponentProps> {
               
               <a href="/#!/setting" className="list-group-item navi-custom"><i className="fas fa-cloud-download-alt"></i> Setting</a>
               
-              <a href="/#!/akun" className="list-group-item navi-custom"><i className="fas fa-users"></i> Akun</a>
               { menuItem.map((menu) => this.renderLink(menu)) }
             </ul>
           </div>

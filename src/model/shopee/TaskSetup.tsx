@@ -3,6 +3,12 @@ import * as uuid from 'uuid'
 export interface IAkun {
   username: string
   pwd: string
+  namespace?: string
+}
+
+export interface IAkunAction extends IAkun {
+  selected: boolean
+  active: boolean
 }
 
 type IListType = '' | 'name'

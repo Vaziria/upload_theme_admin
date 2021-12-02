@@ -1,5 +1,5 @@
 import { store } from "../.."
-import { shopeeManifest } from "../../../api/shopee/preload"
+import { shopeeManifest, shopeeShipping } from "../../../api/shopee/preload"
 import { CategIds } from "../../../model/shopee/category"
 import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
 
@@ -10,11 +10,13 @@ export async function shopeeGetManifest(): Promise<void> {
   }
 
   const manifest = await shopeeManifest()
+  const shipping = await shopeeShipping()
   store.dispatch({
     type: 'shopee/manifest',
     payload: {
       publicCategory: manifest.public_category_repo,
-      category: manifest.category
+      category: manifest.category,
+      shipping
     }
   })
 }
