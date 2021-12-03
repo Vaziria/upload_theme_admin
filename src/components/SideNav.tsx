@@ -11,6 +11,11 @@ interface MenuItem {
 
 const menuItem: MenuItem[] = [
   {
+    name: 'Setting',
+    path: '/setting',
+    icon: 'fas fa-cloud-download-alt'
+  },
+  {
     name: 'Task',
     path: '/task',
     icon: 'fas fa-tasks'
@@ -65,9 +70,7 @@ class SideNav extends React.Component<RouteComponentProps> {
           <div className="collapse navbar-collapse" id="navbarSupportedContent-4" ng-controller="rootNavController">
             <ul className="list-group list-group-flush ul-navi-custom">
               <a href="/#!/spin" className="list-group-item navi-custom"><i className="fab fa-less"></i> Spin</a>
-              
-              <a href="/#!/setting" className="list-group-item navi-custom"><i className="fas fa-cloud-download-alt"></i> Setting</a>
-              
+
               <a href="/#!/akun" className="list-group-item navi-custom"><i className="fas fa-users"></i> Akun</a>
               { menuItem.map((menu) => this.renderLink(menu)) }
             </ul>
