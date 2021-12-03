@@ -1,14 +1,15 @@
 import React from 'react'
 import { AccountPaging, AccountQuery } from '../../api/account'
-import { IAkunAction } from '../../model/shopee/TaskSetup'
 import Checkbox from '../common/Checkbox'
 import GoPage from './SettingAccount/GoPage'
 import LimitPage from './SettingAccount/LimitPage'
+import Paging from './SettingAccount/Paging'
 import Search from './SettingAccount/Search'
 import SelectActive from './SettingAccount/SelectActive'
+import SortOrder from './SettingAccount/SortOrder'
+import SortType from './SettingAccount/SortType'
 
 interface IProps {
-    akuns: IAkunAction[]
     query: AccountQuery
     paging: AccountPaging
     updateQuery (query: AccountQuery): void
@@ -60,8 +61,8 @@ class SettingBulkAccount extends React.Component<IProps> {
                 </div>
                 <div className="col-lg-3">
                     <GoPage
-                        value={paging.goPage}
-                        update={goPage => updatePaging({ ...paging, goPage })}
+                        value={query.start}
+                        update={page => updateQuery({ ...query, start: page - 1 })}
                     />
                 </div>
 
@@ -119,9 +120,23 @@ class SettingBulkAccount extends React.Component<IProps> {
                     >Paste ALL</button>
                 </div>
 
-                {/* <div class="col-lg-6">
-			    <div class="cols"></div>
-                </div> */}
+                <div className="col-lg-6">
+                    <div className="cols">
+                        <SortType
+                            value={query.sort}
+                            update={sort => updateQuery({ ...query, sort })}
+                        />
+                        <SortOrder
+                            value={query.reverse}
+                            update={reverse => updateQuery({ ...query, reverse })}
+                        />
+                        <Paging
+                            query={query}
+                            paging={paging}
+                            update={page => updateQuery({ ...query, start: page - 1 })}
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     }

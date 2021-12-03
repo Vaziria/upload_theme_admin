@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
-import { IShipping } from '../../api/account'
+import { IShipping } from '../../api/shipping'
 import { RootState } from '../../features'
 import Checkbox from '../common/Checkbox'
 
@@ -60,13 +60,11 @@ export class Shipping extends React.Component<IProps> {
         this.props.update(shippings)
     }
 
-    checkAll (): void {
+    checkAll (check: boolean): void {
         const shippings = this.shippings.map(ship => {
-            ship.enabled = !this.isCheckAll
+            ship.enabled = check
             return ship
         })
-
-        console.log(!this.isCheckAll)
 
         this.props.update(shippings)
     }
@@ -99,6 +97,12 @@ export class Shipping extends React.Component<IProps> {
 
     render (): JSX.Element {
         return <div>
+            <Checkbox
+                className="form-check-input"
+                type="checkbox"
+                checked={this.isCheckAll}
+                onChange={check => this.checkAll(check)}
+            />  Check All <hr style={{ marginLeft: '-1.5rem' }} />
             {this.renderShipping()}
         </div>
     }

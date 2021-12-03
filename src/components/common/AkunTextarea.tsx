@@ -9,6 +9,8 @@ interface IProp {
 
 export default class AkunTextarea extends React.Component<IProp> {
   
+  textAreaRef: HTMLTextAreaElement|null = null
+
   akunString(): string {
     console.log(this.props.akuns)
     const akunstr = this.props.akuns.map( akun => `${akun.username}|${akun.pwd}`)
@@ -44,14 +46,21 @@ export default class AkunTextarea extends React.Component<IProp> {
     this.props.update(akuns)
   }
 
+  resetValue (): void {
+    if (this.textAreaRef) {
+      this.textAreaRef.value = ''
+    }
+  }
+
   render(): JSX.Element {
     return (
       <textarea
+        ref={ref => this.textAreaRef = ref}
         defaultValue={this.akunString()}
-        onChange={ event => this.onUpdate(event.target.value) }
+        onChange={event => this.onUpdate(event.target.value)}
         rows={7}
         className="form-control"
-        placeholder="username|password[optional: namespace]"
+        placeholder="username|password|[optional: namespace]"
       ></textarea>
     )
   }

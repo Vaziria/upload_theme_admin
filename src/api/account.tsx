@@ -1,3 +1,4 @@
+import { IAccount } from "../model/Account"
 import client from "./client"
 
 // account query
@@ -5,47 +6,54 @@ export type QueryActive = 'all' | boolean
 export type SortType = '' | 'last_up'
 export interface AccountQuery {
 	active: QueryActive
-	limit: number
-	start: number
 	search: string
 	sort: SortType
-	reverse: string
+	reverse: number
+	start: number
+	limit: number
 }
 export const defquery: AccountQuery = {
     active: 'all',
-	limit: 100,
-	start: 0,
 	search: '',
 	sort: '',
-	reverse: '-1'
+	reverse: -1,
+	start: 0,
+	limit: 100
 }
 
-// account paging
 export interface AccountPaging {
-    total: number
-    goPage: number
-	data: unknown[]
+	total: number
+    data: IAccount[]
 	select: boolean
 	active: boolean
 }
 export const defpaging: AccountPaging = {
-    total: 0,
-    goPage: 0,
-	data:[],
+    total: 1,
 	select: false,
-	active: false
+	active: false,
+	data: []
 }
 
-export type IShipping = {
-    channelid: number
-    enabled: boolean
-}
-export type ShippingPayload = {
-	shipping: IShipping[],
-	use_custom_shipping: boolean
+export async function run (): Promise<void> {
+	await client.get('/api/run')
 }
 
-export async function shippingConfig(payload: ShippingPayload): Promise<void> {
-	// const res = 
-	await client.post('/shopee/config_upload/', payload)
+export async function upload (): Promise<void> {
+	await client.get('/api/uploadScheduler')
+}
+
+export async function grab (): Promise<void> {
+	await client.get('/api/grabScheduler')
+}
+
+export async function backup (): Promise<void> {
+	await client.get('/api/backupAkun')
+}
+
+export async function getAccounts (query: AccountQuery): Promise<{ akuns: IAccount[], count: number }> {
+	const res = await client.get('/api/akuns', {
+		params: query
+	})
+
+	return res.data
 }

@@ -1,9 +1,11 @@
 import React from 'react'
+import client from '../../api/client'
+import { Account } from '../../model/Account'
 import { IAkun } from '../../model/shopee/TaskSetup'
 import AkunTextarea from '../common/AkunTextarea'
 
 interface IProps {
-    addAccount (akuns: IAkun[]): void
+    onAddAccount (): void
 }
 
 interface IState {
@@ -17,6 +19,33 @@ class BulkAccount extends React.Component<IProps, IState> {
         akuns: []
     }
 
+    akunTextareaRef: AkunTextarea|null = null
+
+    async addAccounts (): Promise<void> {
+        const accountPosts: Promise<void>[] = []
+        
+        this.state.akuns.forEach(akun => {
+            const account = new Account()
+            const { username, pwd, namespace } = akun
+            account.setUserAccount({
+                user: username,
+                pass: pwd,
+                namespace
+            })
+
+            accountPosts.push(
+                client.post('/api/user', {
+                    action: 'post',
+                    data: account
+                })
+            )
+        })
+
+        await Promise.all(accountPosts)
+        this.akunTextareaRef?.resetValue()
+        this.props.onAddAccount()
+    }
+
     renderAddAccount (): JSX.Element {
         const { showBulk, akuns } = this.state
 
@@ -27,6 +56,7 @@ class BulkAccount extends React.Component<IProps, IState> {
         return <div className="row bulk">
             <div className="col">
                 <AkunTextarea
+                    ref={ref => this.akunTextareaRef = ref}
                     akuns={akuns}
                     update={akuns => this.setState({ akuns })}
                 />
@@ -39,7 +69,7 @@ class BulkAccount extends React.Component<IProps, IState> {
                         width: 130,
                         marginTop: 10
                     }}
-                    onClick={() => this.props.addAccount(akuns)}
+                    onClick={() => this.addAccounts()}
                 >ADD ACCOUNT</button>
             </div>
         </div>
