@@ -14,16 +14,23 @@ interface IProps {
     paging: AccountPaging
     updateQuery (query: AccountQuery): void
     updatePaging (paging: AccountPaging): void
+    refreshProdCount (): void
+    updateAll(): void
+    deleteAll(): void
 }
 
 class SettingBulkAccount extends React.Component<IProps> {
 
-    async updateAll (): Promise<void> {
-        // updateAll
+    refreshProdCount (): void {
+        this.props.refreshProdCount()
+    }
+
+    updateAll (): void {
+        this.props.updateAll()
 	}
 
     async deleteAll (): Promise<void> {
-        // deleteAll
+        this.props.deleteAll()
 	}
 
     async resetAkun (): Promise<void> {
@@ -67,7 +74,10 @@ class SettingBulkAccount extends React.Component<IProps> {
                 </div>
 
                 <div className="col-lg-6">
-                    <button className="btn btn-info btn-sm" ng-click="refreshAll()">Refresh Jumlah Product</button>
+                    <button
+                        className="btn btn-info btn-sm"
+                        onClick={() => this.refreshProdCount()}
+                    >Refresh Jumlah Product</button>
                     <div className="col-sm">
                         <div className="row">
                             <div className="col">

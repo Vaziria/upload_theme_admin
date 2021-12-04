@@ -13,12 +13,54 @@ import SpinTitle from "./Setting/SpinTitle"
 import Hashtag from "./Setting/Hashtag"
 import Collection from "./Setting/Collection"
 import LimitPost from "./Setting/LimitPost"
+import { UploadMode } from "../../api/bot_configuration"
+import { getItemCount } from "../../api/account"
+import Checkbox from "../common/Checkbox"
 
 interface IProps {
     akun: IAccount
+    mode: UploadMode
 }
 
-class Setting extends React.Component<IProps> {
+interface IState {
+    item_count: number
+    check: boolean
+}
+
+class Setting extends React.Component<IProps, IState> {
+    state: IState = {
+        item_count: 0,
+        check: false
+    }
+
+    async getItemCount (): Promise<void> {
+        const { akun, mode } = this.props
+        let categs: number[] = []
+        let lastCateg = 0
+
+        if (mode === 'tokopedia') {
+            categs = akun.tokped_categ.map(cat => parseInt(cat))
+        } else {
+            categs = akun.shopee_categ
+        }
+
+        categs = categs.filter(categ => categ)
+        if (categs.length) {
+            lastCateg = categs[categs.length - 1]
+        }
+
+        const item_count = await getItemCount(
+            akun.user,
+            lastCateg,
+            mode
+        )
+        this.setState({ item_count })
+    }
+
+    componentDidMount (): void {
+        this.getItemCount()
+    }
+
     render (): JSX.Element {
         const account = this.props.akun
 
@@ -27,10 +69,10 @@ class Setting extends React.Component<IProps> {
             <div className="row">
 				<div className="col-3">
 					<div className="custom-control custom-checkbox my-1 mr-sm-2">
-					<input
-                        type="checkbox"
+					<Checkbox
                         className="custom-control-input"
                         id={account._id}
+                        onChange={check => this.setState({ check })}
                     />
 					<label
                         className="custom-control-label"

@@ -8,19 +8,25 @@ import {
 import SettingBulkAccount from '../components/account/SettingBulkAccount'
 import SettingShipping from '../components/account/SettingShipping'
 import SettingItem from '../components/account/SettingItem'
+import { getUploadMode, UploadMode } from '../api/bot_configuration'
+import client from '../api/client'
 
 interface IState {
     kurirs: number[]
     query: AccountQuery
     paging: AccountPaging
+    mode: UploadMode
 }
 
 class AccountPage extends React.Component<unknown, IState> {
     state: IState = {
         kurirs: [],
         query: defquery,
-        paging: defpaging
+        paging: defpaging,
+        mode: 'tokopedia'
     }
+
+    accountRefs: SettingItem[] = []
 
     showBulk = false
 
@@ -34,8 +40,54 @@ class AccountPage extends React.Component<unknown, IState> {
         this.setState({ paging })
     }
 
+    async getUploadMode (): Promise<void> {
+        const mode = await getUploadMode()
+        this.setState({ mode })
+    }
+
+    refreshProdCount (): void {
+        this.accountRefs.map(ref => {
+            ref.getItemCount()
+        })
+    }
+
     componentDidMount (): void {
+        this.getUploadMode()
         this.getAccounts()
+    }
+    
+    async userAction (action: 'update' | 'del'): Promise<void> {
+        const allReqAction = this.accountRefs
+            .filter(ref => ref.state.check)
+            .map(ref => client.post('/api/user', {
+                    'action' : action,
+                    'data' : ref.props.akun
+                })
+            )
+
+        await Promise.all(allReqAction)
+        this.getAccounts()
+    }
+
+    renderAccountSettingItems (): JSX.Element {
+        const { paging, mode } = this.state
+        const settingItems: JSX.Element[] = []
+        this.accountRefs = []
+
+        paging.data.forEach((akun, index) => {
+            settingItems.push(<SettingItem
+                key={index}
+                ref={ref => {
+                    if (ref) this.accountRefs.push(ref)
+                }}
+                akun={akun}
+                mode={mode}
+            />)
+        })
+
+        return <div className="col-lg-12" style={{ marginTop: 20 }}>
+            {settingItems}
+        </div>
     }
 
     render (): JSX.Element {
@@ -57,6 +109,9 @@ class AccountPage extends React.Component<unknown, IState> {
                     setTimeout(() => this.getAccounts(), 300)
                 }}
                 updatePaging={paging => this.setState({ paging })}
+                refreshProdCount={() => this.refreshProdCount()}
+                updateAll={() => this.userAction('update')}
+                deleteAll={() => this.userAction('del')}
             />
 
             {/* actions */}
@@ -92,11 +147,7 @@ class AccountPage extends React.Component<unknown, IState> {
                 </div>
             </div>
 
-            <div className="col-lg-12" style={{ marginTop: 20 }}>
-                {this.state.paging.data.map((akun, index) =>
-                    <SettingItem key={index} akun={akun} />
-                )}
-            </div>
+            {this.renderAccountSettingItems()}
         </div>
     }
 }
