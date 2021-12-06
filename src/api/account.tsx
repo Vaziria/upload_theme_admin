@@ -68,3 +68,30 @@ export async function getItemCount (user: string, cat: number, mode: UploadMode)
 
 	return res.data.data
 }
+
+export async function getProductAccount (akun: IAccount): Promise<number> {
+	const res = await client.post('/api/produkAkun', akun)
+	const count = res.data.data
+
+	if (count === 'gagal') return 0
+
+	return count
+}
+
+export async function updateAccount (akun: IAccount): Promise<void> {
+    await client.post('/api/user', {
+		'action' : 'update',
+		'data' : akun
+	})
+}
+
+export async function deleteAccount (name: string): Promise<void> {
+	await client.post('/api/user', {
+		'action' : 'del',
+		'data' : [name]
+	})
+}
+
+export async function resetAccount (): Promise<void> {
+	await client.get('/v1/akun/reset')
+}

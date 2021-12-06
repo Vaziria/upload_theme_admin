@@ -6,31 +6,79 @@ import Watermark from "./Setting/Watermark"
 
 import TokopediaCategorySelect from '../tokopedia/TokopediaCategorySelect'
 import ShopeeCategSelect from '../shopee/ShopeeCategSelect'
-import PriceMin from "./Setting/PriceMin"
-import PriceMax from "./Setting/PriceMax"
 import Markup from "./Setting/Markup"
 import SpinTitle from "./Setting/SpinTitle"
 import Hashtag from "./Setting/Hashtag"
 import Collection from "./Setting/Collection"
 import LimitPost from "./Setting/LimitPost"
 import { UploadMode } from "../../api/bot_configuration"
-import { getItemCount } from "../../api/account"
+import { deleteAccount, getItemCount, getProductAccount, updateAccount } from "../../api/account"
 import Checkbox from "../common/Checkbox"
+import EstimateProduct from "./Setting/EstimateProduct"
 
 interface IProps {
     akun: IAccount
     mode: UploadMode
+    copyAccount?: IAccount
+    update (): void
+    onCopy (akun: IAccount): void
+}
+
+interface CategMappingPayload {
+    harga: string
+	hastag: string
+	markup: string
+	shopee_categ: [number, number, number, number]
 }
 
 interface IState {
     item_count: number
+    product: number
     check: boolean
+    akunChange: Partial<IAccount>
+    catMap: Omit<CategMappingPayload, 'shopee_categ'>
 }
 
 class Setting extends React.Component<IProps, IState> {
     state: IState = {
         item_count: 0,
-        check: false
+        product: 0,
+        check: false,
+        akunChange: {},
+        catMap: {
+            harga: '',
+            hastag: '',
+            markup: ''
+        }
+    }
+
+    get account (): IAccount {
+        const parentAccount = this.props.akun
+        const changeAccount = this.state.akunChange
+        return {
+            ...parentAccount,
+            ...changeAccount
+        }
+    }
+
+    setAkunChange (item: Partial<IAccount>): void {
+        const { akunChange } = this.state
+        this.setState({
+            akunChange: {
+                ...akunChange,
+                ...item
+            }
+        })
+    }
+
+    setCatMap (item: Partial<Omit<CategMappingPayload, 'shopee_categ'>>): void {
+        const { catMap } = this.state
+        this.setState({
+            catMap: {
+                ...catMap,
+                ...item
+            }
+        })
     }
 
     async getItemCount (): Promise<void> {
@@ -57,12 +105,69 @@ class Setting extends React.Component<IProps, IState> {
         this.setState({ item_count })
     }
 
+    async getProductCount (): Promise<void> {
+        const product = await getProductAccount(this.account)
+        this.setState({ product })
+    }
+
+    async updateAkun (): Promise<void> {
+        await updateAccount(this.account)
+    }
+
+    resetUploadCount (): void {
+        this.setAkunChange({ count_upload: 0 })
+        setTimeout(() => this.updateAkun(), 300)
+    }
+
+    async deleteAkun (): Promise<void> {
+        this.setState({ check: false })
+        await deleteAccount(this.account.user)
+    }
+
+    pasteAkun (): void {
+        const { copyAccount } = this.props
+        const { akunChange } = this.state
+
+        if (copyAccount) {
+            const {
+                tokped_categ,
+                shopee_categ,
+                // markup,
+                limit_upload,
+                namespace,
+                polatitle,
+                // hastag
+            } = copyAccount
+            
+            this.setState({
+                akunChange: {
+                    ...akunChange,
+                    tokped_categ,
+                    shopee_categ,
+                    limit_upload,
+                    namespace,
+                    polatitle
+                }
+            })
+        }
+    }
+
+    saveMap (): void {
+        const catMap: CategMappingPayload = {
+            ...this.state.catMap,
+            shopee_categ: this.account.shopee_categ
+        }
+        console.log('save map', catMap)
+    }
+
     componentDidMount (): void {
         this.getItemCount()
     }
 
     render (): JSX.Element {
-        const account = this.props.akun
+
+        const { item_count, product, catMap } = this.state
+        const { update, onCopy } = this.props
 
         return <div>
             <hr />
@@ -71,43 +176,61 @@ class Setting extends React.Component<IProps, IState> {
 					<div className="custom-control custom-checkbox my-1 mr-sm-2">
 					<Checkbox
                         className="custom-control-input"
-                        id={account._id}
+                        id={this.account._id}
+                        checked={this.state.check}
                         onChange={check => this.setState({ check })}
                     />
 					<label
                         className="custom-control-label"
-                        htmlFor={account._id}
-                    > User : <strong>{account.user}</strong></label>
+                        htmlFor={this.account._id}
+                    > User : <strong>{this.account.user}</strong></label>
 					</div>
 					<br />
 					
-                    <Watermark />
-                    <Pass />
-                    <Mode />
+                    <Watermark
+                        value={this.account.water}
+                        update={water => this.setAkunChange({ water })}
+                    />
+
+                    <Pass
+                        value={this.account.pass}
+                        update={pass => this.setAkunChange({ pass })}
+                    />
+                    <Mode
+                        value={this.account.mode}
+                        update={mode => this.setAkunChange({ mode })}
+                    />
 
                     <br />
-					{/* <span ng-if="item.item_count">Belum Diupload : <strong>{{item.item_count }}</strong><br></span> */}
-					{/* <span ng-if="item.product">Jumlah Product : <strong>{{item.product }}</strong><br></span> */}
+                    {item_count > 0 && <span>
+                        Belum Diupload : <strong>{item_count}</strong><br/>
+                    </span>}
+
+                    {product > 0 && <span>
+                        Jumlah Product : <strong>{product}</strong><br/>
+                    </span>}
 					<br />
+
 					<button
                         className="btn btn-danger btn-sm btn-app"
                         type="button"
-                        ng-click="deleteAkun(item['user'])"
+                        onClick={async () => {
+                            await this.deleteAkun()
+                            update()
+                        }}
                     >Delete</button>
 					
                     <button
                         className="btn btn-info btn-sm btn-app"
                         type="button"
-                        ng-click="updateAkun(item)"
-                        data-toggle="modal"
-                        data-target="#myModal"
+                        onClick={() => this.updateAkun()}
                     >Update</button>
 					
                     <button
                         className="btn btn-secondary btn-sm btn-app"
                         type="button"
-                        ng-click="refreshProduct(item)"
                         style={{ marginTop: 5 }}
+                        onClick={() => this.getProductCount()}
                     >Refresh</button>
 
                 </div>
@@ -120,37 +243,20 @@ class Setting extends React.Component<IProps, IState> {
                             </div>
 
                             <TokopediaCategorySelect
-                                value={account.tokped_categ}
-                                selected={() => undefined}
+                                value={this.account.tokped_categ}
+                                selected={tokped_categ => this.setAkunChange({ tokped_categ })}
                             />
 
-                            <PriceMin />
-
-                            <div className="row">
-								<div className="col">
-									<style>{".esti:hover{color:green;}"}</style>
-									<div ng-click="etProduct.get(item)" className="esti"
-                                        style={{
-                                            marginTop: 25,
-                                            fontWeight: 'bold',
-                                            cursor: 'pointer'
-                                        }}>
-                                        Estimate Produk :
-                                        {/* &nbsp;&nbsp; {{ etProduct.data[item.tokped_categ.join()] }} */}
-                                    </div>
-								</div>
-							</div>
+                            <EstimateProduct akun={this.account} />
                         </div>
 
                         <div className="col-lg-6">
                             <div className="">
                                 <label>SHOPEE:</label>
                                 <ShopeeCategSelect
-                                    value={account.shopee_categ}
-                                    selected={() => undefined}
+                                    value={this.account.shopee_categ}
+                                    selected={shopee_categ => this.setAkunChange({ shopee_categ })}
                                 />
-                                <PriceMax />
-								
                             </div>
                         </div>
                     </div>
@@ -161,43 +267,84 @@ class Setting extends React.Component<IProps, IState> {
 						<label>POST MARKUP:</label>
 						<div className="col-lg-12">
 
-                            <Markup />
-                            <SpinTitle />
-                            <Hashtag />
-                            <Collection />
-                            <LimitPost />
+                            <Markup
+                                value={catMap.markup}
+                                update={markup => this.setCatMap({ markup })}
+                            />
+                            <SpinTitle
+                                value={this.account.polatitle}
+                                update={polatitle => this.setAkunChange({ polatitle })}
+                            />
+                            <Hashtag
+                                value={catMap.hastag}
+                                update={hastag => this.setCatMap({ hastag })}
+                            />
+                            <Collection
+                                value={this.account.namespace}
+                                update={namespace => this.setAkunChange({ namespace })}
+                            />
+                            <LimitPost
+                                value={this.account.limit_upload}
+                                update={limit_upload => this.setAkunChange({ limit_upload })}
+                            />
                             
                         </div>
                         <div className="col-lg-12">
 							<div className="col-lg-6">
 								<div className="custom-control custom-checkbox my-1 mr-sm-2">
-									<input
-                                        type="checkbox"
+                                    <Checkbox
                                         className="custom-control-input"
-                                        id={'active_' + account._id}
-                                        ng-model="item.active"
-                                        ng-change="updateAkunSilent(item)"
+                                        id={'active_' + this.account._id}
+                                        checked={this.account.active}
+                                        onChange={active => this.setAkunChange({ active })}
                                     />
-									<label className="custom-control-label" htmlFor={'active_' + account._id}><strong>Active</strong></label>
+									<label
+                                        className="custom-control-label"
+                                        htmlFor={'active_' + this.account._id}
+                                    ><strong>Active</strong></label>
 								</div>
 							</div>
 						</div>
                     </div>
 
                     <div style={{ marginTop: 10 }}></div>
-					<button className="btn btn-success btn-sm btn-app" type="button" ng-click="copy(item)">Copy</button>
-					<button className="btn btn-info btn-sm btn-app" type="button" ng-click="paste(item)">Paste</button>
-					<button className="btn btn-warning btn-sm btn-app" type="button" style={{ marginTop: 5 }} ng-click="copyMapCateg(item)">Save Map</button>
-                    {/* margin-right: 20px;margin-bottom:10px;margin-top:10px; */}
-					<div
-                        ng-if="item.count_upload > 0"
-                        style={{ marginRight: 20, marginBottom: 10, marginTop: 10 }}
-                    /> Macet Di : <strong>{'{ item.count_upload }'}</strong><div>
-					<button className="btn btn-danger btn-sm btn-app" style={{ marginTop: 5 }} ng-click="resetCount(item)">Reset</button>
-					<div style={{ marginTop: 10 }}/> Last Up : <strong>{"{ item.last_up.toFixed(3).toString().replace('.', '') | date:'medium'}"}</strong></div>
+					<button
+                        className="btn btn-success btn-sm btn-app"
+                        type="button"
+                        onClick={() => onCopy(this.account)}
+                    >Copy</button>
+                    
+					<button
+                        className="btn btn-info btn-sm btn-app"
+                        type="button"
+                        onClick={() => this.pasteAkun()}
+                    >Paste</button>
+
+					<button
+                        className="btn btn-warning btn-sm btn-app"
+                        type="button" style={{ marginTop: 5 }}
+                        onClick={() => this.saveMap()}
+                    >Save Map</button>
+
+					{this.account.count_upload > 0 &&
+                        <div
+                            style={{ marginRight: 20, marginBottom: 10, marginTop: 10 }}
+                        > Macet Di : <strong>{this.account.count_upload}</strong></div>
+                    }
+
+					<button
+                        className="btn btn-danger btn-sm btn-app"
+                        style={{ marginTop: 5 }}
+                        onClick={() => this.resetUploadCount()}
+                    >Reset</button>
+
+					<div style={{ marginTop: 10 }}>
+                        Last Up : <strong>{this.account.last_up?.toFixed(3).toString().replace('.', '')}</strong>
+                    </div>
                 </div>
                 
             </div>
+
         </div>
     }
 }

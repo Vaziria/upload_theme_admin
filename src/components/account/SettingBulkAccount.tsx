@@ -1,5 +1,5 @@
 import React from 'react'
-import { AccountPaging, AccountQuery } from '../../api/account'
+import { AccountPaging, AccountQuery, resetAccount } from '../../api/account'
 import Checkbox from '../common/Checkbox'
 import GoPage from './SettingAccount/GoPage'
 import LimitPage from './SettingAccount/LimitPage'
@@ -13,10 +13,13 @@ interface IProps {
     query: AccountQuery
     paging: AccountPaging
     updateQuery (query: AccountQuery): void
-    updatePaging (paging: AccountPaging): void
     refreshProdCount (): void
     updateAll(): void
     deleteAll(): void
+    pasteAll(): void
+    refreshAkun(): void
+    selectAll(check: boolean): void
+    activeAll(active: boolean): void
 }
 
 class SettingBulkAccount extends React.Component<IProps> {
@@ -30,19 +33,22 @@ class SettingBulkAccount extends React.Component<IProps> {
 	}
 
     async deleteAll (): Promise<void> {
-        this.props.deleteAll()
+        if(confirm("Delete..?")){
+			this.props.deleteAll()
+		}
 	}
 
     async resetAkun (): Promise<void> {
-        // resetAkun
+        await resetAccount()
+        this.props.refreshAkun()
 	}
 
     async pasteAll (): Promise<void> {
-        // pasteAll
+        this.props.pasteAll()
 	}
     
     render (): JSX.Element {
-        const { query, paging, updateQuery, updatePaging } = this.props
+        const { query, paging, updateQuery, selectAll, activeAll } = this.props
 
         return <div className="col-lg-12" style={{ marginTop: 20 }}>
             <hr />
@@ -78,6 +84,7 @@ class SettingBulkAccount extends React.Component<IProps> {
                         className="btn btn-info btn-sm"
                         onClick={() => this.refreshProdCount()}
                     >Refresh Jumlah Product</button>
+
                     <div className="col-sm">
                         <div className="row">
                             <div className="col">
@@ -89,7 +96,7 @@ class SettingBulkAccount extends React.Component<IProps> {
                                         className="custom-control-input"
                                         id="selectAll"
                                         checked={paging.select}
-                                        onChange={select => updatePaging( { ...paging, select })}
+                                        onChange={select => selectAll(select)}
                                     />
                                     <label className="custom-control-label" htmlFor="selectAll"> Select All</label>
                                 </div>
@@ -101,7 +108,7 @@ class SettingBulkAccount extends React.Component<IProps> {
                                         className="custom-control-input"
                                         id="activeAll"
                                         checked={paging.active}
-                                        onChange={active => updatePaging({ ...paging, active })}
+                                        onChange={active => activeAll(active)}
                                     />
                                     <label className="custom-control-label" htmlFor="activeAll"> Active All</label>
                                 </div>

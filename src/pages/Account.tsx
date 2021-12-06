@@ -9,13 +9,14 @@ import SettingBulkAccount from '../components/account/SettingBulkAccount'
 import SettingShipping from '../components/account/SettingShipping'
 import SettingItem from '../components/account/SettingItem'
 import { getUploadMode, UploadMode } from '../api/bot_configuration'
-import client from '../api/client'
+import { IAccount } from '../model/Account'
 
 interface IState {
     kurirs: number[]
     query: AccountQuery
     paging: AccountPaging
     mode: UploadMode
+    copyAkun?: IAccount
 }
 
 class AccountPage extends React.Component<unknown, IState> {
@@ -56,17 +57,47 @@ class AccountPage extends React.Component<unknown, IState> {
         this.getAccounts()
     }
     
-    async userAction (action: 'update' | 'del'): Promise<void> {
-        const allReqAction = this.accountRefs
+    async updateAll (): Promise<void> {
+        const updateCheckAkun = this.accountRefs
             .filter(ref => ref.state.check)
-            .map(ref => client.post('/api/user', {
-                    'action' : action,
-                    'data' : ref.props.akun
-                })
-            )
+            .map(async (ref) => await ref.updateAkun())
 
-        await Promise.all(allReqAction)
+        await Promise.all(updateCheckAkun)
         this.getAccounts()
+    }
+
+    async deleteAll (): Promise<void> {
+        const deleteCheckAkun = this.accountRefs
+            .filter(ref => ref.state.check)
+            .map(async (ref) => await ref.deleteAkun())
+
+        await Promise.all(deleteCheckAkun)
+        this.getAccounts()
+    }
+
+    pasteAll (): void {
+        this.accountRefs.map(ref => ref.pasteAkun())
+    }
+
+    selectAll (check: boolean): void {
+        const paging = this.state.paging
+
+        paging.select = check
+        this.setState({ paging })
+        this.accountRefs
+            .map(ref => ref.setState({ check }))
+    }
+
+    activeAll (active: boolean): void {
+        const paging = this.state.paging
+
+        paging.active = active
+        paging.data = paging.data.map(akun => {
+            akun.active = active
+            return akun
+        })
+        
+        this.setState({ paging })
     }
 
     renderAccountSettingItems (): JSX.Element {
@@ -82,6 +113,9 @@ class AccountPage extends React.Component<unknown, IState> {
                 }}
                 akun={akun}
                 mode={mode}
+                copyAccount={this.state.copyAkun}
+                update={() => this.getAccounts()}
+                onCopy={copyAkun => this.setState({ copyAkun })}
             />)
         })
 
@@ -108,10 +142,13 @@ class AccountPage extends React.Component<unknown, IState> {
                     this.setState({ query })
                     setTimeout(() => this.getAccounts(), 300)
                 }}
-                updatePaging={paging => this.setState({ paging })}
                 refreshProdCount={() => this.refreshProdCount()}
-                updateAll={() => this.userAction('update')}
-                deleteAll={() => this.userAction('del')}
+                updateAll={() => this.updateAll()}
+                deleteAll={() => this.deleteAll()}
+                pasteAll={() => this.pasteAll()}
+                refreshAkun={() => this.getAccounts()}
+                selectAll={check => this.selectAll(check)}
+                activeAll={active => this.activeAll(active)}
             />
 
             {/* actions */}

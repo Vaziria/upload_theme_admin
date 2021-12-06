@@ -14,7 +14,7 @@ class GoPage extends React.Component<IProps> {
 			</div>
 
 			<InputNumber
-                value={this.props.value}
+                value={this.props.value + 1}
                 changeVal={num => this.props.update(num)}
                 className="form-control"
             />
