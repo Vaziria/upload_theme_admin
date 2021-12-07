@@ -12,7 +12,6 @@ export default class AkunTextarea extends React.Component<IProp> {
   textAreaRef: HTMLTextAreaElement|null = null
 
   akunString(): string {
-    console.log(this.props.akuns)
     const akunstr = this.props.akuns.map( akun => `${akun.username}|${akun.pwd}`)
     return akunstr.join("\n")
   }

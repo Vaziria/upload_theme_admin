@@ -1,7 +1,26 @@
 import { store } from "../.."
 import { shopeeManifest, shopeeShipping } from "../../../api/shopee/preload"
+import client from "../../../api/client"
 import { CategIds } from "../../../model/shopee/category"
 import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
+
+export async function getShopeeCities(): Promise<void> {
+  const res = await client.get("/static/assets/json/shopee.grab.location.json")
+  const cities = res.data
+  store.dispatch({
+    type: 'shopee/manifest/cities',
+    payload: cities,
+  })
+
+}
+
+export async function getSearchShopeeShipping(): Promise<void> {
+  const res = await client.get('/api/shopee_shipping')
+  store.dispatch({
+    type: 'shopee/manifest/search_shipping',
+    payload: res.data,
+  })
+}
 
 export async function shopeeGetManifest(): Promise<void> {
   const state = store.getState().ShopeeManifestReducer
