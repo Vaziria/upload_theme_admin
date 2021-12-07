@@ -14,10 +14,10 @@ export async function getShopeeCities(): Promise<void> {
 
 }
 
-export async function getShopeeShipping(): Promise<void> {
+export async function getSearchShopeeShipping(): Promise<void> {
   const res = await client.get('/api/shopee_shipping')
   store.dispatch({
-    type: 'shopee/manifest/shipping',
+    type: 'shopee/manifest/search_shipping',
     payload: res.data,
   })
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { persistor, store } from "./features"
-import { getShopeeCities, getShopeeShipping, shopeeGetManifest } from "./features/shopee/manifest"
+import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./features/shopee/manifest"
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import Notif from "./components/notif/Notif"
 import AlertHead from "./components/AlertHead"
@@ -16,7 +16,7 @@ export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
     await shopeeGetManifest()
     await getShopeeCities()
-    await getShopeeShipping()
+    await getSearchShopeeShipping()
 
     await tokopediaGetManifest()
     await loadMarkup()
