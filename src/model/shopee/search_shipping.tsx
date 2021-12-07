@@ -1,4 +1,4 @@
-export interface ShopeeShipping {
+export interface SearchShopeeShipping {
     positionid: number
     name: string
     channelids: string[]

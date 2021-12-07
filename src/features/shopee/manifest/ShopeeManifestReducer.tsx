@@ -2,7 +2,7 @@ import { IPublicCateg } from "../../../model/shopee/public_category"
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from "redux-persist"
 import { IShopeeCateg } from "../../../model/shopee/category"
-import { ShopeeShipping } from "../../../model/shopee/shipping"
+import { SearchShopeeShipping } from "../../../model/shopee/search_shipping"
 
 const hourTtl = 3*60*60*1000
 
@@ -11,7 +11,7 @@ interface IState {
   category: IShopeeCateg[]
   ttl: number
   cities: string[]
-  shipping: ShopeeShipping[]
+  shipping: SearchShopeeShipping[]
 }
 
 interface LoadCategoryAction {
@@ -26,7 +26,7 @@ interface LoadCityAction {
 
 interface LoadShippingAction {
   type: 'shopee/manifest/shipping',
-  payload: ShopeeShipping[]
+  payload: SearchShopeeShipping[]
 }
 
 type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction
