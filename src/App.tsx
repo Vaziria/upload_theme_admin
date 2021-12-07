@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import { persistor, store } from "./features"
-import { shopeeGetManifest } from "./features/shopee/manifest"
+import { getShopeeCities, getShopeeShipping, shopeeGetManifest } from "./features/shopee/manifest"
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import Notif from "./components/notif/Notif"
 import AlertHead from "./components/AlertHead"
@@ -10,11 +10,16 @@ import { BrowserRouter } from 'react-router-dom'
 import SideNav from './components/SideNav'
 import { TypedSwitch } from './routes'
 import { setupV2Notification } from './api/notif'
+import { loadMarkup } from './features/markup'
 
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
     await shopeeGetManifest()
+    await getShopeeCities()
+    await getShopeeShipping()
+
     await tokopediaGetManifest()
+    await loadMarkup()
     try {
       await setupV2Notification()
     } catch (e) {

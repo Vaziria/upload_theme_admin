@@ -3,11 +3,13 @@ import { persistStore } from 'redux-persist'
 import ShopeeManifestReducer from './shopee/manifest/ShopeeManifestReducer'
 import TokopediaManifestReducer from './tokopedia/manifest/TokopediaManifestReducer'
 import DeleterReducer from './deleter/DeleterReducer'
+import MarkupReducer from './markup/MarkupReducer'
 
 const rootReducer = combineReducers({
   ShopeeManifestReducer,
   TokopediaManifestReducer,
-  DeleterReducer
+  DeleterReducer,
+  MarkupReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

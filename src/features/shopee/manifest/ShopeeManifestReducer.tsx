@@ -2,6 +2,7 @@ import { IPublicCateg } from "../../../model/shopee/public_category"
 import storage from 'redux-persist/lib/storage'
 import { persistReducer } from "redux-persist"
 import { IShopeeCateg } from "../../../model/shopee/category"
+import { ShopeeShipping } from "../../../model/shopee/shipping"
 
 const hourTtl = 3*60*60*1000
 
@@ -9,17 +10,33 @@ interface IState {
   publicCategory: IPublicCateg[]
   category: IShopeeCateg[]
   ttl: number
+  cities: string[]
+  shipping: ShopeeShipping[]
 }
 
-interface IAction{
+interface LoadCategoryAction {
   type: 'shopee/manifest'
   payload: Pick<IState, 'category' | 'publicCategory'>
 }
 
+interface LoadCityAction {
+  type: `shopee/manifest/cities`
+  payload: string[]
+}
+
+interface LoadShippingAction {
+  type: 'shopee/manifest/shipping',
+  payload: ShopeeShipping[]
+}
+
+type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction
+
 const defstate: IState = {
   publicCategory: [],
   category: [],
-  ttl: Date.now()
+  cities: [],
+  ttl: Date.now(),
+  shipping: []
 }
 
 const persistConfig = {
@@ -31,6 +48,12 @@ function ShopeeManifestReducer(state: IState = defstate, action: IAction): IStat
   switch(action.type) {
     case 'shopee/manifest':
       return { ...state, ttl: Date.now() + hourTtl, ...action.payload }
+    case 'shopee/manifest/cities':
+      return { ...state, cities: action.payload }
+    
+    case 'shopee/manifest/shipping':
+      return { ...state, shipping: action.payload }
+
     default:
       return state
   }
