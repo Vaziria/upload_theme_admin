@@ -6,7 +6,7 @@ type InputProp = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElem
 type MInputProp = Omit<InputProp, 'value' | 'onChange'>
 
 interface IProp extends MInputProp {
-  onChange: (value: boolean) => void
+  onChange: (value: boolean) => unknown
 }
 
 export default class Checkbox extends React.Component<IProp> {

@@ -1,7 +1,16 @@
 import { store } from "../.."
+import client from "../../../api/client"
 import { tokopediaGetCategories } from "../../../api/tokopedia/preload"
 
 export async function tokopediaGetManifest(): Promise<void> {
+
+  // geting city
+  const cities = await client.get('/static/assets/json/tokopedia_fcity.json')
+  store.dispatch({
+    type: 'tokopedia/manifest/city',
+    payload: cities.data
+  })
+
   const state = store.getState().TokopediaManifestReducer
   if(Date.now() < state.ttl){
     return

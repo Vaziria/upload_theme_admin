@@ -6,7 +6,8 @@ export const PATHS = [
     '/tool',
     '/categmap',
     '/productstat',
-    '/task'
+    '/task',
+    '/shopee/berat'
   ] as const
   
 export type Path = (typeof PATHS)[number]

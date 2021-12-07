@@ -2,9 +2,11 @@ import React from "react"
 import { getShopeeGrabSetting, updateShopeeGrabSetting } from "../../api/shopee/grab_api"
 import { emitEvent } from "../../event"
 import { ShopeeSettingGrab, ShopeeSort } from "../../model/shopee/grab_setting"
+import TypedLink from "../../routes/TypedLink"
 import Checkbox from "../common/Checkbox"
 import { InputNumber } from "../common/InputNumber"
 import KotaSelect from "./KotaSelect"
+import ShopeeSearchShipping from "./SearchShipping"
 
 interface OrdItem {
     key: ShopeeSort
@@ -139,12 +141,18 @@ export default class ShopeeUpConfig extends React.Component<unknown, ShopeeSetti
                 </div>
             </div>
             <div className="col-lg-4">
-                <div ng-repeat="ship in listShipping">
-                    <input className="form-check-input" type="checkbox" ng-model="query.shipping[ship.positionid]" /> ship
+                <ShopeeSearchShipping
+                    value={this.state.shipping}
+                    change={(shipping) => this.setState({ shipping })}
+                ></ShopeeSearchShipping>
             </div>
-            <div className="col-12"><a href="#!/predictweight"><button className="btn btn-info btn-sm">Hitung Berat</button></a></div>
-            <div className="col-12"><button className="btn btn-warning btn-sm" onClick={() => this.save()}>Save Setting Shopee</button></div>
+            <div className="col-12">
+            <TypedLink to='/shopee/berat' params={{}}><button className="btn btn-info btn-sm">Hitung Berat</button></TypedLink>
+            </div>
+            <div className="col-12">
+                <button className="btn btn-warning btn-sm" onClick={() => this.save()}>Save Setting Shopee</button>
+            </div>
         </div>
-    </div>
+
     }
 }
