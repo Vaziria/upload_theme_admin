@@ -11,6 +11,9 @@ import SideNav from './components/SideNav'
 import { TypedSwitch } from './routes'
 import { setupV2Notification } from './api/notif'
 import { loadMarkup } from './features/markup'
+import { loadSpin } from './features/spin'
+import { loadCollection } from './features/collection'
+import { loadHastags } from './features/hastag'
 
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
@@ -19,7 +22,11 @@ export default class App extends React.Component {
     await getSearchShopeeShipping()
 
     await tokopediaGetManifest()
+    await loadSpin()
+    await loadCollection()
+    await loadHastags()
     await loadMarkup()
+
     try {
       await setupV2Notification()
     } catch (e) {

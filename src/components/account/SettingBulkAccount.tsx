@@ -46,9 +46,15 @@ class SettingBulkAccount extends React.Component<IProps> {
     async pasteAll (): Promise<void> {
         this.props.pasteAll()
 	}
+
+    updateQuery (query: AccountQuery): void {
+        const { updateQuery, selectAll } = this.props
+        selectAll(false)
+        updateQuery(query)
+    }
     
     render (): JSX.Element {
-        const { query, paging, updateQuery, selectAll, activeAll } = this.props
+        const { query, paging, selectAll, activeAll } = this.props
 
         return <div className="col-lg-12" style={{ marginTop: 20 }}>
             <hr />
@@ -57,25 +63,26 @@ class SettingBulkAccount extends React.Component<IProps> {
                 <div className="col-lg-3">
                     <SelectActive
                         value={query.active}
-                        update={active => updateQuery({ ...query, active })}
+                        update={active => this.updateQuery({ ...query, active, start: 0 })}
                     />
                 </div>
                 <div className="col-lg-3">
                     <Search
                         value={query.search}
-                        update={search => updateQuery({ ...query, search })}
+                        update={search => this.updateQuery({ ...query, search, start: 0 })}
                     />
                 </div>
                 <div className="col-lg-3">
                     <LimitPage
                         value={query.limit}
-                        update={limit => updateQuery({ ...query, limit })}
+                        update={limit => this.updateQuery({ ...query, limit, start: 0 })}
                     />
                 </div>
                 <div className="col-lg-3">
                     <GoPage
-                        value={query.start}
-                        update={page => updateQuery({ ...query, start: page - 1 })}
+                        start={query.start}
+                        limit={query.limit}
+                        update={start => this.updateQuery({ ...query, start })}
                     />
                 </div>
 
@@ -141,16 +148,16 @@ class SettingBulkAccount extends React.Component<IProps> {
                     <div className="cols">
                         <SortType
                             value={query.sort}
-                            update={sort => updateQuery({ ...query, sort })}
+                            update={sort => this.updateQuery({ ...query, sort, start: 0 })}
                         />
                         <SortOrder
                             value={query.reverse}
-                            update={reverse => updateQuery({ ...query, reverse })}
+                            update={reverse => this.updateQuery({ ...query, reverse, start: 0 })}
                         />
                         <Paging
                             query={query}
                             paging={paging}
-                            update={page => updateQuery({ ...query, start: page - 1 })}
+                            update={start => this.updateQuery({ ...query, start })}
                         />
                     </div>
                 </div>

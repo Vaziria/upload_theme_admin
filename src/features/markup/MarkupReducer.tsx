@@ -36,7 +36,7 @@ export default function MarkupReducer(state: IState = defstate, action: IAction)
             return { markups: state.markups.filter(m => m !== action.payload) }
         
         default:
-            return defstate
+            return state
     }
 
 }

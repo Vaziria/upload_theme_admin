@@ -1,4 +1,5 @@
 import React from "react"
+import MarkupSelect from "../../common/MarkupSelect"
 
 interface IProps {
     value: string
@@ -7,25 +8,16 @@ interface IProps {
 
 class Markup extends React.Component<IProps> {
     render (): JSX.Element {
-        
         const { value, update } = this.props
-        const listMarkup: string[] = []
 
         return <div className="input-group mb-3 input-group-sm">
         <div className="input-group-prepend">
             <span className="input-group-text" id="basic-addon3">Markup</span>
         </div>
-        <select
+        <MarkupSelect
             value={value}
-            className="form-control"
-            onChange={select => update(select.target.value)}
-        >
-            {!value && <option value=""></option>}
-            
-            {listMarkup.map((mark, key) =>
-                <option key={key} value={mark}>{mark}</option>
-            )}
-        </select>
+            onChange={markup => update(markup)}
+        />
     </div>
     }
 }

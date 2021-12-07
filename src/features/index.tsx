@@ -4,12 +4,18 @@ import ShopeeManifestReducer from './shopee/manifest/ShopeeManifestReducer'
 import TokopediaManifestReducer from './tokopedia/manifest/TokopediaManifestReducer'
 import DeleterReducer from './deleter/DeleterReducer'
 import MarkupReducer from './markup/MarkupReducer'
+import SpinReducer from './spin/SpinReducer'
+import CollectionReducer from './collection/CollectionReducer'
+import HastagReducer from './hastag/HastagReducer'
 
 const rootReducer = combineReducers({
   ShopeeManifestReducer,
   TokopediaManifestReducer,
   DeleterReducer,
-  MarkupReducer
+  MarkupReducer,
+  SpinReducer,
+  CollectionReducer,
+  HastagReducer
 })
 
 export type RootState = ReturnType<typeof rootReducer>

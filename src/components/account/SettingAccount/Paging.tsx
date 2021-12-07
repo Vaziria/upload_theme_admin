@@ -22,6 +22,11 @@ class Paging extends React.Component<IProps> {
     pageAction (page:number): void {
         const { limit } = this.props.query
         page = page > 0 ? page : 1
+
+        if (page > this.lastPage) {
+            page = this.lastPage
+        }
+
         const start = (page * limit) - limit
 
         this.props.update(start)
@@ -84,7 +89,7 @@ class Paging extends React.Component<IProps> {
             afterPages.push(
               this.renderItem(this.currentPage + 1),
               this.renderItem(this.currentPage + 2),
-              this.renderItem(this.currentPage + 7, '...'),
+              this.renderItem(this.currentPage + 5, '...'),
               this.renderItem(this.lastPage)
             )
           }

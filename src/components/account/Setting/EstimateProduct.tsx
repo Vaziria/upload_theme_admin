@@ -38,7 +38,7 @@ class EstimateProduct extends React.Component<IProps, IState> {
                 <style>{".esti:hover{color:green;}"}</style>
                 <div onClick={() => this.getEstimate()} className="esti"
                     style={{
-                        marginTop: 25,
+                        marginTop: 5,
                         fontWeight: 'bold',
                         cursor: 'pointer'
                     }}>

@@ -1,15 +1,25 @@
 import React from "react"
+import { connect, ConnectedProps } from "react-redux"
+import { RootState } from "../../../features"
 
-interface IProps {
+function mapState(state: RootState){
+    return {
+        hastags: state.HastagReducer.hastags
+    }
+  }
+  
+const connector = connect(mapState, {})
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+interface IProps extends PropsFromRedux {
     value: string
-    update (hastag: string): void
+    update: (value: string) => void
 }
 
 class Hashtag extends React.Component<IProps> {
     render (): JSX.Element {
 
         const { value, update } = this.props
-        const hastags: string[] = []
 
         return <div className="input-group mb-3 input-group-sm">
             <div className="input-group-prepend">
@@ -17,11 +27,11 @@ class Hashtag extends React.Component<IProps> {
             </div>
             <select
                 value={value}
-                className="form-control"
+                className="custom-select"
                 onChange={select => update(select.target.value)}
             >
                 <option value="">None</option>
-                {hastags.map((hastag, key) => 
+                {this.props.hastags.map((hastag, key) => 
                     <option key={key} value={hastag}>{hastag}</option>
                 )}
                 
@@ -30,4 +40,4 @@ class Hashtag extends React.Component<IProps> {
     }
 }
 
-export default Hashtag
+export default connector(Hashtag)

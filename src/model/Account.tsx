@@ -12,6 +12,8 @@ export interface IAccount {
     type: string
     name: string
     user: string
+    markup: string
+    hastag: string
     mode?: AccountMode
     polatitle?: string
     last_up?: number
@@ -29,6 +31,8 @@ const defaccount: IAccount = {
 	active: false,
 	limit_upload: 2000,
     count_upload: 0,
+    markup: '',
+    hastag: '',
     _id: ''
 }
 
@@ -44,6 +48,8 @@ export class Account implements IAccount {
     type!: string
     name!: string
     user!: string
+    markup!: string
+    hastag!: string
     mode?: AccountMode
     polatitle?: string
     last_up?: number
@@ -61,6 +67,8 @@ export class Account implements IAccount {
         this.limit_upload = account.limit_upload
         this.count_upload = account.count_upload
         this.namespace = account.namespace
+        this.markup = account.markup
+        this.hastag = account.hastag
         this.mode = account.mode
         this.polatitle = account.polatitle
         this.last_up = account.last_up
@@ -69,6 +77,7 @@ export class Account implements IAccount {
 
     setUserAccount (userAccount: Pick<IAccount, 'user' | 'pass' | 'namespace'>): void {
         this.user = userAccount.user
+        this.name = userAccount.user
         this.pass = userAccount.pass
         this.namespace = userAccount.namespace
     }

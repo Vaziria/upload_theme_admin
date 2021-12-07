@@ -4,11 +4,9 @@ import Mode from "./Setting/Mode"
 import Pass from "./Setting/Pass"
 import Watermark from "./Setting/Watermark"
 
-import TokopediaCategorySelect from '../tokopedia/TokopediaCategorySelect'
-import ShopeeCategSelect from '../shopee/ShopeeCategSelect'
 import Markup from "./Setting/Markup"
 import SpinTitle from "./Setting/SpinTitle"
-import Hashtag from "./Setting/Hashtag"
+import Hastag from "./Setting/Hastag"
 import Collection from "./Setting/Collection"
 import LimitPost from "./Setting/LimitPost"
 import { UploadMode } from "../../api/bot_configuration"
@@ -24,19 +22,11 @@ interface IProps {
     onCopy (akun: IAccount): void
 }
 
-interface CategMappingPayload {
-    harga: string
-	hastag: string
-	markup: string
-	shopee_categ: [number, number, number, number]
-}
-
 interface IState {
     item_count: number
     product: number
     check: boolean
     akunChange: Partial<IAccount>
-    catMap: Omit<CategMappingPayload, 'shopee_categ'>
 }
 
 class Setting extends React.Component<IProps, IState> {
@@ -44,12 +34,7 @@ class Setting extends React.Component<IProps, IState> {
         item_count: 0,
         product: 0,
         check: false,
-        akunChange: {},
-        catMap: {
-            harga: '',
-            hastag: '',
-            markup: ''
-        }
+        akunChange: {}
     }
 
     get account (): IAccount {
@@ -66,16 +51,6 @@ class Setting extends React.Component<IProps, IState> {
         this.setState({
             akunChange: {
                 ...akunChange,
-                ...item
-            }
-        })
-    }
-
-    setCatMap (item: Partial<Omit<CategMappingPayload, 'shopee_categ'>>): void {
-        const { catMap } = this.state
-        this.setState({
-            catMap: {
-                ...catMap,
                 ...item
             }
         })
@@ -114,6 +89,12 @@ class Setting extends React.Component<IProps, IState> {
         await updateAccount(this.account)
     }
 
+    async updateAkunActive (active: boolean): Promise<void> {
+        const akun = this.props.akun
+        akun.active = active
+        await updateAccount(akun)
+    }
+
     resetUploadCount (): void {
         this.setAkunChange({ count_upload: 0 })
         setTimeout(() => this.updateAkun(), 300)
@@ -130,20 +111,18 @@ class Setting extends React.Component<IProps, IState> {
 
         if (copyAccount) {
             const {
-                tokped_categ,
-                shopee_categ,
-                // markup,
+                markup,
                 limit_upload,
                 namespace,
                 polatitle,
-                // hastag
+                hastag
             } = copyAccount
             
             this.setState({
                 akunChange: {
                     ...akunChange,
-                    tokped_categ,
-                    shopee_categ,
+                    markup,
+                    hastag,
                     limit_upload,
                     namespace,
                     polatitle
@@ -152,27 +131,19 @@ class Setting extends React.Component<IProps, IState> {
         }
     }
 
-    saveMap (): void {
-        const catMap: CategMappingPayload = {
-            ...this.state.catMap,
-            shopee_categ: this.account.shopee_categ
-        }
-        console.log('save map', catMap)
-    }
-
     componentDidMount (): void {
         this.getItemCount()
     }
 
     render (): JSX.Element {
 
-        const { item_count, product, catMap } = this.state
+        const { item_count, product } = this.state
         const { update, onCopy } = this.props
 
         return <div>
             <hr />
             <div className="row">
-				<div className="col-3">
+				<div className="col-4">
 					<div className="custom-control custom-checkbox my-1 mr-sm-2">
 					<Checkbox
                         className="custom-control-input"
@@ -235,50 +206,27 @@ class Setting extends React.Component<IProps, IState> {
 
                 </div>
 
-                <div className="col-lg-6">
+                <div className="col-lg-8">
+                    <label>POST MARKUP:</label>
 					<div className="row">
 						<div className="col-lg-6">
-							<div className="">
-								<label>TOKOPEDIA:</label>
-                            </div>
-
-                            <TokopediaCategorySelect
-                                value={this.account.tokped_categ}
-                                selected={tokped_categ => this.setAkunChange({ tokped_categ })}
-                            />
-
-                            <EstimateProduct akun={this.account} />
-                        </div>
-
-                        <div className="col-lg-6">
-                            <div className="">
-                                <label>SHOPEE:</label>
-                                <ShopeeCategSelect
-                                    value={this.account.shopee_categ}
-                                    selected={shopee_categ => this.setAkunChange({ shopee_categ })}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="col-lg-3">
-					<div className="row">
-						<label>POST MARKUP:</label>
-						<div className="col-lg-12">
 
                             <Markup
-                                value={catMap.markup}
-                                update={markup => this.setCatMap({ markup })}
+                                value={this.account.markup}
+                                update={markup => this.setAkunChange({ markup })}
                             />
                             <SpinTitle
                                 value={this.account.polatitle}
                                 update={polatitle => this.setAkunChange({ polatitle })}
                             />
-                            <Hashtag
-                                value={catMap.hastag}
-                                update={hastag => this.setCatMap({ hastag })}
+                            <Hastag
+                                value={this.account.hastag}
+                                update={hastag => this.setAkunChange({ hastag })}
                             />
+                            
+                        </div>
+
+                        <div className="col-lg-6">
                             <Collection
                                 value={this.account.namespace}
                                 update={namespace => this.setAkunChange({ namespace })}
@@ -287,60 +235,61 @@ class Setting extends React.Component<IProps, IState> {
                                 value={this.account.limit_upload}
                                 update={limit_upload => this.setAkunChange({ limit_upload })}
                             />
-                            
-                        </div>
-                        <div className="col-lg-12">
-							<div className="col-lg-6">
-								<div className="custom-control custom-checkbox my-1 mr-sm-2">
-                                    <Checkbox
-                                        className="custom-control-input"
-                                        id={'active_' + this.account._id}
-                                        checked={this.account.active}
-                                        onChange={active => this.setAkunChange({ active })}
-                                    />
-									<label
-                                        className="custom-control-label"
-                                        htmlFor={'active_' + this.account._id}
-                                    ><strong>Active</strong></label>
-								</div>
-							</div>
+                            <div className="custom-control custom-checkbox pt-1 mr-sm-2">
+                                <Checkbox
+                                    className="custom-control-input"
+                                    id={'active_' + this.account._id}
+                                    checked={this.account.active}
+                                    onChange={active => {
+                                        this.setAkunChange({ active })
+                                        setTimeout(() => this.updateAkunActive(active), 300)
+                                    }}
+                                />
+                                <label
+                                    className="custom-control-label"
+                                    htmlFor={'active_' + this.account._id}
+                                ><strong>Active</strong></label>
+                            </div>
 						</div>
+                        
+                        <div className="col-lg-6">
+                            <EstimateProduct akun={this.account} />
+                            <div style={{ marginTop: 40 }}>
+                                <button
+                                    className="btn btn-success btn-sm btn-app"
+                                    type="button"
+                                    onClick={() => onCopy(this.account)}
+                                >Copy</button>
+                                
+                                <button
+                                    className="btn btn-info btn-sm btn-app"
+                                    type="button"
+                                    onClick={() => this.pasteAkun()}
+                                >Paste</button>
+
+                                {this.account.count_upload > 0 &&
+                                    <div
+                                        style={{ marginRight: 20, marginBottom: 10, marginTop: 10 }}
+                                    > Macet Di : <strong>{this.account.count_upload}</strong></div>
+                                }
+
+                                <button
+                                    className="btn btn-danger btn-sm btn-app"
+                                    style={{ marginTop: 5 }}
+                                    onClick={() => this.resetUploadCount()}
+                                >Reset</button>
+                            </div>
+                        </div>
+
+                        <div className="col-lg-6">
+                            <div style={{ marginTop: 75 }}>
+                                Last Up : <strong>
+                                    {this.account.last_up?.toFixed(3).toString().replace('.', '')}
+                                </strong>
+                            </div>
+                        </div>
                     </div>
 
-                    <div style={{ marginTop: 10 }}></div>
-					<button
-                        className="btn btn-success btn-sm btn-app"
-                        type="button"
-                        onClick={() => onCopy(this.account)}
-                    >Copy</button>
-                    
-					<button
-                        className="btn btn-info btn-sm btn-app"
-                        type="button"
-                        onClick={() => this.pasteAkun()}
-                    >Paste</button>
-
-					<button
-                        className="btn btn-warning btn-sm btn-app"
-                        type="button" style={{ marginTop: 5 }}
-                        onClick={() => this.saveMap()}
-                    >Save Map</button>
-
-					{this.account.count_upload > 0 &&
-                        <div
-                            style={{ marginRight: 20, marginBottom: 10, marginTop: 10 }}
-                        > Macet Di : <strong>{this.account.count_upload}</strong></div>
-                    }
-
-					<button
-                        className="btn btn-danger btn-sm btn-app"
-                        style={{ marginTop: 5 }}
-                        onClick={() => this.resetUploadCount()}
-                    >Reset</button>
-
-					<div style={{ marginTop: 10 }}>
-                        Last Up : <strong>{this.account.last_up?.toFixed(3).toString().replace('.', '')}</strong>
-                    </div>
                 </div>
                 
             </div>

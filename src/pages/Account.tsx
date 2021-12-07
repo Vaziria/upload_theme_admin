@@ -56,20 +56,34 @@ class AccountPage extends React.Component<unknown, IState> {
         this.getUploadMode()
         this.getAccounts()
     }
-    
+
     async updateAll (): Promise<void> {
+        const delay = 500
+        let currentDelay = 0
+
         const updateCheckAkun = this.accountRefs
             .filter(ref => ref.state.check)
-            .map(async (ref) => await ref.updateAkun())
+            .map(async (ref) => {
+                currentDelay += delay
+                await new Promise(resolve => setTimeout(resolve, currentDelay))
+                await ref.updateAkun()
+            })
 
         await Promise.all(updateCheckAkun)
         this.getAccounts()
     }
 
     async deleteAll (): Promise<void> {
+        const delay = 500
+        let currentDelay = 0
+
         const deleteCheckAkun = this.accountRefs
             .filter(ref => ref.state.check)
-            .map(async (ref) => await ref.deleteAkun())
+            .map(async (ref) => {
+                currentDelay += delay
+                await new Promise(resolve => setTimeout(resolve, currentDelay))
+                await ref.deleteAkun()
+            })
 
         await Promise.all(deleteCheckAkun)
         this.getAccounts()

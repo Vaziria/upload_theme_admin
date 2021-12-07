@@ -27,6 +27,19 @@ class SettingShipping extends React.Component<unknown, IState> {
         this.getShipping()
     }
 
+    renderChecklist (): JSX.Element {
+        if (!this.state.use_custom_shipping) {
+            return <></>
+        }
+
+        return <div className="pl-4 mb-3">
+            <Shipping
+                value={this.state.shipping}
+                update={shipping => this.setState({ shipping })}
+            />
+        </div>
+    }
+
     render (): JSX.Element {
         return <div className="col-lg-4">
             <label>SETTING SHIPPING:</label>
@@ -36,15 +49,10 @@ class SettingShipping extends React.Component<unknown, IState> {
                     type="checkbox"
                     checked={this.state.use_custom_shipping}
                     onChange={checked => this.setState({ use_custom_shipping: checked })}
-                />  Use Custom <br></br>
+                />  Active Custom Shipping <br></br>
             </div>
             <hr />
-            <div className="pl-4 mb-3">
-                <Shipping
-                    value={this.state.shipping}
-                    update={shipping => this.setState({ shipping })}
-                />
-            </div>
+            {this.renderChecklist()}
             <button
                 className="btn btn-success btn-sm"
                 onClick={() => this.saveShipping()}
