@@ -3,6 +3,7 @@ import storage from 'redux-persist/lib/storage'
 import { persistReducer } from "redux-persist"
 import { IShopeeCateg } from "../../../model/shopee/category"
 import { SearchShopeeShipping } from "../../../model/shopee/search_shipping"
+import { IShopeeShipping } from "../../../model/shopee/shipping"
 
 const hourTtl = 3*60*60*1000
 
@@ -12,11 +13,12 @@ interface IState {
   ttl: number
   cities: string[]
   search_shipping: SearchShopeeShipping[]
+  shipping: IShopeeShipping[]
 }
 
 interface LoadCategoryAction {
   type: 'shopee/manifest'
-  payload: Pick<IState, 'category' | 'publicCategory'>
+  payload: Pick<IState, 'category' | 'publicCategory' | 'shipping'>
 }
 
 interface LoadCityAction {
@@ -36,7 +38,8 @@ const defstate: IState = {
   category: [],
   cities: [],
   ttl: Date.now(),
-  search_shipping: []
+  search_shipping: [],
+  shipping: []
 }
 
 const persistConfig = {

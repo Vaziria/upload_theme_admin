@@ -4,8 +4,12 @@ import { ICategItem } from "../model/shopee/public_category"
 import client from "./client"
 
 
-export async function getNamespaces(mode: MarketList): Promise<ProductNamespace[]>{
-  const res = await client.get(`/v1/product/namespace_all?marketplace=${mode}`)
+export async function getNamespaces(mode?: MarketList): Promise<ProductNamespace[]>{
+  const res = await client.get(`/v1/product/namespace_all`, {
+    params: {
+      marketplace: mode
+    }
+  })
   return res.data
 }
 

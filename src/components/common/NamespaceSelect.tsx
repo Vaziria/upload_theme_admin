@@ -4,7 +4,7 @@ import { RootState } from "../../features"
 
 function mapState(state: RootState){
     return {
-      markups: state.MarkupReducer.markups
+      namespaces: state.CollectionReducer.namespaces
     }
   }
   
@@ -16,21 +16,25 @@ interface IProp extends PropsFromRedux {
     onChange: (value: string) => unknown
 }
 
-class MarkupSelect extends React.Component<IProp> {
+class NamespaceSelect extends React.Component<IProp> {
     render(): JSX.Element {
         return <select className="custom-select"
             value={this.props.value}
             onChange={(event) => {
-                // eslint-disable-next-line
-                const value = event.target.value as any
-                this.props.onChange(value)
+                const namespace = event.target.value
+                this.props.onChange(namespace)
               }}
         >
-        {!this.props.value && <option value=''></option>}
-        { this.props.markups.map(markup => <option key={markup} value={markup}>{markup}</option>) }
-    </select>
+            {!this.props.value && <option value=''></option>}
+            {this.props.namespaces.map(namespace => 
+                <option
+                    key={namespace.name}
+                    value={namespace.name}
+                >{namespace.name}</option>
+            )}
+        </select>
     }
 }
 
 
-export default connector(MarkupSelect)
+export default connector(NamespaceSelect)
