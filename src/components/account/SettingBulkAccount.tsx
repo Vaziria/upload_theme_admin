@@ -1,5 +1,6 @@
 import React from 'react'
 import { AccountPaging, AccountQuery, resetAccount } from '../../api/account'
+import { emitEvent } from '../../event'
 import Checkbox from '../common/Checkbox'
 import GoPage from './SettingAccount/GoPage'
 import LimitPage from './SettingAccount/LimitPage'
@@ -35,11 +36,17 @@ class SettingBulkAccount extends React.Component<IProps> {
     async deleteAll (): Promise<void> {
         if(confirm("Delete..?")){
 			this.props.deleteAll()
+            emitEvent('show_msg', {
+                msg: 'Success Akun All..',
+            })
 		}
 	}
 
     async resetAkun (): Promise<void> {
         await resetAccount()
+        emitEvent('show_msg', {
+            msg: 'Success Reset Akun..',
+        })
         this.props.refreshAkun()
 	}
 

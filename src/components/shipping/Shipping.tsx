@@ -25,21 +25,25 @@ export class Shipping extends React.Component<IProps> {
     componentDidMount (): void {
         this.props.onRef && this.props.onRef(this)
     }
+
+    getShippingParent (): IShopeeShipping[] {
+        return this.props.shippings
+            .filter(shipping => shipping.parent_channel_id === 0)
+    }
     
     checkAll (check: boolean): void {
 
         if (check) {
 
-            const shippings = this.props.shippings
-            .filter(shipping => shipping.parent_channel_id === 0)
-            .map(ship => {
-                const shipp: IShipping = {
-                    channelid: ship.channel_id,
-                    enabled: true
-                }
+            const shippings = this.getShippingParent()
+                .map(ship => {
+                    const shipp: IShipping = {
+                        channelid: ship.channel_id,
+                        enabled: true
+                    }
 
-                return shipp
-            })
+                    return shipp
+                })
     
             this.props.update(shippings)
         } else {
@@ -57,18 +61,19 @@ export class Shipping extends React.Component<IProps> {
 
             this.props.update([...this.props.value, ship])
         } else {
-            const newval: IShipping[] = this.props.value.filter(ship => ship.channelid !== data.channel_id)
+            const newval: IShipping[] = this.props.value
+                .filter(ship => ship.channelid !== data.channel_id)
             this.props.update(newval)
         } 
     }
 
     isCheck(): boolean {
-        return this.props.value.length === this.props.shippings.filter(ship => ship.parent_channel_id === 0).length
+        return this.props.value.length === this.getShippingParent().length
     }
 
     render (): JSX.Element {
 
-        const parents = this.props.shippings.filter(shipping => shipping.parent_channel_id === 0)
+        const parents = this.getShippingParent()
 
         return <div>
             <Checkbox

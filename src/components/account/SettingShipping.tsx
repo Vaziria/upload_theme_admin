@@ -1,5 +1,6 @@
 import React from 'react'
 import { getShippingConfig, IShipping, saveShippingConfig } from '../../api/shipping'
+import { emitEvent } from '../../event'
 import Checkbox from '../common/Checkbox'
 import Shipping from '../shipping/Shipping'
 
@@ -14,8 +15,11 @@ class SettingShipping extends React.Component<unknown, IState> {
         use_custom_shipping: false
     }
 
-    saveShipping (): void {
-        saveShippingConfig(this.state)
+    async saveShipping (): Promise<void> {
+        await saveShippingConfig(this.state)
+        emitEvent('show_msg', {
+            msg: 'Success Save Setting Shipping..',
+        })
     }
 
     async getShipping (): Promise<void> {
