@@ -1,6 +1,5 @@
 import React from "react"
 import { IAccount } from "../../model/Account"
-import Mode from "./Setting/Mode"
 import Pass from "./Setting/Pass"
 import Watermark from "./Setting/Watermark"
 
@@ -144,7 +143,7 @@ class Setting extends React.Component<IProps, IState> {
             <hr />
             <div className="row">
 				<div className="col-4">
-					<div className="custom-control custom-checkbox my-1 mr-sm-2">
+					<div className="custom-control custom-checkbox mr-sm-2 mb-1">
 					<Checkbox
                         className="custom-control-input"
                         id={this.account._id}
@@ -156,7 +155,6 @@ class Setting extends React.Component<IProps, IState> {
                         htmlFor={this.account._id}
                     > User : <strong>{this.account.user}</strong></label>
 					</div>
-					<br />
 					
                     <Watermark
                         value={this.account.water}
@@ -167,9 +165,10 @@ class Setting extends React.Component<IProps, IState> {
                         value={this.account.pass}
                         update={pass => this.setAkunChange({ pass })}
                     />
-                    <Mode
-                        value={this.account.mode}
-                        update={mode => this.setAkunChange({ mode })}
+
+                    <Collection
+                        value={this.account.namespace}
+                        update={namespace => this.setAkunChange({ namespace })}
                     />
 
                     <br />
@@ -180,30 +179,6 @@ class Setting extends React.Component<IProps, IState> {
                     {product > 0 && <span>
                         Jumlah Product : <strong>{product}</strong><br/>
                     </span>}
-					<br />
-
-					<button
-                        className="btn btn-danger btn-sm btn-app"
-                        type="button"
-                        onClick={async () => {
-                            await this.deleteAkun()
-                            update()
-                        }}
-                    >Delete</button>
-					
-                    <button
-                        className="btn btn-info btn-sm btn-app"
-                        type="button"
-                        onClick={() => this.updateAkun()}
-                    >Update</button>
-					
-                    <button
-                        className="btn btn-secondary btn-sm btn-app"
-                        type="button"
-                        style={{ marginTop: 5 }}
-                        onClick={() => this.getProductCount()}
-                    >Refresh</button>
-
                 </div>
 
                 <div className="col-lg-8">
@@ -227,34 +202,77 @@ class Setting extends React.Component<IProps, IState> {
                         </div>
 
                         <div className="col-lg-6">
-                            <Collection
-                                value={this.account.namespace}
-                                update={namespace => this.setAkunChange({ namespace })}
-                            />
                             <LimitPost
                                 value={this.account.limit_upload}
                                 update={limit_upload => this.setAkunChange({ limit_upload })}
                             />
-                            <div className="custom-control custom-checkbox pt-1 mr-sm-2">
-                                <Checkbox
-                                    className="custom-control-input"
-                                    id={'active_' + this.account._id}
-                                    checked={this.account.active}
-                                    onChange={active => {
-                                        this.setAkunChange({ active })
-                                        setTimeout(() => this.updateAkunActive(active), 300)
-                                    }}
-                                />
-                                <label
-                                    className="custom-control-label"
-                                    htmlFor={'active_' + this.account._id}
-                                ><strong>Active</strong></label>
+
+                            <div className="row mb-3">
+                                <div className="col-6">
+                                    <div className=" custom-control custom-checkbox pt-1 mr-sm-2">
+                                        <Checkbox
+                                            className="custom-control-input"
+                                            id={'active_' + this.account._id}
+                                            checked={this.account.active}
+                                            onChange={active => {
+                                                this.setAkunChange({ active })
+                                                setTimeout(() => this.updateAkunActive(active), 300)
+                                            }}
+                                        />
+                                        <label
+                                            className="custom-control-label"
+                                            htmlFor={'active_' + this.account._id}
+                                        ><strong>Active</strong></label>
+                                    </div>
+                                </div>
+
+                                <div className="col-6">
+                                    {this.account.count_upload > 0 &&
+                                        <div className="py-1"> Macet Di : <strong>{this.account.count_upload}</strong></div>
+                                    }
+                                </div>
                             </div>
-						</div>
-                        
-                        <div className="col-lg-6">
-                            <EstimateProduct akun={this.account} />
-                            <div style={{ marginTop: 40 }}>
+
+                            <div className="row">
+                                <div className="col-6">
+                                    <div>
+                                        Last Up : <strong>
+                                            {this.account.last_up?.toFixed(3).toString().replace('.', '')}
+                                        </strong>
+                                    </div>
+                                </div>
+                                
+                                <div className="col-6">
+                                    <EstimateProduct akun={this.account} />
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <button
+                                className="btn btn-danger btn-sm btn-app"
+                                type="button"
+                                onClick={async () => {
+                                    await this.deleteAkun()
+                                    update()
+                                }}
+                            >Delete</button>
+                            
+                            <button
+                                className="btn btn-info btn-sm btn-app"
+                                type="button"
+                                onClick={() => this.updateAkun()}
+                            >Update</button>
+                            
+                            <button
+                                className="btn btn-secondary btn-sm btn-app"
+                                type="button"
+                                style={{ marginTop: 5 }}
+                                onClick={() => this.getProductCount()}
+                            >Refresh</button>
+                            
+                            <br />
+                            <div>
                                 <button
                                     className="btn btn-success btn-sm btn-app"
                                     type="button"
@@ -267,27 +285,13 @@ class Setting extends React.Component<IProps, IState> {
                                     onClick={() => this.pasteAkun()}
                                 >Paste</button>
 
-                                {this.account.count_upload > 0 &&
-                                    <div
-                                        style={{ marginRight: 20, marginBottom: 10, marginTop: 10 }}
-                                    > Macet Di : <strong>{this.account.count_upload}</strong></div>
-                                }
-
                                 <button
                                     className="btn btn-danger btn-sm btn-app"
                                     style={{ marginTop: 5 }}
                                     onClick={() => this.resetUploadCount()}
                                 >Reset</button>
                             </div>
-                        </div>
-
-                        <div className="col-lg-6">
-                            <div style={{ marginTop: 75 }}>
-                                Last Up : <strong>
-                                    {this.account.last_up?.toFixed(3).toString().replace('.', '')}
-                                </strong>
-                            </div>
-                        </div>
+						</div>
                     </div>
 
                 </div>
