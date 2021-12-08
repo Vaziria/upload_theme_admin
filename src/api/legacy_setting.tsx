@@ -143,3 +143,90 @@ export async function updateUpMode(shop: MarketList): Promise<void> {
         name: "upMode"
     })
 }
+
+
+interface Blacklist {
+    filename: string
+}
+interface BlacklistUsername {
+    shopee: Blacklist
+    tokopedia: Blacklist
+    active: boolean
+}
+export interface V3Setting {
+    blacklist_username: BlacklistUsername
+    name: string
+    use_price_discount: boolean
+    _id: string
+}
+
+export async function getV3Setting(): Promise<V3Setting> {
+    const res = await client.get('/v3/setting/default')
+    return res.data
+}
+
+export async function updateV3Setting(data: V3Setting): Promise<void> {
+    await client.post('/v3/setting/default', data)
+}
+
+// pilih random
+export async function getProductRandom(): Promise<{ data: boolean }> {
+    const res = await client.get('/api/config/get_random')
+    return res.data
+}
+
+export async function updateProductRandom(data: boolean): Promise<void> {
+    await client.post('/api/config/get_random', {data})
+}
+
+// getting random attribute
+export async function getRandomAttribute(): Promise<{ data: {
+    active: boolean
+    force_tidakada: boolean
+} }> {
+    const res = await client.get('/api/config/rnd_attribute')
+    return res.data
+}
+
+export async function updateRandomAttribute(data: {
+    active: boolean
+    force_tidakada: boolean
+}): Promise<void> {
+    await client.post('/api/config/rnd_attribute', {data})
+}
+
+// config sameresource
+export async function getSameResource(): Promise<{ data: boolean }> {
+    const res = await client.get('/api/config/userSameResource')
+    return res.data
+}
+
+export async function updateSameResource(data: boolean): Promise<void> {
+    await client.post('/api/config/userSameResource', {data})
+}
+
+// Cloudinary
+export async function getCloudinary(): Promise<{ data: {
+    active: boolean
+    url: string
+} }> {
+    const res = await client.get('/api/config/cloudinary')
+    return res.data
+}
+
+export async function updateCloudinary(data: {
+    active: boolean
+    url: string
+}): Promise<void> {
+    await client.post('/api/config/cloudinary', {data})
+}
+
+// backup setting
+
+export async function runBackup(): Promise<void> {
+    await client.get('/api/backupSetting')
+}
+
+export async function restoreSetting(data: string[]): Promise<void> {
+    await client.post('/api/restoreSetting', data)
+}

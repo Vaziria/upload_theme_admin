@@ -7,7 +7,7 @@ export async function getShopeeGrabSetting(): Promise<ShopeeSettingGrab> {
 }
 
 export async function updateShopeeGrabSetting(data: ShopeeSettingGrab): Promise<void> {
-    await client.put('/api/config/shopeeGrabSetting', {
+    await client.post('/api/config/shopeeGrabSetting', {
         data,
         name: 'shopeeGrabSetting'
     })

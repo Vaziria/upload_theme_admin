@@ -10,6 +10,7 @@ import CategMap from "../pages/CategMap"
 import DetailProduct from "../pages/DetailProduct"
 import TaskPage from "../pages/Task"
 import AccountPage from "../pages/Account"
+import HitungBeratPage from "../pages/shopee/HitungBerat"
 
 export const roothistory = createBrowserHistory()
 
@@ -45,6 +46,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/task',
     component: TaskPage
+  },
+  {
+    path: '/shopee/berat',
+    component: HitungBeratPage
   }
 ]
 
