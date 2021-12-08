@@ -2,15 +2,15 @@ import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { IShipping } from '../../api/shipping'
 import { RootState } from '../../features'
+import { IShopeeShipping } from '../../model/shopee/shipping'
 import Checkbox from '../common/Checkbox'
 
 function mapState(state: RootState){
     return {
-        shipping: state.ShopeeManifestReducer.shipping
-            .filter(ship => ship.parent_channel_id == 0)
+        shippings: state.ShopeeManifestReducer.shipping
     }
 }
-  
+
 const connector = connect(mapState, {})
 type PropsFromRedux = ConnectedProps<typeof connector>
 
@@ -21,89 +21,76 @@ interface IProps extends PropsFromRedux {
 }
 
 export class Shipping extends React.Component<IProps> {
-    get shippings (): IShipping[] {
-        const shippings: IShipping[] = this.props.value
-
-        if (shippings.length < 1) {
-            this.props.shipping.forEach(ship => {
-                shippings.push({
-                    channelid: ship.channel_id,
-                    enabled: false
-                })
-            })
-        }
-
-        return shippings
-    }
-
-    get isCheckAll (): boolean {
-        const countEnabled = this.props.value
-            .filter(ship => ship.enabled)
-            .length
-
-        return countEnabled === this.props.shipping.length
-    }
 
     componentDidMount (): void {
         this.props.onRef && this.props.onRef(this)
     }
+    
+    checkAll (check: boolean): void {
 
-    onCheck (channelid: number, check: boolean): void {
-        const shippings = this.shippings.map(ship => {
-            if (ship.channelid === channelid) {
-                ship.enabled = check
+        if (check) {
+
+            const shippings = this.props.shippings
+            .filter(shipping => shipping.parent_channel_id === 0)
+            .map(ship => {
+                const shipp: IShipping = {
+                    channelid: ship.channel_id,
+                    enabled: true
+                }
+
+                return shipp
+            })
+    
+            this.props.update(shippings)
+        } else {
+            this.props.update([])
+        }
+        
+    }
+
+    setCheck(cek: boolean, data: IShopeeShipping): void {
+        if(cek){
+            const ship: IShipping = {
+                channelid: data.channel_id,
+                enabled: true
             }
 
-            return ship
-        })
-
-        this.props.update(shippings)
+            this.props.update([...this.props.value, ship])
+        } else {
+            const newval: IShipping[] = this.props.value.filter(ship => ship.channelid !== data.channel_id)
+            this.props.update(newval)
+        } 
     }
 
-    checkAll (check: boolean): void {
-        const shippings = this.shippings.map(ship => {
-            ship.enabled = check
-            return ship
-        })
-
-        this.props.update(shippings)
-    }
-
-    getChannelName (channelid: number): string {
-        const findShipping = this.props.shipping
-            .find(ship => ship.channel_id === channelid)
-        
-        return findShipping?.display_name || ''
-    }
-
-    renderShipping (): JSX.Element[] {
-        const shipping: JSX.Element[] = []
-
-        this.shippings.forEach((ship, index) => {
-            shipping.push(
-                <div key={index}>
-                    <Checkbox
-                        className="form-check-input"
-                        type="checkbox"
-                        checked={ship.enabled}
-                        onChange={checked => this.onCheck(ship.channelid, checked)}
-                    />  {this.getChannelName(ship.channelid)}<br></br>
-                </div>
-            )
-        })
-
-        return shipping
+    isCheck(): boolean {
+        return this.props.value.length === this.props.shippings.filter(ship => ship.parent_channel_id === 0).length
     }
 
     render (): JSX.Element {
+
+        const parents = this.props.shippings.filter(shipping => shipping.parent_channel_id === 0)
+
         return <div>
             <Checkbox
                 className="form-check-input"
                 type="checkbox"
-                checked={this.isCheckAll}
+                checked={this.isCheck()}
                 onChange={check => this.checkAll(check)}
             />  Check All <hr style={{ marginLeft: '-1.5rem' }} />
-            {this.renderShipping()}
+
+            {
+                parents.map((parent, index) => {
+                    return <div key={index}>
+                        <Checkbox
+                            className="form-check-input"
+                            type="checkbox"
+                            checked={this.props.value.some(ship => ship.channelid === parent.channel_id)}
+                            onChange={checked => this.setCheck(checked, parent)}
+                        />  { parent.display_name }<br></br>
+                    </div>
+                })
+            }
+
         </div>
     }
 }
