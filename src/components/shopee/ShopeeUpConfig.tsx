@@ -2,6 +2,7 @@ import React from "react"
 import { getShopeeFilterGrabber, getShopeeGrabSetting, updateShopeeFilterGrabber, updateShopeeGrabSetting } from "../../api/shopee/grab_api"
 import { emitEvent } from "../../event"
 import { ShopeeFilterGrab, ShopeeSettingGrab, ShopeeSort } from "../../model/shopee/grab_setting"
+import { SearchShopeeShipping } from "../../model/shopee/search_shipping"
 import TypedLink from "../../routes/TypedLink"
 import Checkbox from "../common/Checkbox"
 import EPDateSelect from "../common/EPDateSelect"
@@ -36,7 +37,6 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
             price_max: 0,
             price_min: 0,
             rating_filter: 0,
-            shipping: [],
             shopee24: false,
             shopee_verified: false,
             name: "shopeeGrabSetting"
@@ -46,7 +46,8 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
                 active: false,
                 max: Date.now() / 1000,
                 min: Date.now() / 1000
-            }
+            },
+            shippings: [],
         }
     } 
 
@@ -78,9 +79,19 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
         })
     }
 
+    setShipping(data: SearchShopeeShipping[]): void {
+        this.setState({
+            settingFilter: {
+                ...this.state.settingFilter,
+                shippings: data
+            }
+        })
+    }
+
     setProductFilter(data: Partial<ShopeeFilterGrab['product_created']>): void {
         this.setState({
             settingFilter: {
+                shippings: this.state.settingFilter.shippings,
                 product_created: {
                     ...this.state.settingFilter.product_created,
                     ...data,
@@ -212,8 +223,8 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
             </div>
             <div className="col-lg-4">
                 <ShopeeSearchShipping
-                    value={settingGrab.shipping}
-                    change={(shipping) => this.setSettingGrab({ shipping })}
+                    value={settingFilter.shippings}
+                    change={(shipping) => this.setShipping(shipping)}
                 ></ShopeeSearchShipping>
             </div>
             <div className="col-12">
