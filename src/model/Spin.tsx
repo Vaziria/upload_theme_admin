@@ -5,4 +5,6 @@ export type Spin = {
 
 export type SpinConfig = {
     merek_ins_t: boolean
+    title: string
+    desc: string
 }

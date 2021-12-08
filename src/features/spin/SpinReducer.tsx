@@ -18,17 +18,24 @@ interface AddAction {
     payload: Spin
 }
 
+interface UpdateConfigAction {
+    type: 'spin/config_update'
+    payload: Partial<SpinConfig>
+}
+
 interface DeleteAction {
     type: 'spin/delete'
     payload: Spin
 }
 
-type IAction = LoadAction | AddAction | DeleteAction
+type IAction = LoadAction | AddAction | UpdateConfigAction | DeleteAction
 
 const defstate: IState = {
     spin: [],
     config: {
-        merek_ins_t: false
+        merek_ins_t: false,
+        title: '',
+        desc: ''
     }
 }
 
@@ -41,13 +48,21 @@ export default function SpinReducer(state: IState = defstate, action: IAction): 
 
         case 'spin/add':
             state.spin = [...state.spin, action.payload]
-            return state
+            return { ...state }
+
+        case 'spin/config_update':
+            state.config = {
+                ...state.config,
+                ...action.payload
+            }
+
+            return { ...state }
 
         case 'spin/delete':
             state.spin = state.spin.filter(
                 spin => spin.name !== action.payload.name
             )
-            return state
+            return { ...state }
         
         default:
             return state
