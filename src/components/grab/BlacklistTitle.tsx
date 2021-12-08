@@ -13,7 +13,10 @@ export default class BlacklistTittle extends React.Component<unknown, IState> {
     }
     async get(): Promise<void> {
         const data = await getBlacklistTitle()
-        this.setState({ blacklists: data.data })
+        if(data.errcode === 0) {
+            this.setState({ blacklists: data.data })
+        }
+        
     }
 
     async save(): Promise<void> {

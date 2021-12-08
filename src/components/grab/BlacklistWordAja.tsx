@@ -13,7 +13,10 @@ export default class BlacklistWordAja extends React.Component<unknown, IState> {
     }
     async get(): Promise<void> {
         const res = await getFilterWord('blacklistWordAja')
-        this.setState({ blacklists: res.data })
+        if(res.errcode === 0) {
+            this.setState({ blacklists: res.data })
+        }
+        
     }
 
     async save(): Promise<void> {

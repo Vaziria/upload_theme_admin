@@ -17,9 +17,10 @@ export interface TokopediaSettingGrab {
     shipping: ShippingData
 }
 
-export async function getTokopediaSettingGrab(): Promise<TokopediaSettingGrab> {
+export async function getTokopediaSettingGrab(): Promise<{errcode: number, data: {data: TokopediaSettingGrab}}> {
     const res = await client.get("/api/settingGrab")
-    return res.data.data.data
+
+    return res.data
 }
 
 export async function updateTokopediaSettingGrab(data: TokopediaSettingGrab): Promise<void> {

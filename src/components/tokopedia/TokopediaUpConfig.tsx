@@ -21,7 +21,9 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
     }
     async componentDidMount(): Promise<void> {
         const data = await getTokopediaSettingGrab()
-        this.setState(data)
+        if(data.errcode === 0){
+            this.setState(data.data.data)
+        }
     }
 
     async save(): Promise<void> {
@@ -33,7 +35,7 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
 
     render(): JSX.Element {
         return <div className="row">
-            <div className="col-12"><label>SETTING TOKOPEDIA : not implemented</label></div>
+            <div className="col-12"><label>SETTING TOKOPEDIA : </label></div>
             <div className="col-lg-8 setgrab">
                 <div className="input-group mb-3 input-group-sm">
                     <div className="input-group-prepend">

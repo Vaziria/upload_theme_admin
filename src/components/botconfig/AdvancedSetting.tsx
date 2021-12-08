@@ -46,6 +46,8 @@ export default class AdvancedSetting extends React.Component<unknown, IState> {
     }
 
     async updateRandom(value: boolean): Promise<void> {
+        this.setState({pilih_random: value})
+        
         await updateProductRandom(value)
     }
 
