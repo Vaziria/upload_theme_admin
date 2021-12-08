@@ -14,3 +14,14 @@ export interface ShopeeSettingGrab {
     shopee_verified: boolean
     name: "shopeeGrabSetting"
 }
+
+
+// terbaru bakalan ini semuanaya  rencananya 
+export interface ShopeeFilterProductCreated {
+    active: boolean
+    min: number
+    max: number
+}
+export interface ShopeeFilterGrab {
+    product_created: ShopeeFilterProductCreated
+}

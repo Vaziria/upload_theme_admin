@@ -1,4 +1,4 @@
-import { ShopeeSettingGrab } from "../../model/shopee/grab_setting"
+import { ShopeeFilterGrab, ShopeeSettingGrab } from "../../model/shopee/grab_setting"
 import client from "../client"
 
 export async function getShopeeGrabSetting(): Promise<ShopeeSettingGrab> {
@@ -11,4 +11,16 @@ export async function updateShopeeGrabSetting(data: ShopeeSettingGrab): Promise<
         data,
         name: 'shopeeGrabSetting'
     })
+}
+
+// api terbaru
+// /shopee/filter_grabber/
+
+export async function getShopeeFilterGrabber(): Promise<ShopeeFilterGrab> {
+    const res = await client.get('/shopee/filter_grabber/')
+    return res.data
+}
+
+export async function updateShopeeFilterGrabber(data: Partial<ShopeeFilterGrab>): Promise<void> {
+    await client.put('/shopee/filter_grabber/', data)
 }
