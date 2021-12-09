@@ -12,7 +12,6 @@ import { UploadMode } from "../../api/bot_configuration"
 import { deleteAccount, getItemCount, getProductAccount, updateAccount } from "../../api/account"
 import Checkbox from "../common/Checkbox"
 import EstimateProduct from "./Setting/EstimateProduct"
-import { emitEvent } from "../../event"
 import dateFormater from "../../utils/date"
 
 interface IProps {
@@ -140,7 +139,7 @@ class Setting extends React.Component<IProps, IState> {
         const { last_up } = this.account
 
         if (last_up) {
-            return dateFormater(last_up * 1000, 'DD MNs YY')
+            return dateFormater(last_up * 1000, 'DD MNs YY at HH:mm:ss')
         }
 
         return ''
