@@ -12,6 +12,7 @@ import { UploadMode } from "../../api/bot_configuration"
 import { deleteAccount, getItemCount, getProductAccount, updateAccount } from "../../api/account"
 import Checkbox from "../common/Checkbox"
 import EstimateProduct from "./Setting/EstimateProduct"
+import { emitEvent } from "../../event"
 import dateFormater from "../../utils/date"
 
 interface IProps {
@@ -87,6 +88,9 @@ class Setting extends React.Component<IProps, IState> {
 
     async updateAkun (): Promise<void> {
         await updateAccount(this.account)
+        emitEvent('show_msg', {
+            msg: 'Success Update Akun..',
+        })
     }
 
     async updateAkunActive (active: boolean): Promise<void> {
@@ -103,6 +107,9 @@ class Setting extends React.Component<IProps, IState> {
     async deleteAkun (): Promise<void> {
         this.setState({ check: false })
         await deleteAccount(this.account.user)
+        emitEvent('show_msg', {
+            msg: 'Success Delete Akun..',
+        })
     }
 
     pasteAkun (): void {
