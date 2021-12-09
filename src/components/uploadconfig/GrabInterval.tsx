@@ -16,8 +16,8 @@ export class GrabInterval extends React.Component<unknown, IState> {
     async componentDidMount(): Promise<void> {
         const data = await getUpInterval()
         this.setState({
-            uptmax: parseInt(data.uptmax),
-            uptmin: parseInt(data.uptmin),
+            uptmax: parseInt(data?.uptmax || "0"),
+            uptmin: parseInt(data?.uptmin || "0"),
         })
     }
 

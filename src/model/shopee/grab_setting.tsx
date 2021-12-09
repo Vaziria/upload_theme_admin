@@ -1,4 +1,4 @@
-import { SearchShopeeShipping } from "./search_shipping";
+import { SearchShopeeShipping } from "./search_shipping"
 
 export type ShopeeSort = "ctime" | "pop" | "sales" | "price"
 
@@ -9,8 +9,19 @@ export interface ShopeeSettingGrab {
     price_max: number
     price_min: number
     rating_filter: number
-    shipping: SearchShopeeShipping[] // belum fix not imlemented
     shopee24: boolean
     shopee_verified: boolean
     name: "shopeeGrabSetting"
+}
+
+
+// terbaru bakalan ini semuanaya  rencananya 
+export interface ShopeeFilterProductCreated {
+    active: boolean
+    min: number
+    max: number
+}
+export interface ShopeeFilterGrab {
+    product_created: ShopeeFilterProductCreated
+    shippings: SearchShopeeShipping[]
 }

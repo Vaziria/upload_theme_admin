@@ -13,7 +13,7 @@ export interface LegacyPayload<K extends SettingName> {
     data: LegacyRes[K]
 }
 
-export async function legacySettingGet(name: SettingName): Promise<{ data: LegacyRes[SettingName] }> {
+export async function legacySettingGet(name: SettingName): Promise<{ data: LegacyRes[SettingName], errcode: number }> {
     const res = await client.get(`/api/setting/get/${name}`)
   return res.data
 }
@@ -23,7 +23,7 @@ export async function legacySettingUpdate<K extends SettingName>(data: LegacyPay
 }
 
 
-export async function getUpInterval(): Promise<{uptmin: string, uptmax: string}> {
+export async function getUpInterval(): Promise<{uptmin?: string, uptmax?: string}> {
     const res = await client.get(`/api/upInterval`)
     return res.data.data
 }

@@ -14,7 +14,10 @@ export default class BlacklistWord extends React.Component<unknown, IState> {
 
     async get(): Promise<void> {
         const res = await getFilterWord('blacklistWord')
-        this.setState({ blacklists: res.data })
+        if(res.errcode === 0) {
+            this.setState({ blacklists: res.data })
+        }
+        
     }
 
     async save(): Promise<void> {

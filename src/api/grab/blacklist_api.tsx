@@ -33,7 +33,7 @@ export async function updateFilterTitle(filter: string[]): Promise<BlacklistTitl
 }
 
 
-export async function getFilterWord(name: 'blacklistWord' | 'blacklistWordAja'): Promise<{ data: string[] }> {
+export async function getFilterWord(name: 'blacklistWord' | 'blacklistWordAja'): Promise<{ data: string[], errcode: number }> {
     const res = await client.get(`/api/filterWord`, {
         params: {
             name

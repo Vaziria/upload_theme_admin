@@ -16,7 +16,10 @@ export default class CropImageConfig extends React.Component<unknown, IState> {
 
     async get(): Promise<void> {
         const data = await legacySettingGet('cropSetting')
-        this.setState({ data: data.data })
+        if (data.errcode === 0) {
+            this.setState({ data: data.data })
+        }
+        
     }
 
     async save(index: number, dat: number): Promise<void> {

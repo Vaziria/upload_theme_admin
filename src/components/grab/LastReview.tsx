@@ -44,21 +44,24 @@ export default class LastReview extends React.Component<unknown, LastReviewData>
       Acivate Review Terakhir
       </label>
     </div>
-    <div className="colss form-check" ng-if="data.active">
-      <div className="input-group input-group-sm mb-3">
-        <div className="input-group-prepend">
-        <span className="input-group-text" id="inputGroup-sizing-sm">Days : </span>
+    {this.state.active && 
+      <div className="colss form-check">
+        <div className="input-group input-group-sm mb-3">
+          <div className="input-group-prepend">
+          <span className="input-group-text" id="inputGroup-sizing-sm">Days : </span>
+          </div>
+
+          <InputNumber
+              className="form-control"
+              aria-describedby="inputGroup-sizing-sm"
+              value={this.state.days}
+
+              changeVal={value => this.save({ days: value })}
+          ></InputNumber>
         </div>
-
-        <InputNumber
-            className="form-control"
-            aria-describedby="inputGroup-sizing-sm"
-            value={this.state.days}
-
-            changeVal={value => this.save({ days: value })}
-        ></InputNumber>
       </div>
-    </div>
+    }
+    
   </div>
   }
 

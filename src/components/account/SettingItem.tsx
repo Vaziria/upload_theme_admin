@@ -13,6 +13,7 @@ import { deleteAccount, getItemCount, getProductAccount, updateAccount } from ".
 import Checkbox from "../common/Checkbox"
 import EstimateProduct from "./Setting/EstimateProduct"
 import { emitEvent } from "../../event"
+import dateFormater from "../../utils/date"
 
 interface IProps {
     akun: IAccount
@@ -141,6 +142,16 @@ class Setting extends React.Component<IProps, IState> {
         this.getItemCount()
     }
 
+    getLastUp (): string {
+        const { last_up } = this.account
+
+        if (last_up) {
+            return dateFormater(last_up * 1000, 'DD MNs YY at HH:mm:ss')
+        }
+
+        return ''
+    }
+
     render (): JSX.Element {
 
         const { item_count, product } = this.state
@@ -243,9 +254,7 @@ class Setting extends React.Component<IProps, IState> {
                             <div className="row">
                                 <div className="col-6">
                                     <div>
-                                        Last Up : <strong>
-                                            {this.account.last_up?.toFixed(3).toString().replace('.', '')}
-                                        </strong>
+                                        Last Up : <strong>{this.getLastUp()}</strong>
                                     </div>
                                 </div>
                                 
