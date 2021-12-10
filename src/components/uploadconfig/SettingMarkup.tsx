@@ -40,7 +40,7 @@ export default class SettingMarkup extends React.Component<unknown, IState> {
             markup: this.state.createMark
         })
         
-        await this.loadMarkItem()
+        await this.loadMarkItem(this.state.markup)
 
 
         emitEvent("show_msg", {
@@ -65,8 +65,7 @@ export default class SettingMarkup extends React.Component<unknown, IState> {
         })
     }
 
-    async loadMarkItem(): Promise<void> {
-        const { markup } = this.state
+    async loadMarkItem(markup: string): Promise<void> {
         const data = await getMarkupData(markup)
         this.setState({
             markups: data.data
@@ -97,7 +96,11 @@ export default class SettingMarkup extends React.Component<unknown, IState> {
     }
 
     async componentDidMount(): Promise<void> {
-        await this.loadMarkItem()
+        await this.loadMarkItem(this.state.markup)
+    }
+    async setMarkup(markup: string): Promise<void> {
+        this.setState({ markup })
+        await this.loadMarkItem(markup)
     }
 
     render(): JSX.Element {
@@ -111,10 +114,7 @@ export default class SettingMarkup extends React.Component<unknown, IState> {
                     </div>
                     <MarkupSelect
                         value={this.state.markup}
-                        onChange={(markup) => {
-                            this.setState({ markup })
-                            this.loadMarkItem()
-                        }}
+                        onChange={(markup) => this.setMarkup(markup)}
                     ></MarkupSelect>
                     </div>
                 </div>
