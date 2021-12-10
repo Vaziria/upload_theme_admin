@@ -18,7 +18,7 @@ const menuItem: MenuItem[] = [
   {
     name: 'Setting',
     path: '/setting',
-    icon: 'fas fa-cloud-download-alt'
+    icon: 'fas fa-cogs'
   },
   {
     name: 'Akun',

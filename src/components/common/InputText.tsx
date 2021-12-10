@@ -11,10 +11,12 @@ interface IProps extends InputProps {
 class InputText extends React.Component<IProps> {
     render (): JSX.Element {
         const props = omit(this.props, ['changeVal'])
+        const value = props.value || ''
         
         return <input
             {...props}
             type="text"
+            value={value}
             onChange={event => this.props.changeVal(event.target.value)}
             className="form-control"
         />

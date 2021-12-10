@@ -1,8 +1,10 @@
-import { Spin, SpinConfig } from "../../model/Spin"
+import { ErrKey, Spin, SpinConfig } from "../../model/Spin"
 
 interface IState {
     spin: Spin[]
     config: SpinConfig
+    configErrKey: ErrKey[]
+    exampleTitle: string
 }
 
 interface LoadAction {
@@ -28,15 +30,29 @@ interface DeleteAction {
     payload: Spin
 }
 
-type IAction = LoadAction | AddAction | UpdateConfigAction | DeleteAction
+interface ExTextAction {
+    type: 'spin/example'
+    payload: string
+}
+
+interface ErrConfigAction {
+    type: 'spin/config_err'
+    payload: ErrKey[]
+}
+
+type IAction = LoadAction | AddAction | UpdateConfigAction | DeleteAction | ExTextAction | ErrConfigAction
 
 const defstate: IState = {
     spin: [],
+    configErrKey: [],
     config: {
         merek_ins_t: false,
         title: '',
-        desc: ''
-    }
+        desc: '',
+        smin: 0,
+        smax: 0
+    },
+    exampleTitle: ''
 }
 
 export default function SpinReducer(state: IState = defstate, action: IAction): IState {
@@ -62,6 +78,14 @@ export default function SpinReducer(state: IState = defstate, action: IAction): 
             state.spin = state.spin.filter(
                 spin => spin.name !== action.payload.name
             )
+            return { ...state }
+        
+        case 'spin/example':
+            state.exampleTitle = action.payload
+            return { ...state }
+        
+        case 'spin/config_err':
+            state.configErrKey = action.payload
             return { ...state }
         
         default:
