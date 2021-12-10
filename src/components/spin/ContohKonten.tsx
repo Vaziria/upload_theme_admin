@@ -73,7 +73,7 @@ class ContohKonten extends React.Component<unknown, IState> {
                     <div className="modal-content">
                     <div className="modal-body mx-3">
                         <div className="md-form mb-5">
-                            <div className="row">
+                            <div className="row mb-5">
                                 <div className="col">
                                     <p className="label-modal">Markup : </p>
                                     <MarkupSelect
@@ -104,13 +104,12 @@ class ContohKonten extends React.Component<unknown, IState> {
                                         }}
                                     />
                                 </div>
+                                <button
+                                    type="button"
+                                    className="btn btn-info btn-sm align-self-end mb-1"
+                                    onClick={() => this.getProductLives()}
+                                >Preview</button>
                             </div>
-
-                            <button
-                                type="button"
-                                className="btn btn-info btn-sm mt-3 mb-3"
-                                onClick={() => this.getProductLives()}
-                            >Reload</button>
 
                             {this.renderProductLives()}
 

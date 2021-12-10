@@ -14,7 +14,7 @@ export async function getExample (title: string): Promise<void> {
 export async function loadSpin (): Promise<void> {
     const spin = await getSpinConfig()
 
-    if (spin.data.title) {
+    if (spin.data?.title) {
         getExample(spin.data.title)
     }
 

@@ -59,8 +59,11 @@ export default function SpinReducer(state: IState = defstate, action: IAction): 
     switch (action.type) {
         case 'spin/load':
             state.spin = action.payload.spin
-            state.config = action.payload.config
-            return state
+            state.config = {
+                ...state.config,
+                ...action.payload.config
+            }
+            return { ...state }
 
         case 'spin/add':
             state.spin = [...state.spin, action.payload]

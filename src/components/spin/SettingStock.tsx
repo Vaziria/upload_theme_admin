@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect, ConnectedProps } from 'react-redux'
 import { deleteDataspin, getDataspinData, postDataspin } from '../../api/spin'
+import { emitEvent } from '../../event'
 import { RootState } from '../../features'
 import { updateConfig } from '../../features/spin'
 import { InputNumber } from '../common/InputNumber'
@@ -51,6 +52,9 @@ class SettingStock extends React.Component<PropsFromRedux, IState> {
     async saveDataspin (): Promise<void> {
         const { name, data } = this.state
         await postDataspin(name, data)
+        emitEvent('show_msg', {
+            msg: 'Success Save List..',
+        })
     }
 
     render (): JSX.Element {
