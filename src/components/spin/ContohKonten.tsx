@@ -1,16 +1,26 @@
 import React from 'react'
 import client from '../../api/client'
+import currency from '../../utils/currency'
 import HastagSelect from '../common/HastagSelect'
 import MarkupSelect from '../common/MarkupSelect'
 import SpinSelect from '../common/SpinSelect'
 
 type Action = 'product'
 
+type MarkupDebug = {
+    harga_asli: number
+    up_percent?: number
+    up_price: number
+    up_fix?: number
+    harga_up: number
+}
+
 type ProductLive = {
     name: string
     price: number
     price_untung: number
     desc: string
+    markup_debug: MarkupDebug
 }
 
 interface IState {
@@ -42,23 +52,13 @@ class ContohKonten extends React.Component<unknown, IState> {
         this.setState({ product_lives: res.data })
     }
 
-    renderProductLives (): JSX.Element[] {
-        const productLives: JSX.Element[] = []
-
-        this.state.product_lives
-            .forEach((prod_live, key) => productLives.push(
-                <div key={key}>
-                    <h5 className="judul-modal">{prod_live.name}</h5>
-                    <h6>Harga Asli : {prod_live.price} {'=>'} Markup : {prod_live.price_untung}</h6>
-                    <pre>{prod_live.desc}</pre>
-                </div>
-            ))
-
-        return productLives
-    }
-
     render (): JSX.Element {
-        const { payload } = this.state
+        const { payload, product_lives } = this.state
+        const defaultMarkup: MarkupDebug = {
+            harga_asli: 0,
+            up_price: 0,
+            harga_up: 0
+        }
         
         return <>
             <div
@@ -73,7 +73,7 @@ class ContohKonten extends React.Component<unknown, IState> {
                     <div className="modal-content">
                     <div className="modal-body mx-3">
                         <div className="md-form mb-5">
-                            <div className="row mb-5">
+                            <div className="row mb-3">
                                 <div className="col">
                                     <p className="label-modal">Markup : </p>
                                     <MarkupSelect
@@ -110,8 +110,31 @@ class ContohKonten extends React.Component<unknown, IState> {
                                     onClick={() => this.getProductLives()}
                                 >Preview</button>
                             </div>
+                            <p className="warn"><i>
+                                ** harga keseluruhan dibulatkan ke perseribuan
+                            </i></p>
 
-                            {this.renderProductLives()}
+                            {product_lives.map((prod, key) => {
+                                const markup_debug = {
+                                    ...defaultMarkup,
+                                    ...prod.markup_debug
+                                }
+
+                                return <div key={key}>
+                                    <h5 className="judul-modal">{prod.name}</h5>
+                                    <h6 className='judul-modal mb-0'>Harga Asli : {currency(markup_debug.harga_asli)}</h6>
+                                    <h6 className='judul-modal mb-0'>
+                                        {markup_debug.up_percent && `Di up ${markup_debug.up_percent.toFixed(1)}%, `}
+                                        Harga markup: {currency(markup_debug.up_price)}
+                                    </h6>
+                                    <h6 className='judul-modal'>
+                                        {markup_debug.up_fix && `Biaya tambahan ${currency(markup_debug.up_fix)}, `}
+                                        Harga final: {currency(markup_debug.harga_up)}
+                                    </h6>
+                                    <pre>{prod.desc}</pre>
+                                </div>
+                            })}
+                            {/* {this.renderProductLives()} */}
 
                         </div>
                     </div>
