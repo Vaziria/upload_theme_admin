@@ -27,17 +27,17 @@ export default function HastagReducer(state: IState = defstate, action: IAction)
     switch (action.type) {
         case 'hastag/load':
             state.hastags = action.payload
-            return state
+            return { ...state }
 
         case 'hastag/add':
             state.hastags = [...state.hastags, action.payload]
-            return state
+            return { ...state }
 
         case 'hastag/delete':
             state.hastags = state.hastags.filter(
                 hastag => hastag !== action.payload
             )
-            return state
+            return { ...state }
         
         default:
             return state

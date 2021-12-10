@@ -4,7 +4,7 @@ import { RootState } from "../../features"
 
 function mapState(state: RootState){
     return {
-      spins: state.SpinReducer.spin
+        spins: state.SpinReducer.spin
     }
   }
   
@@ -23,9 +23,9 @@ class SpinSelect extends React.Component<IProp> {
             onChange={(event) => {
                 const spin = event.target.value
                 this.props.onChange(spin)
-              }}
+            }}
         >
-            {!this.props.value && <option value=''></option>}
+            <option value=''>None</option>
             {this.props.spins.map(spin => 
                 <option
                     key={spin.name}

@@ -11,9 +11,14 @@ interface MenuItem {
 
 const menuItem: MenuItem[] = [
   {
+    name: 'Spin',
+    path: '/spin',
+    icon: 'fas fa-font'
+  },
+  {
     name: 'Setting',
     path: '/setting',
-    icon: 'fas fa-cloud-download-alt'
+    icon: 'fas fa-cogs'
   },
   {
     name: 'Akun',
@@ -74,7 +79,6 @@ class SideNav extends React.Component<RouteComponentProps> {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent-4" ng-controller="rootNavController">
             <ul className="list-group list-group-flush ul-navi-custom">
-              <a href="/#!/spin" className="list-group-item navi-custom"><i className="fab fa-less"></i> Spin</a>
               { menuItem.map((menu) => this.renderLink(menu)) }
             </ul>
           </div>
