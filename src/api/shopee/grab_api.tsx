@@ -1,8 +1,13 @@
 import { ShopeeFilterGrab, ShopeeSettingGrab } from "../../model/shopee/grab_setting"
 import client from "../client"
 
-export async function getShopeeGrabSetting(): Promise<ShopeeSettingGrab> {
+export async function getShopeeGrabSetting(): Promise<ShopeeSettingGrab | false > {
     const res = await client.get('/api/config/shopeeGrabSetting')
+    
+    if(Object.keys(res.data.data).length === 0){
+        console.log(res.data, 'asdasdasdas')
+        return false
+    }
     return res.data.data
 }
 

@@ -55,8 +55,13 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
         const setting = await getShopeeGrabSetting()
         const settingfilter = await getShopeeFilterGrabber()
 
+        if(setting !== false) {
+            this.setState({
+                settingGrab: setting,
+            })
+        }
+
         this.setState({
-            settingGrab: setting,
             settingFilter: settingfilter
         })
     }
