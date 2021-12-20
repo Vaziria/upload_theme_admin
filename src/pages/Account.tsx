@@ -11,7 +11,7 @@ import SettingItem from '../components/account/SettingItem'
 import { getUploadMode, UploadMode } from '../api/bot_configuration'
 import { IAccount } from '../model/Account'
 
-interface IState {
+export interface IState {
     kurirs: number[]
     query: AccountQuery
     paging: AccountPaging
@@ -119,9 +119,9 @@ class AccountPage extends React.Component<unknown, IState> {
         const settingItems: JSX.Element[] = []
         this.accountRefs = []
 
-        paging.data.forEach((akun, index) => {
+        paging.data.forEach(akun => {
             settingItems.push(<SettingItem
-                key={index}
+                key={akun._id}
                 ref={ref => {
                     if (ref) this.accountRefs.push(ref)
                 }}
@@ -133,7 +133,7 @@ class AccountPage extends React.Component<unknown, IState> {
             />)
         })
 
-        return <div className="col-lg-12" style={{ marginTop: 20 }}>
+        return <div id="itemContainer" className="col-lg-12" style={{ marginTop: 20 }}>
             {settingItems}
         </div>
     }
