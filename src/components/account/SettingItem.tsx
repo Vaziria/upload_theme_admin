@@ -9,9 +9,8 @@ import Hastag from "./Setting/Hastag"
 import Collection from "./Setting/Collection"
 import LimitPost from "./Setting/LimitPost"
 import { UploadMode } from "../../api/bot_configuration"
-import { deleteAccount, getItemCount, getProductAccount, updateAccount } from "../../api/account"
+import { deleteAccount, getProductAccount, updateAccount } from "../../api/account"
 import Checkbox from "../common/Checkbox"
-import EstimateProduct from "./Setting/EstimateProduct"
 import { emitEvent } from "../../event"
 import dateFormater from "../../utils/date"
 
@@ -55,30 +54,6 @@ class Setting extends React.Component<IProps, IState> {
                 ...item
             }
         })
-    }
-
-    async getItemCount (): Promise<void> {
-        const { akun, mode } = this.props
-        let categs: number[] = []
-        let lastCateg = 0
-
-        if (mode === 'tokopedia') {
-            categs = akun.tokped_categ.map(cat => parseInt(cat))
-        } else {
-            categs = akun.shopee_categ
-        }
-
-        categs = categs.filter(categ => categ)
-        if (categs.length) {
-            lastCateg = categs[categs.length - 1]
-        }
-
-        const item_count = await getItemCount(
-            akun.user,
-            lastCateg,
-            mode
-        )
-        this.setState({ item_count })
     }
 
     async getProductCount (): Promise<void> {
@@ -136,10 +111,6 @@ class Setting extends React.Component<IProps, IState> {
                 }
             })
         }
-    }
-
-    componentDidMount (): void {
-        this.getItemCount()
     }
 
     getLastUp (): string {
@@ -256,10 +227,6 @@ class Setting extends React.Component<IProps, IState> {
                                     <div>
                                         Last Up : <strong>{this.getLastUp()}</strong>
                                     </div>
-                                </div>
-                                
-                                <div className="col-6">
-                                    <EstimateProduct akun={this.account} />
                                 </div>
                             </div>
 

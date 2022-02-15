@@ -14,7 +14,6 @@ interface IProps {
     query: AccountQuery
     paging: AccountPaging
     updateQuery (query: AccountQuery): void
-    refreshProdCount (): void
     updateAll(): void
     deleteAll(): void
     pasteAll(): void
@@ -24,10 +23,6 @@ interface IProps {
 }
 
 class SettingBulkAccount extends React.Component<IProps> {
-
-    refreshProdCount (): void {
-        this.props.refreshProdCount()
-    }
 
     updateAll (): void {
         this.props.updateAll()
@@ -96,7 +91,6 @@ class SettingBulkAccount extends React.Component<IProps> {
                 <div className="col-lg-6">
                     <button
                         className="btn btn-info btn-sm"
-                        onClick={() => this.refreshProdCount()}
                     >Refresh Jumlah Product</button>
 
                     <div className="col-sm">
