@@ -14,6 +14,7 @@ import { loadMarkup } from './features/markup'
 import { loadSpin } from './features/spin'
 import { loadCollection } from './features/collection'
 import { loadHastags } from './features/hastag'
+import { RecoilRoot } from "recoil"
 
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
@@ -38,6 +39,7 @@ export default class App extends React.Component {
   render(): JSX.Element {
     return (
       <Provider store={store}>
+        <RecoilRoot>
         <PersistGate loading={null}  persistor={persistor}>
           <BrowserRouter basename="v2">
             <div className="row">
@@ -63,6 +65,7 @@ export default class App extends React.Component {
           </BrowserRouter>
           
         </PersistGate>
+        </RecoilRoot>
       </Provider>
     )
   }
