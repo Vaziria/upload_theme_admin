@@ -4,5 +4,6 @@ export interface IShopeeShipping {
     display_name: string
     name_key: string
     parent_channel_id: number
+    is_mask_channel: boolean
 }
   

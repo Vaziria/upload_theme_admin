@@ -2,6 +2,7 @@ import React from "react"
 import { getBotConfiguration, updateBotConfiguration } from "../api/bot_configuration"
 import { deletePromoTask, getPromoTask, runPromo, saveTask } from "../api/shopee/promo"
 import { InputNumber } from "../components/common/InputNumber"
+import KurirChanger from "../components/shopee/task/KurirChanger"
 import LiburTask from "../components/shopee/task/LiburTask"
 import { PromoTaskDelete } from "../components/shopee/task/PromoTaskDelete"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
@@ -19,6 +20,7 @@ const taskTitle: TaskTitle = {
   promosi: 'Add Promo Task',
   update_product: 'Update Price Arsip',
   libur: 'Libur Task',
+  kurir_changer: 'Kurir Changer'
 }
 
 interface IState {
@@ -133,7 +135,17 @@ export default class PromoPage extends React.Component<unknown, IState> {
         update={(id, task) => this.updateTask(id, task)}
         delete={id => this.deleteTask(id)}
       ></UpdatedProductTask>
-    } else {
+    } 
+    
+    else if (task.task_type === 'kurir_changer'){
+      return <KurirChanger
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></KurirChanger>
+    }
+
+    else {
       return <PromoTaskDelete
         item={task}
         update={(id, task) => this.updateTask(id, task)}
