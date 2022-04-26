@@ -46,12 +46,6 @@ class AccountPage extends React.Component<unknown, IState> {
         this.setState({ mode })
     }
 
-    refreshProdCount (): void {
-        this.accountRefs.map(ref => {
-            ref.getItemCount()
-        })
-    }
-
     componentDidMount (): void {
         this.getUploadMode()
         this.getAccounts()
@@ -156,7 +150,6 @@ class AccountPage extends React.Component<unknown, IState> {
                     this.setState({ query })
                     setTimeout(() => this.getAccounts(), 300)
                 }}
-                refreshProdCount={() => this.refreshProdCount()}
                 updateAll={() => this.updateAll()}
                 deleteAll={() => this.deleteAll()}
                 pasteAll={() => this.pasteAll()}

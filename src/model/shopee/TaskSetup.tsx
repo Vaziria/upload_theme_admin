@@ -15,7 +15,7 @@ type IListType = '' | 'name'
 type ISearchType = 'name'
 type ISource = 'seller_center'
 
-export const taskTypes = ['promosi', 'delete_promo', 'update_product'] as const
+export const taskTypes = ['promosi', 'delete_promo', 'update_product', 'libur', 'kurir_changer'] as const
 
 export type TaskType = typeof taskTypes[number]
 
@@ -69,7 +69,24 @@ export interface IUpdateProductTask {
   }
 }
 
-export type ITask = IPromosiTask | IPromosiDeleteTask | IUpdateProductTask
+export interface ILiburTask {
+  id: string
+  task_type: 'libur'
+  akuns: IAkun[]
+  libur: boolean
+
+}
+
+export interface IKurirChangerTask {
+  id: string
+  task_type: 'kurir_changer'
+  akuns: IAkun[]
+  config: {
+    active_ids: number[]
+  }
+}
+
+export type ITask = IPromosiTask | IPromosiDeleteTask | IUpdateProductTask | ILiburTask | IKurirChangerTask
 
 export function createTask(tipe: TaskType): ITask {
   const idnya = uuid.v4()
@@ -113,13 +130,34 @@ export function createTask(tipe: TaskType): ITask {
 
     return task
     
-  } else {
+  } else if(tipe === 'delete_promo') {
 
 
     const task: IPromosiDeleteTask = {
       id: idnya,
       task_type: "delete_promo",
       akuns: []
+    }
+
+    return task
+  } else if(tipe === 'kurir_changer') {
+    const task: IKurirChangerTask = {
+      id: idnya,
+      task_type: "kurir_changer",
+      config: {
+        active_ids: []
+      },
+      akuns: []
+    }
+
+    return task
+  } else {
+
+    const task: ILiburTask = {
+      id: idnya,
+      task_type: "libur",
+      akuns: [],
+      libur: true
     }
 
     return task

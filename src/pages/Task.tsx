@@ -2,6 +2,8 @@ import React from "react"
 import { getBotConfiguration, updateBotConfiguration } from "../api/bot_configuration"
 import { deletePromoTask, getPromoTask, runPromo, saveTask } from "../api/shopee/promo"
 import { InputNumber } from "../components/common/InputNumber"
+import KurirChanger from "../components/shopee/task/KurirChanger"
+import LiburTask from "../components/shopee/task/LiburTask"
 import { PromoTaskDelete } from "../components/shopee/task/PromoTaskDelete"
 import PromoTaskItem from "../components/shopee/task/PromoTaskItem"
 import UpdatedProductTask from "../components/shopee/task/UpdateProductTask"
@@ -16,7 +18,9 @@ type TaskTitle  = {
 const taskTitle: TaskTitle = {
   delete_promo: "Delete Promo Task",
   promosi: 'Add Promo Task',
-  update_product: 'Update Price Arsip'
+  update_product: 'Update Price Arsip',
+  libur: 'Libur Task',
+  kurir_changer: 'Kurir Changer'
 }
 
 interface IState {
@@ -116,13 +120,32 @@ export default class PromoPage extends React.Component<unknown, IState> {
       ></PromoTaskItem>
 
     }
+
+    else if (task.task_type === 'libur'){
+      return <LiburTask
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></LiburTask>
+    }
+
     else if (task.task_type === 'update_product'){
       return <UpdatedProductTask
         item={task}
         update={(id, task) => this.updateTask(id, task)}
         delete={id => this.deleteTask(id)}
       ></UpdatedProductTask>
-    } else {
+    } 
+    
+    else if (task.task_type === 'kurir_changer'){
+      return <KurirChanger
+        item={task}
+        update={(id, task) => this.updateTask(id, task)}
+        delete={id => this.deleteTask(id)}
+      ></KurirChanger>
+    }
+
+    else {
       return <PromoTaskDelete
         item={task}
         update={(id, task) => this.updateTask(id, task)}

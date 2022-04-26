@@ -1,5 +1,4 @@
 import { IAccount } from "../model/Account"
-import { UploadMode } from "./bot_configuration"
 import client from "./client"
 
 // account query
@@ -57,16 +56,6 @@ export async function getAccounts (query: AccountQuery): Promise<{ akuns: IAccou
 	})
 
 	return res.data
-}
-
-export async function getItemCount (user: string, cat: number, mode: UploadMode): Promise<number> {
-	const res = await client.post('/api/productCount', [
-		user,
-		cat,
-		mode
-	])
-
-	return res.data.data
 }
 
 export async function getProductAccount (akun: IAccount): Promise<number> {
