@@ -15,7 +15,7 @@ type IListType = '' | 'name'
 type ISearchType = 'name'
 type ISource = 'seller_center'
 
-export const taskTypes = ['promosi', 'delete_promo', 'update_product', 'libur', 'kurir_changer'] as const
+export const taskTypes = ['promosi', 'delete_promo', 'update_product', 'libur', 'kurir_changer', 'assisten_chat'] as const
 
 export type TaskType = typeof taskTypes[number]
 
@@ -58,6 +58,39 @@ export interface IPromosiDeleteTask {
   akuns: IAkun[]
 }
 
+
+interface DayItem {
+  start: string
+  end: string
+    
+}
+
+export interface IAssistenChatTask {
+  id: string
+  task_type: 'assisten_chat'
+  akuns: IAkun[]
+
+  chat_setting: {
+    auto_reply_content: string
+    auto_reply_status: 'disabled' | 'enabled'
+  }
+
+  offline_reply: {
+    content: string
+    status: 'disabled' | 'enabled'
+    timezone: number
+    working_days: {
+      fri?: DayItem
+      mon?: DayItem
+      sat?: DayItem
+      sun?: DayItem
+      thu?: DayItem
+      tue?: DayItem
+      wed?: DayItem
+    }
+  }
+}
+
 // typing bakalan pindah di yang lebih spesifik not implemeted
 export interface IUpdateProductTask {
   id: string
@@ -86,7 +119,7 @@ export interface IKurirChangerTask {
   }
 }
 
-export type ITask = IPromosiTask | IPromosiDeleteTask | IUpdateProductTask | ILiburTask | IKurirChangerTask
+export type ITask = IPromosiTask | IPromosiDeleteTask | IUpdateProductTask | ILiburTask | IKurirChangerTask | IAssistenChatTask
 
 export function createTask(tipe: TaskType): ITask {
   const idnya = uuid.v4()
@@ -151,7 +184,28 @@ export function createTask(tipe: TaskType): ITask {
     }
 
     return task
-  } else {
+  } else if(tipe == 'assisten_chat'){
+
+    const task: IAssistenChatTask = {
+      id: idnya,
+      akuns: [],
+      chat_setting: {
+        auto_reply_content: 'Selamat Datang Di toko Kami !',
+        auto_reply_status: 'disabled'
+      },
+      offline_reply: {
+        content: 'selamat datang di toko kami !',
+        status: 'disabled',
+        timezone: 7,
+        working_days: {}
+      },
+      task_type: 'assisten_chat'
+    }
+
+    return task
+  }
+
+  else {
 
     const task: ILiburTask = {
       id: idnya,
