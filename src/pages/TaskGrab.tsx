@@ -1,5 +1,6 @@
 import React from "react"
 import { deleteTask, getTaskAll, runGrab, runUploadAndGrab, saveTask } from "../api/task"
+import ShopeeConfig from "../components/grab/ShopeeConfig"
 import TaskItem from "../components/grab/TaskItem"
 import { emitEvent } from "../event"
 import { createTaskId, ITask } from "../model/Task"
@@ -117,22 +118,32 @@ export class TaskGrab extends React.Component<unknown, IState> {
 
     return (
       <div className="mt-custom">
-        <h2 className="mt-4">Tasker :</h2>
+        <div className="row mt-4">
+          <div className="col-6">
 
-        <button className="btn btn-sm btn-primary"
-          onClick={()=>this.addTask()}
-        >ADD</button>
+            <h2>Tasker :</h2>
 
-        <button className="btn btn-sm btn-success" onClick={()=>this.save()}>SAVE</button>
+            <button className="btn btn-sm btn-primary"
+              onClick={()=>this.addTask()}
+            >ADD</button>
 
-        <button className="btn btn-sm btn-primary" onClick={()=>this.run()}>RUN</button>
-        <button className="btn btn-sm btn-warning" onClick={()=>this.grab()}>GRAB</button>
-        <hr></hr>
-        <div>
-          { tasks.map((task) => this.renderTask(task)) }
-          { loading &&
-            <strong>Loading.......</strong>
-          }
+            <button className="btn btn-sm btn-success" onClick={()=>this.save()}>SAVE</button>
+
+            <button className="btn btn-sm btn-primary" onClick={()=>this.run()}>RUN</button>
+            <button className="btn btn-sm btn-warning" onClick={()=>this.grab()}>GRAB</button>
+          </div>
+
+          <ShopeeConfig />
+
+          <div className="col-12">
+            <hr></hr>
+            <div>
+              { tasks.map((task) => this.renderTask(task)) }
+              { loading &&
+                <strong>Loading.......</strong>
+              }
+            </div>
+          </div>
         </div>
       </div>
     )
