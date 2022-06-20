@@ -1,12 +1,15 @@
 import React from "react"
 import { connect, ConnectedProps } from "react-redux"
 import { RootState } from "../../features"
+import { getSearchShopeeShipping } from "../../features/shopee/manifest"
 import { SearchShopeeShipping } from "../../model/shopee/search_shipping"
 import Checkbox from "../common/Checkbox"
+import AddAccount from "../grab/AddAccount"
 
 function mapState(state: RootState){
     return {
-      search_shipping: state.ShopeeManifestReducer.search_shipping,
+        search_shipping: state.ShopeeManifestReducer.search_shipping,
+        is_error: state.ShopeeManifestReducer.shipping_error,
     }
   }
   
@@ -32,6 +35,14 @@ class ShopeeSearchShipping extends React.Component<IProp> {
     }
 
     render(): JSX.Element {
+        if (this.props.is_error) {  
+            return (
+                <div>
+                    <AddAccount onSubmit={getSearchShopeeShipping} />
+                    <p className="red-text">Gagal mengambil data shipping.</p>
+                </div>
+            )
+        }
         
         return <div>
             {

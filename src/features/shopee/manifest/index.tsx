@@ -14,12 +14,24 @@ export async function getShopeeCities(): Promise<void> {
 
 }
 
-export async function getSearchShopeeShipping(): Promise<void> {
-  const res = await client.get('/api/shopee_shipping')
+export function setShopeeShippingError(error: boolean): void {
   store.dispatch({
-    type: 'shopee/manifest/search_shipping',
-    payload: res.data,
+    type: 'shopee/manifest/shipping_error',
+    payload: error,
   })
+}
+
+export async function getSearchShopeeShipping(): Promise<void> {
+  try {
+    setShopeeShippingError(false)
+    const res = await client.get('/api/shopee_shipping')
+    store.dispatch({
+      type: 'shopee/manifest/search_shipping',
+      payload: res.data,
+    })
+  } catch {
+    setShopeeShippingError(true)
+  }
 }
 
 export async function shopeeGetManifest(): Promise<void> {

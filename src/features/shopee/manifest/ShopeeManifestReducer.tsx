@@ -14,6 +14,7 @@ interface IState {
   cities: string[]
   search_shipping: SearchShopeeShipping[]
   shipping: IShopeeShipping[]
+  shipping_error: boolean
 }
 
 interface LoadCategoryAction {
@@ -31,7 +32,12 @@ interface LoadShippingAction {
   payload: SearchShopeeShipping[]
 }
 
-type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction
+interface ShippingErrorAction {
+  type: 'shopee/manifest/shipping_error'
+  payload: boolean
+}
+
+type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction | ShippingErrorAction
 
 const defstate: IState = {
   publicCategory: [],
@@ -39,7 +45,8 @@ const defstate: IState = {
   cities: [],
   ttl: Date.now(),
   search_shipping: [],
-  shipping: []
+  shipping: [],
+  shipping_error: false
 }
 
 const persistConfig = {
@@ -56,6 +63,9 @@ function ShopeeManifestReducer(state: IState = defstate, action: IAction): IStat
     
     case 'shopee/manifest/search_shipping':
       return { ...state, search_shipping: action.payload }
+
+    case 'shopee/manifest/shipping_error':
+      return { ...state, shipping_error: action.payload }
 
     default:
       return state

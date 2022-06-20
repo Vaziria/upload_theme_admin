@@ -3,7 +3,11 @@ import React, { FormEvent } from "react"
 import { getAccount, IAddAccount, updateAccount } from "../../api/grab/add_account"
 import InputText from "../common/InputText"
 
-function AddAccount(): JSX.Element {
+interface IProps {
+    onSubmit?: (account: IAddAccount) => void
+}
+
+function AddAccount(props: IProps): JSX.Element {
 
     const [username, setUsername] = React.useState("")
     const [akunPayload, setAkunPayload] = React.useState<IAddAccount>({
@@ -25,6 +29,7 @@ function AddAccount(): JSX.Element {
         setAkunPayload(account)
         setUsername(account.username)
         closeModal()
+        props.onSubmit?.(account)
     }
 
     React.useEffect(() => {
