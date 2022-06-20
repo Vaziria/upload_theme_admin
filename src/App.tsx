@@ -18,15 +18,16 @@ import { RecoilRoot } from "recoil"
 
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
-    await shopeeGetManifest()
-    await getShopeeCities()
-    await getSearchShopeeShipping()
-
-    await tokopediaGetManifest()
-    await loadSpin()
-    await loadCollection()
-    await loadHastags()
-    await loadMarkup()
+    Promise.all([
+      shopeeGetManifest(),
+      getShopeeCities(),
+      getSearchShopeeShipping(),
+      tokopediaGetManifest(),
+      loadSpin(),
+      loadCollection(),
+      loadHastags(),
+      loadMarkup(),
+    ])
 
     try {
       await setupV2Notification()
