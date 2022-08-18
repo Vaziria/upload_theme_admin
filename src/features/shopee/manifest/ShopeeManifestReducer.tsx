@@ -7,6 +7,15 @@ import { IShopeeShipping } from "../../../model/shopee/shipping"
 
 const hourTtl = 3*60*60*1000
 
+
+interface UploadProductShipping {
+  channel_id: number
+  name: string
+  display_name: string
+  name_key: string
+  parent_channel_id: number
+}
+
 interface IState {
   publicCategory: IPublicCateg[]
   category: IShopeeCateg[]
@@ -14,6 +23,7 @@ interface IState {
   cities: string[]
   search_shipping: SearchShopeeShipping[]
   shipping: IShopeeShipping[]
+  upload_product_shipping: UploadProductShipping[]
   shipping_error: boolean
 }
 
@@ -27,6 +37,11 @@ interface LoadCityAction {
   payload: string[]
 }
 
+interface LoadUploadProductShipping {
+  type: 'shopee/manifest/upload_product_shipping',
+  payload: UploadProductShipping[]
+}
+
 interface LoadShippingAction {
   type: 'shopee/manifest/search_shipping',
   payload: SearchShopeeShipping[]
@@ -37,7 +52,7 @@ interface ShippingErrorAction {
   payload: boolean
 }
 
-type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction | ShippingErrorAction
+type IAction = LoadCategoryAction | LoadCityAction | LoadShippingAction | ShippingErrorAction | LoadUploadProductShipping
 
 const defstate: IState = {
   publicCategory: [],
@@ -46,6 +61,7 @@ const defstate: IState = {
   ttl: Date.now(),
   search_shipping: [],
   shipping: [],
+  upload_product_shipping: [],
   shipping_error: false
 }
 
@@ -60,6 +76,9 @@ function ShopeeManifestReducer(state: IState = defstate, action: IAction): IStat
       return { ...state, ttl: Date.now() + hourTtl, ...action.payload }
     case 'shopee/manifest/cities':
       return { ...state, cities: action.payload }
+
+    case 'shopee/manifest/upload_product_shipping':
+      return { ...state, upload_product_shipping: action.payload }
     
     case 'shopee/manifest/search_shipping':
       return { ...state, search_shipping: action.payload }

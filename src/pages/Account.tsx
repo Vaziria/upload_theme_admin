@@ -6,10 +6,10 @@ import {
     defpaging, defquery, getAccounts
 } from '../api/account'
 import SettingBulkAccount from '../components/account/SettingBulkAccount'
-import SettingShipping from '../components/account/SettingShipping'
 import SettingItem from '../components/account/SettingItem'
 import { getUploadMode, UploadMode } from '../api/bot_configuration'
 import { IAccount } from '../model/Account'
+import UploadShipping from '../components/shopee/UploadShipping'
 
 export interface IState {
     kurirs: number[]
@@ -141,7 +141,9 @@ class AccountPage extends React.Component<unknown, IState> {
         }}>
             {/* settings */}
             <NewAccount onAddAccount={() => this.getAccounts()} />
-            <SettingShipping />
+            <UploadShipping />
+            {/* <SettingShipping /> */}
+            
             <div className="clearfix"></div>
             <SettingBulkAccount
                 query={query}

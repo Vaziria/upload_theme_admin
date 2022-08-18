@@ -1,3 +1,7 @@
+state management bakalan pindah ke recoil
+
+
+
 # references
 https://www.pluralsight.com/guides/add-a-base-url-to-an-app-using-redux-router-+-react-router
 https://andrebnassis.medium.com/setting-eslint-on-a-react-typescript-project-2021-1190a43ffba
