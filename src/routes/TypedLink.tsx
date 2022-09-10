@@ -9,6 +9,7 @@ export interface TypedLinkProps<P extends Path> extends LinkProps {
   replace?: boolean,
   component?: React.ComponentType,
   children?: React.ReactNode,
+  className?: string,
 }
 
 export default function TypedLink<P extends Path>(props: TypedLinkProps<P>): JSX.Element {
