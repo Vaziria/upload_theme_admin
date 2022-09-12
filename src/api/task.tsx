@@ -27,3 +27,8 @@ export async function runUploadAndGrab(): Promise<void> {
 export async function runGrab(): Promise<void> {
   await client.get('/api/grabScheduler?custom=true')
 }
+
+export async function generateCategoryFacetCsv(): Promise<{ errcode: number }> {
+  const res = await client.get("/v4/shopee/search_filter/dump_facet_category")
+  return res.data
+}

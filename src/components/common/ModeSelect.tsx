@@ -24,6 +24,10 @@ const listItem: OptItem[] = [
       display_name: 'kategori csv'
     },
     {
+      key: 'dump_category_facet',
+      display_name: 'kategori facet csv'
+    },
+    {
       key: 'keyword',
       display_name: 'keyword'
     },
@@ -40,20 +44,23 @@ interface IProp {
 
 export default class ModeSelect extends React.Component<IProp> {
   renderOption(item: OptItem): JSX.Element {
-    return <option value={item.key} key={item.key}>{ item.display_name }</option>
+    const props: JSX.IntrinsicElements["option"] = {};
+    props.value = props.key=  item.key;
+    props.children = item.display_name;
+
+    return <option {...props} />
   }
 
   render(): JSX.Element {
-    return (
-      <select className="form-control"
-        value={this.props.value}
-        onChange={(event) => {
-          // eslint-disable-next-line
-          const value = event.target.value as any
-          this.props.onChange(value)
-        }}>
-        { listItem.map(this.renderOption) }
-      </select>
-    )
+    const props: JSX.IntrinsicElements["select"] = {}
+    props.value = this.props.value
+    props.className = "form-control"
+    props.onChange = (event) => {
+      const value = event.target.value as TaskMode
+      this.props.onChange(value)
+    }
+    props.children = listItem.map(this.renderOption)
+
+    return <select {...props} />
   }
 }

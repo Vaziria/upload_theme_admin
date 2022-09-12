@@ -2,7 +2,15 @@ import { MarketList } from "./Common"
 import * as uuid from "uuid"
 import { IPublicCategCsv } from "./shopee/public_category"
 
-export const taskMode = ['toko_username', 'product_url', 'category', 'dump_category', 'url', 'keyword'] as const
+export const taskMode = [
+    'toko_username',
+    'product_url',
+    'category',
+    'dump_category',
+    'url',
+    'keyword',
+    'dump_category_facet',
+] as const;
 export type TaskMode = typeof taskMode[number]
 
 export interface ITask {
