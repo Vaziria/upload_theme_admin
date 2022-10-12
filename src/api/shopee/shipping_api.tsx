@@ -16,11 +16,9 @@ export async function getShippingWeight(url: string): Promise<ShippingWeight> {
     const shopid = data[data.length - 2]
     const itemid = data[data.length - 1]
     
-    const res = await client.get('/v3/predictweight/predict', {
-        params: {
-            shopid,
-            itemid
-        }
+    const res = await client.post('/v4/shopee/weight/predict', {
+        shopid,
+        itemid
     })
 
     return res.data
