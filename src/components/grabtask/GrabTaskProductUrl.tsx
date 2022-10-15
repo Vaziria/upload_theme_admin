@@ -7,6 +7,14 @@ export default class GrabTaskProductUrl extends React.Component<PropGrabTask> {
     render(): JSX.Element {
         const { task, updateData } = this.props
 
+        const checkboxProps: JSX.IntrinsicElements["input"] = {}
+        checkboxProps.type = "checkbox"
+        checkboxProps.defaultChecked = task.use_filter
+        checkboxProps.onChange = () => {
+            const use_filter = !this.props.task.use_filter
+            updateData({ use_filter })
+        }
+
         const inputProps: JSX.IntrinsicElements["input"] = {}
         inputProps.className = "form-control"
         inputProps.type = "text"
@@ -18,6 +26,7 @@ export default class GrabTaskProductUrl extends React.Component<PropGrabTask> {
         }
 
         return <div>
+            <input {...checkboxProps} /> use filter
             <input {...inputProps} />
         </div>
     }
