@@ -30,7 +30,7 @@ interface IProps extends PropsFromRedux {
 class StatCategory extends React.Component<IProps> {
 
   async deleteCateg(categ: ICategoryStat): Promise<void> {
-    await deleteStatCateg(categ._id)
+    await deleteStatCateg(categ._id, this.props.is_public)
 
     const name = categ.name.join(' > ')
 

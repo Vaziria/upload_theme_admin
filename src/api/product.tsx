@@ -72,7 +72,12 @@ export async function deleteProducts(params: IDeleteQuery): Promise<{ errcode: b
   return res.data
 }
 
-export async function deleteStatCateg(categid: number): Promise<{ errcode: boolean }> {
-  const res = await client.post(`/api/deleteItem`, [categid, null])
+export async function deleteStatCateg(categid: number, is_public: boolean): Promise<{ errcode: boolean }> {
+  let url = `/api/deleteItem`
+  if (is_public){
+    url = `/api/deleteItem?is_public=${is_public}`
+  }
+
+  const res = await client.post(url, [categid, null])
   return res.data
 }
