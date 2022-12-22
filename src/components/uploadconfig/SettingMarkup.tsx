@@ -68,7 +68,8 @@ export default class SettingMarkup extends React.Component<unknown, IState> {
     async loadMarkItem(markup: string): Promise<void> {
         const data = await getMarkupData(markup)
         this.setState({
-            markups: data.data
+            markups: data.data,
+            fix_mark: data.fix_mark,
         })
     }
 
