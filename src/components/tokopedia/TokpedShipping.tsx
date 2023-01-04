@@ -1,5 +1,4 @@
 import React from "react"
-import { ShippingData } from "../../api/tokopedia/grab_api"
 import Checkbox from "../common/Checkbox"
 
 interface CheckItem {
@@ -8,8 +7,8 @@ interface CheckItem {
 }
 
 interface IProp {
-    value: ShippingData
-    onChange: (value: ShippingData) => unknown
+    value: number[]
+    onChange: (value: number[]) => unknown
 }
 
 const listShipping: CheckItem[] = [
@@ -28,17 +27,16 @@ const listShipping: CheckItem[] = [
 ]
 
 export default class TokpedShiping extends React.Component<IProp> {
-    setKurir(cek: boolean, index: number, val: number | number[]): void {
-        const value = this.props.value
-        if(!cek){
-            value[index] = undefined
-            delete value[index]
+    setKurir(cek: boolean, val: number[]): void {
+        if(!cek) {
+            const updateValue = this.props.value.filter((v) => !val.includes(Number(v)))
+            this.props.onChange(updateValue)
             
         } else {
-            value[index] = val
+            const updateValue = this.props.value
+            updateValue.push(...val)
+            this.props.onChange(updateValue)
         }
-        this.props.onChange(value)
-
     }
 
     render(): JSX.Element {
@@ -46,15 +44,17 @@ export default class TokpedShiping extends React.Component<IProp> {
 
         {
             listShipping.map((item, index) => {
+                const values = typeof item.value === 'number' ? [item.value] : item.value;
+                const checked = values.every((v) => this.props.value.map(Number).includes(Number(v)));
+
                 return <div key={index}>
                     <Checkbox
                         className="form-check-input"
-                        
-                        checked={this.props.value[index] !== undefined}
-                        onChange={(e) => this.setKurir(e, index, item.value)}
+                        checked={checked}
+                        onChange={(e) => this.setKurir(e, values)}
                     >
                     </Checkbox>
-                     {item.name}<br/>
+                    {item.name}<br/>
 
                 </div>
             })
