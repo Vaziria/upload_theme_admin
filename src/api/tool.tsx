@@ -36,6 +36,16 @@ export async function runDelete(payload: IDeleteQuery): Promise<{ errcode: numbe
   
 }
 
+export interface IDeleteConfig extends IDeleteQuery {
+  akun: string
+}
+
+export async function getDeleteConfig(): Promise<IDeleteConfig> {
+  const res = await client.get('/api/config_delete')
+  return res.data
+  
+}
+
 export interface IConfigDelete {
   category: CategIds[],
   fil_category: boolean,
