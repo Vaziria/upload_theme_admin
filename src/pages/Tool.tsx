@@ -35,6 +35,7 @@ class Tool extends React.Component<PropsFromRedux, IState> {
   async getConfig(): Promise<void> {
     const deleteConfig = await getDeleteConfig()
     
+    // deleteConfig.tanggal = new Date().toISOString()
     if (!deleteConfig.awaltanggal) {
       deleteConfig.awaltanggal = ''
     }
