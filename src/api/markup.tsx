@@ -32,7 +32,7 @@ export async function updateMarkup(name: string, payload: Omit<AddMarkupPayload,
 
 interface MarkupRes {
     name: string
-    fix_harga: string
+    fix_mark: number
     data: MarkupItem[]
 }
 

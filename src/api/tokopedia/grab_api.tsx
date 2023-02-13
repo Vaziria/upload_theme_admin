@@ -1,9 +1,5 @@
 import client from "../client"
 
-export type ShippingData = {
-    [k: number]: number | number[] | undefined
-}
-
 export interface TokopediaSettingGrab {
     preorder: boolean
     condition: string
@@ -14,7 +10,7 @@ export interface TokopediaSettingGrab {
     pmax: number
     pmin: number
     rt: string
-    shipping: ShippingData
+    shipping: number[]
 }
 
 export async function getTokopediaSettingGrab(): Promise<{errcode: number, data: {data: TokopediaSettingGrab}}> {

@@ -1,6 +1,6 @@
 import React from "react"
 import { connect, ConnectedProps } from "react-redux"
-import { cekBot, cekOrder, runDelete, uploadAkun } from "../api/tool"
+import { cekBot, cekOrder, getDeleteConfig, runDelete, uploadAkun } from "../api/tool"
 import Checkbox from "../components/common/Checkbox"
 import DateSelect from "../components/common/DateSelect"
 import { InputNumber } from "../components/common/InputNumber"
@@ -29,6 +29,18 @@ class Tool extends React.Component<PropsFromRedux, IState> {
 
   async componentDidMount(): Promise<void> {
     await getConfig()
+    this.getConfig()
+  }
+
+  async getConfig(): Promise<void> {
+    const deleteConfig = await getDeleteConfig()
+    
+    // deleteConfig.tanggal = new Date().toISOString()
+    if (!deleteConfig.awaltanggal) {
+      deleteConfig.awaltanggal = ''
+    }
+
+    store.dispatch({ type: 'deleter/query', payload: { ...deleteConfig } })
   }
 
   async cek(): Promise<void> {
