@@ -3,6 +3,8 @@ import * as uuid from 'uuid'
 export interface IAkun {
   username: string
   pwd: string
+  email?:string
+  email_pwd?:string
   namespace?: string
 }
 

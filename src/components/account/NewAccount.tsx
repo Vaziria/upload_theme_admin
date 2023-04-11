@@ -2,7 +2,7 @@ import React from 'react'
 import client from '../../api/client'
 import { Account } from '../../model/Account'
 import { IAkun } from '../../model/shopee/TaskSetup'
-import AkunTextarea from '../common/AkunTextarea'
+import AkunTextareaOld from '../common/AkunTextareaOld'
 
 interface IProps {
     onAddAccount (): void
@@ -19,7 +19,7 @@ class BulkAccount extends React.Component<IProps, IState> {
         akuns: []
     }
 
-    akunTextareaRef: AkunTextarea|null = null
+    akunTextareaRef: AkunTextareaOld|null = null
 
     async addAccounts (): Promise<void> {
         const accountPosts: Promise<void>[] = []
@@ -55,7 +55,7 @@ class BulkAccount extends React.Component<IProps, IState> {
 
         return <div className="row bulk">
             <div className="col">
-                <AkunTextarea
+                <AkunTextareaOld
                     ref={ref => this.akunTextareaRef = ref}
                     akuns={akuns}
                     update={akuns => this.setState({ akuns })}

@@ -7,7 +7,7 @@ interface IProp {
   update: (akun: IAkun[]) => any
 }
 
-export default class AkunTextarea extends React.Component<IProp> {
+export default class AkunTextareaOld extends React.Component<IProp> {
   
   textAreaRef: HTMLTextAreaElement|null = null
 
@@ -23,8 +23,6 @@ export default class AkunTextarea extends React.Component<IProp> {
       const lineraw = line.split('|')
       
       let pwd = ''
-      let email = ''
-      let email_pwd = ''
       let namespace = ''
 
       if(lineraw.length > 1){
@@ -32,22 +30,12 @@ export default class AkunTextarea extends React.Component<IProp> {
       }
 
       if(lineraw.length > 2){
-        email = lineraw[2]
-      }
-
-      if(lineraw.length > 3){
-        email_pwd = lineraw[3]
-      }
-
-      if(lineraw.length > 4){
-        namespace = lineraw[4]
+        namespace = lineraw[2]
       }
 
       const akun: IAkun = {
         username: lineraw[0],
         pwd,
-        email,
-        email_pwd,
         namespace
       }
 
@@ -71,7 +59,7 @@ export default class AkunTextarea extends React.Component<IProp> {
         onChange={event => this.onUpdate(event.target.value)}
         rows={7}
         className="form-control"
-        placeholder="username|password|[optional: email]|[optional: email_password]|[optional: namespace]"
+        placeholder="username|password|[optional: namespace]"
       ></textarea>
     )
   }
