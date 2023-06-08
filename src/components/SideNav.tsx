@@ -1,4 +1,5 @@
 import React from "react"
+// import root from 'react-shadow'
 import { RouteComponentProps, withRouter } from "react-router-dom"
 import { Path } from "../routes/path"
 import TypedLink from "../routes/TypedLink"
@@ -48,6 +49,11 @@ const menuItem: MenuItem[] = [
   {
     name: 'Detail Product',
     path: '/productstat',
+    icon: 'far fa-chart-bar'
+  },
+  {
+    name: 'Tokopedia',
+    path: '/toped',
     icon: 'far fa-chart-bar'
   }
 ] 

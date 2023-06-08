@@ -13,6 +13,7 @@ import AccountPage from "../pages/Account"
 import HitungBeratPage from "../pages/shopee/HitungBerat"
 import SpinPage from "../pages/Spin"
 import Test from "../pages/Test"
+import Tokopedia from "../pages/Tokopedia"
 
 export const roothistory = createBrowserHistory()
 
@@ -60,6 +61,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/shopee/berat',
     component: HitungBeratPage
+  },
+  {
+    path: '/toped',
+    component: Tokopedia
   },
   {
     path: '/test',

@@ -16,6 +16,7 @@ import { loadCollection } from './features/collection'
 import { loadHastags } from './features/hastag'
 import { RecoilRoot } from "recoil"
 
+
 export default class App extends React.Component {
   async componentDidMount(): Promise<void>{
     Promise.all([
@@ -42,6 +43,7 @@ export default class App extends React.Component {
       <Provider store={store}>
         <RecoilRoot>
         <PersistGate loading={null}  persistor={persistor}>
+        
           <BrowserRouter basename="v2">
             <div className="row">
     
@@ -50,21 +52,11 @@ export default class App extends React.Component {
     
     
               <div className="col-10">
-                <nav className="navbar fixed-top navbar-light bg-light">
-                  <ul className="justify-content-end mb-0">
-                    <Notif></Notif>
-                  </ul>
-                  <div className="ctrl justify-content-end">
-                    <AlertHead></AlertHead>
-                  </div>
-                </nav>
-                <div className="container-fluid">
-                  <TypedSwitch></TypedSwitch>
-                </div>
+                
+                <TypedSwitch></TypedSwitch>
               </div>
-              </div>
+            </div>
           </BrowserRouter>
-          
         </PersistGate>
         </RecoilRoot>
       </Provider>
