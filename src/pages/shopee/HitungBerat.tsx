@@ -1,5 +1,5 @@
 import React from "react"
-import client from "../../api/client"
+import { clientTokopedia } from "../../api/client"
 import { getShippingWeight } from "../../api/shopee/shipping_api"
 import FloatNumber from "../../components/common/FLoatNumber"
 import { emitEvent } from "../../event"
@@ -21,7 +21,7 @@ export default class HitungBeratPage extends React.Component<unknown, IState> {
     }
 
     async componentDidMount(): Promise<void> {
-        const res = await client.get('/v3/predictweight/load')
+        const res = await clientTokopedia.get('/v3/predictweight/load')
         this.setState({
             predict: res.data.predict_weight
         })
@@ -37,7 +37,7 @@ export default class HitungBeratPage extends React.Component<unknown, IState> {
     }
 
     async save(): Promise<void> {
-        await client.get('/v3/predictweight/save', {
+        await clientTokopedia.get('/v3/predictweight/save', {
             params: {
                 predict: this.state.predict
             }
