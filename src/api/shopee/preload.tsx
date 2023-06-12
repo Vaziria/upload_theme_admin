@@ -4,7 +4,7 @@ import { ShopeeManifest } from "../../model/shopee/system"
 import client, { clientTokopedia } from "../client"
 
 export async function shopeeManifest(): Promise<ShopeeManifest> {
-    const res = await clientTokopedia.get('/shopee/manifest/')
+    const res = await clientTokopedia.get('/shopee/manifest')
     return res.data
 }
 
