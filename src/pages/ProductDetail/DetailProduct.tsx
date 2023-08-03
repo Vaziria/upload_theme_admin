@@ -1,15 +1,57 @@
-import React from "react"
-import { aggsCategToCsv, deleteNamespace, getNamespaces, shopeeResyncCateg, statCategory, statKota, statPrice } from "../api/product"
-import MpSelect from "../components/common/MpSelect"
-import SelectRangeHarga from "../components/common/SelectRangeHarga"
-import StatCategory from "../components/stat/StatCategory"
-import StatKota from "../components/stat/StatKota"
-import StatPrice from "../components/stat/StatPrice"
-import { emitEvent } from "../event"
-import { publicChainCsvFormat } from "../features/shopee/manifest"
-import { MarketList } from "../model/Common"
-import toCurrency, { ICategoryStat, IKotaStat, IPriceStat, ProductNamespace } from "../model/product"
-import { ICategItem } from "../model/shopee/public_category"
+import React, { useState } from "react"
+import { ExportOutlined } from "@ant-design/icons"
+import { aggsCategToCsv, deleteNamespace, exportDataSupplier, exportDataUrl, getNamespaces, shopeeResyncCateg, statCategory, statKota, statPrice } from "../../api/product"
+import MpSelect from "../../components/common/MpSelect"
+import SelectRangeHarga from "../../components/common/SelectRangeHarga"
+import StatCategory from "../../components/stat/StatCategory"
+import StatKota from "../../components/stat/StatKota"
+import StatPrice from "../../components/stat/StatPrice"
+import { emitEvent } from "../../event"
+import { publicChainCsvFormat } from "../../features/shopee/manifest"
+import { MarketList } from "../../model/Common"
+import toCurrency, { ICategoryStat, IKotaStat, IPriceStat, ProductNamespace } from "../../model/product"
+import { ICategItem } from "../../model/shopee/public_category"
+
+
+import { Button, Dropdown, MenuProps } from "antd"
+
+
+
+
+function ExportSupplier({ namespace }:{ namespace: string } ){
+  const [loading, setLoading] = useState<boolean>(false)
+
+  const exportSupplier = () => {
+    setLoading(true)
+    exportDataSupplier("shopee", namespace).then(() => setLoading(false))
+  }
+
+  const exportUrl = () => {
+    setLoading(true)
+    exportDataUrl("shopee", namespace).then(() => setLoading(false))
+  }
+
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <Button type="link" onClick={exportUrl}>Export Url</Button>,
+    },
+    {
+      key: '2',
+      label: <Button type="link" onClick={exportSupplier}>Export Supplier</Button>
+    }
+  ];
+
+  
+  return <Dropdown menu={{ items }} placement="bottomLeft" arrow>
+    <Button type="link" icon={<ExportOutlined rev={undefined} />} loading={loading}>export</Button>
+  </Dropdown>
+  
+  // <Button type="link"  >
+  //   Export Suplier
+  // </Button>
+}
+
 
 interface IState {
   mpmode: MarketList,
@@ -159,6 +201,7 @@ export default class DetailProduct extends React.Component<unknown, IState> {
   }
 
   renderNamespace(index: number, namespace: ProductNamespace): JSX.Element {
+    
     return (
       <div key={index}>
         <li className="list-group-item">
@@ -176,6 +219,10 @@ export default class DetailProduct extends React.Component<unknown, IState> {
           </p>
           <button className="btn btn-sm btn-info mt-1" onClick={()=>this.openNamespace(namespace.name)}>OPEN</button>
           <button className="btn btn-sm btn-danger mt-1" onClick={()=>this.deleteNamespace(namespace.name)}>DELETE</button>
+          { this.state.mpmode == "shopee" &&
+
+            <ExportSupplier namespace={namespace.name} />
+          }
         </li>
       </div>
     )
@@ -198,6 +245,7 @@ export default class DetailProduct extends React.Component<unknown, IState> {
       <div className="mt-custom">
         <div className="row mt-3">
           <div className="col-3">
+            
             <form>
               <MpSelect
                 onChange={(mode)=> this.changeMode(mode)}

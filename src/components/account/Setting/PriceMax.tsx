@@ -17,8 +17,6 @@ class PriceMax extends React.Component {
                             className="form-control bot"
                             type="text"
                             placeholder="Price Max"
-                            ng-model="tokpedCategSetting.data[item.tokped_categ.join('')].grab.pmax"
-                            ng-change="tokpedCategSetting.update(item.tokped_categ.join(''))"
                         />
 					</div>
 				</div>

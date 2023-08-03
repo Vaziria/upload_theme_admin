@@ -36,7 +36,7 @@ export default class CropImageConfig extends React.Component<unknown, IState> {
     render(): JSX.Element {
         const cropdata = this.state.data.map(item => parseInt(item))
 
-        return <div className="colss" ng-controller="cropController">
+        return <div className="colss">
         <div className="input-group input-group-sm">
             <div className="input-group-prepend">
                 <span className="input-group-text">CROP IMAGE % : </span>

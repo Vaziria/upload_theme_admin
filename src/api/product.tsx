@@ -20,6 +20,14 @@ export async function deleteNamespace(mode: MarketList, namespace: string): Prom
 }
 
 
+export async function exportDataSupplier(mode: MarketList, namespace: string): Promise<void> {
+  await client.put(`/shopee/v5/product/export_supplier?marketplace=${mode}&namespace=${namespace}`)
+}
+
+export async function exportDataUrl(mode: MarketList, namespace: string): Promise<void> {
+  await client.put(`/shopee/v5/product/export_url?marketplace=${mode}&namespace=${namespace}`)
+}
+
 
 export async function statKota(mode: MarketList, namespace: string): Promise<IKotaStat[]> {
   const res = await client.get(`/v1/product/kota?marketplace=${mode}&namespace=${namespace}`)

@@ -12,8 +12,6 @@ class PriceMin extends React.Component {
                             className="form-control bot"
                             type="text"
                             placeholder="Price Min"
-                            ng-model="tokpedCategSetting.data[item.tokped_categ.join('')].grab.pmin"
-                            ng-change="tokpedCategSetting.update(item.tokped_categ.join(''))"
                         />
                     </div>
                 </div>

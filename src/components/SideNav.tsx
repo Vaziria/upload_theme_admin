@@ -83,7 +83,7 @@ class SideNav extends React.Component<RouteComponentProps> {
             aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarSupportedContent-4" ng-controller="rootNavController">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent-4">
             <ul className="list-group list-group-flush ul-navi-custom">
               { menuItem.map((menu) => this.renderLink(menu)) }
             </ul>

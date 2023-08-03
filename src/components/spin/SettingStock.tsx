@@ -81,7 +81,7 @@ class SettingStock extends React.Component<PropsFromRedux, IState> {
                 />
 			</div>
 
-            <div className="row" ng-controller="dataSpinController">
+            <div className="row">
 				<div className="col">
 					<DataSpin
                         ref={ref => this.dataspinRef = ref}

@@ -114,7 +114,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
             <UpThread></UpThread>
           </div>
 
-          <div className="colss" ng-controller="grabThreadController">
+          <div className="colss">
             <ConcurentRequest></ConcurentRequest>
           </div>
 
@@ -160,7 +160,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
               <AdvancedSetting></AdvancedSetting>
               <div className="row">
               <div className="col-lg-12">
-                <div ng-controller="cdImageController">
+                <div>
                   <Cloudinary></Cloudinary>
                   <button className="btn btn-dark btn-sm" type="button" onClick={() => this.backup()}>Backup Data</button>
                   <RestoreConfig></RestoreConfig>

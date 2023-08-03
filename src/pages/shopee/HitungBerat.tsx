@@ -53,7 +53,7 @@ export default class HitungBeratPage extends React.Component<unknown, IState> {
 
         return <div className="margin-container">
         <div className="row">
-            <div className="col" ng-controller="examplePredictWeight">
+            <div className="col">
                 <h3>HITUNG BERAT PRODUK:</h3>
                 <p><strong>PERHITUNGAN JARAK ke KAB. BLITAR, SRENGAT:</strong></p>
                 <div className="input-group input-group-sm">

@@ -88,7 +88,6 @@ class Tool extends React.Component<PropsFromRedux, IState> {
                 rows={20}
                 className="form-control"
                 placeholder="Masukkan Akun Yang akan di Delete"></textarea>
-              {/* <input type="text" ng-model="filename" className="form-control" style={{marginTop: '14px', width: '50%'}} /> */}
               <button className="btn btn-primary btn-sm" onClick={()=>this.cek()} style={{ marginTop: '10px' }}>REPORT CEK BOT</button>
               <button className="btn btn-success btn-sm" onClick={()=>this.getOrder()} style={{ marginTop:'10px'}}>REPORT CEK ORDER</button>
             

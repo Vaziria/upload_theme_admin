@@ -33,7 +33,7 @@ export default class LastReview extends React.Component<unknown, LastReviewData>
   }
 
   render(): JSX.Element {
-    return <div ng-controller="lastReview">
+    return <div>
     <div className="form-check">
       <Checkbox
         checked={this.state.active}

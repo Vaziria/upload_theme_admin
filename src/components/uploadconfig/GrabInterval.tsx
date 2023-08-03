@@ -37,7 +37,7 @@ export class GrabInterval extends React.Component<unknown, IState> {
 
     render(): JSX.Element {
         return <div className="colss">
-            <div className="input-group input-group-sm" ng-controller="grabIntervallController">
+            <div className="input-group input-group-sm">
                 <div className="input-group-prepend">
                     <span className="input-group-text">TIME INTERVAL : </span>
                 </div>

@@ -113,7 +113,7 @@ export default class TaskItem extends React.Component<IProp> {
         copyButtonProps.children = "COPY"
 
         return (
-            <div className="row mt-4" ng-repeat="task in taskers">
+            <div className="row mt-4">
                 <div className="col-4">
                 <div className="form-group">
                     <label>Mode Grab:</label>

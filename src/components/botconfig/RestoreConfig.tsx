@@ -70,7 +70,7 @@ export default class RestoreConfig extends React.Component<unknown, IState> {
                     {
                         listData.map((val, index) => {
                             return <div key={index} className="form-check">
-                                <input className="form-check-input" type="checkbox" id="{{key}}" ng-model="keys[key]"/>
+                                <input className="form-check-input" type="checkbox"/>
 
                                 <Checkbox
                                     className="form-check-input"
