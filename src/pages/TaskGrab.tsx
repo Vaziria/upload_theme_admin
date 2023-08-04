@@ -128,8 +128,6 @@ export class TaskGrab extends React.Component<unknown, IState> {
             >ADD</button>
 
             <button className="btn btn-sm btn-success" onClick={()=>this.save()}>SAVE</button>
-
-            <button className="btn btn-sm btn-primary" onClick={()=>this.run()}>RUN</button>
             <button className="btn btn-sm btn-warning" onClick={()=>this.grab()}>GRAB</button>
           </div>
 

@@ -247,13 +247,6 @@ class Setting extends React.Component<IProps, IState> {
                                 onClick={() => this.updateAkun()}
                             >Update</button>
                             
-                            <button
-                                className="btn btn-secondary btn-sm btn-app"
-                                type="button"
-                                style={{ marginTop: 5 }}
-                                onClick={() => this.getProductCount()}
-                            >Refresh</button>
-                            
                             <br />
                             <div>
                                 <button

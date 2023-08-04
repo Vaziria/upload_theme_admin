@@ -168,12 +168,6 @@ class AccountPage extends React.Component<unknown, IState> {
                     <span style={{ marginRight: 20 }}><label>ACTION : </label></span>
 
                     <button
-                        className="btn btn-success btn-sm"
-                        style={{width: 100,height:35}}
-                        onClick={() => run()}
-                    >RUN</button>
-
-                    <button
                         className="btn btn-info btn-sm"
                         style={{width: 100,height:35}}
                         onClick={() => upload()}
