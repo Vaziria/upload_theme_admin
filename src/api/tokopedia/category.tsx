@@ -1,5 +1,6 @@
-import { clientTokopedia } from "../client"
+import client from "../client";
+
 
 export async function updateTokopediaCategories(): Promise<void> {
-    await clientTokopedia.get("/api/updateTokpedCategories")
+    await client.get("/legacy/api/updateTokpedCategories")
 }

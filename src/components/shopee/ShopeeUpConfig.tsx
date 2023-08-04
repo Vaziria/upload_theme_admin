@@ -233,7 +233,7 @@ export default class ShopeeUpConfig extends React.Component<unknown, IState> {
                 ></ShopeeSearchShipping>
             </div>
             <div className="col-12">
-            <TypedLink to='/shopee/berat' params={{}}><button className="btn btn-info btn-sm">Hitung Berat</button></TypedLink>
+            <TypedLink to='/legacy/shopee/berat' params={{}}><button className="btn btn-info btn-sm">Hitung Berat</button></TypedLink>
             </div>
             <div className="col-12">
                 <button className="btn btn-warning btn-sm" onClick={() => this.save()}>Save Setting Shopee</button>

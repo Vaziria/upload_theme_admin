@@ -1,10 +1,10 @@
 import axios from "axios"
 import { IShopeeShipping } from "../../model/shopee/shipping"
 import { ShopeeManifest } from "../../model/shopee/system"
-import client, { clientTokopedia } from "../client"
+import client from "../client"
 
 export async function shopeeManifest(): Promise<ShopeeManifest> {
-    const res = await clientTokopedia.get('/shopee/manifest')
+    const res = await client.get('/legacy/shopee/manifest')
     return res.data
 }
 

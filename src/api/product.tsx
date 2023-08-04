@@ -5,7 +5,7 @@ import client from "./client"
 
 
 export async function getNamespaces(mode?: MarketList): Promise<ProductNamespace[]>{
-  const res = await client.get(`/v1/product/namespace_all`, {
+  const res = await client.get(`/legacy/v1/product/namespace_all`, {
     params: {
       marketplace: mode
     }
@@ -15,7 +15,7 @@ export async function getNamespaces(mode?: MarketList): Promise<ProductNamespace
 
 
 export async function deleteNamespace(mode: MarketList, namespace: string): Promise<{ errcode: boolean }> {
-  const res = await client.get(`/v1/product/delete?marketplace=${mode}&namespace=${namespace}`)
+  const res = await client.get(`/legacy/v1/product/delete?marketplace=${mode}&namespace=${namespace}`)
   return res.data
 }
 
@@ -30,7 +30,7 @@ export async function exportDataUrl(mode: MarketList, namespace: string): Promis
 
 
 export async function statKota(mode: MarketList, namespace: string): Promise<IKotaStat[]> {
-  const res = await client.get(`/v1/product/kota?marketplace=${mode}&namespace=${namespace}`)
+  const res = await client.get(`/legacy/v1/product/kota?marketplace=${mode}&namespace=${namespace}`)
   return res.data
 }
 
@@ -42,26 +42,26 @@ interface IStatCategQuery {
 }
 
 export async function aggsCategToCsv(categs: ICategItem[]): Promise<{ errcode: boolean }> {
-  const res = await client.post('/v1/product/categstat_to_csv', categs)
+  const res = await client.post('/legacy/v1/product/categstat_to_csv', categs)
   return res.data
 }
 
 export async function statCategory(params: IStatCategQuery): Promise<ICategoryStat[]> {
-  const res = await client.get(`/v1/product/category`, {
+  const res = await client.get(`/legacy/v1/product/category`, {
     params
   })
   return res.data
 }
 
 export async function shopeeResyncCateg(params: Omit<IStatCategQuery, 'is_public' | 'namespace'>): Promise<ICategoryStat[]> {
-  const res = await client.get(`/v1/product/resync`, {
+  const res = await client.get(`/legacy/v1/product/resync`, {
     params
   })
   return res.data
 }
 
 export async function statPrice(mode: MarketList, namespace: string, rprice: number): Promise<IPriceStat[]> {
-  const res = await client.get(`/v1/product/price_range?marketplace=${mode}&namespace=${namespace}&rprice=${rprice}`)
+  const res = await client.get(`/legacy/v1/product/price_range?marketplace=${mode}&namespace=${namespace}&rprice=${rprice}`)
   return res.data
 }
 
@@ -74,16 +74,16 @@ interface IDeleteQuery {
 }
 
 export async function deleteProducts(params: IDeleteQuery): Promise<{ errcode: boolean }> {
-  const res = await client.get(`/v1/product/delete`, {
+  const res = await client.get(`/legacy/v1/product/delete`, {
     params
   })
   return res.data
 }
 
 export async function deleteStatCateg(categid: number, is_public: boolean): Promise<{ errcode: boolean }> {
-  let url = `/api/deleteItem`
+  let url = `/legacy/api/deleteItem`
   if (is_public){
-    url = `/api/deleteItem?is_public=${is_public}`
+    url = `/legacy/api/deleteItem?is_public=${is_public}`
   }
 
   const res = await client.post(url, [categid, null])

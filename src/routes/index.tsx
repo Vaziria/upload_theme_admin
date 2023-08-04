@@ -55,11 +55,11 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
     component: TaskPage
   },
   {
-    path: '/shopee/berat',
+    path: '/legacy/shopee/berat',
     component: HitungBeratPage
   },
   {
-    path: '/shopee/berat',
+    path: '/legacy/shopee/berat',
     component: HitungBeratPage
   },
   {

@@ -24,7 +24,7 @@ class EstimateProduct extends React.Component<IProps, IState> {
             categ: tokped_categ
         }
 
-        const estimated = await client.post('/api/product/estimated', payload)
+        const estimated = await client.post('/legacy/api/product/estimated', payload)
         if(estimated.data.errcode == 0) {
             this.setState({
                 estimated: estimated.data.count

@@ -1,4 +1,4 @@
-import { clientTokopedia } from "../client"
+import client from "../client"
 
 interface ShippingWeight {
     asal: number[]
@@ -16,7 +16,7 @@ export async function getShippingWeight(url: string): Promise<ShippingWeight> {
     const shopid = data[data.length - 2]
     const itemid = data[data.length - 1]
     
-    const res = await clientTokopedia.post('/v4/shopee/weight/predict', {
+    const res = await client.post('/legacy/v4/shopee/weight/predict', {
         shopid,
         itemid
     })

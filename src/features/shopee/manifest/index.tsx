@@ -24,7 +24,7 @@ export function setShopeeShippingError(error: boolean): void {
 export async function getSearchShopeeShipping(): Promise<void> {
   try {
     setShopeeShippingError(false)
-    const res = await client.get('/api/shopee_shipping')
+    const res = await client.get('/legacy/api/shopee_shipping')
     store.dispatch({
       type: 'shopee/manifest/search_shipping',
       payload: res.data,

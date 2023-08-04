@@ -9,7 +9,7 @@ export const PATHS = [
     '/categmap',
     '/productstat',
     '/task',
-    '/shopee/berat',
+    '/legacy/shopee/berat',
     '/test',
     '/toped'
   ] as const

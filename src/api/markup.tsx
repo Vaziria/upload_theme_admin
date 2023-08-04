@@ -2,7 +2,7 @@ import { MarkupItem } from "../model/markup"
 import client from "./client"
 
 export async function getListMarkup(): Promise<{data: string[]}> {
-    const res = await client.get('/api/listMarkup')
+    const res = await client.get('/legacy/api/listMarkup')
 
     return res.data
 }
@@ -14,16 +14,16 @@ interface AddMarkupPayload {
 }
 
 export async function createMarkup(payload: AddMarkupPayload): Promise<void> {
-    await client.post('/api/addMarkup', payload)
+    await client.post('/legacy/api/addMarkup', payload)
 }
 
 export async function deleteMarkup(name: string): Promise<void> {
-    await client.post('/api/deleteMarkup', [ name ])
+    await client.post('/legacy/api/deleteMarkup', [ name ])
 }
 
 
 export async function updateMarkup(name: string, payload: Omit<AddMarkupPayload, 'name'>): Promise<void> {
-    await client.post('/api/markup', payload, {
+    await client.post('/legacy/api/markup', payload, {
         params: {
             name
         }
@@ -37,7 +37,7 @@ interface MarkupRes {
 }
 
 export async function getMarkupData(name: string): Promise<MarkupRes> {
-    const res = await client.get(`/api/markup`, {
+    const res = await client.get(`/legacy/api/markup`, {
         params: {
             name
         }

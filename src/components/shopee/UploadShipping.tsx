@@ -35,7 +35,7 @@ function ShippingList(){
   const list_ids = activeShip.map(item => item.channelid)
   
   useEffect(() => {
-    client.get('/v4/shopee/upload_config/product_shipping_list').then(res => {
+    client.get('/legacy/v4/shopee/upload_config/product_shipping_list').then(res => {
       setShippings(() => {
         return res.data
       })

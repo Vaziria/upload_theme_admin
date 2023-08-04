@@ -29289,7 +29289,7 @@ var ngModelMinErr = minErr('ngModel');
  *   var value = modelValue || viewValue;
  *
  *   // Lookup user by username
- *   return $http.get('/api/users/' + value).
+ *   return $http.get('/legacy/api/users/' + value).
  *      then(function resolved() {
  *        //username exists, this means validation fails
  *        return $q.reject('exists');

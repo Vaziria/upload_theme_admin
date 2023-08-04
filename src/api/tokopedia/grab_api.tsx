@@ -14,11 +14,11 @@ export interface TokopediaSettingGrab {
 }
 
 export async function getTokopediaSettingGrab(): Promise<{errcode: number, data: {data: TokopediaSettingGrab}}> {
-    const res = await client.get("/api/settingGrab")
+    const res = await client.get("/legacy/api/settingGrab")
 
     return res.data
 }
 
 export async function updateTokopediaSettingGrab(data: TokopediaSettingGrab): Promise<void> {
-    await client.post("/api/settingGrab", data)
+    await client.post("/legacy/api/settingGrab", data)
 }

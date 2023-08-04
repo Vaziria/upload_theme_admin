@@ -2,18 +2,18 @@ import { CategIds } from "../model/shopee/category"
 import client from "./client"
 
 export async function cekBot(): Promise<{ errcode: number }> {
-  const res = await client.get('/api/runGetInfo?output=cekBOT.csv')
+  const res = await client.get('/legacy/api/runGetInfo?output=cekBOT.csv')
 
   return res.data
 }
 
 export async function cekOrder(): Promise<{ errcode: number }> {
-  const res = await client.get('/api/runGetOrder?output=getOrder.csv')
+  const res = await client.get('/legacy/api/runGetOrder?output=getOrder.csv')
   return res.data
 }
 
 export async function uploadAkun(payload: { data: string }): Promise<{ errcode: number }> {
-  const res = await client.post('/api/tool', payload)
+  const res = await client.post('/legacy/api/tool', payload)
 
   return res.data
   
@@ -31,7 +31,7 @@ export interface IDeleteQuery {
 }
 
 export async function runDelete(payload: IDeleteQuery): Promise<{ errcode: number }> {
-  const res = await client.post('/api/runDelete', payload)
+  const res = await client.post('/legacy/api/runDelete', payload)
   return res.data
   
 }
@@ -41,7 +41,7 @@ export interface IDeleteConfig extends IDeleteQuery {
 }
 
 export async function getDeleteConfig(): Promise<IDeleteConfig> {
-  const res = await client.get('/api/config_delete')
+  const res = await client.get('/legacy/api/config_delete')
   return res.data
   
 }
@@ -63,13 +63,13 @@ export async function getConfigDeleteProduct(): Promise<{
   data: IConfigDelete
 }> {
 
-  const res = await client.get('/api/config/deleteProduct')
+  const res = await client.get('/legacy/api/config/deleteProduct')
   return res.data
 
 }
 
 export async function setConfigDeleteProduct(payload: IConfigDelete): Promise<{ errcode: number }> {
-  const res = await client.post('/api/config/deleteProduct', {
+  const res = await client.post('/legacy/api/config/deleteProduct', {
     name: 'deleteProduct',
     data: payload
   })

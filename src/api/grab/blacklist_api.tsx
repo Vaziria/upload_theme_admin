@@ -7,12 +7,12 @@ export interface BlacklistTitle {
 }
 
 export async function getBlacklistTitle(): Promise<BlacklistTitle> {
-    const res = await client.get('/api/setting/get/blacklistTitle')
+    const res = await client.get('/legacy/api/setting/get/blacklistTitle')
     return res.data
 }
 
 export async function updateBlacklistTitle(blaklists: string[]): Promise<BlacklistTitle> {
-    const res = await client.post('/api/setting/add', {
+    const res = await client.post('/legacy/api/setting/add', {
         name: "blacklistTitle",
         data: blaklists
     })
@@ -20,12 +20,12 @@ export async function updateBlacklistTitle(blaklists: string[]): Promise<Blackli
 }
 
 export async function getFilterTitle(): Promise<{ data: string[] }> {
-    const res = await client.get('/api/config/filterTitle')
+    const res = await client.get('/legacy/api/config/filterTitle')
     return res.data
 }
 
 export async function updateFilterTitle(filter: string[]): Promise<BlacklistTitle> {
-    const res = await client.post('/api/config/filterTitle', {
+    const res = await client.post('/legacy/api/config/filterTitle', {
         name: "filterTitle",
         data: filter
     })
@@ -34,7 +34,7 @@ export async function updateFilterTitle(filter: string[]): Promise<BlacklistTitl
 
 
 export async function getFilterWord(name: 'blacklistWord' | 'blacklistWordAja'): Promise<{ data: string[], errcode: number }> {
-    const res = await client.get(`/api/filterWord`, {
+    const res = await client.get(`/legacy/api/filterWord`, {
         params: {
             name
         }
@@ -43,7 +43,7 @@ export async function getFilterWord(name: 'blacklistWord' | 'blacklistWordAja'):
 }
 
 export async function updateFilterWord(name: 'blacklistWord' | 'blacklistWordAja', filter: string[]): Promise<void> {
-    const res = await client.post(`/api/filterWord`, {
+    const res = await client.post(`/legacy/api/filterWord`, {
         name,
         data: filter
     })
@@ -51,7 +51,7 @@ export async function updateFilterWord(name: 'blacklistWord' | 'blacklistWordAja
 }
 
 export async function setFilterWordDefault(): Promise<void> {
-    await client.get('/api/filterWord', {
+    await client.get('/legacy/api/filterWord', {
         params: {
             makedefault: true
         }

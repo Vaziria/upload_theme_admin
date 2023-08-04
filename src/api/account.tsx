@@ -35,23 +35,23 @@ export const defpaging: AccountPaging = {
 }
 
 export async function run (): Promise<void> {
-	await client.get('/api/run')
+	await client.get('/legacy/api/run')
 }
 
 export async function upload (): Promise<void> {
-	await client.get('/api/uploadScheduler')
+	await client.get('/legacy/api/uploadScheduler')
 }
 
 export async function grab (): Promise<void> {
-	await client.get('/api/grabScheduler')
+	await client.get('/legacy/api/grabScheduler')
 }
 
 export async function backup (): Promise<void> {
-	await client.get('/api/backupAkun')
+	await client.get('/legacy/api/backupAkun')
 }
 
 export async function getAccounts (query: AccountQuery): Promise<{ akuns: IAccount[], count: number }> {
-	const res = await client.get('/api/akuns', {
+	const res = await client.get('/legacy/api/akuns', {
 		params: query
 	})
 
@@ -59,7 +59,7 @@ export async function getAccounts (query: AccountQuery): Promise<{ akuns: IAccou
 }
 
 export async function getProductAccount (akun: IAccount): Promise<number> {
-	const res = await client.post('/api/produkAkun', akun)
+	const res = await client.post('/legacy/api/produkAkun', akun)
 	const count = res.data.data
 
 	if (count === 'gagal') return 0
@@ -68,19 +68,19 @@ export async function getProductAccount (akun: IAccount): Promise<number> {
 }
 
 export async function updateAccount (akun: IAccount): Promise<void> {
-    await client.post('/api/user', {
+    await client.post('/legacy/api/user', {
 		'action' : 'update',
 		'data' : akun
 	})
 }
 
 export async function deleteAccount (name: string): Promise<void> {
-	await client.post('/api/user', {
+	await client.post('/legacy/api/user', {
 		'action' : 'del',
 		'data' : [name]
 	})
 }
 
 export async function resetAccount (): Promise<void> {
-	await client.get('/v1/akun/reset')
+	await client.get('/legacy/v1/akun/reset')
 }
