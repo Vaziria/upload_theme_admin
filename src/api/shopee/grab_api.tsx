@@ -19,13 +19,13 @@ export async function updateShopeeGrabSetting(data: ShopeeSettingGrab): Promise<
 }
 
 // api terbaru
-// /shopee/filter_grabber/
+// /shopee/filter_grabber
 
 export async function getShopeeFilterGrabber(): Promise<ShopeeFilterGrab> {
-    const res = await client.get('/shopee/filter_grabber/')
+    const res = await client.get('/shopee/filter_grabber')
     return res.data
 }
 
 export async function updateShopeeFilterGrabber(data: Partial<ShopeeFilterGrab>): Promise<void> {
-    await client.put('/shopee/filter_grabber/', data)
+    await client.put('/shopee/filter_grabber', data)
 }

@@ -1,5 +1,5 @@
 import React from "react"
-import { legacySettingGet, legacySettingUpdate } from "../../api/legacy_setting"
+import { legacyCropGet, legacyCropUpdate } from "../../api/legacy_setting"
 import { InputNumber } from '../common/InputNumber'
 
 interface IState {
@@ -15,7 +15,7 @@ export default class CropImageConfig extends React.Component<unknown, IState> {
     }
 
     async get(): Promise<void> {
-        const data = await legacySettingGet('cropSetting')
+        const data = await legacyCropGet()
         if (data.errcode === 0) {
             this.setState({ data: data.data })
         }
@@ -27,7 +27,7 @@ export default class CropImageConfig extends React.Component<unknown, IState> {
         data[index] = dat.toString()
 
         this.setState({ data })
-        await legacySettingUpdate({
+        await legacyCropUpdate({
             name: 'cropSetting',
             data: data
         })

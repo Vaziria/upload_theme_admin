@@ -68,16 +68,18 @@ export async function getProductAccount (akun: IAccount): Promise<number> {
 }
 
 export async function updateAccount (akun: IAccount): Promise<void> {
-    await client.post('/api/user', {
+    await client.put('/api/user', {
 		'action' : 'update',
 		'data' : akun
 	})
 }
 
 export async function deleteAccount (name: string): Promise<void> {
-	await client.post('/api/user', {
-		'action' : 'del',
-		'data' : [name]
+	await client.delete('/api/user', {
+		data: {
+			'action' : 'del',
+			'data' : [name]
+		}
 	})
 }
 
