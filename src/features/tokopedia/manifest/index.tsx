@@ -5,7 +5,7 @@ import { tokopediaGetCategories } from "../../../api/tokopedia/preload"
 export async function tokopediaGetManifest(): Promise<void> {
 
   // geting city
-  const cities = await client.get('/static/assets/json/tokopedia_fcity.json')
+  const cities = await client.get('/tokopedia/filter/fcity')
   store.dispatch({
     type: 'tokopedia/manifest/city',
     payload: cities.data

@@ -12,7 +12,7 @@ export async function getBlacklistTitle(): Promise<BlacklistTitle> {
 }
 
 export async function updateBlacklistTitle(blaklists: string[]): Promise<BlacklistTitle> {
-    const res = await client.post('/legacy/api/setting/add', {
+    const res = await client.post('/legacy/api/setting/update/blacklistTitle', {
         name: "blacklistTitle",
         data: blaklists
     })
@@ -51,9 +51,5 @@ export async function updateFilterWord(name: 'blacklistWord' | 'blacklistWordAja
 }
 
 export async function setFilterWordDefault(): Promise<void> {
-    await client.get('/legacy/api/filterWord', {
-        params: {
-            makedefault: true
-        }
-    })
+    await client.post('/legacy/api/filterWord/makedefault')
 }

@@ -10,12 +10,11 @@ export type ShippingPayload = {
 }
 
 export async function getShippingConfig(): Promise<ShippingPayload> {
-	// const res = 
+
 	const res = await client.get('/legacy/shopee/config_upload')
 	return res.data
 }
 
 export async function saveShippingConfig(payload: ShippingPayload): Promise<void> {
-	// const res = 
 	await client.put('/legacy/shopee/config_upload', payload)
 }

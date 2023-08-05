@@ -5,7 +5,7 @@ import { CategIds } from "../../../model/shopee/category"
 import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
 
 export async function getShopeeCities(): Promise<void> {
-  const res = await client.get("/static/assets/json/shopee.grab.location.json")
+  const res = await client.get("shopee/v5/filter/grab_location")
   const cities = res.data
   store.dispatch({
     type: 'shopee/manifest/cities',

@@ -4,22 +4,23 @@ import { MarketList } from "../model/Common"
 import client from "./client"
 
 export type SettingName = 'cropSetting'
-export interface LegacyRes {
-    cropSetting: [string, string]
+
+export interface CropPayload {
+    name: "cropSetting"
+    data: [string, string]
+}
+export interface CropResponse {
+    data: [string, string],
+    errcode: number
 }
 
-export interface LegacyPayload<K extends SettingName> {
-    name: K
-    data: LegacyRes[K]
-}
-
-export async function legacySettingGet(name: SettingName): Promise<{ data: LegacyRes[SettingName], errcode: number }> {
-    const res = await client.get(`/legacy/api/setting/get/${name}`)
+export async function legacyCropGet(): Promise<CropResponse> {
+    const res = await client.get(`/legacy/api/setting/get/cropSetting`)
   return res.data
 }
 
-export async function legacySettingUpdate<K extends SettingName>(data: LegacyPayload<K>): Promise<void> {
-    await client.post(`/legacy/api/setting/add`, data)
+export async function legacyCropUpdate(data: CropPayload): Promise<void> {
+    await client.post(`/legacy/api/setting/update/cropSetting`, data)
 }
 
 

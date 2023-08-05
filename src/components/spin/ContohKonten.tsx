@@ -45,7 +45,9 @@ class ContohKonten extends React.Component<unknown, IState> {
     }
 
     async getProductLives (): Promise<void> {
-        const res = await client.get('/legacy/v1/examplespin', {
+
+        const res = await client.get('/legacy/v1/examplespin/products', {
+
             params: this.state.payload
         })
 

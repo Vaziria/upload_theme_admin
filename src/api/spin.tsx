@@ -16,8 +16,7 @@ export async function getSpinConfig (): Promise<{
 
 export async function exampleSpin (title: string): Promise<string> {
     const params = { title }
-    const res = await client.get('/legacy/v1/examplespin', { params })
-
+    const res = await client.get('/legacy/v1/examplespin/title', { params })
     return res.data.text
 }
 

@@ -36,7 +36,10 @@ class BulkAccount extends React.Component<IProps, IState> {
             accountPosts.push(
                 client.post('/legacy/api/user', {
                     action: 'post',
-                    data: account
+                    data: {
+                        ...account,
+                        shopee_categ: account.shopee_categ.map(String)
+                    }
                 })
             )
         })
