@@ -2,13 +2,13 @@ import { CategIds } from "../model/shopee/category"
 import client from "./client"
 
 export async function cekBot(): Promise<{ errcode: number }> {
-  const res = await client.get('/legacy/api/runGetInfo?output=cekBOT.csv')
+  const res = await client.get('/shopee/v5/run_checkbot')
 
   return res.data
 }
 
 export async function cekOrder(): Promise<{ errcode: number }> {
-  const res = await client.get('/legacy/api/runGetOrder?output=getOrder.csv')
+  const res = await client.get('/shopee/v5/run_check_order')
   return res.data
 }
 
@@ -31,7 +31,7 @@ export interface IDeleteQuery {
 }
 
 export async function runDelete(payload: IDeleteQuery): Promise<{ errcode: number }> {
-  const res = await client.post('/legacy/api/runDelete', payload)
+  const res = await client.post('/shopee/v5/run_delete_product', payload)
   return res.data
   
 }

@@ -25,7 +25,7 @@ export async function runUploadAndGrab(): Promise<void> {
 }
 
 export async function runGrab(): Promise<void> {
-  await client.get('/legacy/api/grabScheduler?custom=true')
+  await client.get('/shopee/v5/run_grab')
 }
 
 export async function generateCategoryFacetCsv(): Promise<{ errcode: number }> {

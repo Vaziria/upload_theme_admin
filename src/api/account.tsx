@@ -39,11 +39,11 @@ export async function run (): Promise<void> {
 }
 
 export async function upload (): Promise<void> {
-	await client.get('/legacy/api/uploadScheduler')
+	await client.get('/shopee/v5/run_upload')
 }
 
 export async function grab (): Promise<void> {
-	await client.get('/legacy/api/grabScheduler')
+	await client.get('/shopee/v5/run_grab')
 }
 
 export async function backup (): Promise<void> {
