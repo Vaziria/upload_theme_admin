@@ -43,7 +43,7 @@ export async function upload (): Promise<void> {
 }
 
 export async function grab (): Promise<void> {
-	await client.get('/shopee/v5/run_grab')
+	await client.get('/launcher/v1/run_grab')
 }
 
 export async function backup (): Promise<void> {
