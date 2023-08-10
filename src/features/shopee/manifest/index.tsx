@@ -6,6 +6,7 @@ import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model
 
 export async function getShopeeCities(): Promise<void> {
   const res = await client.get("shopee/v5/filter/grab_location")
+  console.log("cities", res.data)
   const cities = res.data
   store.dispatch({
     type: 'shopee/manifest/cities',

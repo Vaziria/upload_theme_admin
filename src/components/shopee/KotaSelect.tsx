@@ -60,7 +60,7 @@ class KotaSelect extends React.Component<IProp, IState> {
                 <div className="row">
                     <div className="col">
                         <ul>
-                            {value.map((item) => {
+                            {value && value.map((item) => {
                                 return <li key={item}><span>{item}</span>    
                                 <button type="button" className="close" onClick={() => {
                                     const newval = value.filter((val) => val !== item)

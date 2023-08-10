@@ -43,10 +43,6 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
     component: ToolPage
   },
   {
-    path: '/categmap',
-    component: CategMap
-  },
-  {
     path: '/productstat',
     component: DetailProduct
   },

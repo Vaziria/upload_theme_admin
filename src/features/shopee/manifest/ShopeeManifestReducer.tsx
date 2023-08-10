@@ -81,7 +81,10 @@ function ShopeeManifestReducer(state: IState = defstate, action: IAction): IStat
       return { ...state, upload_product_shipping: action.payload }
     
     case 'shopee/manifest/search_shipping':
-      return { ...state, search_shipping: action.payload }
+      if (action.payload){
+        return { ...state, search_shipping: action.payload }
+      }
+      return { ...state, search_shipping:[]}
 
     case 'shopee/manifest/shipping_error':
       return { ...state, shipping_error: action.payload }

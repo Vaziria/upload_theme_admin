@@ -23,10 +23,10 @@ const listItem: OptItem[] = [
       key: 'dump_category',
       display_name: 'kategori csv'
     },
-    {
-      key: 'dump_category_facet',
-      display_name: 'kategori facet csv'
-    },
+    // {
+    //   key: 'dump_category_facet',
+    //   display_name: 'kategori facet csv'
+    // },
     {
       key: 'keyword',
       display_name: 'keyword'
