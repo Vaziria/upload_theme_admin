@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import NewAccount from '../components/account/NewAccount'
 import {
     AccountPaging, AccountQuery,
@@ -10,6 +10,63 @@ import SettingItem from '../components/account/SettingItem'
 import { getUploadMode, UploadMode } from '../api/bot_configuration'
 import { IAccount } from '../model/Account'
 import UploadShipping from '../components/shopee/UploadShipping'
+import { Button, Select, Space, Typography } from 'antd'
+import client from '../api/client'
+
+
+const { Text} = Typography
+
+
+function AkunAction(){
+
+    const [mp, setMp] = useState<string>("shopee")
+    let url = ""
+    if (mp === "shopee"){
+        url = "http://localhost:5000/upload/v6/shopee_to_shopee"
+    } else {
+        url = "http://localhost:5000/upload/v6/tokopedia_to_shopee"
+    }
+
+    const runUpload = async () => {
+        await client.get(url)
+    }
+
+    return (
+    <Space>
+        <Button type="primary" onClick={runUpload}>
+            upload
+        </Button>
+
+        <Space>
+            <Text>
+            Mode :
+            </Text>
+            
+            <Select
+            onChange={data => setMp(data)}
+                defaultValue={mp}
+                options={[
+                    { value: 'shopee', label: 'Shopee' },
+                    { value: 'tokopedia', label: 'Tokopedia' },
+                ]}
+                style={{
+                    minWidth: "100px"
+                }}
+            />
+        </Space>
+        
+            
+        
+
+        <Button onClick={backup}>
+            report
+        </Button>
+    </Space>
+
+    )
+    
+}
+
 
 export interface IState {
     kurirs: number[]
@@ -165,25 +222,8 @@ class AccountPage extends React.Component<unknown, IState> {
                 <hr />
                 <label>SETTING <span style={{ color: 'red' }}>{paging.total}</span> ACCOUNT :</label>
                 <div className="float-right" style={{ marginBottom:5, marginTop: 6 }}>
-                    <span style={{ marginRight: 20 }}><label>ACTION : </label></span>
 
-                    <button
-                        className="btn btn-info btn-sm"
-                        style={{width: 100,height:35}}
-                        onClick={() => upload()}
-                    >UPLOAD</button>
-
-                    <button
-                        className="btn btn-dark btn-sm"
-                        style={{width: 100,height:35}}
-                        onClick={() => grab()}
-                    >GRAB</button>
-
-                    <button
-                        className="btn btn-warning btn-sm"
-                        style={{width: 100,height:35}}
-                        onClick={() => backup()}
-                    >REPORT</button>
+                    <AkunAction />
                 </div>
             </div>
 
