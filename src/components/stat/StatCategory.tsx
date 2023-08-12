@@ -3,8 +3,8 @@ import { connect, ConnectedProps } from "react-redux"
 import { deleteStatCateg } from "../../api/product"
 import { emitEvent } from "../../event"
 import { RootState } from "../../features"
-import { publicChainName } from "../../features/shopee/manifest"
-import { getChainName } from "../../features/tokopedia/manifest"
+// import { publicChainName } from "../../features/shopee/manifest"
+// import { getChainName } from "../../features/tokopedia/manifest"
 import { MarketList } from "../../model/Common"
 import toCurrency, { ICategoryStat } from "../../model/product"
 
@@ -44,23 +44,23 @@ class StatCategory extends React.Component<IProps> {
   }
 
   getChainName(stat: ICategoryStat): string {
-    const { is_public, marketplace } = this.props
+    // const { is_public, marketplace } = this.props
     
-    if(marketplace === 'tokopedia'){
-      const name = getChainName(stat._id)
-      return name.join(' > ')
-    }
+    // if(marketplace === 'tokopedia'){
+    //   const name = getChainName(stat._id)
+    //   return name.join(' > ')
+    // }
 
-    if(is_public){
+    // if(is_public){
 
-      const { chain } = publicChainName(stat._id)
+    //   const { chain } = publicChainName(stat._id)
 
-      if(chain.length > 0){
-        return chain.join(' > ')
-      } else {
-        return 'Undefined'
-      }
-    }
+    //   if(chain.length > 0){
+    //     return chain.join(' > ')
+    //   } else {
+    //     return 'Undefined'
+    //   }
+    // }
 
     return stat.name.join(' > ')
   }

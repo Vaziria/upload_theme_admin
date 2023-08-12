@@ -30,8 +30,14 @@ export interface IDeleteQuery {
   diperiksa: boolean
 }
 
-export async function runDelete(payload: IDeleteQuery): Promise<{ errcode: number }> {
-  const res = await client.post('/shopee/v5/run_delete_product', payload)
+export async function saveDeleteConfig(payload: IDeleteQuery): Promise<{ errcode: number }> {
+  const res = await client.post('/legacy/api/config_delete', payload)
+  return res.data
+  
+}
+
+export async function runDelete(): Promise<{ errcode: number }> {
+  const res = await client.post('/shopee/v5/run_delete_product')
   return res.data
   
 }

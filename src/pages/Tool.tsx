@@ -1,6 +1,6 @@
 import React from "react"
 import { connect, ConnectedProps } from "react-redux"
-import { cekBot, cekOrder, getDeleteConfig, runDelete, uploadAkun } from "../api/tool"
+import { cekBot, cekOrder, getDeleteConfig, saveDeleteConfig, runDelete, uploadAkun } from "../api/tool"
 import Checkbox from "../components/common/Checkbox"
 import DateSelect from "../components/common/DateSelect"
 import { InputNumber } from "../components/common/InputNumber"
@@ -57,7 +57,8 @@ class Tool extends React.Component<PropsFromRedux, IState> {
     await uploadAkun({
       data: this.state.data
     })
-    await runDelete(this.props.deletequery)
+    await saveDeleteConfig(this.props.deletequery)
+    await runDelete()
 
     emitEvent('show_msg', {
       msg: 'run Deleter Berhasil......'
