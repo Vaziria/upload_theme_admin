@@ -1,19 +1,28 @@
 import React from "react"
-import { deleteTask, getTaskAll, runGrab, runUploadAndGrab, saveTask } from "../api/task"
-import ShopeeConfig from "../components/grab/ShopeeConfig"
+import { Button, Col, Divider, Row, Select, Space } from 'antd';
+
+import { 
+  deleteTask, getTaskAll, runGrabShopee,
+  runGrabTokopedia, saveTask,
+} from "../api/task"
+
 import TaskItem from "../components/grab/TaskItem"
+import { MarketList } from "../model/Common"
 import { emitEvent } from "../event"
 import { createTaskId, ITask } from "../model/Task"
 
 interface IState {
-  tasks: ITask[],
+  tasks: ITask[]
   loading: boolean
+  mode: MarketList
 }
 
 export class TaskGrab extends React.Component<unknown, IState> {
+
   state: IState = {
     tasks: [],
-    loading: true
+    loading: true,
+    mode: "shopee"
   }
 
   async get(): Promise<void> {
@@ -78,7 +87,7 @@ export class TaskGrab extends React.Component<unknown, IState> {
       _id: createTaskId(),
       toko_username: '',
       mode: 'category',
-      marketplace: 'shopee',
+      marketplace: this.state.mode,
       product_url: '',
       namespace: 'default',
       tokped_categ: ["0", "0", "0"],
@@ -102,46 +111,90 @@ export class TaskGrab extends React.Component<unknown, IState> {
     })
   }
 
-  async run(): Promise<void> {
-    await runUploadAndGrab()
+  renderGrabButton(): JSX.Element {
+    
+    if (this.state.mode === "shopee") {
+      return <Button
+        type="primary"
+        style={{ backgroundColor: "#ff4d4f" }}
+        onClick={() => runGrabShopee()}
+      >
+        <small>GRAB SHOPEE</small>
+      </Button>
+    }
+
+    return <Button
+      type="primary"
+      style={{ backgroundColor: "#52c41a" }}
+      onClick={() => runGrabTokopedia()}
+    >
+      <small>GRAB TOKOPEDIA</small>
+    </Button>
   }
-
-  async grab(): Promise<void> {
-    await runGrab()
-  }
-
-
 
   render(): JSX.Element {
     const tasks = this.state.tasks
     const loading = this.state.loading
 
     return (
-      <div className="mt-custom">
-        <div className="row mt-4">
-          <div className="col-6">
+      <div className="mt-5">
+        <div className="mx-2 mt-4">
 
+        <Row gutter={10}>
+
+          <Col span={24}>
             <h2>Tasker :</h2>
 
-            <button className="btn btn-sm btn-primary"
-              onClick={()=>this.addTask()}
-            >ADD</button>
+            <Space direction="horizontal">
 
-            <button className="btn btn-sm btn-success" onClick={()=>this.save()}>SAVE</button>
-            <button className="btn btn-sm btn-warning" onClick={()=>this.grab()}>GRAB</button>
-          </div>
+              <Select
+                defaultValue={this.state.mode}
+                onChange={(mode) => this.setState({ mode })}
+                style={{ minWidth: "120px" }}
+                options={[
+                  { value: 'shopee', label: 'Shopee' },
+                  { value: 'tokopedia', label: 'Tokopedia' },
+                ]}
+              />
 
-          <ShopeeConfig />
+              <Button
+                type="primary"
+                onClick={() => this.addTask()}
+              >
+                <small>ADD</small>
+              </Button>
 
-          <div className="col-12">
-            <hr></hr>
+              <Button
+                type="primary"
+                style={{ backgroundColor: "#fa8c16" }}
+                onClick={() => this.save()}
+              >
+                <small>SAVE</small>
+              </Button>
+
+              {this.renderGrabButton()}
+
+            </Space>
+          </Col>
+
+          <Col span={24}>
+
+            <Divider />
+
             <div>
-              { tasks.map((task) => this.renderTask(task)) }
-              { loading &&
-                <strong>Loading.......</strong>
-              }
-            </div>
-          </div>
+                {
+                  tasks
+                    .filter((task => task.marketplace == this.state.mode))
+                    .map((task) => this.renderTask(task))
+                }
+                { loading &&
+                  <strong>Loading.......</strong>
+                }
+              </div>
+          </Col>
+
+        </Row>
+
         </div>
       </div>
     )

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-export default function Tokopedia(){
+export default function Tokopedia(): JSX.Element {
     return <div>
         <iframe
             src='http://localhost:5000/tokopedia/'

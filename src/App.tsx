@@ -4,8 +4,6 @@ import { PersistGate } from "redux-persist/integration/react"
 import { persistor, store } from "./features"
 import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./features/shopee/manifest"
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
-import Notif from "./components/notif/Notif"
-import AlertHead from "./components/AlertHead"
 import { BrowserRouter } from 'react-router-dom'
 import SideNav from './components/SideNav'
 import { TypedSwitch } from './routes'

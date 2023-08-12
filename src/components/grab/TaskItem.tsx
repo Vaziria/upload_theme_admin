@@ -1,7 +1,8 @@
 import React from "react"
+import { Col, Row, Space } from 'antd';
+
 import { createTaskId, ITask } from "../../model/Task"
 import ModeSelect from "../common/ModeSelect"
-import MpSelect from "../common/MpSelect"
 import GrabTaskCategory from "../grabtask/GrabTaskCategory"
 import GrabTaskDumpCategory from "../grabtask/GrabTaskDumpCategory"
 import GrabTaskDumpCategoryFacet from "../grabtask/GrabTaskDumpCategoryFacet"
@@ -17,7 +18,6 @@ interface IProp {
 }
 
 type ModeSelectProps = React.ComponentProps<typeof ModeSelect>;
-type MpSelectProps = React.ComponentProps<typeof MpSelect>;
 export default class TaskItem extends React.Component<IProp> {
   
     updateData(data: Partial<ITask>): void {
@@ -84,11 +84,6 @@ export default class TaskItem extends React.Component<IProp> {
             onChange: (mode) => this.updateData({ mode })
         }
 
-        const mpSelectProps: MpSelectProps = {
-            value: task.marketplace,
-            onChange: (marketplace) => this.updateData({ marketplace })
-        }
-
         const collectionProps: JSX.IntrinsicElements["input"] = {}
         collectionProps.className = "form-control"
         collectionProps.type = "text"
@@ -113,36 +108,37 @@ export default class TaskItem extends React.Component<IProp> {
         copyButtonProps.children = "COPY"
 
         return (
-            <div className="row mt-4">
-                <div className="col-4">
-                <div className="form-group">
-                    <label>Mode Grab:</label>
-                    <ModeSelect {...modeSelectProps} />
-                </div>
-                
-                {this.renderGrabTask()}
-                
-                </div>
-                <div className="col-4">
-                <div className="form-group">
-                    <label>Marketplace :</label>
-                    <MpSelect {...mpSelectProps} />
-                </div>
-                </div>
-                <div className="col-4">
-                <div className="form-group">
-                    <label>Collection :</label>
-                    <input {...collectionProps} />
-                </div>
-                </div>
-                
+            <Space direction="vertical" style={{ minWidth: "100%" }} className="mb-3">
+                <Row gutter={10}>
+                    <Col span={8}>
+                        <div className="form-group">
+                            <label>Mode Grab:</label>
+                            <ModeSelect {...modeSelectProps} />
+                        </div>      
+                    </Col>
+
+                    <Col span={8}>
+                        <div className="form-group">
+                            <label>Nama Collection :</label>
+                            <input {...collectionProps} />
+                            </div>
+                    </Col>
+
+                    <Col span={8}>
+                        <div className="form-group">
+                            {this.renderGrabTask()}
+                        </div>
+                    </Col>
+                </Row>
+                    
+                    
                 {this.renderUrlMode()}
 
-                <div className="col-12">
-                <button {...deleteButtonProps} />
-                <button {...copyButtonProps} />
+                <div>
+                    <button {...deleteButtonProps} />
+                    <button {...copyButtonProps} />
                 </div>
-            </div>
+            </Space>
         )
     }
 }

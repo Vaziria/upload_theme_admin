@@ -2,8 +2,7 @@ import React, { useState } from 'react'
 import NewAccount from '../components/account/NewAccount'
 import {
     AccountPaging, AccountQuery,
-    backup, grab, run, upload,
-    defpaging, defquery, getAccounts
+    backup, defpaging, defquery, getAccounts
 } from '../api/account'
 import SettingBulkAccount from '../components/account/SettingBulkAccount'
 import SettingItem from '../components/account/SettingItem'

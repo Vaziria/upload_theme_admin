@@ -24,14 +24,9 @@ export default class GrabTaskKeyword extends React.Component<PropGrabTask> {
             const keyword = event.target.value
             updateData({ keyword })
         }
-
-        if(task.marketplace === 'tokopedia'){
-            return <div>
-              <h3>not supported....</h3>
-            </div>
-        }
-
+    
         return <div>
+            <label>File txt :</label>&nbsp;
             <input {...checkboxProps} /> use filter
             <input {...inputProps} />
         </div>

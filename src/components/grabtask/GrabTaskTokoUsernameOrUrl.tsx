@@ -26,6 +26,7 @@ export default class GrabTaskTokoUsernameOrUrl extends React.Component<PropGrabT
         }
 
         return <div>
+            <label>File txt :</label>&nbsp;
             <input {...checkboxProps} /> use filter
             <input {...inputProps} />
         </div>
