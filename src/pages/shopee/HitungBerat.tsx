@@ -1,8 +1,133 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { getShippingWeight } from "../../api/shopee/shipping_api"
 import FloatNumber from "../../components/common/FLoatNumber"
 import { emitEvent } from "../../event"
 import client from "../../api/client"
+import { Button, Card, Col, Input, InputNumber, Row, Space, Typography, notification } from "antd"
+import { atom } from "recoil"
+
+const { Text, Title } = Typography
+
+interface WeightRatioConfigItem {
+    price_min: number
+    price_max: number
+    ratio: number
+}
+
+interface WeightRatioConfig {
+    data: WeightRatioConfigItem[]
+}
+
+
+
+type NotificationType = 'success' | 'info' | 'warning' | 'error';
+
+function WeightRatioConfig() {
+
+    const [datas, setDatas] = useState<WeightRatioConfigItem[]>([])
+    const [api, contextHolder] = notification.useNotification();
+
+    const openNotificationWithIcon = (type: NotificationType) => {
+        api[type]({
+            message: 'Ratio Saved',
+            description:
+                'Ratio for Weight Prediction Saved',
+        });
+    };
+
+
+
+    const addData = () => {
+        setDatas(datas => {
+            const newData = {
+                price_max: 0,
+                price_min: 0,
+                ratio: 1000,
+            }
+            
+            const last =  datas[datas.length - 1]
+            if(last){
+                newData.price_min = last.price_max
+            }
+
+            return [...datas, newData]
+        })
+    }
+
+    const removeData = (ind: number) => {
+        setDatas(datas => {
+            return datas.filter((data, indx) => ind !== indx)
+        })
+    }
+
+    const editData = (ind: number, data: WeightRatioConfigItem) => {
+        setDatas(datas => {
+            return datas.map((old, oind) => {
+                if(oind === ind) {
+                    return data
+                }
+                return old
+            })
+        })
+    }
+
+    const saveData = async () => {
+        await client.put("/shopee/v5/config/weight_ratio", {
+            data: datas
+        })
+
+        openNotificationWithIcon("success")
+    }
+
+    useEffect(() => {
+        client.get("/shopee/v5/config/weight_ratio").then(data => {
+            if(data.data.data) {
+                setDatas(data.data.data)
+            }
+            
+        })
+    }, [])
+
+    return (
+
+        <Card title="Config Berat" style={{ width: 800 }}>
+            {contextHolder}
+            <Space direction="vertical">
+                <Space>
+                    <Button type="primary" style={{ backgroundColor: "#00c851" }} onClick={() => saveData()}>Save</Button>
+                    <Button type="primary" onClick={addData}>Add</Button>
+                </Space>
+
+
+
+                <Space
+                    direction="vertical"
+                >
+                    {
+                        datas.map((data, ind) => {
+                            const isError = data.price_max < data.price_min
+                            return <Space key={ind}>
+                                <InputNumber status={isError ? "error": ""} value={data.price_min} addonBefore="price min" onChange={e => editData(ind, {...data, price_min: e ? e: 0})} />
+                                <InputNumber status={isError ? "error": ""} value={data.price_max} addonBefore="price max" onChange={e => editData(ind, {...data, price_max: e ? e: 0})} />
+                                <InputNumber stringMode value={data.ratio} addonBefore="berat (gr)" onChange={e => editData(ind, {...data, ratio: e ? e: 0.001})} />
+
+                                <Button type="primary" style={{ backgroundColor: "red" }} onClick={() => removeData(ind)}>Remove</Button>
+                            </Space>
+                        })
+
+                    }
+
+                </Space>
+
+
+            </Space>
+
+        </Card>
+
+    )
+}
+
+
 
 interface IState {
     url: string
@@ -49,51 +174,13 @@ export default class HitungBeratPage extends React.Component<unknown, IState> {
     }
     render(): JSX.Element {
 
-        const { jarak, harga, predict } = this.state
+        return (
+            <Space direction="horizontal" align="start">
+                <WeightRatioConfig />
 
-        return <div className="margin-container">
-        <div className="row">
-            <div className="col">
-                <h3>HITUNG BERAT PRODUK:</h3>
-                <p><strong>PERHITUNGAN JARAK ke KAB. BLITAR, SRENGAT:</strong></p>
-                <div className="input-group input-group-sm">
-                    <input 
-                        type="text" 
-                        className="form-control" 
-                        value={this.state.url}
-                        placeholder="Masukkan Product Url (Bebas)"
-                        onChange={(e) => this.changeUrl(e.target.value)}
-                    />
-                </div>
-                <br/>
-                <p><strong>JARAK</strong> :  { jarak.toFixed(3) }  <strong>km</strong></p>
-                <p><strong>ONGKOS KIRIM</strong> :  { harga }  <strong>IDR</strong></p>
-                <p><strong>ONGKOS KIRIM / JARAK</strong> :  { (harga / jarak).toFixed(3) }  <strong>IDR/km</strong></p>
-    
-                <p><strong>BERAT ( gr )</strong> = ( Ongkos Kirim / Jarak ) / (harga / gr)</p>
-    
-                <p><strong>BERAT ( gr )</strong> =  { (harga / jarak).toFixed(3) }   /  <FloatNumber
-                    value={this.state.predict}
-                    changeVal={(val) => this.setState({ predict: val })}
-                    style={{
-                        width: '100px',
-                        display: 'inline' 
-                    }}
+            </Space>
+        )
 
-                    className="form-control form-control-sm" placeholder="harga/gr"
-                ></FloatNumber>
-                 =  
-                <strong>
-                    { ((harga / jarak) / predict).toFixed(3) }
-                </strong>
-                 (  { (((harga / jarak) / predict) / 1000).toFixed(3) }  kg )
-                </p>
-                <button className="btn btn-sm btn-info" onClick={() => this.save()}>SAVE</button>
-            </div>
-            <div className="col">
-                
-            </div>
-        </div>
-    </div>
+        
     }
 }
