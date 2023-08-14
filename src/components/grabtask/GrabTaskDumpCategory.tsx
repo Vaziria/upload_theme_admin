@@ -18,14 +18,24 @@ export default class GrabTaskDumpCategory extends React.Component<PropGrabTask, 
 
     async genShopeeCsv(): Promise<void> {
         this.setState({ shopeeLoading: true })
-        await generateShopeeCategoryCsv()
-        this.setState({ shopeeLoading: false })
+
+        try {
+            await generateShopeeCategoryCsv()
+            this.setState({ shopeeLoading: false })
+        } catch {
+            this.setState({ shopeeLoading: false })
+        }
     }
 
     async genTokopediaCsv(): Promise<void> {
         this.setState({ tokopediaLoading: true })
-        await generateTokopediaCategoryCsv()
-        this.setState({ tokopediaLoading: true })
+
+        try {
+            await generateTokopediaCategoryCsv()
+            this.setState({ tokopediaLoading: false })
+        } catch {
+            this.setState({ tokopediaLoading: false })
+        }
     }
 
     renderDumpButton(): JSX.Element {
