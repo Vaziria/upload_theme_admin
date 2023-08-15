@@ -89,3 +89,15 @@ export async function deleteStatCateg(categid: number, is_public: boolean): Prom
   const res = await client.post(url, [categid, null])
   return res.data
 }
+
+interface RenameNamespacePayload {
+  marketplace: MarketList
+  namespace: string
+  update_namespace: string
+}
+
+export async function renameNamespace(payload: RenameNamespacePayload): Promise<{ errcode: boolean }> {
+  const url = '/v1/product/rename_namespace'
+  const res = await client.post(url, payload)
+  return res.data
+}
