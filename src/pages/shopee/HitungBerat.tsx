@@ -109,7 +109,7 @@ function WeightRatioConfig() {
                             return <Space key={ind}>
                                 <InputNumber status={isError ? "error": ""} value={data.price_min} addonBefore="price min" onChange={e => editData(ind, {...data, price_min: e ? e: 0})} />
                                 <InputNumber status={isError ? "error": ""} value={data.price_max} addonBefore="price max" onChange={e => editData(ind, {...data, price_max: e ? e: 0})} />
-                                <InputNumber stringMode value={data.ratio} addonBefore="berat (gr)" onChange={e => editData(ind, {...data, ratio: e ? e: 0.001})} />
+                                <InputNumber value={data.ratio} addonBefore="berat (gr)" onChange={e => editData(ind, {...data, ratio: e ? e: 1000})} />
 
                                 <Button type="primary" style={{ backgroundColor: "red" }} onClick={() => removeData(ind)}>Remove</Button>
                             </Space>
