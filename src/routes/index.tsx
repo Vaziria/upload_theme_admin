@@ -13,6 +13,7 @@ import HitungBeratPage from "../pages/shopee/HitungBerat"
 import SpinPage from "../pages/Spin"
 import Test from "../pages/Test"
 import Tokopedia from "../pages/Tokopedia"
+import CategMapNewPage from "../pages/CategMapNew"
 
 export const roothistory = createBrowserHistory()
 
@@ -40,6 +41,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/tool',
     component: ToolPage
+  },
+  {
+    path: '/categmap',
+    component: CategMapNewPage
   },
   {
     path: '/productstat',
@@ -71,9 +76,7 @@ export function TypedSwitch(): JSX.Element {
   return (
     <Switch>
       {routes.map(({ path, component: RouteComponent }, i) => (
-        <Route exact strict sensitive path={path} key={i}>
-          <RouteComponent />
-        </Route>
+        <Route exact strict sensitive path={path} key={i} component={RouteComponent} />
       ))}
     </Switch>
   )

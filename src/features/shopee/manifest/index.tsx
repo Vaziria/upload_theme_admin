@@ -3,6 +3,7 @@ import { shopeeManifest, shopeeShipping } from "../../../api/shopee/preload"
 import client from "../../../api/client"
 import { CategIds } from "../../../model/shopee/category"
 import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model/shopee/public_category"
+import { ShopeeManifest } from "../../../model/shopee/system"
 
 export async function getShopeeCities(): Promise<void> {
   const res = await client.get("shopee/v5/filter/grab_location")
@@ -35,12 +36,7 @@ export async function getSearchShopeeShipping(): Promise<void> {
   }
 }
 
-export async function shopeeGetManifest(): Promise<void> {
-  const state = store.getState().ShopeeManifestReducer
-  if(Date.now() < state.ttl){
-    return
-  }
-
+export async function shopeeGetManifest(): Promise<ShopeeManifest> {
   const manifest = await shopeeManifest()
   const shipping = await shopeeShipping()
   store.dispatch({
@@ -51,6 +47,8 @@ export async function shopeeGetManifest(): Promise<void> {
       shipping
     }
   })
+
+  return manifest
 }
 
 export interface IChainCateg extends IMainPublicCateg { type: 'category' }

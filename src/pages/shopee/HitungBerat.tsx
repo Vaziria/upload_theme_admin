@@ -1,12 +1,8 @@
+import { Button, Card, InputNumber, Space, notification } from "antd"
 import React, { useEffect, useState } from "react"
-import { getShippingWeight } from "../../api/shopee/shipping_api"
-import FloatNumber from "../../components/common/FLoatNumber"
-import { emitEvent } from "../../event"
 import client from "../../api/client"
-import { Button, Card, Col, Input, InputNumber, Row, Space, Typography, notification } from "antd"
-import { atom } from "recoil"
-
-const { Text, Title } = Typography
+import { getShippingWeight } from "../../api/shopee/shipping_api"
+import { emitEvent } from "../../event"
 
 interface WeightRatioConfigItem {
     price_min: number
