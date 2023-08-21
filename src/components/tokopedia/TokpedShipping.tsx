@@ -35,10 +35,13 @@ export default function TokpedShiping({value, setShippingVal}: {value: string[],
 
     const checkShipping = (key: string) => {
         if (value.includes(key)){
-            return
-        } 
-        const newShips = [...value, key]
-        setShippingVal(newShips) 
+            const newShips = value.filter(dat => { return dat != key})
+            setShippingVal(newShips) 
+        } else {
+            const newShips = [...value, key]
+            setShippingVal(newShips) 
+        }
+        
     }
 
     return (
@@ -47,7 +50,7 @@ export default function TokpedShiping({value, setShippingVal}: {value: string[],
         {
             shippings.map(data => {
                 const isChecked = value.includes(data.value)
-                return <Checkbox key={data.name} onChange={() => checkShipping(data.value)} checked={isChecked}>{data.name}</Checkbox>
+                return <Checkbox key={data.name} onChange={e => checkShipping(data.value)} checked={isChecked}>{data.name}</Checkbox>
             })
         }
         </Space>
