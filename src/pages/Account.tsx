@@ -1,5 +1,8 @@
 import React, { useState } from 'react'
+import { Button, Select, Space, Typography } from 'antd'
+
 import NewAccount from '../components/account/NewAccount'
+import AntdCheckbox from '../components/common/AntdCheckbox'
 import {
     AccountPaging, AccountQuery,
     backup, defpaging, defquery, getAccounts
@@ -9,7 +12,6 @@ import SettingItem from '../components/account/SettingItem'
 import { getUploadMode, UploadMode } from '../api/bot_configuration'
 import { IAccount } from '../model/Account'
 import UploadShipping from '../components/shopee/UploadShipping'
-import { Button, Select, Space, Typography } from 'antd'
 import client from '../api/client'
 
 
@@ -19,11 +21,13 @@ const { Text} = Typography
 function AkunAction(){
 
     const [mp, setMp] = useState<string>("shopee")
+    const [useMap, setUseMap] = useState(false)
+
     let url = ""
     if (mp === "shopee"){
         url = "http://localhost:5000/upload/v6/shopee_to_shopee"
     } else {
-        url = "http://localhost:5000/upload/v6/tokopedia_to_shopee"
+        url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
     }
 
     const runUpload = async () => {
@@ -52,6 +56,12 @@ function AkunAction(){
                     minWidth: "100px"
                 }}
             />
+
+            {mp === "tokopedia" &&
+                <AntdCheckbox style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
+                    Use mapping
+                </AntdCheckbox>
+            }
         </Space>
         
             
