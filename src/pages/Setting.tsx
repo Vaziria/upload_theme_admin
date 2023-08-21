@@ -151,7 +151,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
               onChange={(upmode) => this.setMode(upmode)}
             ></MpSelect>
             { this.state.upmode === 'shopee' && <ShopeeUpConfig></ShopeeUpConfig> }
-            { this.state.upmode === 'tokopedia' && <TokopediaUpConfig></TokopediaUpConfig> }
+            { this.state.upmode === 'tokopedia' && <TokopediaUpConfig />}
           </div>
           <hr/>
 

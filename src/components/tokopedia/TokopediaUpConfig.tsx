@@ -22,7 +22,8 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
     async componentDidMount(): Promise<void> {
         const data = await getTokopediaSettingGrab()
         if(data.errcode === 0){
-            this.setState(data.data.data)
+            const shipping = data.data.data.shipping.filter(dat => String(dat) != "")
+            this.setState({...data.data.data, shipping})
         }
     }
 
@@ -153,10 +154,10 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
                     </label>
                 </div>
             </div>
-            <TokpedShiping
-                value={this.state.shipping}
-                onChange={(e) => this.setState({ shipping: e })}
-            ></TokpedShiping>
+            
+
+
+            <TokpedShiping value={this.state.shipping} setShippingVal={ shipval => this.setState({shipping: shipval})} />
             <div className="col-12"><button className="btn btn-success btn-sm" onClick={() => this.save()}>Save Setting Tokopedia</button></div>
         </div>
     }

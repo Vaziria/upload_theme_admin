@@ -10,7 +10,7 @@ export interface TokopediaSettingGrab {
     pmax: number
     pmin: number
     rt: string
-    shipping: number[]
+    shipping: string[]
 }
 
 export async function getTokopediaSettingGrab(): Promise<{errcode: number, data: {data: TokopediaSettingGrab}}> {

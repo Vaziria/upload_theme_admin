@@ -1,5 +1,62 @@
-import React from "react"
-import Checkbox from "../common/Checkbox"
+import { Checkbox, Space } from "antd"
+import React, { useEffect, useState } from "react"
+import client from "../../api/client"
+
+
+// http://localhost:5000/tokopedia/filter/shipping
+
+export interface ShippingItem {
+    name: string
+    Description: string
+    key: string
+    icon: string
+    value: string
+    inputType: string
+    totalData: string
+    valMax: string
+    valMin: string
+    hexColor: string
+    child: any[]
+    isPopular: boolean
+    isNew: boolean
+}
+  
+
+
+export default function TokpedShiping({value, setShippingVal}: {value: string[], setShippingVal: (ships: string[])=>void}) {
+    const [shippings, setShippings] = useState<ShippingItem[]>([])
+
+    useEffect(() => {
+        client.get("/tokopedia/filter/shipping").then(res => {
+            const sortedData = res.data.sort((a, b) => (a.name < b.name ? -1 : 1))
+            setShippings(sortedData)
+        })
+    },[])
+
+    const checkShipping = (key: string) => {
+        if (value.includes(key)){
+            return
+        } 
+        const newShips = [...value, key]
+        setShippingVal(newShips) 
+    }
+
+    return (
+    <div>
+        <Space direction="vertical">
+        {
+            shippings.map(data => {
+                const isChecked = value.includes(data.value)
+                return <Checkbox key={data.name} onChange={() => checkShipping(data.value)} checked={isChecked}>{data.name}</Checkbox>
+            })
+        }
+        </Space>
+        
+        
+    </div>
+    )
+}
+
 
 interface CheckItem {
     name: string
@@ -26,40 +83,41 @@ const listShipping: CheckItem[] = [
     { name: "Grab", value: 13}
 ]
 
-export default class TokpedShiping extends React.Component<IProp> {
-    setKurir(cek: boolean, val: number[]): void {
-        if(!cek) {
-            const updateValue = this.props.value.filter((v) => !val.includes(Number(v)))
-            this.props.onChange(updateValue)
+
+// class TokpedShipingB extends React.Component<IProp> {
+//     setKurir(cek: boolean, val: number[]): void {
+//         if(!cek) {
+//             const updateValue = this.props.value.filter((v) => !val.includes(Number(v)))
+//             this.props.onChange(updateValue)
             
-        } else {
-            const updateValue = this.props.value
-            updateValue.push(...val)
-            this.props.onChange(updateValue)
-        }
-    }
+//         } else {
+//             const updateValue = this.props.value
+//             updateValue.push(...val)
+//             this.props.onChange(updateValue)
+//         }
+//     }
 
-    render(): JSX.Element {
-        return <div className="col-lg-4">
+//     render(): JSX.Element {
+//         return <div className="col-lg-4">
 
-        {
-            listShipping.map((item, index) => {
-                const values = typeof item.value === 'number' ? [item.value] : item.value;
-                const checked = values.every((v) => this.props.value.map(Number).includes(Number(v)));
+//         {
+//             listShipping.map((item, index) => {
+//                 const values = typeof item.value === 'number' ? [item.value] : item.value;
+//                 const checked = values.every((v) => this.props.value.map(Number).includes(Number(v)));
 
-                return <div key={index}>
-                    <Checkbox
-                        className="form-check-input"
-                        checked={checked}
-                        onChange={(e) => this.setKurir(e, values)}
-                    >
-                    </Checkbox>
-                    {item.name}<br/>
+//                 return <div key={index}>
+//                     <Checkbox
+//                         className="form-check-input"
+//                         checked={checked}
+//                         onChange={(e) => this.setKurir(e, values)}
+//                     >
+//                     </Checkbox>
+//                     {item.name}<br/>
 
-                </div>
-            })
-        }
+//                 </div>
+//             })
+//         }
         
-    </div>
-    }
-}
+//     </div>
+//     }
+// }
