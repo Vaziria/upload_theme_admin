@@ -1,15 +1,15 @@
+import React, { useState } from "react"
 import { Input } from "antd"
-import React from "react"
 
 import type { MarketList } from "../../model/Common"
+import type { MapperPageFilter } from "../../recoil/selectors/mapper_items_page"
+import { debounce } from "../../utils/debounce";
 
 import AntdCheckbox from "../common/AntdCheckbox"
 import NamespaceSelectNew from "../common/NamespaceSelectNew"
 
-export interface MapperFilterData {
+export interface MapperFilterData extends Pick<MapperPageFilter, "search" | "unmapped"> {
     namespace?: string
-    search: string
-    unmapped: boolean
 }
 
 interface Props {
@@ -22,36 +22,56 @@ const { Search } = Input;
 
 const MapperFilter: React.FC<Props> = (props: Props) => {
 
+    const { data, mode, onChange } = props
+    const { namespace, search, unmapped } = data
+    const [ searchValue, setSearchValue ] = useState("")
+
     const onNamespaceChange = (namespace?: string) => {
-        props.onChange?.({ ...props.data,  namespace })
+        setSearchValue("")
+        onChange?.({
+            namespace,
+            search: "",
+            unmapped: false,
+        })
     }
 
     const onUnmappedChange = (unmapped: boolean) => {
-        props.onChange?.({ ...props.data, unmapped })
+        onChange?.({ ...data, unmapped })
     }
 
     const onSearchChange = (search: string) => {
-        props.onChange?.({ ...props.data, search })
+        onChange?.({ ...data, search })
     }
+
+    const onSearchBouncer = debounce(onSearchChange, 500)
 
     return <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
         <NamespaceSelectNew
             style={{ minWidth: 180, maxWidth: 180 }}
-            marketplace={props.mode}
-            value={props.data.namespace || null}
+            marketplace={mode}
+            value={namespace || null}
             onChange={onNamespaceChange}
         />
         <AntdCheckbox
             style={{ fontWeight: 400 }}
-            checked={props.data.unmapped}
+            disabled={!namespace}
+            checked={unmapped}
             onChange={onUnmappedChange}
         >
             unmapped
         </AntdCheckbox>
         <Search
+            disabled={!namespace}
             placeholder="search category..."
             allowClear
+            value={searchValue}
+            defaultValue={search}
+            checked={unmapped}
             onSearch={onSearchChange}
+            onChange={({ target: { value } }) => {
+                setSearchValue(value)
+                onSearchBouncer(value)
+            }}
         />
     </div>
 }

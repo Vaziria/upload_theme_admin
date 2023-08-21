@@ -6,9 +6,17 @@ import type { MarketList } from "../../model/Common"
 
 export type MapperMode =  MarketList | "all"
 
-export const mapperItemsPageState = selectorFamily<MapperItem[], { mode: MapperMode, page: number, pagesize: number }>({
+export interface MapperPageFilter {
+    mode: MapperMode,
+    search: string
+    unmapped: boolean
+    page: number
+    pagesize: number
+}
+
+export const mapperItemsPageState = selectorFamily<[MapperItem[], number], Readonly<MapperPageFilter>>({
     key: "mapperItemsPage",
-    get: ({ mode, page, pagesize }) => ({get}) => {
+    get: ({ mode, search, unmapped, page, pagesize }) => ({get}) => {
 
         const mapperItems = get(mapperItemsState)
         let items = [...mapperItems]
@@ -16,25 +24,38 @@ export const mapperItemsPageState = selectorFamily<MapperItem[], { mode: MapperM
         switch(mode) {
 
             case "shopee":
-                items = items.sort((a, b) =>
-                    (a.shopee_category_name?.join("") || "") >
-                    (b.shopee_category_name?.join("") || "") ?
-                    1 : -1
-                )
+                items = items
+                    .filter((item) => !unmapped || !item.tokopedia_id)
+                    .filter((item) => {
+                        return item.shopee_category_name
+                            ?.some((name) => name.toLowerCase().includes(search))
+                    })
+                    .sort((a, b) =>
+                        (a.shopee_category_name?.join("") || "") >
+                        (b.shopee_category_name?.join("") || "") ?
+                        1 : -1
+                    )
                 break
             
             case "tokopedia":
-                items = items.sort((a, b) =>
-                    (a.tokopedia_category_name?.join("") || "") >
-                    (b.tokopedia_category_name?.join("") || "") ?
-                    1 : -1
-                )
+                items = items
+                    .filter((item) => !unmapped || !item.shopee_id)
+                    .filter((item) => {
+                        return item.tokopedia_category_name
+                            ?.some((name) => name.toLowerCase().includes(search))
+                    })
+                    .sort((a, b) =>
+                        (a.tokopedia_category_name?.join("") || "") >
+                        (b.tokopedia_category_name?.join("") || "") ?
+                        1 : -1
+                    )
                 break
         }
 
-        return items.filter((_, index) => {
+        const paginateItems = items.filter((_, index) => {
             const itemPage = Math.ceil((index + 1) / pagesize)
             return itemPage == page
         })
+        return [paginateItems, items.length]
     },
 })

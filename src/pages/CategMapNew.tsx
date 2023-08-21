@@ -82,14 +82,14 @@ const CategMap: React.FC<Props> = (props: Props) => {
                         onChange={onModeChange}
                     />
 
-                    <MapperAction />
+                    <MapperAction filter={state} mode={state.mode} />
                 </Space>
                 
                 <Divider />
 
                 <MapperDataview
                     mode={state.mode}
-                    namespace={state.namespace}
+                    filter={state}
                     loading={isLoading}
                 />
             </Card>

@@ -4,26 +4,33 @@ import { useRecoilValue } from "recoil"
 
 import { MapperItem } from "../../api/mapper"
 import { mapperItemsPageState } from "../../recoil/selectors/mapper_items_page"
+
 import type { MarketList } from "../../model/Common"
+import type { MapperFilterData } from "./MapperFilter"
 
 import TokopediaToShopeeMapperItem from "./TokopediaToShopeeMapperItem"
 
 interface MapperDataviewProps {
     mode: MarketList
-    namespace?: string
+    filter: MapperFilterData
     loading: boolean
     items?: MapperItem[]
 }
 
 const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
 
+    const { mode, filter } = props
+    const { namespace, search, unmapped } = filter
+
     const [page, setPage] = useState(1)
     const [pagesize, setPagesize] = useState(10)
 
-    useEffect(() => setPage(1), [props.items])
+    useEffect(() => setPage(1), [props.filter])
 
-    const items = useRecoilValue(mapperItemsPageState({
-        mode: props.mode,
+    const [items, total] = useRecoilValue(mapperItemsPageState({
+        mode,
+        search,
+        unmapped,
         page,
         pagesize
     }))
@@ -34,7 +41,7 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
         </Space>
     }
 
-    if (props.mode === "shopee") {
+    if (mode === "shopee") {
         return <Result
             status="404"
             title="unsupported mode shopee"
@@ -42,7 +49,7 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
         />
     }
 
-    if (!props.namespace) {
+    if (!namespace) {
         return <Result
             status="404"
             title="namespace belum dipilih"
@@ -64,7 +71,7 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
                 <Pagination
                     current={page}
                     pageSize={pagesize}
-                    total={props.items?.length}
+                    total={total}
                     pageSizeOptions={[10, 20, 30, 50]}
                     onChange={(page, pagesize) => {
                         setPage(page)

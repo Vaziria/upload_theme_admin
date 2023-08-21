@@ -18,7 +18,7 @@ const TokopediaToShopeeMapperItem: React.FC<Props> = (props: Props) => {
     function onCategoryChange(shopee_id: number) {
         setMapperItems((mapper) => mapper.map((map) => {
 
-            if (map.tokpedia_id === props.item.tokpedia_id) {
+            if (map.tokopedia_id === props.item.tokopedia_id) {
                 return { ...map, shopee_id }
             }
 
