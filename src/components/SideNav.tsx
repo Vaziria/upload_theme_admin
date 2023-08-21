@@ -42,6 +42,11 @@ const menuItem: MenuItem[] = [
     icon: 'fas fa-cloud-download-alt'
   }, 
   {
+    name: 'Category Mapper',
+    path: '/categmap',
+    icon: 'fas fa-th-list'
+  },
+  {
     name: 'Detail Product',
     path: '/productstat',
     icon: 'far fa-chart-bar'
