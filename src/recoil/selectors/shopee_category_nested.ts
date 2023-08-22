@@ -1,6 +1,6 @@
 import { selector } from "recoil"
 
-import { shopeeCategoryManifestState } from "../atoms/manifest"
+import { shopeeSellerCategoriesState } from "../atoms/categories"
 import type { IShopeeCateg } from "../../model/shopee/category"
 
 export interface ShopeeCategoryNested {
@@ -38,8 +38,8 @@ export const shopeeCategoryNestedState = selector<ShopeeCategoryNested[]>({
     key: "shopeeCategoryNested",
     get: ({ get }) => {
 
-        const manifest = get(shopeeCategoryManifestState)
-        const parents = manifest.sellerCategories.filter(c => !c.parent_id)
-        return parents.map<ShopeeCategoryNested>(parentMapper(manifest.sellerCategories))
+        const categories = get(shopeeSellerCategoriesState)
+        const parents = categories.filter(c => !c.parent_id)
+        return parents.map<ShopeeCategoryNested>(parentMapper(categories))
     }
 })

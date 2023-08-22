@@ -28,7 +28,7 @@ export const mapperItemsPageState = selectorFamily<[MapperItem[], number], Reado
                     .filter((item) => !unmapped || !item.tokopedia_id)
                     .filter((item) => {
                         return item.shopee_category_name
-                            ?.some((name) => name.toLowerCase().includes(search))
+                            ?.some((name) => name.toLowerCase().includes(search.toLowerCase()))
                     })
                     .sort((a, b) =>
                         (a.shopee_category_name?.join("") || "") >

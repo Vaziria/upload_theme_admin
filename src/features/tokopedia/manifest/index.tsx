@@ -1,26 +1,43 @@
 import { store } from "../.."
 import client from "../../../api/client"
 import { tokopediaGetCategories } from "../../../api/tokopedia/preload"
+import { ITokpedCateg } from "../../../model/tokopedia/category"
+import { TokpedCity } from '../../../model/tokopedia/city'
 
-export async function tokopediaGetManifest(): Promise<void> {
+export interface TokopediaManifest {
+  cities: TokpedCity[]
+  categories: ITokpedCateg[]
+}
+
+export async function tokopediaGetManifest(): Promise<TokopediaManifest> {
 
   // geting city
-  const cities = await client.get('/tokopedia/filter/fcity')
+  const cities = await client.get<TokpedCity[]>('/tokopedia/filter/fcity')
   store.dispatch({
     type: 'tokopedia/manifest/city',
     payload: cities.data
   })
 
-  const state = store.getState().TokopediaManifestReducer
-  if(Date.now() < state.ttl){
-    return
-  }
-  const category = await tokopediaGetCategories()
+  try {
+    const categories = await tokopediaGetCategories()
 
-  store.dispatch({
-    type: 'tokopedia/manifest/category',
-    payload: category
-  })
+    store.dispatch({
+      type: 'tokopedia/manifest/category',
+      payload: categories
+    })
+
+    return {
+      cities: cities.data,
+      categories: categories,
+    }
+
+  } catch {
+
+    return {
+      cities: cities.data,
+      categories: [],
+    }
+  }
 }
 
 export function getChainName(idnya: number): string[] {

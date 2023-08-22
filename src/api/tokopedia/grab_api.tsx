@@ -13,10 +13,25 @@ export interface TokopediaSettingGrab {
     shipping: string[]
 }
 
-export async function getTokopediaSettingGrab(): Promise<{errcode: number, data: {data: TokopediaSettingGrab}}> {
-    const res = await client.get("/legacy/api/settingGrab")
 
-    return res.data
+interface SettingGrab {
+    errcode: number
+    data: {
+        data: TokopediaSettingGrab
+    }
+}
+
+export async function getTokopediaSettingGrab(): Promise<SettingGrab> {
+    const res = await client.get<SettingGrab>("/legacy/api/settingGrab")
+    const data = res.data
+
+    data.data.data.fcity = data.data.data.fcity.filter((city) => {
+        const cities = city.split(",")
+        const num = parseInt(cities[0])
+        return !isNaN(num)
+    })
+
+    return data
 }
 
 export async function updateTokopediaSettingGrab(data: TokopediaSettingGrab): Promise<void> {

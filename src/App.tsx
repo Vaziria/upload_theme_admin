@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React, { useEffect } from 'react'
 import { Provider } from "react-redux"
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { PersistGate } from "redux-persist/integration/react"
@@ -9,7 +9,8 @@ import { setupV2Notification } from './api/notif'
 import { getNamespaces } from './api/product'
 import { TypedSwitch } from './routes'
 
-import { shopeeCategoryManifestState } from "./recoil/atoms/manifest"
+import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
+import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { namespaceDataState } from "./recoil/atoms/namespace"
 import { persistor, store } from "./features"
 import { loadSpin } from './features/spin'
@@ -22,18 +23,22 @@ import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./f
 import SideNav from './components/SideNav'
 
 const Loader: React.FC = () => {
-  const setShopeeManifest = useSetRecoilState(shopeeCategoryManifestState)
+  const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
+  const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
+  const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
   const setNamespaceData = useSetRecoilState(namespaceDataState)
 
-  useMemo(() => {
+  useEffect(() => {
     Promise.all([
-      shopeeGetManifest().then((manifest) => setShopeeManifest({
-        publicCategories: manifest.public_category_repo,
-        sellerCategories: manifest.category,
-      })),
+      shopeeGetManifest().then((manifest) => {
+        setShopeeSellerCategories(manifest.category)
+        setShopeePublicCategories(manifest.public_category_repo)
+      }),
       getShopeeCities(),
       getSearchShopeeShipping(),
-      tokopediaGetManifest(),
+      tokopediaGetManifest().then((manifest) => {
+        setTokopediaCities(manifest.cities)
+      }),
       loadSpin(),
       loadCollection(),
       loadHastags(),

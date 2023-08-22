@@ -1,83 +1,55 @@
 import React from "react"
-import { connect, ConnectedProps } from "react-redux"
-import { RootState } from "../../features"
+import { useRecoilValue } from "recoil"
+import { Select, SelectProps } from "antd";
 
-function mapState(state: RootState){
-    return {
-      cities: state.TokopediaManifestReducer.cities
-    }
-  }
-  
-const connector = connect(mapState, {})
-type PropsFromRedux = ConnectedProps<typeof connector>
+import { tokopediaCitiesState } from "../../recoil/atoms/cities";
+import { DefaultOptionType } from "antd/es/select";
 
 
-interface IProp extends PropsFromRedux {
+interface Props extends Omit<SelectProps, "value" | "onChange" | "onSearch" | "mode"> {
     value: string[]
-    onChange: (value: string[]) => unknown
+    onChange?: (value: string[]) => void
 }
 
-interface IState {
-    search: string
-}
+const KotaSelect: React.FC<Props> = (props: Props) => {
 
-class KotaSelect extends React.Component<IProp, IState> {
-    state: IState = {
-        search: ""
-    }
-    getCities(): string[] {
-        const cities = this.props.cities.map(city => city.name)
-        return cities
+    const { value, onChange, ...selectProps } = props
+
+    const cities = useRecoilValue(tokopediaCitiesState)
+    const options: DefaultOptionType[] = [...cities]
+        .sort((a, b) => a.name > b.name ? 1 : -1)
+        .map<DefaultOptionType>((city) => ({
+            label: city.name,
+            value: city.value,
+        }))
+    
+    function onValueChange(values: string[]) {
+        values.forEach((v, index) => {
+    
+            const numV = parseInt(v)
+            if (isNaN(numV)) {
+                const city = cities.find((c) => c.name.toLowerCase() === v.toLowerCase())
+                if (city) {
+                    values[index] = city?.value
+                }
+            }
+        })
+
+        onChange?.(values)
     }
 
-    addCity(): void {
-        const { value } = this.props
-        this.props.onChange([...value, this.state.search])
-    }
-
-    render(): JSX.Element {
-        const { value } = this.props
-        const cities = this.getCities()
-
-        return (
-            <>
-                <div className="input-group mb-3 input-group-sm">
-                    <div className="input-group-prepend">
-                        <label className="input-group-text kota">Kota</label>
-                    </div>
-                    <input list="scity" className="form-control form-control-sm"
-                        value={this.state.search}
-                        onChange={(e) => this.setState({ search: e.target.value })}
-                    />
-                    <datalist id="scity">
-                        {cities.map((city, index) => <option key={index} value={city}>{city}</option>) }
-                    </datalist>
-                    <div className="input-group-append">
-                        <button className="btn btn-primary inp-group" type="button" onClick={() => this.addCity()}>add</button>
-                    </div>
-                </div>
-                
-                <div className="row">
-                    <div className="col">
-                        <ul>
-                            {value.map((item) => {
-                                return <li key={item}><span>{item}</span>    
-                                <button type="button" className="close" onClick={() => {
-                                    const newval = value.filter((val) => val !== item)
-                                    this.props.onChange(newval)
-                                }}>
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                                </li>
-                            })}
-                            
-                        </ul>
-                    </div>
-                </div>
-            </>
-        )
-    }
+    return <Select
+        {...selectProps}
+        options={options}
+        mode="multiple"
+        value={value}
+        filterOption={(search, option) => (option?.label?.toString() ?? '')
+            .toLowerCase()
+            .includes(search.toLowerCase())
+        }
+        onChange={onValueChange}
+    />
 }
 
 
-export default connector(KotaSelect)
+export default KotaSelect

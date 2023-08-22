@@ -101,6 +101,8 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
                 </div>
                 <KotaSelect
                     value={this.state.fcity}
+                    className="mb-3"
+                    style={{ width: "100%" }}
                     onChange={(e) => this.setState({ fcity: e })}
                 ></KotaSelect>
                 <div className="row">
