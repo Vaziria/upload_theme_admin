@@ -99,12 +99,16 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
                         </div>
                     </div>
                 </div>
-                <KotaSelect
-                    value={this.state.fcity}
-                    className="mb-3"
-                    style={{ width: "100%" }}
-                    onChange={(e) => this.setState({ fcity: e })}
-                ></KotaSelect>
+                <div className="input-group input-group-sm mb-3" style={{ display: "flex" }}>
+                    <div className="input-group-prepend">
+                        <span className="input-group-text">Rating</span>
+                    </div>
+                    <KotaSelect
+                        value={this.state.fcity}
+                        style={{ flex: 1 }}
+                        onChange={(e) => this.setState({ fcity: e })}
+                    />
+                </div>
                 <div className="row">
                     <div className="col">
                         <div className="input-group mb-3 input-group-sm">

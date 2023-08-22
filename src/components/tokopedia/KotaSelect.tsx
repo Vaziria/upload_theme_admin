@@ -42,6 +42,7 @@ const KotaSelect: React.FC<Props> = (props: Props) => {
         {...selectProps}
         options={options}
         mode="multiple"
+        placeholder="pilih kota..."
         value={value}
         filterOption={(search, option) => (option?.label?.toString() ?? '')
             .toLowerCase()
