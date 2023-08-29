@@ -52,13 +52,14 @@ const MapperAction: React.FC<Props> = (props: Props) => {
                 content: "Update mapping gagal"
             }))
     }
+    const disabled = mode === "shopee" || !filter.namespace
     const saveMutation = useMutation(saveMapping, {})
 
     return <>
         {contextHolder}
         <Space style={{ display: 'flex' }}>
             <Button
-                disabled={mode === "shopee"}
+                disabled={disabled}
                 icon={<ClusterOutlined rev={null} />}
                 onClick={() => autoSuggestMutation.mutate()}
             >Auto Suggest</Button>
@@ -71,7 +72,7 @@ const MapperAction: React.FC<Props> = (props: Props) => {
             
             <Button
                 type="primary"
-                disabled={mode === "shopee"}
+                disabled={disabled}
                 style={{ background: "#52c41a" }}
                 icon={<SaveOutlined rev={null} />}
                 onClick={() => saveMutation.mutate()}
