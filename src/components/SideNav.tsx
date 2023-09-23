@@ -40,6 +40,11 @@ const menuItem: MenuItem[] = [
     name: 'Grab',
     path: '/customgrab',
     icon: 'fas fa-cloud-download-alt'
+  },
+  {
+    name: 'Product Manual',
+    path: '/productmanual',
+    icon: 'fa fa-print'
   }, 
   {
     name: 'Category Mapper',
@@ -54,7 +59,7 @@ const menuItem: MenuItem[] = [
   {
     name: 'Tokopedia',
     path: '/toped',
-    icon: 'far fa-chart-bar'
+    icon: 'fas fa-project-diagram'
   }
 ] 
 

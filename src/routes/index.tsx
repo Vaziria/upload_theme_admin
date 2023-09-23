@@ -14,6 +14,9 @@ import SpinPage from "../pages/Spin"
 import Test from "../pages/Test"
 import Tokopedia from "../pages/Tokopedia"
 import CategMapNewPage from "../pages/CategMapNew"
+import ProductManual from "../pages/ProductManual"
+import ProductManualItems from "../pages/ProductManualItems"
+import ProductManualForm from "../pages/ProductManualForm"
 
 export const roothistory = createBrowserHistory()
 
@@ -69,6 +72,22 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/test',
     component: Test
+  },
+  {
+    path: '/productmanual',
+    component: ProductManual
+  },
+  {
+    path: '/productmanual/:collection_name',
+    component: ProductManualItems
+  },
+  {
+    path: '/productmanual/:collection_name/form',
+    component: ProductManualForm
+  },
+  {
+    path: '/productmanual/:collection_name/form/:product_id',
+    component: ProductManualForm
   }
 ]
 

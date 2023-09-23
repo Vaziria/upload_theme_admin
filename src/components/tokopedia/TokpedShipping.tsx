@@ -23,7 +23,7 @@ export interface ShippingItem {
   
 
 
-export default function TokpedShiping({value, setShippingVal}: {value: string[], setShippingVal: (ships: string[])=>void}) {
+export default function TokpedShiping({value, setShippingVal}: {value: string[], setShippingVal: (ships: string[])=>void}): JSX.Element {
     const [shippings, setShippings] = useState<ShippingItem[]>([])
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export default function TokpedShiping({value, setShippingVal}: {value: string[],
         {
             shippings.map(data => {
                 const isChecked = value.includes(data.value)
-                return <Checkbox key={data.name} onChange={e => checkShipping(data.value)} checked={isChecked}>{data.name}</Checkbox>
+                return <Checkbox key={data.name} onChange={() => checkShipping(data.value)} checked={isChecked}>{data.name}</Checkbox>
             })
         }
         </Space>
@@ -61,30 +61,30 @@ export default function TokpedShiping({value, setShippingVal}: {value: string[],
 }
 
 
-interface CheckItem {
-    name: string
-    value: number | number[]
-}
+// interface CheckItem {
+//     name: string
+//     value: number | number[]
+// }
 
-interface IProp {
-    value: number[]
-    onChange: (value: number[]) => unknown
-}
+// interface IProp {
+//     value: number[]
+//     onChange: (value: number[]) => unknown
+// }
 
-const listShipping: CheckItem[] = [
-    { name: "Instant Courier", value: [10,12,13]},
-    { name: "JNE", value: 1},
-    { name: "Pos Indonesia", value: 4},
-    { name: "REX", value: 16},
-    { name: "J&T", value: 14},
-    { name: "Wahana", value: 6},
-    { name: "SiCepat", value: 11},
-    { name: "TIKI", value: 2},
-    { name: "First", value: 9},
-    { name: "Go-Send", value: 10},
-    { name: "Ninja Express", value: 12},
-    { name: "Grab", value: 13}
-]
+// const listShipping: CheckItem[] = [
+//     { name: "Instant Courier", value: [10,12,13]},
+//     { name: "JNE", value: 1},
+//     { name: "Pos Indonesia", value: 4},
+//     { name: "REX", value: 16},
+//     { name: "J&T", value: 14},
+//     { name: "Wahana", value: 6},
+//     { name: "SiCepat", value: 11},
+//     { name: "TIKI", value: 2},
+//     { name: "First", value: 9},
+//     { name: "Go-Send", value: 10},
+//     { name: "Ninja Express", value: 12},
+//     { name: "Grab", value: 13}
+// ]
 
 
 // class TokpedShipingB extends React.Component<IProp> {

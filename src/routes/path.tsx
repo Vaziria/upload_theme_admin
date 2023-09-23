@@ -11,7 +11,11 @@ export const PATHS = [
     '/task',
     '/legacy/shopee/berat',
     '/test',
-    '/toped'
+    '/toped',
+    '/productmanual',
+    '/productmanual/:collection_name',
+    '/productmanual/:collection_name/form',
+    '/productmanual/:collection_name/form/:product_id',
   ] as const
   
 export type Path = (typeof PATHS)[number]

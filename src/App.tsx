@@ -1,32 +1,41 @@
+import axios from 'axios'
 import React, { useEffect } from 'react'
-import { Provider } from "react-redux"
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { PersistGate } from "redux-persist/integration/react"
+import { Provider } from "react-redux"
 import { BrowserRouter } from 'react-router-dom'
 import { RecoilRoot, useSetRecoilState } from "recoil"
+import { PersistGate } from "redux-persist/integration/react"
 
 import { setupV2Notification } from './api/notif'
 import { getNamespaces } from './api/product'
 import { TypedSwitch } from './routes'
 
-import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
-import { tokopediaCitiesState } from "./recoil/atoms/cities"
-import { namespaceDataState } from "./recoil/atoms/namespace"
+import SideNav from './components/SideNav'
+
 import { persistor, store } from "./features"
-import { loadSpin } from './features/spin'
+import { loadCollection } from './features/collection'
 import { loadHastags } from './features/hastag'
 import { loadMarkup } from './features/markup'
-import { loadCollection } from './features/collection'
-import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./features/shopee/manifest"
+import { loadSpin } from './features/spin'
+import { tokopediaGetManifest } from "./features/tokopedia/manifest"
+import { useQuery } from './model/apisdk'
+import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
+import { tokopediaCitiesState } from "./recoil/atoms/cities"
+import { productManualCollectionState } from './recoil/atoms/collection'
+import { namespaceDataState } from "./recoil/atoms/namespace"
 
-import SideNav from './components/SideNav'
+// TODO: sdk belum support base url
+axios.defaults.baseURL = "http://localhost:5000"
 
 const Loader: React.FC = () => {
   const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
   const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
   const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
   const setNamespaceData = useSetRecoilState(namespaceDataState)
+  const setProductManualCollection = useSetRecoilState(productManualCollectionState)
+
+  const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
 
   useEffect(() => {
     Promise.all([
@@ -59,6 +68,12 @@ const Loader: React.FC = () => {
         tokopediaNamespaces
       }))
     )
+
+    getCollections({
+      onSuccess(res){
+        setProductManualCollection(res.data)
+      }
+    })
 
   }, [])
 

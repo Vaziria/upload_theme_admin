@@ -1,5 +1,6 @@
 
-type AllowedValue = string | number| boolean;
+export type AllowedValue = string | number| boolean;
+export type AllowedParams = {[key: string]: AllowedValue}
 
 function parseToString(value: AllowedValue): string {
     switch(typeof value) {
@@ -22,7 +23,7 @@ function parseToString(value: AllowedValue): string {
     }
 }
 
-export function createSearchParams(params: {[key: string]: AllowedValue}): string {
+export function createSearchParams(params: AllowedParams): string {
 
     const urlParams = new URLSearchParams()
     for (const key in params) {

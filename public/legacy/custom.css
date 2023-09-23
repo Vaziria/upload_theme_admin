@@ -133,3 +133,97 @@ input, .btn{
 .time-notif{
 	font-size: 12px;
 }
+
+.c-tx-gray {
+	color: #bfbfbf
+}
+
+.c-flex {
+	display: flex;
+}
+
+.c-flex-1 {
+	flex: 1 !important;
+}
+
+.c-item-center {
+	align-items: center;
+}
+
+.c-justify-center {
+	justify-content: center;
+}
+
+.c-justify-space-arround {
+	justify-content: space-around;
+}
+
+.c-gap-1 {
+	gap: 4px;
+}
+
+.c-gap-2 {
+	gap: 8px;
+}
+
+.c-gap-3 {
+	gap: 12px;
+}
+
+.c-gap-4 {
+	gap: 16px;
+}
+
+.c-gap-5 {
+	gap: 20px;
+}
+
+.c-gap-6 {
+	gap: 24px;
+}
+
+.pointer {
+	cursor: pointer;
+}
+
+.c-bold {
+	font-weight: bold;
+}
+
+.c-bolder {
+	font-weight: bolder;
+}
+
+.c-normal {
+	font-weight: normal;
+}
+
+.mb-0 {
+	margin-bottom: 0;
+}
+
+.c-truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.c-tx-center {
+	text-align: center;
+}
+
+.c-tx-price {
+	color: #faad14;
+}
+
+.c-tx-red {
+	color: #ff7875;
+}
+
+.c-tx-sm {
+	font-size: 13px;
+}
+
+.c-spin-label {
+	width: 200px;
+}
