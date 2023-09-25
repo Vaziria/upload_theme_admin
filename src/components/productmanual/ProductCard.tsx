@@ -36,7 +36,7 @@ const ProductVariation: React.FC<Props> = (props: Props): JSX.Element => {
 }
 
 const ProductAction: React.FC<Props> = (props: Props) => {
-    return <div className="c-flex c-justify-space-arround c-item-center mt-2">
+    return <div className="c-flex c-justify-space-around c-item-center mt-2">
         <div />
         <Button
             type="text"

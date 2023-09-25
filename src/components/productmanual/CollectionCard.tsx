@@ -8,6 +8,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil";
 import { ColDeletePayload, Collection, SendOptions } from "../../model/apisdk";
 import { productManualCollectionSelectedState } from "../../recoil/atoms/collection";
 import { productManualCollectionIsSelectedIdState, productManualCollectionIsSelectedState } from "../../recoil/selectors/product_manual_collection_page";
+
 import AntdCheckbox from "../common/AntdCheckbox";
 import AntdInput from "../common/AntdInput";
 
@@ -82,7 +83,7 @@ const CollectionAction: React.FC<EditActionProps> = (props: EditActionProps) => 
     }
 
     return <Space>
-        <Tooltip title="edit collection belum support">
+        <Tooltip title="belum support edit collection">
             <Button
                 type="text"
                 icon={<i className='far fa-edit' />}
@@ -135,7 +136,7 @@ const CollectionCard: React.FC<Props> = (props: Props) => {
             <div
                 className="pointer c-flex c-flex-1 c-item-center c-gap-6"
                 style={{ lineHeight: 1.2, height: "50px" }}
-                onClick={() => history.push("/productmanual/" + collection.name, {
+                onClick={() => history.push("/productmanual/" + collection.id, {
                     fromParent: true
                 })}
             >

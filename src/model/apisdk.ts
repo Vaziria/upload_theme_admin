@@ -120,6 +120,7 @@ export interface Variant {
 	names: Array<string>
 	values: Array<string>
 	price: number
+	stock: number
 	image_preview: string
 	image_collection_path: string
 	count_image: number
@@ -161,6 +162,7 @@ export interface ManualProduct {
 	use_variant: boolean
 	use_markup: string
 	weight: number
+	stock: number
 	attribute: Array<AttributeProduct | undefined>
 	field_spin: Array<FieldConfig | undefined>
 	variant_option: Array<VariantOption | undefined>
@@ -179,6 +181,7 @@ export interface ProductListRes {
 
 export interface ProductCreatePayload {
 	coll_id: number
+	product: ManualProduct | undefined
 }
 
 export interface ApiResponse {
@@ -222,6 +225,7 @@ export interface BasicUpdatePayload {
 	use_variant: boolean
 	use_markup: string
 	weight: number
+	stock: number
 }
 
 export interface UpdateVariationPayload {
@@ -402,6 +406,7 @@ export const clients = {
 						use_variant: false,
 						use_markup: ``,
 						weight: 0,
+						stock: 0,
 						attribute: [
 						{
 								id: 0,
@@ -448,6 +453,7 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
+								stock: 0,
 								image_preview: ``,
 								image_collection_path: ``,
 								count_image: 0
@@ -494,35 +500,8 @@ export const clients = {
 		method: "POST" as const,
 		query: undefined,
 		body: {
-				coll_id: 0
-			} as ProductCreatePayload ,
-		response: {
-				err_msg: ``
-			} as ApiResponse 
-	},
-	DeletePdcsourceProduct: {
-		url: "pdcsource/product" as const,
-		method: "DELETE" as const,
-		query: undefined,
-		body: {
-				ids: [
-				0
-				] as Array<number>
-			} as DeleteProductPayload ,
-		response: {
-				err_msg: ``
-			} as ApiResponse 
-	},
-	GetPdcsourceProductItem: {
-		url: "pdcsource/product/item" as const,
-		method: "GET" as const,
-		query: {
-				product_id: 0
-			} as ItemQuery ,
-		body: {},
-		response: {
-				err_msg: ``,
-				data: {
+				coll_id: 0,
+				product: {
 						id: 0,
 						as_draft: false,
 						image_preview: ``,
@@ -534,6 +513,7 @@ export const clients = {
 						use_variant: false,
 						use_markup: ``,
 						weight: 0,
+						stock: 0,
 						attribute: [
 						{
 								id: 0,
@@ -580,6 +560,132 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
+								stock: 0,
+								image_preview: ``,
+								image_collection_path: ``,
+								count_image: 0
+							} as Variant | undefined
+						] as Array<Variant | undefined>,
+						collection: [
+						{
+								id: 0,
+								name: ``,
+								created_at: `2021-12-01T07:00:00+07:00`,
+								updated_at: `2021-12-01T07:00:00+07:00`
+							} as Collection | undefined
+						] as Array<Collection | undefined>,
+						watermark: {
+							id: 0,
+							product_id: 0,
+							text: ``,
+							font_location: ``,
+							pos_x: ``,
+							pos_y: ``,
+							use_watermark: false
+						} as WatermarkConfig | undefined,
+						frame_config: {
+							id: 0,
+							product_id: 0,
+							use_frame: false,
+							frame_location: ``
+						} as FrameConfig | undefined,
+						last_error: ``,
+						map: [
+						{
+								id: 0,
+								map_id: ``,
+								product_id: 0,
+								url_product: ``
+							} as ProductMap | undefined
+						] as Array<ProductMap | undefined>
+					} as ManualProduct | undefined
+			} as ProductCreatePayload ,
+		response: {
+				err_msg: ``
+			} as ApiResponse 
+	},
+	DeletePdcsourceProduct: {
+		url: "pdcsource/product" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {
+				ids: [
+				0
+				] as Array<number>
+			} as DeleteProductPayload ,
+		response: {
+				err_msg: ``
+			} as ApiResponse 
+	},
+	GetPdcsourceProductItem: {
+		url: "pdcsource/product/item" as const,
+		method: "GET" as const,
+		query: {
+				product_id: 0
+			} as ItemQuery ,
+		body: {},
+		response: {
+				err_msg: ``,
+				data: {
+						id: 0,
+						as_draft: false,
+						image_preview: ``,
+						image_collection_path: ``,
+						count_image: 0,
+						title: ``,
+						price: 0,
+						desc: ``,
+						use_variant: false,
+						use_markup: ``,
+						weight: 0,
+						stock: 0,
+						attribute: [
+						{
+								id: 0,
+								product_id: 0,
+								attribute_type: ``,
+								data: ``
+							} as AttributeProduct | undefined
+						] as Array<AttributeProduct | undefined>,
+						field_spin: [
+						{
+								id: 0,
+								product_id: 0,
+								field_type: ``,
+								use_spin: false,
+								spin_text: ``,
+								use_once_text: false,
+								once_text: [
+								{
+										id: 0,
+										field_config_id: 0,
+										text: ``
+									} as UseOnceText | undefined
+								] as Array<UseOnceText | undefined>
+							} as FieldConfig | undefined
+						] as Array<FieldConfig | undefined>,
+						variant_option: [
+						{
+								id: 0,
+								product_id: 0,
+								name: ``,
+								option: [
+								``
+								] as Array<string>
+							} as VariantOption | undefined
+						] as Array<VariantOption | undefined>,
+						variant: [
+						{
+								id: 0,
+								product_id: 0,
+								names: [
+								``
+								] as Array<string>,
+								values: [
+								``
+								] as Array<string>,
+								price: 0,
+								stock: 0,
 								image_preview: ``,
 								image_collection_path: ``,
 								count_image: 0
@@ -641,6 +747,7 @@ export const clients = {
 						use_variant: false,
 						use_markup: ``,
 						weight: 0,
+						stock: 0,
 						attribute: [
 						{
 								id: 0,
@@ -687,6 +794,7 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
+								stock: 0,
 								image_preview: ``,
 								image_collection_path: ``,
 								count_image: 0
@@ -752,7 +860,8 @@ export const clients = {
 				desc: ``,
 				use_variant: false,
 				use_markup: ``,
-				weight: 0
+				weight: 0,
+				stock: 0
 			} as BasicUpdatePayload ,
 		response: {
 				err_msg: ``
@@ -785,6 +894,7 @@ export const clients = {
 						``
 						] as Array<string>,
 						price: 0,
+						stock: 0,
 						image_preview: ``,
 						image_collection_path: ``,
 						count_image: 0

@@ -3,13 +3,15 @@ import React from "react"
 import { withRouter } from "react-router-dom"
 
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import Dataview from "../components/common/Dataview"
-import CollectionAdd from "../components/productmanual/CollectionAdd"
-import CollectionCard from "../components/productmanual/CollectionCard"
 import { useMutation } from "../hooks/mutation"
 import { useQuery } from "../model/apisdk"
 import { productManualCollectionState } from "../recoil/atoms/collection"
 import { ProductManualCollectionPageFilter, productManualCollectionPageState } from "../recoil/selectors/product_manual_collection_page"
+
+import Dataview from "../components/common/Dataview"
+import CollectionAdd from "../components/productmanual/CollectionAdd"
+import CollectionCard from "../components/productmanual/CollectionCard"
+import CollectionSelectAction from "../components/productmanual/CollectionSelectAction"
 
 const ProductManual: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage()
@@ -66,6 +68,7 @@ const ProductManual: React.FC = () => {
                 </p>
 
                 <CollectionAdd className="my-3" loading={createLoading} mutate={createCollection} />
+                <CollectionSelectAction deleteMutate={deleteCollection} />
 
                 <Dataview
                     data={collections}
@@ -95,6 +98,7 @@ const ProductManual: React.FC = () => {
                     />}
 
                     <Pagination
+                        showSizeChanger
                         current={filter.page}
                         pageSize={filter.pagesize}
                         total={total}

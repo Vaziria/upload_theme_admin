@@ -37,9 +37,26 @@ export const productManualCollectionIsSelectedState = selector<boolean>({
 })
 
 export const productManualCollectionIsSelectedIdState = selectorFamily<boolean, number>({
-    key: "productManualCollectionIsSelectedIdState",
+    key: "productManualCollectionIsSelectedId",
     get: (id) => ({ get }) => {
         const selectedIds = get(productManualCollectionSelectedState)
         return selectedIds.some((selectId) => selectId === id)
+    },
+})
+
+export const productManualCollectionIsSelectedAllState = selector<boolean>({
+    key: "productManualCollectionIsSelectedAll",
+    get: ({ get }) => {
+        const collections = get(productManualCollectionState)
+        const selectedIds = get(productManualCollectionSelectedState)
+        return collections.every((col) => col && selectedIds.includes(col.id))
+    },
+})
+
+export const productManualCollectionIdState = selectorFamily<Collection | undefined, number>({
+    key: "productManualCollectionId",
+    get: (id) => ({ get }) => {
+        const collection = get(productManualCollectionState)
+        return collection.find((col) => col?.id === id)
     },
 })

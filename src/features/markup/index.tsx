@@ -1,12 +1,14 @@
 import { store } from ".."
 import { createMarkup, getListMarkup } from "../../api/markup"
 
-export async function loadMarkup(): Promise<void> {
+export async function loadMarkup(): Promise<string[]> {
     const mark = await getListMarkup()
     store.dispatch({
         type: "markup/load",
         payload: mark.data,
     })
+
+    return mark.data
 }
 
 export async function addMarkup(markup: string): Promise<void> {

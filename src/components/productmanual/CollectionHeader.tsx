@@ -3,7 +3,7 @@ import React from "react"
 import { useHistory, useLocation } from "react-router-dom"
 
 interface Props {
-    title: string
+    title?: string
     collection_name?: string
 }
 

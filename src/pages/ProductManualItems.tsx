@@ -1,14 +1,18 @@
-import { Button, Card, Col, Pagination, Row, Space, Tabs } from "antd";
+import { Button, Card, Col, Pagination, Row, Space, Tabs, message } from "antd";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import { productManualCollectionIdState } from "../recoil/selectors/product_manual_collection_page";
+import items from "../samples/product_manual_items";
 
 import CollectionHeader from "../components/productmanual/CollectionHeader";
 import ProductCard from "../components/productmanual/ProductCard";
 import { ProductManualModel } from "../model/product_manual/ProductManual";
-import items from "../samples/product_manual_items";
+import { useMutation } from "../hooks/mutation";
 
 interface Params {
-    collection_name: string
+    colid: string
 }
 
 const itemModels = items.map((item) => new ProductManualModel(item))
@@ -32,23 +36,44 @@ const ProductManualItems: React.FC = () => {
     const params = useParams<Params>()
     const history = useHistory()
 
-    function openForm(productId?: number) {
-        const url = `/productmanual/${params.collection_name}/form`
-        if (productId) {
-            history.push(url + "/" + productId, { fromParent: true })
-        } else {
+    const colid = parseInt(params.colid)
+    const collection = useRecoilValue(productManualCollectionIdState(colid))
+
+    const { mutate: newProduct } = useMutation("GetPdcsourceEditNew")
+
+    const [messageApi, contextHolder] = message.useMessage()
+
+    async function openForm(pid?: number) {
+
+        if (pid) {
+            const url = `/productmanual/${params.colid}/${pid}`
             history.push(url, { fromParent: true })
+
+        } else {
+            newProduct({
+                query: {
+                    coll_id: colid,
+                },
+                onSuccess(res) {
+                    const url = `/productmanual/${params.colid}/${res.data?.id}`
+                    history.push(url, { fromParent: true })
+                },
+                onError() {
+                    messageApi.error("gagal membuat produk")
+                },
+            })
         }
     }
 
     return <Row className="mt-3">
+        {contextHolder}
         <Col
             md={{ span: 24 }}
             lg={{ span: 20, offset: 2 }}
             xl={{ span: 16, offset: 4 }}
         >
             <Card>
-                <CollectionHeader title={params.collection_name} />
+                <CollectionHeader title={collection?.name} />
 
                 <p className="c-bolder mt-2">
                     <span className="c-tx-gray">Total Produk :</span> {items.length}

@@ -24,6 +24,7 @@ import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./reco
 import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { productManualCollectionState } from './recoil/atoms/collection'
 import { namespaceDataState } from "./recoil/atoms/namespace"
+import { markupDataState } from './recoil/atoms/markup'
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = "http://localhost:5000"
@@ -34,6 +35,7 @@ const Loader: React.FC = () => {
   const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
   const setNamespaceData = useSetRecoilState(namespaceDataState)
   const setProductManualCollection = useSetRecoilState(productManualCollectionState)
+  const setMarkupData = useSetRecoilState(markupDataState)
 
   const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
 
@@ -51,29 +53,29 @@ const Loader: React.FC = () => {
       loadSpin(),
       loadCollection(),
       loadHastags(),
-      loadMarkup(),
+      loadMarkup().then(setMarkupData),
       setupV2Notification().catch(() => console.error('setup notification gagal')),
+
+      getNamespaces("shopee").then(
+        (shopeeNamespaces) => setNamespaceData((data) => ({
+          ...data,
+          shopeeNamespaces
+        }))
+      ),
+
+      getNamespaces("tokopedia").then(
+        (tokopediaNamespaces) => setNamespaceData((data) => ({
+          ...data,
+          tokopediaNamespaces
+        }))
+      ),
+
+      getCollections({
+        onSuccess(res){
+          setProductManualCollection(res.data)
+        }
+      })
     ])
-
-    getNamespaces("shopee").then(
-      (shopeeNamespaces) => setNamespaceData((data) => ({
-        ...data,
-        shopeeNamespaces
-      }))
-    )
-
-    getNamespaces("tokopedia").then(
-      (tokopediaNamespaces) => setNamespaceData((data) => ({
-        ...data,
-        tokopediaNamespaces
-      }))
-    )
-
-    getCollections({
-      onSuccess(res){
-        setProductManualCollection(res.data)
-      }
-    })
 
   }, [])
 

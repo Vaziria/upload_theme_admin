@@ -13,9 +13,8 @@ export const PATHS = [
     '/test',
     '/toped',
     '/productmanual',
-    '/productmanual/:collection_name',
-    '/productmanual/:collection_name/form',
-    '/productmanual/:collection_name/form/:product_id',
+    '/productmanual/:colid',
+    '/productmanual/:colid/:pid',
   ] as const
   
 export type Path = (typeof PATHS)[number]

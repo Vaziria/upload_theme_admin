@@ -1,10 +1,10 @@
-import React from "react"
 import { Form, Input } from "antd"
+import React from "react"
 
-import { ProductManualForm } from "../../../model/product_manual/ProductManulForm"
+import { BasicUpdatePayload } from "../../../model/apisdk"
 
 const DescForm: React.FC = () => {
-    return <Form.Item<ProductManualForm>
+    return <Form.Item<BasicUpdatePayload>
         label="Deskripsi Produk"
         name="desc"
         rules={[

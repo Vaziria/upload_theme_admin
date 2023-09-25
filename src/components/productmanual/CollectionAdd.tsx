@@ -3,6 +3,7 @@ import React from "react"
 
 import { Collection, CollectionCreateRes, SendOptions } from "../../model/apisdk"
 import { DivProps } from "../../types/props"
+
 import AntdInput from "../common/AntdInput"
 
 interface Props extends DivProps {
@@ -16,7 +17,11 @@ const CollectionAdd: React.FC<Props> = (props: Props) => {
     const [name, setName] = React.useState("")
 
     function applyCreate() {
-        mutate?.({}, { name })
+        mutate?.({
+            onSuccess() {
+                setName("")
+            }
+        }, { name })
     }
 
     return <div className={`c-flex c-gap-2 ${className}`} { ...divProps }>

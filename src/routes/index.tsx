@@ -78,15 +78,11 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
     component: ProductManual
   },
   {
-    path: '/productmanual/:collection_name',
+    path: '/productmanual/:colid',
     component: ProductManualItems
   },
   {
-    path: '/productmanual/:collection_name/form',
-    component: ProductManualForm
-  },
-  {
-    path: '/productmanual/:collection_name/form/:product_id',
+    path: '/productmanual/:colid/:pid',
     component: ProductManualForm
   }
 ]

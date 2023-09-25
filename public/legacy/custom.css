@@ -138,6 +138,14 @@ input, .btn{
 	color: #bfbfbf
 }
 
+.c-tx-gray-btn {
+	color: #bfbfbf
+}
+
+.c-tx-gray-btn:hover {
+	color: #000;
+}
+
 .c-flex {
 	display: flex;
 }
@@ -154,8 +162,12 @@ input, .btn{
 	justify-content: center;
 }
 
-.c-justify-space-arround {
+.c-justify-space-around {
 	justify-content: space-around;
+}
+
+.c-justify-space-between {
+	justify-content: space-between;
 }
 
 .c-gap-1 {
