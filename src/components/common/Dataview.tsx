@@ -5,16 +5,7 @@ type DataviewProps = Omit<RowProps, "children"> & {
     colprops?: Omit<ColProps, "children">
 }
 
-export type DataViewItemRender<T> = (item: T) => JSX.Element
-export type DataViewChildren<T> =
-    DataViewItemRender<T> |
-    React.ReactElement |
-    [
-        DataViewItemRender<T>,
-        React.ReactElement
-    ]
-
-interface Props<T> extends DataviewProps {
+interface Props<T> extends React.PropsWithChildren<DataviewProps> {
     data?: Array<T>
     loading?: boolean
     loadingText?: string
@@ -23,7 +14,7 @@ interface Props<T> extends DataviewProps {
     errorDesc?: string
     emptyTitle?: string
     emptyDesc?: string
-    children?: DataViewChildren<T>
+    render?: (item: T) => JSX.Element
 }
 
 export default function Dataview<T>(props: Props<T>): React.ReactElement {
@@ -36,6 +27,7 @@ export default function Dataview<T>(props: Props<T>): React.ReactElement {
         errorDesc,
         emptyTitle,
         emptyDesc,
+        render,
         children,
         colprops,
         ...rowProps
@@ -76,11 +68,9 @@ export default function Dataview<T>(props: Props<T>): React.ReactElement {
     return <Row {...rowProps}>
         {data?.map((col, key) =>
             <Col key={key} {...colprops}>
-                {children?.[0]?.(col)}
+                {render?.(col)}
             </Col>
         )}
-        {children?.[1] && <Col span={24}>
-            {children[1]}
-        </Col>}
+        {children && <Col span={24}>{children}</Col>}
     </Row>
 }

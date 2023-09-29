@@ -27,12 +27,16 @@ const ProductManual: React.FC = () => {
 
     const { pending: createLoading, mutate: createCollection } = useMutation("PostPdcsourceCollectionCreate", {
         onSuccess(res) {
-            messageApi.success(`collection ${res.name} berhasil dibuat.`)
-            getCollections({
-                onSuccess(res) {
-                    setCollections(res.data)
-                }
-            })
+            if (res.err_msg) {
+                messageApi.success(res.err_msg)
+            } else {
+                messageApi.success(`collection ${res.name} berhasil dibuat.`)
+                getCollections({
+                    onSuccess(res) {
+                        setCollections(res.data)
+                    }
+                })
+            }
         },
         onError() {
             messageApi.error("gagal membuat collection.")
@@ -90,13 +94,12 @@ const ProductManual: React.FC = () => {
                             span: 12
                         },
                     }}
-                >
-                    {(col) => <CollectionCard
+                    render={(col) => <CollectionCard
                         collection={col}
                         deleteLoading={deleteLoading}
                         deleteMutate={deleteCollection}
                     />}
-
+                >
                     <Pagination
                         showSizeChanger
                         current={filter.page}

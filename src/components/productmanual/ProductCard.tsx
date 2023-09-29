@@ -1,15 +1,21 @@
+import { Badge, Button, Card, Image, Popconfirm, Tag, Tooltip } from "antd"
 import React from "react"
-import { Badge, Button, Card, Divider, Image, Popconfirm, Tag, Tooltip } from "antd"
+import { useRecoilState, useRecoilValue } from "recoil"
 
+import noimg from "../../assets/images/no-image.webp"
 import { ProductManualModel } from "../../model/product_manual/ProductManual"
+import { productManualSelectedState } from "../../recoil/atoms/product_manual"
+import { productManualIsSelectedIdState, productManualIsSelectedState } from "../../recoil/selectors/product_manual_page"
+
+import AntdCheckbox from "../common/AntdCheckbox"
 
 interface Props {
     product: ProductManualModel
     onEdit?(): void
+    onDelete?(): void
 }
 
-const ProductVariation: React.FC<Props> = (props: Props): JSX.Element => {
-
+export const Variation: React.FC<Props> = (props: Props): JSX.Element => {
     const { product } = props;
 
     if (!product.use_variant || !product.variant_option.length) {
@@ -19,72 +25,75 @@ const ProductVariation: React.FC<Props> = (props: Props): JSX.Element => {
         >Tidak menggunakan variasi</p>
     }
 
-    const variantPreview = product.getVariantPreview(5, 15)
+    const previews = product.getVariantPreviews()
 
     return <div className="c-flex">
-        {variantPreview.items.map((item, index) => (
-            <Tooltip key={index} title={item.original_text}>
-                <Tag color={item.color} bordered={false}>
-                    {item.show_text}
+        {previews.map((preview, index) => (
+            <Tooltip key={index} title={preview.original_text}>
+                <Tag color={preview.color} bordered={false}>
+                    {preview.show_text}
                 </Tag>
             </Tooltip>
         ))}
-        {variantPreview.remaining > 0 && <Tooltip title={`dan ${variantPreview.remaining} variasi lain`}>
-            <Tag color="blue" bordered={false}>+{variantPreview.remaining}</Tag>
-        </Tooltip>}
-    </div>
-}
-
-const ProductAction: React.FC<Props> = (props: Props) => {
-    return <div className="c-flex c-justify-space-around c-item-center mt-2">
-        <div />
-        <Button
-            type="text"
-            icon={<i className='far fa-edit' />}
-            onClick={props.onEdit}
-        />
-
-        <Divider type="vertical" />
-
-        <Popconfirm
-            title="Hapus Produk"
-            description={`Yakin ingin menghapus produk?`}
-            okText="Hapus"
-            cancelText="Batal"
-        >
-            <Button danger type="text" icon={<i className='fas fa-trash' />} />
-        </Popconfirm>
-        <div />
     </div>
 }
 
 const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
-
     const { product } = props
 
-    const [img, setImg] = React.useState("")
-    React.useEffect(() => {
-        fetch("https://loremflickr.com/400/400").then((res) =>
-            res.arrayBuffer().then((data) => {
-                const blob = new Blob([data])
-                setImg(URL.createObjectURL(blob))
-            })
-        )
-    }, [])
+    const [selectedIds, setSelectedIds] = useRecoilState(productManualSelectedState)
+    const isSelected = useRecoilValue(productManualIsSelectedIdState(product.id))
+    const isHaveSelected = useRecoilValue(productManualIsSelectedState)
+
+    function applySelect(selected: boolean) {
+        if (selected) {
+            setSelectedIds([...selectedIds, product.id])
+        } else {
+            setSelectedIds(selectedIds.filter((id) => id !== product.id))
+        }
+    }
 
     const card = <Card
         size="small"
         cover={<Image
-            src={img}
-            fallback="https://demofree.sirv.com/nope-not-here.jpg"
+            src={product.image_preview}
+            fallback={noimg}
         />}
+        actions={[
+            <Button
+                key="product-edit"
+                type="text"
+                icon={<i className='far fa-edit' />}
+                disabled={isHaveSelected}
+                onClick={props.onEdit}
+            />,
+            <Popconfirm
+                key="product-delete"
+                title="Hapus Produk"
+                description={`Yakin ingin menghapus produk?`}
+                okText="Hapus"
+                cancelText="Batal"                
+                onConfirm={props.onDelete}
+            >
+                <Button
+                    danger
+                    type="text"
+                    icon={<i className='fas fa-trash' />}
+                    disabled={isHaveSelected}
+                />
+            </Popconfirm>
+        ]}
     >
+        <AntdCheckbox
+            style={{ position: "absolute", top: 8 }}
+            checked={isSelected}
+            onChange={applySelect}
+        />
         <Tooltip title={product.title}>
             <h6 className="c-truncate c-bolder mb-1">{product.title}</h6>
         </Tooltip>
         <p className="c-bolder c-tx-price mb-1">{product.getFormatPrice()}</p>
-        <ProductVariation {...props} />
-        <ProductAction {...props} />
+        <Variation {...props} />
     </Card>
 
     if (product.as_draft) {

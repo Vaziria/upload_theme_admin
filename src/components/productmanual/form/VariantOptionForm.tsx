@@ -1,16 +1,37 @@
-import { Button, Card, Form } from "antd";
+import { Button, Card, Form, FormInstance } from "antd";
 import React from "react";
 
 import { UpdateVariationPayload, VariantOption } from "../../../model/apisdk";
 import OptionListForm from "./variantform/OptionListForm";
 import OptionNameForm from "./variantform/OptionNameForm";
+import { NamePath } from "antd/es/form/interface";
 
-const initialValue: Partial<VariantOption>[] = [{
+interface Props {
+    form: FormInstance<UpdateVariationPayload>
+}
+
+export const initialOption: Partial<VariantOption> = {
     name: "",
     option: [""],
-}]
+}
 
-const VariantOptionForm: React.FC= () => {
+const VariantOptionForm: React.FC<Props> = (props: Props) => {
+
+    const initialValue = Form.useWatch("variant_option", props.form)
+
+    React.useEffect(() => {
+        const names: NamePath[] = []
+        initialValue?.forEach((options, index) => {
+            options?.option.forEach((option, optindex) => {
+                if (option) {
+                    names.push(["variant_option", index, "name"])
+                    names.push(["variant_option", index, "option", optindex])
+                }
+            })
+        })
+
+        names.length && props.form.validateFields(names)
+    }, [initialValue])
 
     return <Form.Item<UpdateVariationPayload>>
         <Form.List
@@ -22,7 +43,12 @@ const VariantOptionForm: React.FC= () => {
                     <Card
                         key={field.key}
                         size="small"
-                        title={`Variasi ${field.name + 1}`}
+                        type="inner"
+                        title={
+                            (initialValue && initialValue[field.key]?.name)
+                                ? initialValue[field.key]?.name
+                                : `Variasi ${field.name + 1}`
+                        }
                         extra={fields.length > 1 &&
                             <Button
                                 block
@@ -32,19 +58,24 @@ const VariantOptionForm: React.FC= () => {
                             ><i className="fas fa-trash" /></Button>
                         }
                     >
-                        <OptionNameForm name={field.name} />
+                        <div>
+                            <label>Nama Variasi</label>
+                            <OptionNameForm name={field.name} />
+                        </div>
                         <OptionListForm name={field.name} />
                     </Card>
                 ))}
 
-                {fields.length < 2 &&
-                    <Button
-                        block
-                        type="dashed"
-                        icon={<i className="fas fa-plus" />}
-                        onClick={() => opt.add(initialValue)}
-                    >Tambah Variasi</Button>
-                }
+                <div>
+                    {fields.length < 2 &&
+                        <Button
+                            type="dashed"
+                            icon={<i className="fas fa-plus" />}
+                            className="c-btn-active"
+                            onClick={() => opt.add(initialOption)}
+                        >Tambah Variasi</Button>
+                    }
+                </div>
             </div>)}
         </Form.List>
     </Form.Item>

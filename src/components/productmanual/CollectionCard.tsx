@@ -4,7 +4,7 @@ import { Badge, Button, Card, Popconfirm, Space, Tooltip } from "antd";
 import React from "react";
 import { useHistory } from "react-router-dom";
 
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { ColDeletePayload, Collection, SendOptions } from "../../model/apisdk";
 import { productManualCollectionSelectedState } from "../../recoil/atoms/collection";
 import { productManualCollectionIsSelectedIdState, productManualCollectionIsSelectedState } from "../../recoil/selectors/product_manual_collection_page";
@@ -115,8 +115,7 @@ const CollectionCard: React.FC<Props> = (props: Props) => {
     const [edit, setEdit] = React.useState(false)
     const history = useHistory()
 
-    const selectedIds = useRecoilValue(productManualCollectionSelectedState)
-    const setSelectedIds = useSetRecoilState(productManualCollectionSelectedState)
+    const [selectedIds, setSelectedIds] = useRecoilState(productManualCollectionSelectedState)
     const isSelected = useRecoilValue(productManualCollectionIsSelectedIdState(props.collection.id))
     function applySelect(selected: boolean) {
         if (selected) {

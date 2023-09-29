@@ -1,3 +1,4 @@
+import { ConfigProvider } from 'antd'
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider } from 'react-query'
@@ -23,8 +24,8 @@ import { useQuery } from './model/apisdk'
 import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
 import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { productManualCollectionState } from './recoil/atoms/collection'
-import { namespaceDataState } from "./recoil/atoms/namespace"
 import { markupDataState } from './recoil/atoms/markup'
+import { namespaceDataState } from "./recoil/atoms/namespace"
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = "http://localhost:5000"
@@ -90,6 +91,15 @@ const App: React.FC = () => {
       <RecoilRoot>
       <QueryClientProvider client={queryClient}>
       <PersistGate loading={null}  persistor={persistor}>
+      <ConfigProvider
+        theme={{
+          components: {
+            Card: {
+              actionsLiMargin: "6px",
+            },
+          },
+        }}
+      >
       
         <BrowserRouter basename="v2">
           <Loader />
@@ -105,6 +115,7 @@ const App: React.FC = () => {
             </div>
           </div>
         </BrowserRouter>
+      </ConfigProvider>
       </PersistGate>
       </QueryClientProvider>
       </RecoilRoot>

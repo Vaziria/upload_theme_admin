@@ -239,3 +239,12 @@ input, .btn{
 .c-spin-label {
 	width: 200px;
 }
+
+.c-btn-active {
+	color: #4096ff;
+	border-color: #4096ff;
+}
+
+button:focus {
+	outline: 0;
+}
