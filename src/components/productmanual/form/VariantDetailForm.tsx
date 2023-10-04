@@ -150,6 +150,7 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
             columns={columns}
             bordered
             rowKey="key"
+            rowClassName="c-bg-gray"
             pagination={false}
         />
     </Form.Item>

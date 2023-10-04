@@ -1,25 +1,21 @@
-import { Affix, Button, Card, Col, Form, Row, Space, Spin, Typography, message } from "antd";
+import { Col, Row, Spin, message } from "antd";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Prompt, useLocation, useParams } from "react-router-dom";
 
 import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
-import { BasicUpdatePayload, UpdateFieldConfigPayload, UpdateVariationPayload, useQuery } from "../model/apisdk";
+import { useQuery } from "../model/apisdk";
+import { ProductManualFormModel } from "../model/product_manual/ProductManualForm";
 import { getErrMessage } from "../utils/errmsg";
 
-import ProductEditProgress from "../components/productmanual/ProductEditProgress";
-import DescForm from "../components/productmanual/form/DescForm";
-import ImageCollectionPathForm from "../components/productmanual/form/ImageCollectionPathForm";
-import PriceForm from "../components/productmanual/form/PriceForm";
-import StockForm from "../components/productmanual/form/StockForm";
-import TitleForm from "../components/productmanual/form/TitleForm";
-import UseMarkupForm from "../components/productmanual/form/UseMarkupForm";
-import UseVariantForm from "../components/productmanual/form/UseVariantForm";
-import VariantDetailForm from "../components/productmanual/form/VariantDetailForm";
-import VariantOptionForm from "../components/productmanual/form/VariantOptionForm";
-import WeightForm from "../components/productmanual/form/WeightForm";
-import { ProductManualFormModel } from "../model/product_manual/ProductManualForm";
-import FieldConfigForm from "../components/productmanual/form/FieldConfigForm";
+import ProductFormAction from "../components/productmanual/ProductFormAction";
+import ProductFormBasic from "../components/productmanual/ProductFormBasic";
+import ProductFormFieldConfig from "../components/productmanual/ProductFormFieldConfig";
+import ProductFormProgress from "../components/productmanual/ProductFormProgress";
+import ProductFormVariant from "../components/productmanual/ProductFormVariant";
+import { ProductManualFormProgressModel } from "../model/product_manual/ProductManualFormProgress";
+import { ProductManualUpdateModel } from "../model/product_manual/ProductManualUpdate";
+import ProductFormModalResponse, { BacthResponse } from "../components/productmanual/ProductFormModalResponse";
 
 interface Params {
     colid: string
@@ -28,183 +24,140 @@ interface Params {
 
 const ProductManualForm: React.FC = (): JSX.Element => {
 
-    const params = useParams<Params>()
     const goback = useGoBack()
+    const location = useLocation()
+    const params = useParams<Params>()
 
-    const [messageApi, contextHolder] = message.useMessage()
-    const [basicForm] = Form.useForm<BasicUpdatePayload>()
-    const [variantForm] = Form.useForm<UpdateVariationPayload>()
-    const [fieldConfigForm] = Form.useForm<UpdateFieldConfigPayload>()
+    const pid = parseInt(params.pid)
+    const formModel = new ProductManualFormModel(pid)
+    const [openResponse, setOpenResponse] = React.useState(false)
+    const [showPromt, setShowPromt] = React.useState(false)
 
     const { data, pending, error, send: getProduct } = useQuery("GetPdcsourceProductItem")
+    const isPublish = !data?.data?.as_draft
+
     React.useEffect(() => {
         getProduct({
             query: {
-                product_id: parseInt(params.pid)
+                product_id: pid
             },
             onSuccess({ data }) {
-
-                basicForm.setFieldsValue({
-                    image_collection_path: data?.image_collection_path,
-                    title: data?.title,
-                    desc: data?.desc,
-                    price: data?.price,
-                    stock: data?.stock,
-                    weight: data?.weight,
-                    use_markup: data?.use_markup,
-                    use_variant: data?.use_variant
-                })
-
-                variantForm.setFieldsValue({
-                    variant: data?.variant,
-                    variant_option: data?.variant_option
-                })
+                setShowPromt(true)
+                formModel.initializeFields(data)
             },
             onError(err) {
-                const message = getErrMessage(err as Error, "gagal mendapatkan produk.")
-                messageApi.error(message, 1000)
-                setTimeout(() => goback("/productmanual/:colid", params), 1000)
+                const msg = getErrMessage(err as Error, "gagal mendapatkan produk.")
+                message.error(msg)
+                goback("/productmanual/:colid", params)
             }
         })
     }, [])
-    
+
     const { mutate: checkFs } = useMutation("PostPdcsourceFsCheck")
-    const { mutate: updateBasic } = useMutation("PostPdcsourceEditSetBasic")
-    const { mutate: updateVariant } = useMutation("PostPdcsourceEditVariationUpdate")
+    const { mutate: mutateBasic, pending: basicPending } = useMutation("PostPdcsourceEditSetBasic", {})
+    const { mutate: mutateVariant, pending: variantPending } = useMutation("PostPdcsourceEditVariationUpdate", {})
+    const { mutate: mutateFieldConfig, pending: fieldConfigPending } = useMutation("PostPdcsourceEditFieldConfig", {})
+    const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {
+        onSuccess() {
+            message.success("produk berhasil ditampilkan.")
+            goback("/productmanual/:colid", params)
+        },
+        onError(err) {
+            const msg = getErrMessage(err as Error, "gagal menampilkan produk.")
+            message.error(msg)
+            goback("/productmanual/:colid", params)
+        }
+    })
+
+    const basicUpdateModel = new ProductManualUpdateModel(mutateBasic, "informasi produk tersimpan.", "gagal menyimpan informasi produk.")
+    const variantUpdateModel = new ProductManualUpdateModel(mutateVariant, "variasi produk tersimpan.", "gagal menyimpan variasi produk.")
+    const fieldConfigUpdateModel = new ProductManualUpdateModel(mutateFieldConfig, "field config tersimpan.", "gagal menyimpan field config.")
+
+    const [basicResponse, applyBasicUpdate] = basicUpdateModel.useUpdate()
+    const [variantResponse, applyVariantUpdate] = variantUpdateModel.useUpdate()
+    const [fieldConfigResponse, applyFieldConfigUpdate] = fieldConfigUpdateModel.useUpdate()
+    const responses: BacthResponse[] = [
+        { ...basicResponse, pending: basicPending },
+        { ...variantResponse, pending: variantPending },
+        { ...fieldConfigResponse, pending: fieldConfigPending }
+    ]
+
+    const progressModel = new ProductManualFormProgressModel(formModel)
+    const isLoading = basicPending || variantPending || fieldConfigPending
 
     async function updateProduct(): Promise<void> {
-
-        const pid = parseInt(params.pid)
-        const formModel = new ProductManualFormModel(pid, basicForm, variantForm)
-
+        setShowPromt(false)
+        setOpenResponse(true)
+        const useVariant = formModel.basic.getFieldValue("use_variant")
+    
         const basicPayload = await formModel.getBasicPayload()
-        if (basicPayload.validate) {
-            updateBasic({
-                onSuccess: () => messageApi.info("informasi produk tersimpan."),
-                onError: (err) => {
-                    const message = getErrMessage(err as Error, "gagal menyimpan informasi produk.")
-                    messageApi.error(message)
-                }
-            }, basicPayload.data)
-        } else {
-            messageApi.warning(basicPayload.message)
-        }
-
-        const useVariant = basicForm.getFieldValue("use_variant")
-        if (useVariant) {
-            const variantPayload = await formModel.getVariantPayload()
-            if (variantPayload.validate) {
-                updateVariant({
-                    onSuccess: () => messageApi.info("variasi produk tersimpan."),
-                    onError: (err) => {
-                        const message = getErrMessage(err as Error, "gagal menyimpan variasi produk.")
-                        messageApi.error(message)
-                    }
-                }, variantPayload.data)
-            } else {
-                messageApi.warning(variantPayload.message)
-            }
-        }
+        await applyBasicUpdate(basicPayload)
+        useVariant && formModel.getVariantPayload().then((payload) => applyVariantUpdate(payload))
+        formModel.getFieldConfigPayload().then((payload) => applyFieldConfigUpdate(payload))
     }
 
-    const useVariant = Form.useWatch("use_variant", basicForm)
+    // handle page refresh
+    const alertUser = (ev: BeforeUnloadEvent) => {
+        ev.preventDefault();
+        ev.returnValue = "";
+    }
+    React.useEffect(() => {
+        window.addEventListener("beforeunload", alertUser);
+        return () => {
+            window.removeEventListener("beforeunload", alertUser);
+        };
+    }, [])
+
+    function onBackPromt(promt: boolean) {
+        setShowPromt(promt)
+        goback("/productmanual/:colid", params)
+    }
 
     return <Row className="mt-3">
-        {contextHolder}
+
+        <Prompt when={showPromt} message={(loc) => {
+            const sameLoc = location.pathname === loc.pathname
+            return sameLoc || "Yakin ingin buang semua perubahan?"
+        }} />
+
+        <ProductFormModalResponse
+            open={openResponse}
+            isPublished={isPublish}
+            loading={isLoading}
+            publishLoading={publishPending}
+            responses={responses}
+            onClose={() => setOpenResponse(false)}
+            onBack={() => onBackPromt(false)}
+            onPublish={() => mutatePublish({}, {
+                product_id: pid
+            })}
+        />
+
         <Col span={6} offset={1} className="pr-3">
-            <ProductEditProgress />
+            <ProductFormProgress progressModel={progressModel} />
         </Col>
+
         <Col span={16}>
-
             <Spin tip="Loading..." spinning={pending || !!error}>
-                <Form<BasicUpdatePayload>
-                    name="basicProduct"
-                    form={basicForm}
-                    className="mb-3"
-                    labelCol={{
-                        sm: 8,
-                        md: 8,
-                        lg: 5,
-                    }}
-                    wrapperCol={{
-                        sm: 16,
-                        md: 16,
-                        lg: 19,
-                    }}
-                    autoComplete="off"
-                    onFinish={(a) => console.log(a)}
-                    onFinishFailed={(a) => console.log(a)}
-                >
-                    <Card id="productbasic">
-                        <h5 className="c-bold mb-3">Informasi Produk</h5>
-                        
-                        <ImageCollectionPathForm cheker={checkFs} />
-                        <TitleForm />
-                        <DescForm />
-                        <PriceForm />
-                        <StockForm />
-                        <WeightForm />
-                        <UseMarkupForm />
-                    </Card>
-                </Form>
 
-                <Card id="productbasic" className="mb-3">
-                    <h5 className="c-bold mb-3">Variasi Produk</h5>
+                <ProductFormBasic form={formModel.basic} checker={checkFs} />
+                <ProductFormVariant
+                    form={formModel.variant}
+                    formBasic={formModel.basic}
+                    checker={checkFs}
+                    initialVariants={data?.data?.variant}
+                />
+                <ProductFormFieldConfig
+                    pid={pid}
+                    form={formModel.fieldConfig}
+                />
 
-                    <Form form={basicForm}>
-                        <UseVariantForm form={basicForm} variantForm={variantForm} />
-                    </Form>
-
-                    <Form<UpdateVariationPayload>
-                        name="productvariation"
-                        form={variantForm}
-                        autoComplete="off"
-                    >
-                        {useVariant && <>
-                            <VariantOptionForm form={variantForm} />
-                            <VariantDetailForm
-                                form={variantForm}
-                                cheker={checkFs}
-                                initialVariants={data?.data?.variant}
-                            />
-                        </>}
-                    </Form>
-                </Card>
-
-                <Card id="productfieldconfig" className="mb-3">
-                    <h5 className="c-bold mb-3">Field Config</h5>
-                    <p>Gunakan field config yang tersedia untuk meredaksi field produk ketika diupload.</p>
-
-                    <Form form={fieldConfigForm}>
-                        <FieldConfigForm form={fieldConfigForm} />
-                    </Form>
-                </Card>
-                
-                <Form form={fieldConfigForm}>
-                    <Form.Item noStyle shouldUpdate>
-                        {() => (
-                        <Typography>
-                            <pre>{JSON.stringify(fieldConfigForm.getFieldsValue(), null, 2)}</pre>
-                        </Typography>
-                        )}
-                    </Form.Item>
-                </Form>
                 <div id="productfinish" />
-
-                <Affix offsetBottom={0}>
-                    <Card size="small">
-                        <Form.Item wrapperCol={{ span: 24 }} className="d-flex justify-content-end mb-0">
-                            <Space>
-                                <Button onClick={() => goback("/productmanual/:colid", params)}>
-                                    Kembali
-                                </Button>
-                                <Button type="primary" onClick={updateProduct}>
-                                    Simpan Produk
-                                </Button>
-                            </Space>
-                        </Form.Item>
-                    </Card>
-                </Affix>
+                <ProductFormAction
+                    loading={isLoading}
+                    onBack={() => onBackPromt(true)}
+                    onUpdate={updateProduct}
+                />
             </Spin>
         </Col>
     </Row>

@@ -11,6 +11,7 @@ import { productManualCollectionIsSelectedIdState, productManualCollectionIsSele
 
 import AntdCheckbox from "../common/AntdCheckbox";
 import AntdInput from "../common/AntdInput";
+import TrashIconButton from "../button/TrashIconButton";
 
 interface Props {
     collection: Collection
@@ -99,12 +100,7 @@ const CollectionAction: React.FC<EditActionProps> = (props: EditActionProps) => 
             okText="Hapus"
             cancelText="Batal"
         >
-            <Button
-                danger
-                type="text"
-                disabled={isSelected}
-                icon={<i className='fas fa-trash' />}
-            />
+            <TrashIconButton danger disabled={isSelected} />
         </Popconfirm>
     </Space>
 }

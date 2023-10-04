@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Affix, Button, Card, Popconfirm } from "antd"
+import { Affix, Card, Popconfirm } from "antd"
 import React from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 
@@ -8,6 +8,7 @@ import { ColDeletePayload, SendOptions } from "../../model/apisdk"
 import { productManualCollectionSelectedState, productManualCollectionState } from "../../recoil/atoms/collection"
 import { productManualCollectionIsSelectedAllState, productManualCollectionIsSelectedState } from "../../recoil/selectors/product_manual_collection_page"
 
+import DeleteButton from "../button/DeleteButton"
 import AntdCheckbox from "../common/AntdCheckbox"
 
 interface Props {
@@ -62,11 +63,9 @@ const CollectionSelectAction: React.FC<Props> = (props: Props) => {
                     okText="Hapus Semua"
                     cancelText="Batal"
                 >
-                    <Button
-                        danger
-                        disabled={!isSelected}
-                        icon={<i className='fas fa-trash' />}
-                    >Hapus Semua</Button>
+                    <DeleteButton disabled={!isSelected}>
+                        Hapus Semua
+                    </DeleteButton>
                 </Popconfirm>
             </div>
         </Card>

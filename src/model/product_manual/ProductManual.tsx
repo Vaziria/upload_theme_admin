@@ -39,7 +39,7 @@ export class ProductManualModel implements ManualProduct {
 		this.image_collection_path = product.image_collection_path
 		this.count_image = product.count_image
 		this.title = product.title
-		this.price = product.price
+		this.price = product.price || 0
 		this.desc = product.desc
 		this.use_variant = product.use_variant
 		this.use_markup = product.use_markup

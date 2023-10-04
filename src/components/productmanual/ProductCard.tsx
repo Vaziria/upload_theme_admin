@@ -38,6 +38,15 @@ export const Variation: React.FC<Props> = (props: Props): JSX.Element => {
     </div>
 }
 
+type AsDraftProps = React.PropsWithChildren<{ asDraft: boolean }>
+const AsDraft: React.FC<AsDraftProps> = (props: AsDraftProps) => {
+    if (props.asDraft) {
+        <Badge.Ribbon text="Draft">{props.children}</Badge.Ribbon>
+    }
+
+    return <>{props.children}</>
+}
+
 const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
     const { product } = props
 
@@ -53,54 +62,50 @@ const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
         }
     }
 
-    const card = <Card
-        size="small"
-        cover={<Image
-            src={product.image_preview}
-            fallback={noimg}
-        />}
-        actions={[
+    const cover = <Image
+        src={product.image_preview}
+        fallback={noimg}
+    />
+
+    const actions = [
+        <Button
+            key="product-edit"
+            type="text"
+            icon={<i className='far fa-edit' />}
+            disabled={isHaveSelected}
+            onClick={props.onEdit}
+        />,
+        <Popconfirm
+            key="product-delete"
+            title="Hapus Produk"
+            description={`Yakin ingin menghapus produk?`}
+            okText="Hapus"
+            cancelText="Batal"                
+            onConfirm={props.onDelete}
+        >
             <Button
-                key="product-edit"
+                danger
                 type="text"
-                icon={<i className='far fa-edit' />}
+                icon={<i className='fas fa-trash' />}
                 disabled={isHaveSelected}
-                onClick={props.onEdit}
-            />,
-            <Popconfirm
-                key="product-delete"
-                title="Hapus Produk"
-                description={`Yakin ingin menghapus produk?`}
-                okText="Hapus"
-                cancelText="Batal"                
-                onConfirm={props.onDelete}
-            >
-                <Button
-                    danger
-                    type="text"
-                    icon={<i className='fas fa-trash' />}
-                    disabled={isHaveSelected}
-                />
-            </Popconfirm>
-        ]}
-    >
-        <AntdCheckbox
-            style={{ position: "absolute", top: 8 }}
-            checked={isSelected}
-            onChange={applySelect}
-        />
-        <Tooltip title={product.title}>
-            <h6 className="c-truncate c-bolder mb-1">{product.title}</h6>
-        </Tooltip>
-        <p className="c-bolder c-tx-price mb-1">{product.getFormatPrice()}</p>
-        <Variation {...props} />
-    </Card>
+            />
+        </Popconfirm>
+    ]
 
-    if (product.as_draft) {
-        return  <Badge.Ribbon text="Draft">{card}</Badge.Ribbon>
-    }
-
-    return card
+    return <AsDraft asDraft={product.as_draft}>
+        <Card size="small" cover={cover} actions={actions}>
+            <AntdCheckbox
+                style={{ position: "absolute", top: 8 }}
+                checked={isSelected}
+                onChange={applySelect}
+            />
+            <Tooltip title={product.title}>
+                <h6 className="c-truncate c-bolder mb-1">{product.title}</h6>
+            </Tooltip>
+            <p className="c-bolder c-tx-price mb-1">{product.getFormatPrice()}</p>
+            <Variation {...props} />
+        </Card>
+    </AsDraft>
 }
 
 export default ProductCard

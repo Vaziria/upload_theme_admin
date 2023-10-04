@@ -253,6 +253,20 @@ export interface AddTextPayload {
 	data: Array<string>
 }
 
+export interface CreateFieldConfigPayload {
+	product_id: number
+	field_type: string
+}
+
+export interface CreateFieldConfigRes {
+	err_msg: string
+	data: FieldConfig | undefined
+}
+
+export interface DeleteFieldConfigPayload {
+	id: number
+}
+
 export interface PathCheckPayload {
 	path: string
 }
@@ -863,6 +877,44 @@ export const clients = {
 				``
 				] as Array<string>
 			} as AddTextPayload ,
+		response: {
+				err_msg: ``
+			} as ApiResponse 
+	},
+	PostPdcsourceSpinFieldConfig: {
+		url: "pdcsource/spin/field_config" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: {
+				product_id: 0,
+				field_type: ``
+			} as CreateFieldConfigPayload ,
+		response: {
+				err_msg: ``,
+				data: {
+						id: 0,
+						product_id: 0,
+						field_type: ``,
+						use_spin: false,
+						spin_text: ``,
+						use_once_text: false,
+						once_text: [
+						{
+								id: 0,
+								field_config_id: 0,
+								text: ``
+							} as UseOnceText | undefined
+						] as Array<UseOnceText | undefined>
+					} as FieldConfig | undefined
+			} as CreateFieldConfigRes 
+	},
+	DeletePdcsourceSpinFieldConfig: {
+		url: "pdcsource/spin/field_config" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {
+				id: 0
+			} as DeleteFieldConfigPayload ,
 		response: {
 				err_msg: ``
 			} as ApiResponse 

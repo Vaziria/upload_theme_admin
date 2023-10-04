@@ -1,10 +1,13 @@
-import { Button, Card, Form, FormInstance } from "antd";
+import { Card, Form, FormInstance, FormListFieldData, Space } from "antd";
+import { NamePath } from "antd/es/form/interface";
 import React from "react";
 
 import { UpdateVariationPayload, VariantOption } from "../../../model/apisdk";
+
+import AddButton from "../../button/AddButton";
+import TrashIconButton from "../../button/TrashIconButton";
 import OptionListForm from "./variantform/OptionListForm";
 import OptionNameForm from "./variantform/OptionNameForm";
-import { NamePath } from "antd/es/form/interface";
 
 interface Props {
     form: FormInstance<UpdateVariationPayload>
@@ -33,29 +36,31 @@ const VariantOptionForm: React.FC<Props> = (props: Props) => {
         names.length && props.form.validateFields(names)
     }, [initialValue])
 
+    function getName(field: FormListFieldData): string {
+        if (initialValue) {
+            const option = initialValue[field.key]
+            if (option) {
+                return option.name
+            }
+        }
+        return `Variasi ${field.name + 1}`
+    }
+
     return <Form.Item<UpdateVariationPayload>>
         <Form.List
             name="variant_option"
             initialValue={initialValue}
         >
-            {(fields, opt) => (<div style={{ display: 'flex', rowGap: 16, flexDirection: 'column' }}>
+            {(fields, opt) => (<Space direction="vertical" className="d-flex">
                 {fields.map((field) => (
                     <Card
                         key={field.key}
                         size="small"
                         type="inner"
-                        title={
-                            (initialValue && initialValue[field.key]?.name)
-                                ? initialValue[field.key]?.name
-                                : `Variasi ${field.name + 1}`
-                        }
+                        title={getName(field)}
+                        className="c-bg-gray"
                         extra={fields.length > 1 &&
-                            <Button
-                                block
-                                type="text"
-                                className="c-tx-gray-btn"
-                                onClick={() => opt.remove(field.name)}
-                            ><i className="fas fa-trash" /></Button>
+                            <TrashIconButton onClick={() => opt.remove(field.name)} />
                         }
                     >
                         <div>
@@ -68,15 +73,16 @@ const VariantOptionForm: React.FC<Props> = (props: Props) => {
 
                 <div>
                     {fields.length < 2 &&
-                        <Button
+                        <AddButton
                             type="dashed"
-                            icon={<i className="fas fa-plus" />}
-                            className="c-btn-active"
+                            style={{ minWidth: 200 }}
                             onClick={() => opt.add(initialOption)}
-                        >Tambah Variasi</Button>
+                        >
+                            Tambah Variasi
+                        </AddButton>
                     }
                 </div>
-            </div>)}
+            </Space>)}
         </Form.List>
     </Form.Item>
 }
