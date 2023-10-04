@@ -88,12 +88,18 @@ const ProductManualForm: React.FC = (): JSX.Element => {
     async function updateProduct(): Promise<void> {
         setShowPromt(false)
         setOpenResponse(true)
-        const useVariant = formModel.basic.getFieldValue("use_variant")
-    
+        
         const basicPayload = await formModel.getBasicPayload()
         await applyBasicUpdate(basicPayload)
-        useVariant && formModel.getVariantPayload().then((payload) => applyVariantUpdate(payload))
-        formModel.getFieldConfigPayload().then((payload) => applyFieldConfigUpdate(payload))
+        
+        const useVariant = formModel.basic.getFieldValue("use_variant")
+        if (useVariant) {
+            const variantPayload = await formModel.getVariantPayload()
+            await applyVariantUpdate(variantPayload)
+        }
+    
+        const fieldConfigpayload = await formModel.getFieldConfigPayload()
+        await applyFieldConfigUpdate(fieldConfigpayload)
     }
 
     // handle page refresh

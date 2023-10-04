@@ -1,22 +1,23 @@
-import { Route, Switch } from "react-router-dom"
-import { HomePage } from "../pages/HomePage"
-import { TaskGrab } from "../pages/TaskGrab"
-import { Path } from "./path"
-import React from "react"
-import SettingPage from "../pages/Setting"
-import ToolPage from "../pages/Tool"
 import { createBrowserHistory } from "history"
-import DetailProduct from "../pages/ProductDetail/DetailProduct"
-import TaskPage from "../pages/Task"
+import React from "react"
+import { Route, Switch } from "react-router-dom"
 import AccountPage from "../pages/Account"
-import HitungBeratPage from "../pages/shopee/HitungBerat"
+import CategMapNewPage from "../pages/CategMapNew"
+import { HomePage } from "../pages/HomePage"
+import DetailProduct from "../pages/ProductDetail/DetailProduct"
+import ProductManual from "../pages/ProductManual"
+import ProductManualDetail from "../pages/ProductManualDetail"
+import ProductManualForm from "../pages/ProductManualForm"
+import ProductManualItems from "../pages/ProductManualItems"
+import SettingPage from "../pages/Setting"
 import SpinPage from "../pages/Spin"
+import TaskPage from "../pages/Task"
+import { TaskGrab } from "../pages/TaskGrab"
 import Test from "../pages/Test"
 import Tokopedia from "../pages/Tokopedia"
-import CategMapNewPage from "../pages/CategMapNew"
-import ProductManual from "../pages/ProductManual"
-import ProductManualItems from "../pages/ProductManualItems"
-import ProductManualForm from "../pages/ProductManualForm"
+import ToolPage from "../pages/Tool"
+import HitungBeratPage from "../pages/shopee/HitungBerat"
+import { Path } from "./path"
 
 export const roothistory = createBrowserHistory()
 
@@ -83,6 +84,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   },
   {
     path: '/productmanual/:colid/:pid',
+    component: ProductManualDetail
+  },
+  {
+    path: '/productmanual/:colid/update/:pid',
     component: ProductManualForm
   }
 ]

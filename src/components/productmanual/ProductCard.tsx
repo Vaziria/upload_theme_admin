@@ -8,10 +8,11 @@ import { productManualSelectedState } from "../../recoil/atoms/product_manual"
 import { productManualIsSelectedIdState, productManualIsSelectedState } from "../../recoil/selectors/product_manual_page"
 
 import AntdCheckbox from "../common/AntdCheckbox"
+import { Link } from "react-router-dom"
 
 interface Props {
+    colid: number
     product: ProductManualModel
-    onEdit?(): void
     onDelete?(): void
 }
 
@@ -48,7 +49,7 @@ const AsDraft: React.FC<AsDraftProps> = (props: AsDraftProps) => {
 }
 
 const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
-    const { product } = props
+    const { product, colid } = props
 
     const [selectedIds, setSelectedIds] = useRecoilState(productManualSelectedState)
     const isSelected = useRecoilValue(productManualIsSelectedIdState(product.id))
@@ -68,19 +69,38 @@ const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
     />
 
     const actions = [
-        <Button
+        <Link
+            key="product-detail"
+            to={{
+                pathname: `/productmanual/${colid}/${product.id}`,
+                state: { fromParent: true },
+            }}
+        >
+            <Button
+                type="text"
+                icon={<i className='fas fa-external-link-alt' />}
+                disabled={isHaveSelected}
+            />
+        </Link>,
+        <Link
             key="product-edit"
-            type="text"
-            icon={<i className='far fa-edit' />}
-            disabled={isHaveSelected}
-            onClick={props.onEdit}
-        />,
+            to={{
+                pathname: `/productmanual/${colid}/update/${product.id}`,
+                state: { fromParent: true },
+            }}
+        >
+            <Button
+                type="text"
+                icon={<i className='far fa-edit' />}
+                disabled={isHaveSelected}
+            />
+        </Link>,
         <Popconfirm
             key="product-delete"
             title="Hapus Produk"
             description={`Yakin ingin menghapus produk?`}
             okText="Hapus"
-            cancelText="Batal"                
+            cancelText="Batal"
             onConfirm={props.onDelete}
         >
             <Button

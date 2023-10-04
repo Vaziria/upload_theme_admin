@@ -32,29 +32,36 @@ export class ProductManualModel implements ManualProduct {
 	last_error: string
 	map: Array<ProductMap | undefined>
 
-	constructor(product: ManualProduct) {
-        this.id = product.id
-		this.as_draft = product.as_draft
-		this.image_preview = product.image_preview
-		this.image_collection_path = product.image_collection_path
-		this.count_image = product.count_image
-		this.title = product.title
-		this.price = product.price || 0
-		this.desc = product.desc
-		this.use_variant = product.use_variant
-		this.use_markup = product.use_markup
-		this.weight = product.weight
-		this.stock = product.stock
-		this.attribute = product.attribute
-		this.field_spin = product.field_spin
-		this.variant_option = product.variant_option
-		this.variant = product.variant
-		this.collection = product.collection
-		this.watermark = product.watermark
-		this.frame_config = product.frame_config
-		this.last_error = product.last_error
-		this.map = product.map
+	constructor(product?: ManualProduct) {
+        this.id = product?.id || 0
+		this.as_draft = product?.as_draft || false
+		this.image_preview = product?.image_preview || ""
+		this.image_collection_path = product?.image_collection_path || ""
+		this.count_image = product?.count_image || 0
+		this.title = product?.title || "Tidak ada judul"
+		this.price = product?.price || 0
+		this.desc = product?.desc || "Tidak ada deskripsi."
+		this.use_variant = product?.use_variant || false
+		this.use_markup = product?.use_markup || "-"
+		this.weight = product?.weight || 0
+		this.stock = product?.stock || 0
+		this.attribute = product?.attribute || []
+		this.field_spin = product?.field_spin || []
+		this.variant_option = product?.variant_option || []
+		this.variant = product?.variant || []
+		this.collection = product?.collection || []
+		this.watermark = product?.watermark
+		this.frame_config = product?.frame_config
+		this.last_error = product?.last_error || ""
+		this.map = product?.map || []
     }
+
+	getStatus(): string {
+		if (this.as_draft) {
+			return "Draft"
+		}
+		return "Aktif"
+	}
 
 	getFormatPrice(): string {
 		if (this.use_variant && this.variant.length > 2) {

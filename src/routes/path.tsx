@@ -15,6 +15,7 @@ export const PATHS = [
     '/productmanual',
     '/productmanual/:colid',
     '/productmanual/:colid/:pid',
+    '/productmanual/:colid/update/:pid',
   ] as const
   
 export type Path = (typeof PATHS)[number]

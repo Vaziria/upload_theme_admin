@@ -41,7 +41,7 @@ const ProductManualItems: React.FC = () => {
     }), [])
 
     async function openForm(pid?: number) {
-        const url = `/productmanual/${params.colid}/${pid}`
+        const url = `/productmanual/${params.colid}/update/${pid}`
         history.push(url, { fromParent: true })
     }
     
@@ -123,8 +123,8 @@ const ProductManualItems: React.FC = () => {
                         }
                     }}
                     render={(product) => <ProductCard
+                        colid={colid}
                         product={product}
-                        onEdit={() => openForm(product.id)}
                         onDelete={() => deleteMutate({}, { ids: [product.id] })}
                     />}
                 >
