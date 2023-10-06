@@ -20,11 +20,11 @@ export const initialOption: Partial<VariantOption> = {
 
 const VariantOptionForm: React.FC<Props> = (props: Props) => {
 
-    const initialValue = Form.useWatch("variant_option", props.form)
+    const options = Form.useWatch("variant_option", props.form)
 
     React.useEffect(() => {
         const names: NamePath[] = []
-        initialValue?.forEach((options, index) => {
+        options?.forEach((options, index) => {
             options?.option.forEach((option, optindex) => {
                 if (option) {
                     names.push(["variant_option", index, "name"])
@@ -34,11 +34,11 @@ const VariantOptionForm: React.FC<Props> = (props: Props) => {
         })
 
         names.length && props.form.validateFields(names)
-    }, [initialValue])
+    }, [options])
 
     function getName(field: FormListFieldData): string {
-        if (initialValue) {
-            const option = initialValue[field.key]
+        if (options) {
+            const option = options[field.key]
             if (option) {
                 return option.name
             }
@@ -47,10 +47,7 @@ const VariantOptionForm: React.FC<Props> = (props: Props) => {
     }
 
     return <Form.Item<UpdateVariationPayload>>
-        <Form.List
-            name="variant_option"
-            initialValue={initialValue}
-        >
+        <Form.List name="variant_option">
             {(fields, opt) => (<Space direction="vertical" className="d-flex">
                 {fields.map((field) => (
                     <Card

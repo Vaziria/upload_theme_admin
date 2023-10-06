@@ -1,5 +1,7 @@
+import noimg from "../../assets/images/no-image.webp";
+import { BASEURL } from "../../api/client"
 import { currency_custom } from "../../utils/currency"
-import { AttributeProduct, Collection, FieldConfig, FrameConfig, ManualProduct, ProductMap, Variant, VariantOption, WatermarkConfig } from "../apisdk"
+import { AttributeProduct, Collection, FieldConfig, FrameConfig, ManualProduct, ProductMap, Variant, VariantImage, VariantOption, WatermarkConfig } from "../apisdk"
 
 export interface VariantOptionPreviewItem {
 	original_text: string
@@ -25,6 +27,7 @@ export class ProductManualModel implements ManualProduct {
 	attribute: Array<AttributeProduct | undefined>
 	field_spin: Array<FieldConfig | undefined>
 	variant_option: Array<VariantOption | undefined>
+	variant_image: Array<VariantImage | undefined>
 	variant: Array<Variant | undefined>
 	collection: Array<Collection | undefined>
 	watermark: WatermarkConfig | undefined
@@ -48,6 +51,7 @@ export class ProductManualModel implements ManualProduct {
 		this.attribute = product?.attribute || []
 		this.field_spin = product?.field_spin || []
 		this.variant_option = product?.variant_option || []
+		this.variant_image = product?.variant_image || []
 		this.variant = product?.variant || []
 		this.collection = product?.collection || []
 		this.watermark = product?.watermark
@@ -72,6 +76,14 @@ export class ProductManualModel implements ManualProduct {
 		}
 
 		return currency_custom(this.price)
+	}
+
+	getImageUrl(): string {
+		if (this.image_preview) {
+			const imgPath = this.image_preview.replaceAll("\\", "/")
+			return BASEURL + '/' + imgPath
+		}
+		return noimg
 	}
 
 	getVariantPreviews(maxText = 10): VariantOptionPreviewItem[] {

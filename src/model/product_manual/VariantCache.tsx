@@ -33,7 +33,6 @@ export class VariantCacheModel {
         return {
             price: 0,
             stock: 0,
-            image_collection_path: "",
             ...cache?.data,
         }
     }

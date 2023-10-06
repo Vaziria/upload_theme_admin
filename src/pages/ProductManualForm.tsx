@@ -5,7 +5,7 @@ import { Prompt, useLocation, useParams } from "react-router-dom";
 import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
 import { useQuery } from "../model/apisdk";
-import { ProductManualFormModel } from "../model/product_manual/ProductManualForm";
+import { ProductManualFormModel, ValidateError } from "../model/product_manual/ProductManualForm";
 import { getErrMessage } from "../utils/errmsg";
 
 import ProductFormAction from "../components/productmanual/ProductFormAction";
@@ -86,20 +86,24 @@ const ProductManualForm: React.FC = (): JSX.Element => {
     const isLoading = basicPending || variantPending || fieldConfigPending
 
     async function updateProduct(): Promise<void> {
-        setShowPromt(false)
-        setOpenResponse(true)
-        
-        const basicPayload = await formModel.getBasicPayload()
-        await applyBasicUpdate(basicPayload)
-        
-        const useVariant = formModel.basic.getFieldValue("use_variant")
-        if (useVariant) {
+        try {
+            const basicPayload = await formModel.getBasicPayload()
             const variantPayload = await formModel.getVariantPayload()
-            await applyVariantUpdate(variantPayload)
+            const fieldConfigpayload = await formModel.getFieldConfigPayload()
+
+            const useVariant = formModel.basic.getFieldValue("use_variant")
+            setShowPromt(false)
+            setOpenResponse(true)
+
+            await applyBasicUpdate(basicPayload)
+            if (useVariant) {
+                await applyVariantUpdate(variantPayload)
+            }
+            await applyFieldConfigUpdate(fieldConfigpayload)
+
+        } catch (err) {
+            message.error((err as ValidateError).message)
         }
-    
-        const fieldConfigpayload = await formModel.getFieldConfigPayload()
-        await applyFieldConfigUpdate(fieldConfigpayload)
     }
 
     // handle page refresh

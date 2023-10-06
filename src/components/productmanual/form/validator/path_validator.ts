@@ -15,7 +15,7 @@ export function pathValidator(checker: CheckFS): (_: unknown, path: string) => P
         return new Promise((resolve, reject) => {
             checker({
                 onSuccess(res) {
-                    if (!res.is_abs || !res.exist) {
+                    if (!res.exist) {
                         return reject("lokasi koleksi gambar tidak ditemukan.")
                     }
     

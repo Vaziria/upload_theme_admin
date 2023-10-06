@@ -13,6 +13,7 @@ import { TypedSwitch } from './routes'
 
 import SideNav from './components/SideNav'
 
+import { BASEURL } from './api/client'
 import { persistor, store } from "./features"
 import { loadCollection } from './features/collection'
 import { loadHastags } from './features/hastag'
@@ -28,7 +29,7 @@ import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
 
 // TODO: sdk belum support base url
-axios.defaults.baseURL = "http://localhost:5000"
+axios.defaults.baseURL = BASEURL
 
 const Loader: React.FC = () => {
   const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)

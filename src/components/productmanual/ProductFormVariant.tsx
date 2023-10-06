@@ -5,8 +5,9 @@ import { BasicUpdatePayload, UpdateVariationPayload, Variant } from "../../model
 import { CheckFS } from "./form/validator/path_validator";
 
 import UseVariantForm from "./form/UseVariantForm";
-import VariantOptionForm from "./form/VariantOptionForm";
 import VariantDetailForm from "./form/VariantDetailForm";
+import VariantImageForm from "./form/VariantImageForm";
+import VariantOptionForm from "./form/VariantOptionForm";
 
 interface Props {
     form: FormInstance<UpdateVariationPayload>
@@ -35,8 +36,12 @@ const ProductFormVariant: React.FC<Props> = (props: Props): JSX.Element => {
                 <VariantOptionForm form={props.form} />
                 <VariantDetailForm
                     form={props.form}
-                    cheker={props.checker}
                     initialVariants={props.initialVariants}
+                    variantImage={(value) => <VariantImageForm
+                        form={props.form}
+                        index={value.var1Key}
+                        cheker={props.checker}
+                    />}
                 />
             </>}
         </Form>

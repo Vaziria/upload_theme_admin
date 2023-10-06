@@ -36,6 +36,7 @@ const CollectionAdd: React.FC<Props> = (props: Props) => {
         <Button
             type="primary"
             icon={<i className='fas fa-plus' />}
+            disabled={!name}
             loading={loading}
             onClick={applyCreate}
         >

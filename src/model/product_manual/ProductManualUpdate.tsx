@@ -1,8 +1,7 @@
 import React from "react"
 
-import { ApiResponse, SendOptions } from "../apisdk"
-import { ValidatePayload } from "./ProductManualForm"
 import { getErrMessage } from "../../utils/errmsg"
+import { ApiResponse, SendOptions } from "../apisdk"
 
 export interface UpdateResponse {
     success: boolean
@@ -15,7 +14,7 @@ const defResponse: UpdateResponse = {
 }
 
 export type MutateFunc<T> = (a: SendOptions<ApiResponse, undefined>, b?: Partial<T>) => void
-export type ApplyUpdate<T> = (payload: ValidatePayload<T>) => Promise<void>
+export type ApplyUpdate<T> = (payload: T) => Promise<void>
 
 export class ProductManualUpdateModel<T> {
     mutate: MutateFunc<T>
@@ -37,38 +36,30 @@ export class ProductManualUpdateModel<T> {
         return (payload) => new Promise((resolve) => {
             setResponse?.({ ...defResponse })
 
-            if (payload.validate) {
-                this.mutate({
-                    onSuccess: (res) => {
-                        if (res.err_msg) {
-                            setResponse?.({
-                                success: true,
-                                message: res.err_msg
-                            })
-                        } else {
-                            setResponse?.({
-                                success: true,
-                                message: this.successMessage || ""
-                            })
-                        }
-                        resolve()
-                    },
-                    onError: (err) => {
-                        const message = getErrMessage(err as Error, this.errorMessage)
+            this.mutate({
+                onSuccess: (res) => {
+                    if (res.err_msg) {
                         setResponse?.({
-                            success: false,
-                            message
+                            success: true,
+                            message: res.err_msg
                         })
-                        resolve()
-                    },
-                }, payload.data)
-            } else {
-                setResponse?.({
-                    success: false,
-                    message: payload.message
-                })
-                resolve()
-            }
+                    } else {
+                        setResponse?.({
+                            success: true,
+                            message: this.successMessage || ""
+                        })
+                    }
+                    resolve()
+                },
+                onError: (err) => {
+                    const message = getErrMessage(err as Error, this.errorMessage)
+                    setResponse?.({
+                        success: false,
+                        message
+                    })
+                    resolve()
+                },
+            }, payload)
         })
     }
 }

@@ -3,6 +3,7 @@ import { DescriptionsItemType } from "antd/es/descriptions";
 import React from "react";
 
 import { ProductManualModel } from "../../../model/product_manual/ProductManual";
+import noimg from "../../../assets/images/no-image.webp";
 
 interface Props {
     product: ProductManualModel
@@ -40,7 +41,8 @@ const DetailImage: React.FC<Props> = (props: Props) => {
         <Image
             width={400}
             style={{ borderRadius: "8px 8px 0 0" }}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            src={product.getImageUrl()}
+            fallback={noimg}
         />
         <Descriptions
             column={1}

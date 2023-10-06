@@ -84,8 +84,8 @@ export class ProductManualFormProgressModel {
 				this.formModel.variant.validateFields({ validateOnly: true })
 					.then(() => setProgress({ ...successProgress }))
 					.catch((validateErr: ValidateErrorEntity<UpdateVariationPayload>) => {
-						const { variant, variant_option } = validateErr.values
-						const dataLength = variant.length + variant_option.length
+						const { variant, variant_option, variant_image } = validateErr.values
+						const dataLength = (variant || []).length + (variant_option || []).length + (variant_image || []).length
 						const errLength = validateErr.errorFields.reduce(keyErrorReducer(2), []).length
 						const percent = Math.ceil(((dataLength - errLength) / dataLength) * 100)
 						setProgress({

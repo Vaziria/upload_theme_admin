@@ -1,4 +1,4 @@
-import { Card, Col, Row, Space, Spin, Tooltip, Typography, message } from "antd";
+import { Card, Col, Row, Space, Spin, Tooltip, message } from "antd";
 import React from "react";
 import { useParams } from "react-router-dom";
 
@@ -7,11 +7,12 @@ import { useQuery } from "../model/apisdk";
 import { ProductManualModel } from "../model/product_manual/ProductManual";
 import { getErrMessage } from "../utils/errmsg";
 
+import ProductPage from "../components/productmanual/ProductPage";
 import DetailDesc from "../components/productmanual/detail/DetailDesc";
+import DetailFieldConfig from "../components/productmanual/detail/DetailFieldConfig";
 import DetailImage from "../components/productmanual/detail/DetailImage";
 import DetailInfo from "../components/productmanual/detail/DetailInfo";
 import DetailVariant from "../components/productmanual/detail/DetailVariant";
-import DetailFieldConfig from "../components/productmanual/detail/DetailFieldConfig";
 
 interface Params {
     colid: string
@@ -24,6 +25,8 @@ const ProductManualDetail: React.FC = () => {
     const params = useParams<Params>()
 
     const pid = parseInt(params.pid)
+    const onBack = () => goback("/productmanual/:colid", params)
+
     const { data, pending, send: getProduct } = useQuery("GetPdcsourceProductItem")
     const product = new ProductManualModel(data?.data)
 
@@ -35,7 +38,7 @@ const ProductManualDetail: React.FC = () => {
             onError(err) {
                 const msg = getErrMessage(err as Error, "gagal mendapatkan produk.")
                 message.error(msg)
-                goback("/productmanual/:colid", params)
+                onBack()
             }
         })
     }, [])
@@ -47,13 +50,13 @@ const ProductManualDetail: React.FC = () => {
             xl={{ span: 16, offset: 4 }}
         >
             <Spin spinning={pending} tip="Loading">
-                <Card
-                    title={<Tooltip title={product.title}>
-                        <Typography.Title ellipsis level={4}>
+                <Card title={
+                    <ProductPage.Title onBack={() => goback("/productmanual")}>
+                        <Tooltip title={product.title} placement="bottomLeft">
                             {product.title}
-                        </Typography.Title>
-                    </Tooltip>}
-                >
+                        </Tooltip>
+                    </ProductPage.Title>
+                }>
                     <div className="d-flex c-gap-6 mb-4">
                         <DetailImage product={product} />
                         <Space direction="vertical" size="large" className="d-flex">

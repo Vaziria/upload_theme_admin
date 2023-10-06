@@ -3,6 +3,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
+import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
 import { ProductListQuery, useQuery } from "../model/apisdk";
 import { productManualState } from "../recoil/atoms/product_manual";
@@ -10,8 +11,8 @@ import { productManualCollectionIdState } from "../recoil/selectors/product_manu
 import { getErrMessage } from "../utils/errmsg";
 
 import Dataview from "../components/common/Dataview";
-import CollectionHeader from "../components/productmanual/CollectionHeader";
 import ProductCard from "../components/productmanual/ProductCard";
+import ProductPage from "../components/productmanual/ProductPage";
 import ProductSelectAction from "../components/productmanual/ProductSelectAction";
 import ProductStatusTabs from "../components/productmanual/ProductStatusTabs";
 import { ProductManualModel } from "../model/product_manual/ProductManual";
@@ -24,6 +25,7 @@ const ProductManualItems: React.FC = () => {
 
     const params = useParams<Params>()
     const history = useHistory()
+    const goback = useGoBack()
 
     const colid = parseInt(params.colid)
     const collection = useRecoilValue(productManualCollectionIdState(colid))
@@ -44,7 +46,7 @@ const ProductManualItems: React.FC = () => {
         const url = `/productmanual/${params.colid}/update/${pid}`
         history.push(url, { fromParent: true })
     }
-    
+
     const { mutate: newMutate } = useMutation("GetPdcsourceEditNew", {
         onSuccess: (res) => openForm(res.data?.id),
         onError: () => messageApi.error("gagal membuat produk"),
@@ -74,7 +76,7 @@ const ProductManualItems: React.FC = () => {
         }
         return res
     }, [] as ProductManualModel[])
-    
+
 
     return <Row className="mt-3">
         {contextHolder}
@@ -84,7 +86,9 @@ const ProductManualItems: React.FC = () => {
             xl={{ span: 16, offset: 4 }}
         >
             <Card>
-                <CollectionHeader title={collection?.name} />
+                <ProductPage.Title onBack={() => goback("/productmanual")}>
+                    {collection?.name}
+                </ProductPage.Title>
 
                 <p className="c-bolder mt-2">
                     <span className="c-tx-gray">Total Produk :</span> {data?.data.length}
@@ -103,22 +107,22 @@ const ProductManualItems: React.FC = () => {
                     emptyDesc="Silahkan tambah produk terlebih dahulu."
                     gutter={[12, 12]}
                     colprops={{
-                        xs:{
+                        xs: {
                             span: 24
                         },
-                        sm:{
+                        sm: {
                             span: 24
                         },
-                        md:{
+                        md: {
                             span: 12
                         },
-                        lg:{
+                        lg: {
                             span: 12
                         },
-                        xl:{
+                        xl: {
                             span: 8
                         },
-                        xxl:{
+                        xxl: {
                             span: 6
                         }
                     }}

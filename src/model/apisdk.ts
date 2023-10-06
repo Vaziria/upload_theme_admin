@@ -114,6 +114,15 @@ export interface VariantOption {
 	option: Array<string>
 }
 
+export interface VariantImage {
+	id: number
+	product_id: number
+	option_name: string
+	image_preview: string
+	image_collection_path: string
+	count_image: number
+}
+
 export interface Variant {
 	id: number
 	product_id: number
@@ -121,9 +130,6 @@ export interface Variant {
 	values: Array<string>
 	price: number
 	stock: number
-	image_preview: string
-	image_collection_path: string
-	count_image: number
 }
 
 export interface WatermarkConfig {
@@ -166,6 +172,7 @@ export interface ManualProduct {
 	attribute: Array<AttributeProduct | undefined>
 	field_spin: Array<FieldConfig | undefined>
 	variant_option: Array<VariantOption | undefined>
+	variant_image: Array<VariantImage | undefined>
 	variant: Array<Variant | undefined>
 	collection: Array<Collection | undefined>
 	watermark: WatermarkConfig | undefined
@@ -230,6 +237,7 @@ export interface BasicUpdatePayload {
 export interface UpdateVariationPayload {
 	product_id: number
 	variant_option: Array<VariantOption | undefined>
+	variant_image: Array<VariantImage | undefined>
 	variant: Array<Variant | undefined>
 }
 
@@ -455,6 +463,16 @@ export const clients = {
 								] as Array<string>
 							} as VariantOption | undefined
 						] as Array<VariantOption | undefined>,
+						variant_image: [
+						{
+								id: 0,
+								product_id: 0,
+								option_name: ``,
+								image_preview: ``,
+								image_collection_path: ``,
+								count_image: 0
+							} as VariantImage | undefined
+						] as Array<VariantImage | undefined>,
 						variant: [
 						{
 								id: 0,
@@ -466,10 +484,7 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
-								stock: 0,
-								image_preview: ``,
-								image_collection_path: ``,
-								count_image: 0
+								stock: 0
 							} as Variant | undefined
 						] as Array<Variant | undefined>,
 						collection: [
@@ -589,6 +604,16 @@ export const clients = {
 								] as Array<string>
 							} as VariantOption | undefined
 						] as Array<VariantOption | undefined>,
+						variant_image: [
+						{
+								id: 0,
+								product_id: 0,
+								option_name: ``,
+								image_preview: ``,
+								image_collection_path: ``,
+								count_image: 0
+							} as VariantImage | undefined
+						] as Array<VariantImage | undefined>,
 						variant: [
 						{
 								id: 0,
@@ -600,10 +625,7 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
-								stock: 0,
-								image_preview: ``,
-								image_collection_path: ``,
-								count_image: 0
+								stock: 0
 							} as Variant | undefined
 						] as Array<Variant | undefined>,
 						collection: [
@@ -698,6 +720,16 @@ export const clients = {
 								] as Array<string>
 							} as VariantOption | undefined
 						] as Array<VariantOption | undefined>,
+						variant_image: [
+						{
+								id: 0,
+								product_id: 0,
+								option_name: ``,
+								image_preview: ``,
+								image_collection_path: ``,
+								count_image: 0
+							} as VariantImage | undefined
+						] as Array<VariantImage | undefined>,
 						variant: [
 						{
 								id: 0,
@@ -709,10 +741,7 @@ export const clients = {
 								``
 								] as Array<string>,
 								price: 0,
-								stock: 0,
-								image_preview: ``,
-								image_collection_path: ``,
-								count_image: 0
+								stock: 0
 							} as Variant | undefined
 						] as Array<Variant | undefined>,
 						collection: [
@@ -798,6 +827,16 @@ export const clients = {
 						] as Array<string>
 					} as VariantOption | undefined
 				] as Array<VariantOption | undefined>,
+				variant_image: [
+				{
+						id: 0,
+						product_id: 0,
+						option_name: ``,
+						image_preview: ``,
+						image_collection_path: ``,
+						count_image: 0
+					} as VariantImage | undefined
+				] as Array<VariantImage | undefined>,
 				variant: [
 				{
 						id: 0,
@@ -809,10 +848,7 @@ export const clients = {
 						``
 						] as Array<string>,
 						price: 0,
-						stock: 0,
-						image_preview: ``,
-						image_collection_path: ``,
-						count_image: 0
+						stock: 0
 					} as Variant | undefined
 				] as Array<Variant | undefined>
 			} as UpdateVariationPayload ,

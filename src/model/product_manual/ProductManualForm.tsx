@@ -9,18 +9,13 @@ export interface FormModel {
 }
 
 export type FormModelKey = keyof FormModel
-
-export type ValidatePayload<T> = {
-	validate: true
-	data: T
-} | {
-	validate: false
+export type ValidateError = {
 	message: string
 }
 
 export class ProductManualFormModel implements FormModel {
 	pid: number
-    basic: FormInstance<BasicUpdatePayload>
+	basic: FormInstance<BasicUpdatePayload>
 	variant: FormInstance<UpdateVariationPayload>
 	fieldConfig: FormInstance<UpdateFieldConfigPayload>
 
@@ -49,7 +44,8 @@ export class ProductManualFormModel implements FormModel {
 
 		this.variant.setFieldsValue({
 			variant: product?.variant,
-			variant_option: product?.variant_option
+			variant_option: product?.variant_option,
+			variant_image: product?.variant_image
 		})
 
 		this.fieldConfig.setFieldsValue({
@@ -57,52 +53,40 @@ export class ProductManualFormModel implements FormModel {
 		})
 	}
 
-	async getBasicPayload(): Promise<ValidatePayload<BasicUpdatePayload>> {
-		return new Promise<ValidatePayload<BasicUpdatePayload>>((resolve) => {
+	async getBasicPayload(): Promise<BasicUpdatePayload> {
+		return new Promise<BasicUpdatePayload>((resolve, reject) => {
 			this.basic.validateFields()
 				.then((data) => resolve({
-					validate: true,
-					data: {
-						...data,
-						product_id: this.pid
-					}
+					...data,
+					product_id: this.pid
 				}))
-				.catch(() => resolve({
-					validate: false,
+				.catch(() => reject({
 					message: "informasi produk tidak lengkap."
 				}))
 		})
 	}
 
-	async getVariantPayload(): Promise<ValidatePayload<UpdateVariationPayload>> {
-		return new Promise<ValidatePayload<UpdateVariationPayload>>((resolve) => {
+	async getVariantPayload(): Promise<UpdateVariationPayload> {
+		return new Promise<UpdateVariationPayload>((resolve, reject) => {
 			this.variant.validateFields()
 				.then((data) => resolve({
-					validate: true,
-					data: {
-						...data,
-						product_id: this.pid
-					}
+					...data,
+					product_id: this.pid
 				}))
-				.catch(() => resolve({
-					validate: false,
+				.catch(() => reject({
 					message: "variasi produk tidak lengkap."
 				}))
 		})
 	}
 
-	async getFieldConfigPayload(): Promise<ValidatePayload<UpdateFieldConfigPayload>> {
-		return new Promise<ValidatePayload<UpdateFieldConfigPayload>>((resolve) => {
+	async getFieldConfigPayload(): Promise<UpdateFieldConfigPayload> {
+		return new Promise<UpdateFieldConfigPayload>((resolve, reject) => {
 			this.fieldConfig.validateFields()
 				.then((data) => resolve({
-					validate: true,
-					data: {
-						...data,
-						product_id: this.pid
-					}
+					...data,
+					product_id: this.pid
 				}))
-				.catch(() => resolve({
-					validate: false,
+				.catch(() => reject({
 					message: "field config tidak lengkap."
 				}))
 		})

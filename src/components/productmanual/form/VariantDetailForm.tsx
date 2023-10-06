@@ -4,15 +4,14 @@ import React from "react";
 import { ColumnsType } from "antd/es/table";
 import { UpdateVariationPayload, Variant } from "../../../model/apisdk";
 import { ValueCache, VariantCacheModel } from "../../../model/product_manual/VariantCache";
-import { CheckFS } from "./validator/path_validator";
-import DetailImageCollectionPathForm from "./variantform/DetailImageCollectionPathForm";
+
 import DetailPriceForm from "./variantform/DetailPriceForm";
 import DetailStockForm from "./variantform/DetailStockForm";
 
 interface Props {
     form: FormInstance<UpdateVariationPayload>
-    cheker: CheckFS
     initialVariants?: Array<Variant | undefined>
+    variantImage: (value: ValueCache) => React.ReactNode
 }
 
 const VariantDetailForm: React.FC<Props> = (props: Props) => {
@@ -64,18 +63,6 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
         })
     }, [variants])
 
-    function onImgColPathChange(var1key: number): (path: string) => void {
-        return (path) => {
-            valueCaches.forEach((cache, index) => {
-                if (cache.var1Key === var1key) {
-                    const key = ["variant", index, "image_collection_path"]
-                    props.form.setFieldValue(key, path)
-                    props.form.validateFields(key)
-                }
-            })
-        }
-    }
-
     const columns: ColumnsType<ValueCache> = [
         {
             title: options?.[0]?.name || "Variasi 1",
@@ -97,16 +84,10 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
                 return {}
             },
             width: 200,
-            render(_, data, index) {
+            render(_, data) {
                 return <div>
                     <p className="mb-2 c-tx-center">{ data.data.values?.[0] }</p>
-                    <DetailImageCollectionPathForm
-                        index={index}
-                        cheker={props.cheker}
-                        disabled={!data.data.values?.[0]}
-                        placeholder="Pilih koleksi gambar"
-                        onChange={onImgColPathChange(data.var1Key)}
-                    />
+                    {props.variantImage(data)}
                 </div>
             },
         },

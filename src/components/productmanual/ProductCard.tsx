@@ -63,11 +63,6 @@ const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
         }
     }
 
-    const cover = <Image
-        src={product.image_preview}
-        fallback={noimg}
-    />
-
     const actions = [
         <Link
             key="product-detail"
@@ -113,7 +108,14 @@ const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
     ]
 
     return <AsDraft asDraft={product.as_draft}>
-        <Card size="small" cover={cover} actions={actions}>
+        <Card
+            size="small"
+            cover={<Image
+                src={product.getImageUrl()}
+                fallback={noimg}
+            />}
+            actions={actions}
+        >
             <AntdCheckbox
                 style={{ position: "absolute", top: 8 }}
                 checked={isSelected}
