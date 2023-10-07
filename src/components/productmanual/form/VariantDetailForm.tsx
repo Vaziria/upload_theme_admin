@@ -1,139 +1,139 @@
-import { Form, FormInstance, Table } from "antd";
+import { Form, InputNumber, Table } from "antd";
 import React from "react";
 
-import { ColumnsType } from "antd/es/table";
-import { UpdateVariationPayload, Variant } from "../../../model/apisdk";
-import { ValueCache, VariantCacheModel } from "../../../model/product_manual/VariantCache";
 
-import DetailPriceForm from "./variantform/DetailPriceForm";
-import DetailStockForm from "./variantform/DetailStockForm";
+import { ColumnsType } from "antd/es/table";
+import { UpdateVariationPayload, Variant, VariantOption } from "../../../model/apisdk";
+import { FormModel } from "../../../model/product_manual/ProductManualForm";
+
+import { requiredValidator } from "./validator/basic_validator";
+import { priceValidator } from "./validator/price_validator";
 
 interface Props {
-    form: FormInstance<UpdateVariationPayload>
-    initialVariants?: Array<Variant | undefined>
-    variantImage: (value: ValueCache) => React.ReactNode
+    children: (index: number) => React.ReactNode
+}
+
+type TableItem = Pick<Variant, "names" | "values"> & {
+    firstIndex: number
+    first: boolean
+    key: string
+}
+
+function createTableItems(options?: UpdateVariationPayload["variant_option"]): TableItem[] {
+    const option1 = options?.[0]
+    const option2 = options?.[1]
+
+    const items: TableItem[] = []
+    if (option1) {
+        option1.option.forEach((option1_value, firstIndex) => {
+
+            if (option2 && option2.option.length) {
+                option2.option.forEach((option2_value, index) => {
+                    items.push({
+                        names: [option1.name, option2.name],
+                        values: [option1_value, option2_value],
+                        firstIndex,
+                        first: index === 0,
+                        key: `${firstIndex}_${index}`
+                    })
+                })
+
+            } else {
+                items.push({
+                    names: [option1.name],
+                    values: [option1_value],
+                    firstIndex,
+                    first: true,
+                    key: firstIndex.toString()
+                })
+            }
+        }, [])
+    }
+
+    return items
 }
 
 const VariantDetailForm: React.FC<Props> = (props: Props) => {
+    return <Form.Item<FormModel> noStyle shouldUpdate>
+        {(form) => {
 
-    const [valueCaches, setValueCaches] = React.useState<ValueCache[]>([])
-    const options = Form.useWatch("variant_option", props.form)
-    const variants = Form.useWatch("variant", props.form)
+            const options: Array<VariantOption | undefined> | undefined = form.getFieldValue(["variant", "variant_option"])
+            const items = createTableItems(options)
 
-    React.useEffect(() => {
-        if (options) {
-            const cacheModel = new VariantCacheModel(options, valueCaches)
-            const caches = cacheModel.createCaches()
-            setValueCaches(caches)
-
-            const variants = caches.map((cache) => cache.data)
-            props.form.setFieldValue("variant", variants)
-            props.form.validateFields(["variant"])
-        }
-
-    }, [options])
-
-    React.useEffect(() => {
-        if (props.initialVariants) {
-            const caches = valueCaches.map((cache, index) => ({
-                ...cache,
-                data: {
-                    ...cache.data,
-                    ...props.initialVariants?.[index]
-                }
-            }))
-            setValueCaches(caches)
-
-            const variants = caches.map((cache) => cache.data)
-            props.form.setFieldValue("variant", variants)
-        }
-    }, [props.initialVariants])
-
-    React.useEffect(() => {
-        setValueCaches((caches) => {
-            variants?.forEach((data, index) => {
-                if (caches[index]) {
-                    caches[index].data = {
-                        ...caches[index]?.data,
-                        ...data,
-                    }
-                }
-            })
-            return caches
-        })
-    }, [variants])
-
-    const columns: ColumnsType<ValueCache> = [
-        {
-            title: options?.[0]?.name || "Variasi 1",
-            dataIndex: "var1Name",
-            key: "var1Name",
-            onCell(data) {
-                if (options?.length > 1) {
-                    if (data.first) {
-                        return {
-                            rowSpan: options[1]?.option.length || 1,
+            const columns: ColumnsType<TableItem> = [
+                {
+                    title: options?.[0]?.name || "Variasi 1",
+                    key: "variant1",
+                    dataIndex: "variant1",
+                    onCell(data) {
+                        if (options && options.length > 1) {
+                            if (data.first) {
+                                const rowSpan = options[1]?.option.length || 1
+                                return { rowSpan }
+                            }
+                            return { rowSpan: 0 }
                         }
+                        return {}
+                    },
+                    width: 200,
+                    render(_, data) {
+                        return props.children(data.firstIndex)
+                    },
+                },
+                {
+                    title: options?.[1]?.name || "Variasi 2",
+                    dataIndex: "variant2",
+                    key: "variant2",
+                    className: options && options.length > 1 ? "" : "d-none",
+                    render(_, data) {
+                        return <div style={{ minWidth: 50, textAlign: "center" }}>
+                            {data.values[1]}
+                        </div>
                     }
+                },
+                {
+                    title: "Harga",
+                    dataIndex: "price",
+                    key: "price",
+                    render(_, __, index) {
+                        return <Form.Item<FormModel>
+                            name={["variant", "variant", index, "price"]}
+                            rules={[requiredValidator, priceValidator]}
+                            initialValue={0}
+                            wrapperCol={{ span: 24 }}
+                            className="mb-0"
+                        >
+                            <InputNumber addonBefore="Rp" placeholder="Mohon masukkan" className="w-100" />
+                        </Form.Item>
+                    },
+                },
+                {
+                    title: "Stock",
+                    dataIndex: "stock",
+                    key: "stock",
+                    render(_, __, index) {
+                        return <Form.Item<FormModel>
+                            name={["variant", "variant", index, "stock"]}
+                            rules={[requiredValidator]}
+                            initialValue={0}
+                            wrapperCol={{ span: 24 }}
+                            className="mb-0"
+                        >
+                            <InputNumber placeholder="Mohon masukkan" className="w-100" />
+                        </Form.Item>
+                    },
+                },
+            ]
 
-                    return {
-                        rowSpan: 0
-                    }
-                }
-                
-                return {}
-            },
-            width: 200,
-            render(_, data) {
-                return <div>
-                    <p className="mb-2 c-tx-center">{ data.data.values?.[0] }</p>
-                    {props.variantImage(data)}
-                </div>
-            },
-        },
-        {
-            title: "Harga",
-            dataIndex: "price",
-            key: "price",
-            render(_, __, index) {
-                return <DetailPriceForm index={index} />
-            },
-        },
-        {
-            title: "Stock",
-            dataIndex: "stock",
-            key: "stock",
-            render(_, __, index) {
-                return <DetailStockForm index={index} />
-            },
-        },
-    ]
-
-    if (options && options.length > 1) {
-        columns.splice(1, 0, {
-            title: options?.[1]?.name || "Variasi 2",
-            dataIndex: "var2Name",
-            key: "var2Name",
-            render(_, data) {
-                return <div style={{
-                    minWidth: 50,
-                    textAlign: "center"
-                }}>{ data.data.values?.[1] }</div>
-            }
-        })
-    }
-
-    return <Form.Item<UpdateVariationPayload>
-        name="variant"
-    >
-        <Table
-            dataSource={valueCaches}
-            columns={columns}
-            bordered
-            rowKey="key"
-            rowClassName="c-bg-gray"
-            pagination={false}
-        />
+            return <Table
+                dataSource={items}
+                columns={columns}
+                bordered
+                rowKey="key"
+                rowClassName="c-bg-gray"
+                pagination={false}
+            />
+        }}
     </Form.Item>
 }
 

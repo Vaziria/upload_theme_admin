@@ -1,4 +1,3 @@
-import React from "react"
 
 import { getErrMessage } from "../../utils/errmsg"
 import { ApiResponse, SendOptions } from "../apisdk"
@@ -8,56 +7,43 @@ export interface UpdateResponse {
     message: string
 }
 
-const defResponse: UpdateResponse = {
-    success: false,
-    message: ""
-}
-
 export type MutateFunc<T> = (a: SendOptions<ApiResponse, undefined>, b?: Partial<T>) => void
-export type ApplyUpdate<T> = (payload: T) => Promise<void>
+export type UpdateOptions = {
+    success: string
+    error: string
+}
 
 export class ProductManualUpdateModel<T> {
     mutate: MutateFunc<T>
-    successMessage?: string
-    errorMessage?: string
+    options: UpdateOptions
 
-    constructor(mutate: MutateFunc<T>, successMessage?: string, errorMessage?: string) {
+    constructor(mutate: MutateFunc<T>, options: UpdateOptions) {
         this.mutate = mutate
-        this.successMessage = successMessage
-        this.errorMessage = errorMessage
+        this.options = options
     }
 
-    useUpdate(): [UpdateResponse, ApplyUpdate<T>] {
-        const [response, setResponse] = React.useState({ ...defResponse })
-        return [response, this.applyUpdate(setResponse)]
-    }
-
-    private applyUpdate(setResponse: React.Dispatch<UpdateResponse>): ApplyUpdate<T> {
-        return (payload) => new Promise((resolve) => {
-            setResponse?.({ ...defResponse })
-
+    update(payload: T): Promise<UpdateResponse> {
+        return new Promise<UpdateResponse>((resolve) => {
             this.mutate({
                 onSuccess: (res) => {
                     if (res.err_msg) {
-                        setResponse?.({
-                            success: true,
+                        resolve({
+                            success: false,
                             message: res.err_msg
                         })
                     } else {
-                        setResponse?.({
+                        resolve({
                             success: true,
-                            message: this.successMessage || ""
+                            message: this.options.success || "success"
                         })
                     }
-                    resolve()
                 },
                 onError: (err) => {
-                    const message = getErrMessage(err as Error, this.errorMessage)
-                    setResponse?.({
+                    const message = getErrMessage(err as Error, this.options.error)
+                    resolve({
                         success: false,
-                        message
+                        message: message
                     })
-                    resolve()
                 },
             }, payload)
         })

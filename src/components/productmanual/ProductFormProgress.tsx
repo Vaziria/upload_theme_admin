@@ -19,48 +19,26 @@ interface ItemOptions {
 const ProductFormProgress: React.FC<Props> = (props: Props) => {
     const { progressModel } = props
 
-    const basicProgress = progressModel.useBasicProgress()
-    const variantProgress = progressModel.useVariantProgress()
-    const fieldConfigProgress = progressModel.useFieldConfigProgress()
-
-    const batchProgress = [
-        basicProgress,
-        variantProgress,
-        fieldConfigProgress
-    ]
-    const batchPercent = batchProgress.reduce((res, progress) => {
-        return res + (progress.percent / batchProgress.length)
-    }, 0)
-    const haveException = batchProgress.some((progress) => progress.status === "exception")
-
-    const finishProgress: ProgressRes = {
-        percent: Math.ceil(batchPercent),
-        status: haveException ? "exception" : "success"
-    }
+    const progress = progressModel.useProgress()
 
     const itemOptions: ItemOptions[] = [
         {
             key: "productbasic",
             resKey: "basic",
             title: "Informasi Produk",
-            progress: basicProgress
+            progress: progress.basic
         },
         {
             key: "productvariation",
             resKey: "variant",
             title: "Variasi Produk",
-            progress: variantProgress
+            progress: progress.variant
         },
         {
             key: "productfieldconfig",
             resKey: "fieldConfig",
             title: "Field Config",
-            progress: fieldConfigProgress
-        },
-        {
-            key: "productfinish",
-            title: "Selesaikan Produk",
-            progress: finishProgress
+            progress: progress.fieldConfig
         },
     ]
 

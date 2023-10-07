@@ -42,7 +42,9 @@ export const Variation: React.FC<Props> = (props: Props): JSX.Element => {
 type AsDraftProps = React.PropsWithChildren<{ asDraft: boolean }>
 const AsDraft: React.FC<AsDraftProps> = (props: AsDraftProps) => {
     if (props.asDraft) {
-        <Badge.Ribbon text="Draft">{props.children}</Badge.Ribbon>
+        return <Badge.Ribbon text="Draft">
+            {props.children}
+        </Badge.Ribbon>
     }
 
     return <>{props.children}</>

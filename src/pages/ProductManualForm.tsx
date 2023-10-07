@@ -1,21 +1,19 @@
-import { Col, Row, Spin, message } from "antd";
+import { Affix, Button, Card, Col, Form, Row, Space, Spin, message } from "antd";
 import React from "react";
 import { Prompt, useLocation, useParams } from "react-router-dom";
 
 import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
 import { useQuery } from "../model/apisdk";
-import { ProductManualFormModel, ValidateError } from "../model/product_manual/ProductManualForm";
+import { FormModel, ProductManualFormModel } from "../model/product_manual/ProductManualForm";
 import { getErrMessage } from "../utils/errmsg";
 
-import ProductFormAction from "../components/productmanual/ProductFormAction";
 import ProductFormBasic from "../components/productmanual/ProductFormBasic";
 import ProductFormFieldConfig from "../components/productmanual/ProductFormFieldConfig";
 import ProductFormProgress from "../components/productmanual/ProductFormProgress";
 import ProductFormVariant from "../components/productmanual/ProductFormVariant";
 import { ProductManualFormProgressModel } from "../model/product_manual/ProductManualFormProgress";
 import { ProductManualUpdateModel } from "../model/product_manual/ProductManualUpdate";
-import ProductFormModalResponse, { BacthResponse } from "../components/productmanual/ProductFormModalResponse";
 
 interface Params {
     colid: string
@@ -30,11 +28,16 @@ const ProductManualForm: React.FC = (): JSX.Element => {
 
     const pid = parseInt(params.pid)
     const formModel = new ProductManualFormModel(pid)
-    const [openResponse, setOpenResponse] = React.useState(false)
     const [showPromt, setShowPromt] = React.useState(false)
 
     const { data, pending, error, send: getProduct } = useQuery("GetPdcsourceProductItem")
     const isPublish = !data?.data?.as_draft
+
+    // handle page refresh
+    const alertUser = (ev: BeforeUnloadEvent) => {
+        ev.preventDefault()
+        ev.returnValue = ""
+    }
 
     React.useEffect(() => {
         getProduct({
@@ -51,72 +54,79 @@ const ProductManualForm: React.FC = (): JSX.Element => {
                 goback("/productmanual/:colid", params)
             }
         })
+
+        window.addEventListener("beforeunload", alertUser)
+        return () => window.removeEventListener("beforeunload", alertUser)
     }, [])
 
     const { mutate: checkFs } = useMutation("PostPdcsourceFsCheck")
     const { mutate: mutateBasic, pending: basicPending } = useMutation("PostPdcsourceEditSetBasic", {})
     const { mutate: mutateVariant, pending: variantPending } = useMutation("PostPdcsourceEditVariationUpdate", {})
     const { mutate: mutateFieldConfig, pending: fieldConfigPending } = useMutation("PostPdcsourceEditFieldConfig", {})
-    const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {
-        onSuccess() {
-            message.success("produk berhasil ditampilkan.")
-            goback("/productmanual/:colid", params)
-        },
-        onError(err) {
-            const msg = getErrMessage(err as Error, "gagal menampilkan produk.")
-            message.error(msg)
-            goback("/productmanual/:colid", params)
-        }
+    const { mutate: mutateCreateField } = useMutation("PostPdcsourceSpinFieldConfig", {})
+    const { mutate: mutateDeleteField } = useMutation("DeletePdcsourceSpinFieldConfig", {})
+    const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {})
+
+    const updateBasic = new ProductManualUpdateModel(mutateBasic, {
+        success: "informasi produk tersimpan",
+        error: "gagal menyimpan informasi produk",
+    })
+    const updateVariant = new ProductManualUpdateModel(mutateVariant, {
+        success: "variasi produk tersimpan",
+        error: "gagal menyimpan variasi produk",
+    })
+    const updateFieldConfig = new ProductManualUpdateModel(mutateFieldConfig, {
+        success: "field config tersimpan",
+        error: "gagal menyimpan field config",
+    })
+    const updatePublish = new ProductManualUpdateModel(mutatePublish, {
+        success: "produk ditampilkan",
+        error: "gagal menampilkan produk",
     })
 
-    const basicUpdateModel = new ProductManualUpdateModel(mutateBasic, "informasi produk tersimpan.", "gagal menyimpan informasi produk.")
-    const variantUpdateModel = new ProductManualUpdateModel(mutateVariant, "variasi produk tersimpan.", "gagal menyimpan variasi produk.")
-    const fieldConfigUpdateModel = new ProductManualUpdateModel(mutateFieldConfig, "field config tersimpan.", "gagal menyimpan field config.")
-
-    const [basicResponse, applyBasicUpdate] = basicUpdateModel.useUpdate()
-    const [variantResponse, applyVariantUpdate] = variantUpdateModel.useUpdate()
-    const [fieldConfigResponse, applyFieldConfigUpdate] = fieldConfigUpdateModel.useUpdate()
-    const responses: BacthResponse[] = [
-        { ...basicResponse, pending: basicPending },
-        { ...variantResponse, pending: variantPending },
-        { ...fieldConfigResponse, pending: fieldConfigPending }
-    ]
-
     const progressModel = new ProductManualFormProgressModel(formModel)
-    const isLoading = basicPending || variantPending || fieldConfigPending
+    const isLoading = basicPending || variantPending || fieldConfigPending || publishPending
 
-    async function updateProduct(): Promise<void> {
+    async function updateProduct(publish: boolean): Promise<void> {
         try {
-            const basicPayload = await formModel.getBasicPayload()
-            const variantPayload = await formModel.getVariantPayload()
-            const fieldConfigpayload = await formModel.getFieldConfigPayload()
-
-            const useVariant = formModel.basic.getFieldValue("use_variant")
-            setShowPromt(false)
-            setOpenResponse(true)
-
-            await applyBasicUpdate(basicPayload)
-            if (useVariant) {
-                await applyVariantUpdate(variantPayload)
+            const payload = await formModel.getPayload()
+            const promises = [
+                updateBasic.update(payload.basic),
+                updateFieldConfig.update(payload.fieldConfig)
+            ]
+            if (payload.basic.use_variant) {
+                promises.push(updateVariant.update(payload.variant),)
             }
-            await applyFieldConfigUpdate(fieldConfigpayload)
+            const responses = await Promise.all(promises)
+
+            responses.forEach((res) => message.open({
+                content: res.message,
+                type: res.success ? "success" : "error"
+            }))
+
+            const isSuccess = responses.every((res) => res.success)
+            if (isSuccess) {
+                if (publish) {
+                    const res = await updatePublish.update({ product_id: pid })
+                    message.open({
+                        content: res.message,
+                        type: res.success ? "success" : "error"
+                    })
+
+                    if (res.success) {
+                        setShowPromt(false)
+                        goback("/productmanual/:colid", params)
+                    }
+                } else {
+                    setShowPromt(false)
+                    goback("/productmanual/:colid", params)
+                }
+            }
 
         } catch (err) {
-            message.error((err as ValidateError).message)
+            message.error((err as Error).message)
         }
     }
-
-    // handle page refresh
-    const alertUser = (ev: BeforeUnloadEvent) => {
-        ev.preventDefault();
-        ev.returnValue = "";
-    }
-    React.useEffect(() => {
-        window.addEventListener("beforeunload", alertUser);
-        return () => {
-            window.removeEventListener("beforeunload", alertUser);
-        };
-    }, [])
 
     function onBackPromt(promt: boolean) {
         setShowPromt(promt)
@@ -130,45 +140,63 @@ const ProductManualForm: React.FC = (): JSX.Element => {
             return sameLoc || "Yakin ingin buang semua perubahan?"
         }} />
 
-        <ProductFormModalResponse
-            open={openResponse}
-            isPublished={isPublish}
-            loading={isLoading}
-            publishLoading={publishPending}
-            responses={responses}
-            onClose={() => setOpenResponse(false)}
-            onBack={() => onBackPromt(false)}
-            onPublish={() => mutatePublish({}, {
-                product_id: pid
-            })}
-        />
-
         <Col span={6} offset={1} className="pr-3">
             <ProductFormProgress progressModel={progressModel} />
         </Col>
 
         <Col span={16}>
-            <Spin tip="Loading..." spinning={pending || !!error}>
+            <Form<FormModel>
+                name="productForm"
+                form={formModel.form}
+                labelCol={{
+                    sm: 8,
+                    md: 8,
+                    lg: 5,
+                }}
+                wrapperCol={{
+                    sm: 16,
+                    md: 16,
+                    lg: 19,
+                }}
+                autoComplete="off"
+                onFinish={(a) => console.log(a)}
+                onFinishFailed={(a) => console.log(a)}
+            >
+                <Spin tip="Loading..." spinning={pending || !!error}>
 
-                <ProductFormBasic form={formModel.basic} checker={checkFs} />
-                <ProductFormVariant
-                    form={formModel.variant}
-                    formBasic={formModel.basic}
-                    checker={checkFs}
-                    initialVariants={data?.data?.variant}
-                />
-                <ProductFormFieldConfig
-                    pid={pid}
-                    form={formModel.fieldConfig}
-                />
+                    <ProductFormBasic checker={checkFs} />
+                    <ProductFormVariant checker={checkFs} />
+                    <ProductFormFieldConfig pid={pid} createField={mutateCreateField} deleteField={mutateDeleteField} />
 
-                <div id="productfinish" />
-                <ProductFormAction
-                    loading={isLoading}
-                    onBack={() => onBackPromt(true)}
-                    onUpdate={updateProduct}
-                />
-            </Spin>
+                    <Affix offsetBottom={0}>
+                        <Card size="small">
+                            <Form.Item wrapperCol={{ span: 24 }} className="d-flex justify-content-end mb-0">
+                                <Space>
+                                    <Button disabled={isLoading} onClick={() => onBackPromt(true)}>
+                                        Kembali
+                                    </Button>
+                                    <Button
+                                        type={isPublish ? "primary" : "default"}
+                                        disabled={isLoading}
+                                        loading={isLoading}
+                                        onClick={() => updateProduct(false)}
+                                    >
+                                        Simpan
+                                    </Button>
+                                    {!isPublish && <Button
+                                        type={"primary"}
+                                        disabled={isLoading}
+                                        loading={isLoading}
+                                        onClick={() => updateProduct(true)}
+                                    >
+                                        Simpan & Tampilkan
+                                    </Button>}
+                                </Space>
+                            </Form.Item>
+                        </Card>
+                    </Affix>
+                </Spin>
+            </Form>
         </Col>
     </Row>
 }

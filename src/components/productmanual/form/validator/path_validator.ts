@@ -1,3 +1,4 @@
+import { Rule } from "antd/es/form"
 import { PathCheckPayload, PathCheckResponse, SendOptions } from "../../../../model/apisdk"
 
 export type CheckFS = (
@@ -5,7 +6,7 @@ export type CheckFS = (
     b?: Partial<PathCheckPayload>
 ) => void
 
-export function pathValidator(checker: CheckFS): (_: unknown, path: string) => Promise<void> {
+export function validator(checker: CheckFS): (_: unknown, path: string) => Promise<void> {
     return function (_: unknown, path: string): Promise<void> {
 
         if (!path) {
@@ -32,3 +33,7 @@ export function pathValidator(checker: CheckFS): (_: unknown, path: string) => P
         })
     }
 }
+
+export const pathValidator: (checker: CheckFS) => Rule = (checker: CheckFS) => ({
+    validator: validator(checker)
+})

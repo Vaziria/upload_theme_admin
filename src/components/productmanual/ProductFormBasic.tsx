@@ -1,53 +1,88 @@
-import { Card, Form, FormInstance } from "antd";
+import { Card, Form, Input, InputNumber } from "antd";
 import React from "react";
 
-import { BasicUpdatePayload } from "../../model/apisdk";
-import { CheckFS } from "./form/validator/path_validator";
+import { FormModel } from "../../model/product_manual/ProductManualForm";
+import { descValidator, requiredValidator, titleValidator } from "./form/validator/basic_validator";
+import { CheckFS, pathValidator } from "./form/validator/path_validator";
+import { priceValidator } from "./form/validator/price_validator";
+import { weightValidator } from "./form/validator/weight_validator";
 
-import DescForm from "./form/DescForm";
-import ImageCollectionPathForm from "./form/ImageCollectionPathForm";
-import PriceForm from "./form/PriceForm";
-import StockForm from "./form/StockForm";
-import TitleForm from "./form/TitleForm";
-import UseMarkupForm from "./form/UseMarkupForm";
-import WeightForm from "./form/WeightForm";
+import ImageCollectionSelect from "../common/ImageCollectionSelect";
+import MarkupSelectNew from "../common/MarkupSelectNew";
 
 interface Props {
-    form: FormInstance<BasicUpdatePayload>
     checker: CheckFS
 }
 
-const ProductFormBasic: React.FC<Props> = (props: Props): JSX.Element => {
-    return <Form<BasicUpdatePayload>
-        name="basicProduct"
-        form={props.form}
-        className="mb-3"
-        labelCol={{
-            sm: 8,
-            md: 8,
-            lg: 5,
-        }}
-        wrapperCol={{
-            sm: 16,
-            md: 16,
-            lg: 19,
-        }}
-        autoComplete="off"
-        onFinish={(a) => console.log(a)}
-        onFinishFailed={(a) => console.log(a)}
-    >
-        <Card id="productbasic">
-            <h5 className="c-bold mb-3">Informasi Produk</h5>
+const smInputCSS: React.CSSProperties = {
+    minWidth: 200,
+    width: 300
+}
 
-            <ImageCollectionPathForm cheker={props.checker} />
-            <TitleForm />
-            <DescForm />
-            <PriceForm />
-            <StockForm />
-            <WeightForm />
-            <UseMarkupForm />
-        </Card>
-    </Form>
+const ProductFormBasic: React.FC<Props> = (props: Props): JSX.Element => {
+    const { checker } = props
+    
+    return <Card id="productbasic" className="mb-3">
+        <h5 className="c-bold mb-3">Informasi Produk</h5>
+
+        <Form.Item<FormModel>
+            label="Koleksi Gambar"
+            name={["basic","image_collection_path"]}
+            rules={[requiredValidator, pathValidator(checker)]}
+        >
+            <ImageCollectionSelect style={smInputCSS} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Nama Produk"
+            name={["basic", "title"]}
+            rules={[requiredValidator, titleValidator]}
+        >
+            <Input placeholder="Mohon masukkan" showCount maxLength={255} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Deskripsi Produk"
+            name={["basic", "desc"]}
+            rules={[requiredValidator, descValidator]}
+        >
+            <Input.TextArea showCount maxLength={3000} rows={8} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Harga"
+            name={["basic", "price"]}
+            initialValue={0}
+            rules={[requiredValidator, priceValidator]}
+        >
+            <InputNumber addonBefore="Rp" placeholder="Mohon masukkan" style={smInputCSS} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Stock"
+            name={["basic", "stock"]}
+            initialValue={0}
+            rules={[requiredValidator]}
+        >
+            <InputNumber placeholder="Mohon masukkan" style={smInputCSS} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Berat"
+            name={["basic", "weight"]}
+            initialValue={0}
+            rules={[requiredValidator, weightValidator]}
+        >
+            <InputNumber addonAfter="gr" placeholder="Mohon masukkan" style={smInputCSS} />
+        </Form.Item>
+
+        <Form.Item<FormModel>
+            label="Markup"
+            name={["basic", "use_markup"]}
+        >
+            <MarkupSelectNew style={smInputCSS} />
+        </Form.Item>
+    </Card>
 }
 
 export default ProductFormBasic

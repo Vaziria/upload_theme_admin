@@ -1,94 +1,66 @@
 import { Form, FormInstance } from "antd";
+import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 
 import { BasicUpdatePayload, ManualProduct, UpdateFieldConfigPayload, UpdateVariationPayload } from "../apisdk";
+import { ProductManualModel } from "./ProductManual";
 
 export interface FormModel {
-	basic: FormInstance<BasicUpdatePayload>
-	variant: FormInstance<UpdateVariationPayload>
-	fieldConfig: FormInstance<UpdateFieldConfigPayload>
+	basic: BasicUpdatePayload
+	variant: UpdateVariationPayload
+	fieldConfig: UpdateFieldConfigPayload
 }
 
+export type FormModelInstance = FormInstance<FormModel>
 export type FormModelKey = keyof FormModel
 export type ValidateError = {
 	message: string
 }
 
-export class ProductManualFormModel implements FormModel {
+export class ProductManualFormModel {
 	pid: number
-	basic: FormInstance<BasicUpdatePayload>
-	variant: FormInstance<UpdateVariationPayload>
-	fieldConfig: FormInstance<UpdateFieldConfigPayload>
+	form: FormModelInstance
 
 	constructor(pid: number) {
-		const [basicForm] = Form.useForm<BasicUpdatePayload>()
-		const [variantForm] = Form.useForm<UpdateVariationPayload>()
-		const [fieldConfigForm] = Form.useForm<UpdateFieldConfigPayload>()
-
+		const [form] = Form.useForm<FormModel>()
 		this.pid = pid
-		this.basic = basicForm
-		this.variant = variantForm
-		this.fieldConfig = fieldConfigForm
+		this.form = form
 	}
 
 	initializeFields(product?: ManualProduct): void {
-		this.basic.setFieldsValue({
-			image_collection_path: product?.image_collection_path,
-			title: product?.title,
-			desc: product?.desc,
-			price: product?.price,
-			stock: product?.stock,
-			weight: product?.weight,
-			use_markup: product?.use_markup,
-			use_variant: product?.use_variant
-		})
-
-		this.variant.setFieldsValue({
-			variant: product?.variant,
-			variant_option: product?.variant_option,
-			variant_image: product?.variant_image
-		})
-
-		this.fieldConfig.setFieldsValue({
-			field_spin: product?.field_spin
-		})
-	}
-
-	async getBasicPayload(): Promise<BasicUpdatePayload> {
-		return new Promise<BasicUpdatePayload>((resolve, reject) => {
-			this.basic.validateFields()
-				.then((data) => resolve({
-					...data,
-					product_id: this.pid
-				}))
-				.catch(() => reject({
-					message: "informasi produk tidak lengkap."
-				}))
+		const productModel = new ProductManualModel(product)
+		this.form.setFieldsValue({
+			basic: {
+				image_collection_path: productModel.image_collection_path,
+				title: productModel.title,
+				desc: productModel.desc,
+				price: productModel.price,
+				stock: productModel.stock,
+				weight: productModel.weight,
+				use_markup: productModel.use_markup,
+				use_variant: productModel.use_variant
+			},
+			variant: {
+				variant: productModel.variant,
+				variant_option: productModel.variant_option,
+				variant_image: productModel.variant_image
+			},
+			fieldConfig: {
+				field_spin: productModel.field_spin
+			}
 		})
 	}
 
-	async getVariantPayload(): Promise<UpdateVariationPayload> {
-		return new Promise<UpdateVariationPayload>((resolve, reject) => {
-			this.variant.validateFields()
+	async getPayload(): Promise<FormModel> {
+		return new Promise<FormModel>((resolve, reject) => {
+			this.form.validateFields()
 				.then((data) => resolve({
-					...data,
-					product_id: this.pid
+					basic: { ...data.basic, product_id: this.pid },
+					variant: { ...data.variant, product_id: this.pid },
+					fieldConfig: { ...data.fieldConfig, product_id: this.pid },
 				}))
-				.catch(() => reject({
-					message: "variasi produk tidak lengkap."
-				}))
-		})
-	}
-
-	async getFieldConfigPayload(): Promise<UpdateFieldConfigPayload> {
-		return new Promise<UpdateFieldConfigPayload>((resolve, reject) => {
-			this.fieldConfig.validateFields()
-				.then((data) => resolve({
-					...data,
-					product_id: this.pid
-				}))
-				.catch(() => reject({
-					message: "field config tidak lengkap."
-				}))
+				.catch((validateErr: ValidateErrorEntity<BasicUpdatePayload>) => {
+					reject(new Error(`terdapat ${validateErr.errorFields.length} kesalahan`))
+				})
 		})
 	}
 }

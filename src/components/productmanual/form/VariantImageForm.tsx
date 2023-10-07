@@ -1,39 +1,39 @@
-import { Form, FormInstance } from "antd"
+import { Form, Input, InputProps } from "antd"
 import React from "react"
 
-import { UpdateVariationPayload } from "../../../model/apisdk"
-import ImageCollectionSelect from "../../common/ImageCollectionSelect"
+import { FormModel } from "../../../model/product_manual/ProductManualForm"
+import { requiredValidator } from "./validator/basic_validator"
 import { CheckFS, pathValidator } from "./validator/path_validator"
+
+import ImageCollectionSelect from "../../common/ImageCollectionSelect"
 
 interface Props {
     cheker: CheckFS
     index: number
-    form: FormInstance<UpdateVariationPayload>
+}
+
+const OptionName: React.FC<InputProps> = (props: InputProps) => {
+    return <>
+        <p className="mb-2 c-tx-center">{props.value || "-"}</p>
+        <Input hidden {...props} />
+    </>
 }
 
 const VariantImageForm: React.FC<Props> = (props: Props) => {
+    const { cheker, index } = props
+    return <div>
+        <Form.Item<FormModel> name={["variant", "variant_image", index, "option_name"]} noStyle>
+            <OptionName />
+        </Form.Item>
 
-    const { cheker, index, form } = props
-    const optionName = Form.useWatch(["variant_option", 0, "option", index], form)
-
-    React.useEffect(() => {
-        if (typeof optionName === "string") {
-            form.setFieldValue(["variant_image", index, "option_name"], optionName)
-        }
-    }, [optionName])
-
-    return <>
-        <Form.Item<UpdateVariationPayload> name={["variant_image", index, "option_name"]} hidden />
-        <Form.Item<UpdateVariationPayload>
-            name={["variant_image", index, "image_collection_path"]}
-            rules={[
-                { required: true, message: "Koleksi gambar wajib diisi, pastikan memilih path yang sesuai." },
-                { validator: pathValidator(cheker) }
-            ]}
+        <Form.Item<FormModel>
+            name={["variant", "variant_image", index, "image_collection_path"]}
+            rules={[requiredValidator, pathValidator(cheker)]}
+            className="mb-0"
         >
             <ImageCollectionSelect placeholder="Pilih koleksi gambar" />
         </Form.Item>
-    </>
+    </div >
 }
 
 export default VariantImageForm
