@@ -20,16 +20,16 @@ const VariantOptionItemForm: React.FC<Props> = (props: Props) => {
 
     return <Form.Item<FormModel> noStyle shouldUpdate>
         {(form) => {
-            const title = form.getFieldValue(["variant", "variant_option", parentField.key, "name"])
-
             return <Card
                 key={parentField.key}
                 size="small"
                 type="inner"
-                title={title}
                 className="c-bg-gray"
-                extra={showRemove && <TrashIconButton onClick={onRemove} />}
             >
+                {showRemove && <TrashIconButton
+                    style={{ position: "absolute", right: 12 }}
+                    onClick={onRemove}
+                />}
                 <div>
                     <label>Nama Variasi</label>
                     <Form.Item

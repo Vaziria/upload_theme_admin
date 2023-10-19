@@ -30,7 +30,7 @@ const ProductFormBasic: React.FC<Props> = (props: Props): JSX.Element => {
             name={["basic","image_collection_path"]}
             rules={[requiredValidator, pathValidator(checker)]}
         >
-            <ImageCollectionSelect style={smInputCSS} />
+            <ImageCollectionSelect className="w-100" />
         </Form.Item>
 
         <Form.Item<FormModel>
@@ -59,7 +59,7 @@ const ProductFormBasic: React.FC<Props> = (props: Props): JSX.Element => {
         </Form.Item>
 
         <Form.Item<FormModel>
-            label="Stock"
+            label="Stok"
             name={["basic", "stock"]}
             initialValue={0}
             rules={[requiredValidator]}

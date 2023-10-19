@@ -34,7 +34,7 @@ const DetailInfo: React.FC<Props> = (props: Props) => {
         },
         {
             key: "stock",
-            label: "Stock",
+            label: "Stok",
             children: <Typography.Text>
                 {product.stock}
             </Typography.Text>

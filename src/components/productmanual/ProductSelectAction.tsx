@@ -4,19 +4,18 @@ import { Affix, Button, Card, Popconfirm } from "antd"
 import React from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 
-import { DeleteProductPayload, SendOptions } from "../../model/apisdk"
-import { productManualSelectedState, productManualState } from "../../recoil/atoms/product_manual"
+import { productManualListState, productManualSelectedState } from "../../recoil/atoms/product_manual"
 import { productManualIsSelectedAllState, productManualIsSelectedState } from "../../recoil/selectors/product_manual_page"
 
 import AntdCheckbox from "../common/AntdCheckbox"
 
 interface Props {
-    deleteMutate(a: SendOptions<any, undefined, Error>, b?: Partial<DeleteProductPayload>): void
+    onDelete(ids: number[]): void
 }
 
 const ProductSelectAction: React.FC<Props> = (props: Props) => {
 
-    const products = useRecoilValue(productManualState)
+    const products = useRecoilValue(productManualListState)
     const [selected, setSelected] = useRecoilState(productManualSelectedState)
     const isSelected = useRecoilValue(productManualIsSelectedState)
     const isSelectedAll = useRecoilValue(productManualIsSelectedAllState)
@@ -25,7 +24,7 @@ const ProductSelectAction: React.FC<Props> = (props: Props) => {
         const selectedIds: number[] = []
         
         if (selected) {
-            products.forEach((item) => {
+            products.data.forEach((item) => {
                 item && selectedIds.push(item.id)
             })
         }
@@ -34,16 +33,11 @@ const ProductSelectAction: React.FC<Props> = (props: Props) => {
     }
 
     function applyDeleteSelected() {
-        props.deleteMutate?.({
-            onSuccess() {
-                setSelected([])
-            },
-        }, {
-            ids: selected,
-        })
+        setSelected([])
+        props.onDelete(selected)
     }
 
-    return  <Affix offsetTop={0} className="mb-3">
+    return  <Affix offsetTop={8} className="mb-3">
         <Card size="small">
             <div className="c-flex c-item-center c-gap-4">
                 <AntdCheckbox

@@ -8,7 +8,7 @@ function nameValidator(form: FormModelInstance, field: FormListFieldData){
 
         const options: Array<VariantOption | undefined> = form.getFieldValue(["variant", "variant_option"])
         const onlyOne = (options || []).every((option, optindex) => {
-            if (option?.name == value) {
+            if (value && option?.name == value) {
                 return field.name === optindex
             }
             return true

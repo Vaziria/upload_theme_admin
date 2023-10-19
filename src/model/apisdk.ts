@@ -71,9 +71,29 @@ export interface CollectionCreateRes {
 	updated_at: string
 }
 
+export interface PaginationQuery {
+	page: number
+	limit: number
+}
+
+export interface CollectionItem {
+	id: number
+	name: string
+	created_at: string
+	updated_at: string
+	count: number
+}
+
 export interface CollectionResList {
 	err_msg: string
-	data: Array<Collection | undefined>
+	data: Array<CollectionItem | undefined>
+	page: number
+	limit: number
+	count: number
+}
+
+export interface CollectionItemPayload {
+	col_id: number
 }
 
 export interface ColDeletePayload {
@@ -81,7 +101,10 @@ export interface ColDeletePayload {
 }
 
 export interface ProductListQuery {
+	page: number
+	limit: number
 	coll_id: number
+	status: string
 }
 
 export interface AttributeProduct {
@@ -184,6 +207,9 @@ export interface ManualProduct {
 export interface ProductListRes {
 	err_msg: string
 	data: Array<ManualProduct | undefined>
+	page: number
+	limit: number
+	count: number
 }
 
 export interface ProductCreatePayload {
@@ -380,7 +406,10 @@ export const clients = {
 	GetPdcsourceCollectionList: {
 		url: "pdcsource/collection/list" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+				page: 0,
+				limit: 0
+			} as PaginationQuery ,
 		body: {},
 		response: {
 				err_msg: ``,
@@ -389,10 +418,28 @@ export const clients = {
 						id: 0,
 						name: ``,
 						created_at: `2021-12-01T07:00:00+07:00`,
-						updated_at: `2021-12-01T07:00:00+07:00`
-					} as Collection | undefined
-				] as Array<Collection | undefined>
+						updated_at: `2021-12-01T07:00:00+07:00`,
+						count: 0
+					} as CollectionItem | undefined
+				] as Array<CollectionItem | undefined>,
+				page: 0,
+				limit: 0,
+				count: 0
 			} as CollectionResList 
+	},
+	GetPdcsourceCollectionItem: {
+		url: "pdcsource/collection/item" as const,
+		method: "GET" as const,
+		query: {
+				col_id: 0
+			} as CollectionItemPayload ,
+		body: {},
+		response: {
+				id: 0,
+				name: ``,
+				created_at: `2021-12-01T07:00:00+07:00`,
+				updated_at: `2021-12-01T07:00:00+07:00`
+			} as Collection 
 	},
 	DeletePdcsourceCollection: {
 		url: "pdcsource/collection" as const,
@@ -409,7 +456,10 @@ export const clients = {
 		url: "pdcsource/product/list" as const,
 		method: "GET" as const,
 		query: {
-				coll_id: 0
+				page: 0,
+				limit: 0,
+				coll_id: 0,
+				status: ``
 			} as ProductListQuery ,
 		body: {},
 		response: {
@@ -520,7 +570,10 @@ export const clients = {
 							} as ProductMap | undefined
 						] as Array<ProductMap | undefined>
 					} as ManualProduct | undefined
-				] as Array<ManualProduct | undefined>
+				] as Array<ManualProduct | undefined>,
+				page: 0,
+				limit: 0,
+				count: 0
 			} as ProductListRes 
 	},
 	PostPdcsourceProductCreate: {

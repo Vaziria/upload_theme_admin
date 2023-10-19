@@ -1,4 +1,4 @@
-import { Card, Form, Space, Switch } from "antd";
+import { Card, Divider, Form, Space, Switch } from "antd";
 import React from "react";
 
 import { CheckFS } from "./form/validator/path_validator";
@@ -32,6 +32,7 @@ const ProductFormVariant: React.FC<Props> = (props: Props): JSX.Element => {
                 return <Form.Item noStyle hidden={!useVariant}>
                     <Space direction="vertical" size="large" className="d-flex">
                         <VariantOptionListForm />
+                        <Divider>Detail Variasi</Divider>
                         <VariantDetailForm>
                             {(index) => <VariantImageForm index={index} cheker={checker} />}
                         </VariantDetailForm>

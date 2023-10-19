@@ -1,9 +1,14 @@
 import { atom } from "recoil"
-import { ManualProduct } from "../../model/apisdk"
+import { ProductListRes } from "../../model/apisdk"
 
-export const productManualState = atom<Array<ManualProduct | undefined>>({
-    key: "productManual",
-    default: []
+export const productManualListState = atom<Omit<ProductListRes, "err_msg">>({
+    key: "productManualList",
+    default: {
+        data: [],
+        page: 1,
+        limit: 20,
+        count: 0
+    },
 })
 
 export const productManualSelectedState = atom<Array<number>>({

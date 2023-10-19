@@ -5,8 +5,8 @@ import React from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 
 import { ColDeletePayload, SendOptions } from "../../model/apisdk"
-import { productManualCollectionSelectedState, productManualCollectionState } from "../../recoil/atoms/collection"
-import { productManualCollectionIsSelectedAllState, productManualCollectionIsSelectedState } from "../../recoil/selectors/product_manual_collection_page"
+import { collectionListSelectedState, collectionListState } from "../../recoil/atoms/collection_list"
+import { productManualCollectionIsSelectedAllState, productManualCollectionIsSelectedState } from "../../recoil/selectors/collection_list_page"
 
 import DeleteButton from "../button/DeleteButton"
 import AntdCheckbox from "../common/AntdCheckbox"
@@ -17,8 +17,8 @@ interface Props {
 
 const CollectionSelectAction: React.FC<Props> = (props: Props) => {
 
-    const collection = useRecoilValue(productManualCollectionState)
-    const [selected, setSelected] = useRecoilState(productManualCollectionSelectedState)
+    const collection = useRecoilValue(collectionListState)
+    const [selected, setSelected] = useRecoilState(collectionListSelectedState)
     const isSelected = useRecoilValue(productManualCollectionIsSelectedState)
     const isSelectedAll = useRecoilValue(productManualCollectionIsSelectedAllState)
 
@@ -26,7 +26,7 @@ const CollectionSelectAction: React.FC<Props> = (props: Props) => {
         const selectedIds: number[] = []
         
         if (selected) {
-            collection.forEach((item) => {
+            collection.data.forEach((item) => {
                 item && selectedIds.push(item.id)
             })
         }

@@ -24,7 +24,7 @@ import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import { useQuery } from './model/apisdk'
 import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
 import { tokopediaCitiesState } from "./recoil/atoms/cities"
-import { productManualCollectionState } from './recoil/atoms/collection'
+import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
 
@@ -32,96 +32,100 @@ import { namespaceDataState } from "./recoil/atoms/namespace"
 axios.defaults.baseURL = BASEURL
 
 const Loader: React.FC = () => {
-  const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
-  const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
-  const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
-  const setNamespaceData = useSetRecoilState(namespaceDataState)
-  const setProductManualCollection = useSetRecoilState(productManualCollectionState)
-  const setMarkupData = useSetRecoilState(markupDataState)
+    const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
+    const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
+    const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
+    const setNamespaceData = useSetRecoilState(namespaceDataState)
+    const setProductManualCollection = useSetRecoilState(collectionSelectState)
+    const setMarkupData = useSetRecoilState(markupDataState)
 
-  const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
+    const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
 
-  useEffect(() => {
-    Promise.all([
-      shopeeGetManifest().then((manifest) => {
-        setShopeeSellerCategories(manifest.category)
-        setShopeePublicCategories(manifest.public_category_repo)
-      }),
-      getShopeeCities(),
-      getSearchShopeeShipping(),
-      tokopediaGetManifest().then((manifest) => {
-        setTokopediaCities(manifest.cities)
-      }),
-      loadSpin(),
-      loadCollection(),
-      loadHastags(),
-      loadMarkup().then(setMarkupData),
-      setupV2Notification().catch(() => console.error('setup notification gagal')),
+    useEffect(() => {
+        Promise.all([
+            shopeeGetManifest().then((manifest) => {
+                setShopeeSellerCategories(manifest.category)
+                setShopeePublicCategories(manifest.public_category_repo)
+            }),
+            getShopeeCities(),
+            getSearchShopeeShipping(),
+            tokopediaGetManifest().then((manifest) => {
+                setTokopediaCities(manifest.cities)
+            }),
+            loadSpin(),
+            loadCollection(),
+            loadHastags(),
+            loadMarkup().then(setMarkupData),
+            setupV2Notification().catch(() => console.error('setup notification gagal')),
 
-      getNamespaces("shopee").then(
-        (shopeeNamespaces) => setNamespaceData((data) => ({
-          ...data,
-          shopeeNamespaces
-        }))
-      ),
+            getNamespaces("shopee").then(
+                (shopeeNamespaces) => setNamespaceData((data) => ({
+                    ...data,
+                    shopeeNamespaces
+                }))
+            ),
 
-      getNamespaces("tokopedia").then(
-        (tokopediaNamespaces) => setNamespaceData((data) => ({
-          ...data,
-          tokopediaNamespaces
-        }))
-      ),
+            getNamespaces("tokopedia").then(
+                (tokopediaNamespaces) => setNamespaceData((data) => ({
+                    ...data,
+                    tokopediaNamespaces
+                }))
+            ),
 
-      getCollections({
-        onSuccess(res){
-          setProductManualCollection(res.data)
-        }
-      })
-    ])
+            getCollections({
+                query: {
+                    page: 1,
+                    limit: 999999,
+                },
+                onSuccess(res) {
+                    setProductManualCollection(res.data)
+                }
+            })
+        ])
 
-  }, [])
+    }, [])
 
-  return <></>
+    return <></>
 }
 
 const queryClient = new QueryClient()
 
 const App: React.FC = () => {
-  return (
-    <Provider store={store}>
-      <RecoilRoot>
-      <QueryClientProvider client={queryClient}>
-      <PersistGate loading={null}  persistor={persistor}>
-      <ConfigProvider
-        theme={{
-          components: {
-            Card: {
-              actionsLiMargin: "6px",
-            },
-          },
-        }}
-      >
-      
-        <BrowserRouter basename="v2">
-          <Loader />
-          <div className="row">
-  
-            {/* navigation */}
-            <SideNav></SideNav>
-  
-  
-            <div className="col-10">
-              
-              <TypedSwitch></TypedSwitch>
-            </div>
-          </div>
-        </BrowserRouter>
-      </ConfigProvider>
-      </PersistGate>
-      </QueryClientProvider>
-      </RecoilRoot>
-    </Provider>
-  )
+    return (
+        <Provider store={store}>
+            <RecoilRoot>
+                <QueryClientProvider client={queryClient}>
+                    <PersistGate loading={null} persistor={persistor}>
+                        <ConfigProvider
+                            theme={{
+                                components: {
+                                    Card: {
+                                        actionsLiMargin: "6px",
+                                    },
+                                },
+                            }}
+                        >
+
+                            <BrowserRouter basename="v2">
+                                <Loader />
+                                <div className="row">
+
+                                    {/* navigation */}
+                                    <SideNav></SideNav>
+
+
+                                    <div className="col-10">
+
+                                        <TypedSwitch></TypedSwitch>
+                                    </div>
+                                </div>
+                            </BrowserRouter>
+                        </ConfigProvider>
+                    </PersistGate>
+                </QueryClientProvider>
+            </RecoilRoot>
+        </Provider>
+    )
 }
 
 export default App

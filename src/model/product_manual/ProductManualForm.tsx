@@ -32,7 +32,7 @@ export class ProductManualFormModel {
 			basic: {
 				image_collection_path: productModel.image_collection_path,
 				title: productModel.title,
-				desc: productModel.desc,
+				desc: product?.desc,
 				price: productModel.price,
 				stock: productModel.stock,
 				weight: productModel.weight,

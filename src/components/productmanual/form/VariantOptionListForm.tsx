@@ -1,7 +1,6 @@
 import { Form, Space } from "antd";
 import React from "react";
 
-
 import AddButton from "../../button/AddButton";
 import VariantOptionItemForm from "./VariantOptionItemForm";
 

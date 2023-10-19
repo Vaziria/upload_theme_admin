@@ -1,25 +1,39 @@
-import { Card, Col, Pagination, Row, message } from "antd";
+import { Button, Card, Col, Pagination, Row, Tabs, message } from "antd";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
-import { ProductListQuery, useQuery } from "../model/apisdk";
-import { productManualState } from "../recoil/atoms/product_manual";
-import { productManualCollectionIdState } from "../recoil/selectors/product_manual_collection_page";
+import { useProductListQuery } from "../hooks/search_query/productlist_query";
+import { useQuery } from "../model/apisdk";
+import { productManualListState } from "../recoil/atoms/product_manual";
 import { getErrMessage } from "../utils/errmsg";
 
 import Dataview from "../components/common/Dataview";
 import ProductCard from "../components/productmanual/ProductCard";
 import ProductPage from "../components/productmanual/ProductPage";
 import ProductSelectAction from "../components/productmanual/ProductSelectAction";
-import ProductStatusTabs from "../components/productmanual/ProductStatusTabs";
 import { ProductManualModel } from "../model/product_manual/ProductManual";
 
 interface Params {
     colid: string
 }
+
+const tabItems = [
+    {
+        label: "Semua",
+        key: "all"
+    },
+    {
+        label: "Aktif",
+        key: "active"
+    },
+    {
+        label: "Draft",
+        key: "draft"
+    }
+]
 
 const ProductManualItems: React.FC = () => {
 
@@ -28,19 +42,39 @@ const ProductManualItems: React.FC = () => {
     const goback = useGoBack()
 
     const colid = parseInt(params.colid)
-    const collection = useRecoilValue(productManualCollectionIdState(colid))
-    const setProducts = useSetRecoilState(productManualState)
+    const [productList, setProductList] = useRecoilState(productManualListState)
+    const productListModels = productList.data.reduce<ProductManualModel[]>((res, product) => {
+        if (product) {
+            res.push(new ProductManualModel(product))
+        }
+        return res
+    }, [])
 
     const [messageApi, contextHolder] = message.useMessage()
+    const [pageQuery, setPageQuery] = useProductListQuery(colid)
 
-    const query: ProductListQuery = {
-        coll_id: colid,
-    }
-    const { data, error, pending, send: getItems } = useQuery("GetPdcsourceProductList")
-    React.useEffect(() => getItems({
-        query,
-        onSuccess: (res) => setProducts(res.data),
-    }), [])
+    const { data: collection, send: getCollection } = useQuery("GetPdcsourceCollectionItem")
+    React.useEffect(() => {
+        getCollection({
+            query: {
+                col_id: colid
+            }
+        })
+    }, [])
+
+    const { error, pending, send: getItems } = useQuery("GetPdcsourceProductList")
+    React.useEffect(() => {
+        getItems({
+            query: pageQuery,
+            onSuccess(res) {
+                if (res.err_msg) {
+                    messageApi.success(res.err_msg)
+                } else {
+                    setProductList(res)
+                }
+            },
+        })
+    }, [pageQuery])
 
     async function openForm(pid?: number) {
         const url = `/productmanual/${params.colid}/update/${pid}`
@@ -48,6 +82,9 @@ const ProductManualItems: React.FC = () => {
     }
 
     const { mutate: newMutate } = useMutation("GetPdcsourceEditNew", {
+        query: {
+            coll_id: colid,
+        },
         onSuccess: (res) => openForm(res.data?.id),
         onError: () => messageApi.error("gagal membuat produk"),
     })
@@ -58,10 +95,7 @@ const ProductManualItems: React.FC = () => {
                 messageApi.error(data.err_msg)
             } else {
                 messageApi.success("Produk berhasil dihapus")
-                getItems({
-                    query,
-                    onSuccess: (res) => setProducts(res.data)
-                })
+                setPageQuery({ page: 1 })
             }
         },
         onError(err) {
@@ -69,13 +103,6 @@ const ProductManualItems: React.FC = () => {
             messageApi.error(message)
         }
     })
-
-    const products = data?.data.reduce((res, product) => {
-        if (product) {
-            res.push(new ProductManualModel(product))
-        }
-        return res
-    }, [] as ProductManualModel[])
 
 
     return <Row className="mt-3">
@@ -91,14 +118,23 @@ const ProductManualItems: React.FC = () => {
                 </ProductPage.Title>
 
                 <p className="c-bolder mt-2">
-                    <span className="c-tx-gray">Total Produk :</span> {data?.data.length}
+                    <span className="c-tx-gray">Total Produk :</span> {productList.count}
                 </p>
 
-                <ProductStatusTabs onCreate={() => newMutate({ query })} />
-                <ProductSelectAction deleteMutate={deleteMutate} />
+                <Tabs
+                    defaultActiveKey={pageQuery.status}
+                    items={tabItems}
+                    onChange={(status) => setPageQuery({ status })}
+                    tabBarExtraContent={{
+                        right: <Button type="primary" icon={<i className="fas fa-plus" />} onClick={() => newMutate({})}>
+                            Tambah
+                        </Button>
+                    }}
+                />
+                <ProductSelectAction onDelete={(ids) => deleteMutate({}, { ids })} />
 
                 <Dataview
-                    data={products}
+                    data={productListModels}
                     loading={pending}
                     error={!!error}
                     errorTitle="Halaman Produk Error"
@@ -133,10 +169,13 @@ const ProductManualItems: React.FC = () => {
                     />}
                 >
                     <Pagination
+                        showSizeChanger
+                        current={productList.page}
+                        pageSize={productList.limit}
+                        total={productList.count}
                         className="mt-3 c-flex c-justify-center"
-                        pageSize={1}
-                        total={15}
                         pageSizeOptions={[10, 20, 30, 50]}
+                        onChange={(page, limit) => setPageQuery({ page, limit })}
                     />
                 </Dataview>
             </Card>

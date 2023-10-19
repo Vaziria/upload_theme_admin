@@ -1,5 +1,5 @@
 import type { SelectProps } from "antd";
-import { Button, Divider, Select, Space } from "antd";
+import { Button, Divider, Select } from "antd";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { imageCollectionPathState } from "../../recoil/atoms/image_collection_path";
@@ -33,7 +33,7 @@ const ImageCollectionSelect: React.FC<Props> = (props: Props) => {
                 <>
                     {menu}
                     <Divider style={{ margin: "8px 0" }} />
-                    <Space style={{ padding: "0 8px 4px" }}>
+                    <div className="d-flex c-gap-2 px-2 pb-2">
                         <AntdInput
                             placeholder="D:\gambar_saya"
                             value={path}
@@ -46,13 +46,17 @@ const ImageCollectionSelect: React.FC<Props> = (props: Props) => {
                         >
                             Tambah
                         </Button>
-                    </Space>
+                    </div>
                 </>
             )}
             {...props}
             value={props.value || undefined}
         >
-
+            {!collections.some((item) => item === props.value) && <Select.Option key="default" value={props.value}>
+                <div className="d-flex c-item-center">
+                    <span className="flex-1 c-truncate">{props.value}</span>
+                </div>
+            </Select.Option>}
             {collections.map((item, index) => <Select.Option key={index} value={item}>
                 <div className="d-flex c-item-center">
                     <span className="flex-1 c-truncate">{item}</span>

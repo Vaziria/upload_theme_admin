@@ -1,13 +1,15 @@
-import { Form, InputNumber, Table } from "antd";
+import { Form, InputNumber, Space, Table } from "antd";
 import React from "react";
 
 
 import { ColumnsType } from "antd/es/table";
-import { UpdateVariationPayload, Variant, VariantOption } from "../../../model/apisdk";
+import { Variant } from "../../../model/apisdk";
 import { FormModel } from "../../../model/product_manual/ProductManualForm";
-
 import { requiredValidator } from "./validator/basic_validator";
 import { priceValidator } from "./validator/price_validator";
+
+import { VariantDetailModel } from "../../../model/product_manual/VariantDetailForm";
+import AddButton from "../../button/AddButton";
 
 interface Props {
     children: (index: number) => React.ReactNode
@@ -19,56 +21,30 @@ type TableItem = Pick<Variant, "names" | "values"> & {
     key: string
 }
 
-function createTableItems(options?: UpdateVariationPayload["variant_option"]): TableItem[] {
-    const option1 = options?.[0]
-    const option2 = options?.[1]
-
-    const items: TableItem[] = []
-    if (option1) {
-        option1.option.forEach((option1_value, firstIndex) => {
-
-            if (option2 && option2.option.length) {
-                option2.option.forEach((option2_value, index) => {
-                    items.push({
-                        names: [option1.name, option2.name],
-                        values: [option1_value, option2_value],
-                        firstIndex,
-                        first: index === 0,
-                        key: `${firstIndex}_${index}`
-                    })
-                })
-
-            } else {
-                items.push({
-                    names: [option1.name],
-                    values: [option1_value],
-                    firstIndex,
-                    first: true,
-                    key: firstIndex.toString()
-                })
-            }
-        }, [])
-    }
-
-    return items
-}
-
 const VariantDetailForm: React.FC<Props> = (props: Props) => {
+
+    const [bulkUpdate, setBulkUpdate] = React.useState<Partial<Variant>>({})
+
     return <Form.Item<FormModel> noStyle shouldUpdate>
         {(form) => {
 
-            const options: Array<VariantOption | undefined> | undefined = form.getFieldValue(["variant", "variant_option"])
-            const items = createTableItems(options)
+            const detailModel = new VariantDetailModel(form)
+            const items = detailModel.getItems()
+
+            function applyBulkUpdate() {
+                detailModel.bulkUpdate(bulkUpdate)
+                setBulkUpdate({})
+            }
 
             const columns: ColumnsType<TableItem> = [
                 {
-                    title: options?.[0]?.name || "Variasi 1",
+                    title: detailModel.options?.[0]?.name || "Variasi 1",
                     key: "variant1",
                     dataIndex: "variant1",
                     onCell(data) {
-                        if (options && options.length > 1) {
+                        if (detailModel.options && detailModel.options.length > 1) {
                             if (data.first) {
-                                const rowSpan = options[1]?.option.length || 1
+                                const rowSpan = detailModel.options[1]?.option.length || 1
                                 return { rowSpan }
                             }
                             return { rowSpan: 0 }
@@ -81,13 +57,13 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
                     },
                 },
                 {
-                    title: options?.[1]?.name || "Variasi 2",
+                    title: detailModel.options?.[1]?.name || "Variasi 2",
                     dataIndex: "variant2",
                     key: "variant2",
-                    className: options && options.length > 1 ? "" : "d-none",
+                    className: detailModel.options && detailModel.options.length > 1 ? "" : "d-none",
                     render(_, data) {
                         return <div style={{ minWidth: 50, textAlign: "center" }}>
-                            {data.values[1]}
+                            {data.values[1] || "-"}
                         </div>
                     }
                 },
@@ -108,7 +84,7 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
                     },
                 },
                 {
-                    title: "Stock",
+                    title: "Stok",
                     dataIndex: "stock",
                     key: "stock",
                     render(_, __, index) {
@@ -125,14 +101,48 @@ const VariantDetailForm: React.FC<Props> = (props: Props) => {
                 },
             ]
 
-            return <Table
-                dataSource={items}
-                columns={columns}
-                bordered
-                rowKey="key"
-                rowClassName="c-bg-gray"
-                pagination={false}
-            />
+            return <Space direction="vertical" size="large" className="d-flex">
+                <Space>
+                    <Space.Compact block>
+                        <InputNumber<number>
+                            className="w-100"
+                            addonBefore="Rp"
+                            placeholder="Harga"
+                            disabled={!items.length}
+                            style={{ minWidth: 250 }}
+                            value={bulkUpdate.price}
+                            onChange={(v) => setBulkUpdate((bulk) => ({
+                                ...bulk,
+                                price: v || undefined,
+                            }))}
+                        />
+                        <InputNumber
+                            className="w-100"
+                            placeholder="Stok"
+                            disabled={!items.length}
+                            style={{
+                                borderLeftWidth: 0,
+                                minWidth: 250
+                            }}
+                            value={bulkUpdate.stock}
+                            onChange={(v) => setBulkUpdate((bulk) => ({
+                                ...bulk,
+                                stock: v || undefined,
+                            }))}
+                        />
+                    </Space.Compact>
+                    <AddButton onClick={applyBulkUpdate}>Terapkan ke Semua</AddButton>
+                </Space>
+                <Table
+                    dataSource={items}
+                    columns={columns}
+                    bordered
+                    rowKey="key"
+                    className="w-100"
+                    rowClassName="c-bg-gray w-100"
+                    pagination={false}
+                />
+            </Space>
         }}
     </Form.Item>
 }

@@ -1,14 +1,14 @@
 import { Button } from "antd"
 import React from "react"
 
-import { Collection, CollectionCreateRes, SendOptions } from "../../model/apisdk"
 import { DivProps } from "../../types/props"
 
+import { Mutate } from "../../hooks/mutation"
 import AntdInput from "../common/AntdInput"
 
 interface Props extends DivProps {
     loading?: boolean
-    mutate?(a: SendOptions<CollectionCreateRes, undefined, Error>, b?: Partial<Collection>): void
+    mutate?: Mutate<"PostPdcsourceCollectionCreate">
 }
 
 const CollectionAdd: React.FC<Props> = (props: Props) => {

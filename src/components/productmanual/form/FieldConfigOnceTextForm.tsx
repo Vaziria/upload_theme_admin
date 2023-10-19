@@ -12,6 +12,7 @@ import { onceTextValidator } from "./validator/once_text_validator";
 import AddButton from "../../button/AddButton";
 import DeleteButton from "../../button/DeleteButton";
 import TrashIconButton from "../../button/TrashIconButton";
+import AntdCheckbox from "../../common/AntdCheckbox";
 import DrawerBottom from "../../feedback/DrawerBottom";
 
 interface Props {
@@ -27,9 +28,10 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
     const { field: parentField } = props
     const [open, setOpen] = React.useState(false)
     const [keyword, setKeyword] = React.useState("")
+    const [onlyEmpty, setOnlyEmpty] = React.useState(false)
     const [paging, setPaging] = React.useState<Paging>({
         page: 1,
-        pagesize: 20
+        pagesize: 10
     })
 
     return <Form.Item shouldUpdate noStyle>
@@ -42,15 +44,22 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
 
                     const onceTextKey = ["fieldConfig", "field_spin", parentField.name, "once_text"]
                     const onceTexts: UseOnceText[] | undefined = form.getFieldValue(onceTextKey)
-                    const filteredFields = fields.filter(() => {
-                        if (keyword) {
-                            const onceText = onceTexts?.[parentField.name]
-                            if (onceText) {
-                                return onceText.text.toLowerCase().includes(keyword.toLowerCase())
+                    const filteredFields = fields
+                        .filter(() => {
+                            if (keyword) {
+                                const onceText = onceTexts?.[parentField.name]
+                                if (onceText) {
+                                    return onceText.text.toLowerCase().includes(keyword.toLowerCase())
+                                }
                             }
-                        }
-                        return true
-                    })
+                            return true
+                        })
+                        .filter((field) => {
+                            if (onlyEmpty) {
+                                return !onceTexts?.[field.name].text
+                            }
+                            return true
+                        })
 
                     const reader = new FileReader()
 
@@ -73,6 +82,17 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
                             key: "name",
                             className: "p-2",
                             render(_, field) {
+                                if (fieldType === "field_desc") {
+                                    return <Form.Item
+                                        name={[field.name, "text"]}
+                                        rules={[requiredValidator]}
+                                        wrapperCol={{ span: 24 }}
+                                        className="mb-0 w-100"
+                                    >
+                                        <Input.TextArea showCount maxLength={3000} rows={4} placeholder="Mohon masukkan" />
+                                    </Form.Item>
+                                }
+
                                 return <Form.Item
                                     name={[field.name, "text"]}
                                     rules={[requiredValidator]}
@@ -149,6 +169,10 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
                                                 </DeleteButton>
                                             </Space>
                                         </div>
+                                        <AntdCheckbox
+                                            value={onlyEmpty}
+                                            onChange={setOnlyEmpty}
+                                        >Hanya tampilkan yang kosong</AntdCheckbox>
                                     </Space>
                                 </Col>
 
@@ -163,6 +187,7 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
                                             </Empty>
                                         }}
                                         pagination={{
+                                            hideOnSinglePage: true,
                                             current: paging.page,
                                             pageSize: paging.pagesize,
                                             onChange(page, pagesize) {

@@ -33,7 +33,7 @@ const successProgress: ProgressRes = {
 }
 
 
-function progressReducer(key: FormModelKey, dataLen: number, numNested = 0): (
+function progressReducer(key: FormModelKey, dataLen: number, numNested = 1): (
 	res: ProgressRes,
 	err: ValidateErrorEntity["errorFields"][number]
 ) => ProgressRes {
@@ -47,7 +47,7 @@ function progressReducer(key: FormModelKey, dataLen: number, numNested = 0): (
 			}
 		}
 
-		if (savedKeys.length === 0) {
+		if (savedKeys.length === 0 || dataLen === 0) {
 			return {
 				status: "success",
 				percent: 100
@@ -86,9 +86,13 @@ export class ProductManualFormProgressModel {
 				}))
 				.catch((validateErr: ValidateErrorEntity<FormModel>) => {
 
-
-					const { variant, variant_option, variant_image } = validateErr.values.variant
-					const variantLen = [...(variant || []), ...(variant_option || []), ...(variant_image || [])].length
+					const { basic, variant } = validateErr.values
+					const { variant: variations, variant_option, variant_image } = variant
+					const variantLen = !basic.use_variant ? 0 : [
+						...(variations || []),
+						...(variant_option || []),
+						...(variant_image || [])
+					].length
 
 					const { field_spin } = validateErr.values.fieldConfig
 					const fieldConfigLen = (field_spin || []).length

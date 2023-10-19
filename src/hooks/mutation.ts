@@ -8,6 +8,12 @@ export interface MutationClientReturn<Data, Query, Body, Err = Error> extends Om
     mutate(a: SendOptions<Data, Query, Err>, b?: Partial<Body>): void
 }
 
+export type Mutate<K extends Target> = MutationClientReturn<
+    Clients[K]["response"],
+    Clients[K]["query"],
+    Clients[K]["body"]
+>["mutate"]
+
 export function useMutation<
     K extends Target,
     R extends Clients[K]["response"],
@@ -25,7 +31,7 @@ export function useMutation<
     async function mutate(options: SendOptions<R, Q> | undefined = queryOptions, body?: Partial<B>) {
         setPending(true);
 
-        const query = options?.query;
+        const query = queryOptions?.query || options?.query;
 
         try {
             const { data } = await axios({

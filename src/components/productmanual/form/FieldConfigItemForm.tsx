@@ -1,4 +1,4 @@
-import { Card, Form, FormListFieldData, Input, Modal, Radio, RadioChangeEvent, Space } from "antd";
+import { Card, Form, FormListFieldData, Modal, Radio, RadioChangeEvent, Space } from "antd";
 import React from "react";
 
 import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfig";
@@ -6,7 +6,7 @@ import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfi
 import { FieldConfig } from "../../../model/apisdk";
 import TrashIconButton from "../../button/TrashIconButton";
 import FieldConfigOnceTextForm from "./FieldConfigOnceTextForm";
-import { requiredValidator } from "./validator/basic_validator";
+import FieldConfigSpinTextForm from "./FieldConfigSpinTextForm";
 
 
 interface Props {
@@ -123,16 +123,10 @@ const FieldConfigItemForm: React.FC<Props> = (props: Props) => {
                         const fieldSpin: FieldConfig | undefined = form.getFieldValue(["fieldConfig", "field_spin", field.name])
 
                         if (fieldSpin?.use_spin) {
-                            return <Form.Item
-                                name={[field.name, "spin_text"]}
-                                rules={[requiredValidator]}
-                                label={"Spin Text"}
-                                labelCol={{ span: 0 }}
-                                wrapperCol={{ span: 24 }}
-                                className="mb-0"
-                            >
-                                <Input placeholder="Mohon masukkan" />
-                            </Form.Item>
+                            return <FieldConfigSpinTextForm
+                                field={field}
+                                fieldType={fieldSpin.field_type as FieldType}
+                            />
                         }
 
                         if (fieldSpin?.use_once_text) {

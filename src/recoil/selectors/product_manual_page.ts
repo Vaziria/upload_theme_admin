@@ -1,6 +1,6 @@
 import { selector, selectorFamily } from "recoil"
 
-import { productManualSelectedState, productManualState } from "../atoms/product_manual"
+import { productManualListState, productManualSelectedState } from "../atoms/product_manual"
 
 export const productManualIsSelectedState = selector<boolean>({
     key: "productManualIsSelected",
@@ -21,8 +21,8 @@ export const productManualIsSelectedIdState = selectorFamily<boolean, number>({
 export const productManualIsSelectedAllState = selector<boolean>({
     key: "productManualIsSelectedAll",
     get: ({ get }) => {
-        const products = get(productManualState)
+        const products = get(productManualListState)
         const selectedIds = get(productManualSelectedState)
-        return products.length > 0 && products.every((p) => p && selectedIds.includes(p.id))
+        return products.data.length > 0 && products.data.every((p) => p && selectedIds.includes(p.id))
     },
 })
