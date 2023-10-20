@@ -36,24 +36,41 @@ export interface CreateAttributeResTokpedAttr {
 	data: TokpedAttr | undefined
 }
 
-export interface ShopeeAttr {
-	name: string
+export interface CustomValue {
+	raw_value: string
+	unit: string
 }
 
-export interface AttributeResShopeeAttr {
+export interface AttributeValue {
+	value_id: number
+}
+
+export interface AttributePayload {
+	attribute_id: number
+	attribute_value_id: number
+	custom_value: CustomValue | undefined
+	attribute_values: Array<AttributeValue>
+}
+
+export interface ShopeeAttribute {
+	categories: Array<number>
+	attributes: Array<AttributePayload | undefined>
+}
+
+export interface AttributeResShopeeAttribute {
 	err_msg: string
-	data: Array<ShopeeAttr | undefined>
+	data: Array<ShopeeAttribute | undefined>
 }
 
-export interface CreateAttributePayloadShopeeAttr {
+export interface CreateAttributePayloadShopeeAttribute {
 	product_id: number
 	attribute_type: string
-	data: ShopeeAttr | undefined
+	data: ShopeeAttribute | undefined
 }
 
-export interface CreateAttributeResShopeeAttr {
+export interface CreateAttributeResShopeeAttribute {
 	err_msg: string
-	data: ShopeeAttr | undefined
+	data: ShopeeAttribute | undefined
 }
 
 export interface Collection {
@@ -362,10 +379,27 @@ export const clients = {
 				err_msg: ``,
 				data: [
 				{
-						name: ``
-					} as ShopeeAttr | undefined
-				] as Array<ShopeeAttr | undefined>
-			} as AttributeResShopeeAttr 
+						categories: [
+						0
+						] as Array<number>,
+						attributes: [
+						{
+								attribute_id: 0,
+								attribute_value_id: 0,
+								custom_value: {
+									raw_value: ``,
+									unit: ``
+								} as CustomValue | undefined,
+								attribute_values: [
+								{
+									value_id: 0
+								}
+								] as Array<AttributeValue>
+							} as AttributePayload | undefined
+						] as Array<AttributePayload | undefined>
+					} as ShopeeAttribute | undefined
+				] as Array<ShopeeAttribute | undefined>
+			} as AttributeResShopeeAttribute 
 	},
 	PutPdcsourceAttShopee: {
 		url: "pdcsource/att_shopee" as const,
@@ -375,15 +409,49 @@ export const clients = {
 				product_id: 0,
 				attribute_type: ``,
 				data: {
-						name: ``
-					} as ShopeeAttr | undefined
-			} as CreateAttributePayloadShopeeAttr ,
+						categories: [
+						0
+						] as Array<number>,
+						attributes: [
+						{
+								attribute_id: 0,
+								attribute_value_id: 0,
+								custom_value: {
+									raw_value: ``,
+									unit: ``
+								} as CustomValue | undefined,
+								attribute_values: [
+								{
+									value_id: 0
+								}
+								] as Array<AttributeValue>
+							} as AttributePayload | undefined
+						] as Array<AttributePayload | undefined>
+					} as ShopeeAttribute | undefined
+			} as CreateAttributePayloadShopeeAttribute ,
 		response: {
 				err_msg: ``,
 				data: {
-						name: ``
-					} as ShopeeAttr | undefined
-			} as CreateAttributeResShopeeAttr 
+						categories: [
+						0
+						] as Array<number>,
+						attributes: [
+						{
+								attribute_id: 0,
+								attribute_value_id: 0,
+								custom_value: {
+									raw_value: ``,
+									unit: ``
+								} as CustomValue | undefined,
+								attribute_values: [
+								{
+									value_id: 0
+								}
+								] as Array<AttributeValue>
+							} as AttributePayload | undefined
+						] as Array<AttributePayload | undefined>
+					} as ShopeeAttribute | undefined
+			} as CreateAttributeResShopeeAttribute 
 	},
 	PostPdcsourceCollectionCreate: {
 		url: "pdcsource/collection/create" as const,

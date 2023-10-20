@@ -1,13 +1,19 @@
 import { Form, FormInstance } from "antd";
 import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 
-import { BasicUpdatePayload, ManualProduct, UpdateFieldConfigPayload, UpdateVariationPayload } from "../apisdk";
+import {
+	BasicUpdatePayload, CreateAttributePayloadShopeeAttribute,
+	CreateAttributePayloadTokpedAttr, ManualProduct,
+	UpdateFieldConfigPayload, UpdateVariationPayload
+} from "../apisdk";
 import { ProductManualModel } from "./ProductManual";
 
 export interface FormModel {
 	basic: BasicUpdatePayload
 	variant: UpdateVariationPayload
 	fieldConfig: UpdateFieldConfigPayload
+	shopeeAttribute: CreateAttributePayloadShopeeAttribute
+	tokpedAttribute: CreateAttributePayloadTokpedAttr
 }
 
 export type FormModelInstance = FormInstance<FormModel>
@@ -31,12 +37,12 @@ export class ProductManualFormModel {
 		this.form.setFieldsValue({
 			basic: {
 				image_collection_path: productModel.image_collection_path,
-				title: productModel.title,
+				title: product?.title,
 				desc: product?.desc,
 				price: productModel.price,
 				stock: productModel.stock,
 				weight: productModel.weight,
-				use_markup: productModel.use_markup,
+				use_markup: product?.use_markup || undefined,
 				use_variant: productModel.use_variant
 			},
 			variant: {
@@ -54,9 +60,28 @@ export class ProductManualFormModel {
 		return new Promise<FormModel>((resolve, reject) => {
 			this.form.validateFields()
 				.then((data) => resolve({
-					basic: { ...data.basic, product_id: this.pid },
-					variant: { ...data.variant, product_id: this.pid },
-					fieldConfig: { ...data.fieldConfig, product_id: this.pid },
+					basic: {
+						...data.basic,
+						product_id: this.pid
+					},
+					variant: {
+						...data.variant,
+						product_id: this.pid
+					},
+					fieldConfig: {
+						...data.fieldConfig,
+						product_id: this.pid
+					},
+					shopeeAttribute: {
+						...data.shopeeAttribute,
+						attribute_type: "shopee",
+						product_id: this.pid
+					},
+					tokpedAttribute: {
+						...data.tokpedAttribute,
+						attribute_type: "tokopedia",
+						product_id: this.pid
+					}
 				}))
 				.catch((validateErr: ValidateErrorEntity<BasicUpdatePayload>) => {
 					reject(new Error(`terdapat ${validateErr.errorFields.length} kesalahan`))

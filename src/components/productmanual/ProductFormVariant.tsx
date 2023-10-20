@@ -15,7 +15,7 @@ interface Props {
 const ProductFormVariant: React.FC<Props> = (props: Props): JSX.Element => {
     const { checker } = props
 
-    return <Card id="productbasic" className="mb-3">
+    return <Card id="productvariant" className="mb-3">
         <h5 className="c-bold mb-3">Variasi Produk</h5>
 
         <div className="c-flex c-justify-space-between">

@@ -1,7 +1,6 @@
-import React from "react"
 import { Badge, Card } from "antd"
+import React from "react"
 
-import ShopeeeCategoryCascader from "../shopee/ShopeeCategoryCascader"
 
 export interface MapperItem {
     _id: number
@@ -38,7 +37,7 @@ const ShopeeToTokopediaMapperItem: React.FC<Props> = (props: Props) => {
     </div>
 
     return <Card hoverable title={title} size="small" type="inner">
-        <ShopeeeCategoryCascader />
+        {/* <ShopeeeCategoryCascader /> */}
     </Card>
 }
 

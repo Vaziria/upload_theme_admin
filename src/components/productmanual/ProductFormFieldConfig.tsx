@@ -2,7 +2,8 @@ import { Card, Form, FormListFieldData, Select, Space, message } from "antd";
 import { DefaultOptionType } from "antd/es/select";
 import React from "react";
 
-import { CreateFieldConfigPayload, CreateFieldConfigRes, DeleteFieldConfigPayload, FieldConfig, SendOptions } from "../../model/apisdk";
+import { useMutation } from "../../hooks/mutation";
+import { FieldConfig } from "../../model/apisdk";
 import { FieldType, fieldLabels, fieldTypes } from "../../model/product_manual/FieldConfig";
 import { getErrMessage } from "../../utils/errmsg";
 
@@ -11,12 +12,14 @@ import FieldConfigItemForm from "./form/FieldConfigItemForm";
 
 interface Props {
     pid: number
-    createField(a: SendOptions<CreateFieldConfigRes, undefined>, b?: Partial<CreateFieldConfigPayload>): void
-    deleteField(a: SendOptions<CreateFieldConfigRes, undefined>, b?: Partial<DeleteFieldConfigPayload>): void
 }
 
 const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
-    const { pid, createField, deleteField } = props
+
+    const { mutate: mutateCreate } = useMutation("PostPdcsourceSpinFieldConfig", {})
+    const { mutate: mutateDelete } = useMutation("DeletePdcsourceSpinFieldConfig", {})
+
+    const { pid } = props
     const [fieldType, setFieldType] = React.useState<FieldType>()
 
     return <Form.Item shouldUpdate noStyle>
@@ -42,7 +45,7 @@ const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
                                 product_id: pid,
                                 field_type: fieldType,
                             }
-                            createField({
+                            mutateCreate({
                                 onSuccess: (res) => {
                                     opt.add(res.data)
                                     setFieldType(undefined)
@@ -57,7 +60,7 @@ const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
 
                         function applyDelete(field: FormListFieldData): (id: number) => void {
                             return (id) => {
-                                deleteField({
+                                mutateDelete({
                                     onSuccess: () => {
                                         opt.remove(field.name)
                                         message.info("field config dihapus.")

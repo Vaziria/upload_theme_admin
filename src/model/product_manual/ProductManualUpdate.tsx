@@ -1,30 +1,34 @@
 
+import { Mutate, useMutation } from "../../hooks/mutation"
 import { getErrMessage } from "../../utils/errmsg"
-import { ApiResponse, SendOptions } from "../apisdk"
+import { Clients, Target } from "../apisdk"
+import { ProductManualFormModel } from "./ProductManualForm"
 
 export interface UpdateResponse {
     success: boolean
     message: string
 }
 
-export type MutateFunc<T> = (a: SendOptions<ApiResponse, undefined>, b?: Partial<T>) => void
 export type UpdateOptions = {
     success: string
     error: string
 }
 
-export class ProductManualUpdateModel<T> {
-    mutate: MutateFunc<T>
-    options: UpdateOptions
+export interface UseUpdate {
+    pending: boolean
+    update: (publish?: boolean) => Promise<[boolean, UpdateResponse[]]>
+}
 
-    constructor(mutate: MutateFunc<T>, options: UpdateOptions) {
-        this.mutate = mutate
-        this.options = options
+export class ProductManualUpdateModel {
+    form: ProductManualFormModel
+
+    constructor(form: ProductManualFormModel) {
+        this.form = form
     }
 
-    update(payload: T): Promise<UpdateResponse> {
+    private applyUpdate<K extends Target>(mutate: Mutate<K>, payload: Clients[K]["body"], options?: UpdateOptions): Promise<UpdateResponse> {
         return new Promise<UpdateResponse>((resolve) => {
-            this.mutate({
+            mutate({
                 onSuccess: (res) => {
                     if (res.err_msg) {
                         resolve({
@@ -34,12 +38,12 @@ export class ProductManualUpdateModel<T> {
                     } else {
                         resolve({
                             success: true,
-                            message: this.options.success || "success"
+                            message: options?.success || "success"
                         })
                     }
                 },
                 onError: (err) => {
-                    const message = getErrMessage(err as Error, this.options.error)
+                    const message = getErrMessage(err as Error, options?.error)
                     resolve({
                         success: false,
                         message: message
@@ -47,5 +51,59 @@ export class ProductManualUpdateModel<T> {
                 },
             }, payload)
         })
+    }
+
+    useUpdate(): UseUpdate {
+        const { mutate: mutateBasic, pending: basicPending } = useMutation("PostPdcsourceEditSetBasic", {})
+        const { mutate: mutateVariant, pending: variantPending } = useMutation("PostPdcsourceEditVariationUpdate", {})
+        const { mutate: mutateFieldConfig, pending: fieldConfigPending } = useMutation("PostPdcsourceEditFieldConfig", {})
+        const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {})
+
+        const pending = basicPending || variantPending || fieldConfigPending || publishPending
+
+        const update = async (publish?: boolean): Promise<[boolean, UpdateResponse[]]> => {
+
+            const payload = await this.form.getPayload()
+
+            const promises = [
+                this.applyUpdate(mutateBasic, payload.basic, {
+                    success: "informasi produk tersimpan",
+                    error: "gagal menyimpan informasi produk",
+                }),
+                this.applyUpdate(mutateFieldConfig, payload.fieldConfig, {
+                    success: "field config tersimpan",
+                    error: "gagal menyimpan field config",
+                })
+            ]
+
+            if (payload.basic.use_variant) {
+                promises.push(this.applyUpdate(mutateVariant, payload.variant, {
+                    success: "variasi produk tersimpan",
+                    error: "gagal menyimpan variasi produk",
+                }))
+            }
+
+            const responses = await Promise.all(promises)
+            const isSuccess = responses.every((res) => res.success)
+
+            if (isSuccess && publish) {
+                const publishRes = await this.applyUpdate(mutatePublish, {}, {
+                    success: "produk ditampilkan",
+                    error: "gagal menampilkan produk",
+                })
+
+                const isSuccess = responses.every((res) => res.success)
+                responses.push(publishRes)
+
+                return [isSuccess, responses]
+            }
+
+            return [isSuccess, responses]
+        }
+
+        return {
+            pending,
+            update
+        }
     }
 }

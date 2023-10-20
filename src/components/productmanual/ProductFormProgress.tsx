@@ -29,7 +29,7 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
             progress: progress.basic
         },
         {
-            key: "productvariation",
+            key: "productvariant",
             resKey: "variant",
             title: "Variasi Produk",
             progress: progress.variant
@@ -43,7 +43,7 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
     ]
 
     return <Anchor
-        offsetTop={16}
+        offsetTop={116}
         items={itemOptions.map<AnchorLinkItemProps>((option) => ({
             key: option.key,
             href: location.pathname + "#" + option.key,

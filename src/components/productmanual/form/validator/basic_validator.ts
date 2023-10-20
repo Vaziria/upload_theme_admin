@@ -11,5 +11,5 @@ export const titleValidator: Rule = {
 }
 export const descValidator: Rule = {
     min: 20,
-    message: "Deskripsi produkmu terlalu pendek. Mohon masukkan min. 5 karakter."
+    message: "Deskripsi produkmu terlalu pendek. Mohon masukkan min. 20 karakter."
 }
