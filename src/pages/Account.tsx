@@ -15,16 +15,19 @@ import UploadShipping from '../components/shopee/UploadShipping'
 import client from '../api/client'
 
 
-const { Text} = Typography
+const { Text } = Typography
 
+interface AkunActionProps {
+    upmode: UploadMode
+    setUpmode(upmode: UploadMode): void
+}
 
-function AkunAction(){
-
-    const [mp, setMp] = useState<string>("shopee")
+const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
+    const { upmode, setUpmode } = props
     const [useMap, setUseMap] = useState(false)
 
     let url = ""
-    if (mp === "shopee"){
+    if (upmode === "shopee") {
         url = "http://localhost:5000/upload/v6/shopee_to_shopee"
     } else {
         url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
@@ -35,45 +38,42 @@ function AkunAction(){
     }
 
     return (
-    <Space>
-        <Button type="primary" onClick={runUpload}>
-            upload
-        </Button>
-
         <Space>
-            <Text>
-            Mode :
-            </Text>
-            
-            <Select
-            onChange={data => setMp(data)}
-                defaultValue={mp}
-                options={[
-                    { value: 'shopee', label: 'Shopee' },
-                    { value: 'tokopedia', label: 'Tokopedia' },
-                ]}
-                style={{
-                    minWidth: "100px"
-                }}
-            />
+            <Button type="primary" onClick={runUpload}>
+                upload
+            </Button>
 
-            {mp === "tokopedia" &&
-                <AntdCheckbox style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
-                    Use mapping
-                </AntdCheckbox>
-            }
+            <Space>
+                <Text>
+                    Mode :
+                </Text>
+
+                <Select
+                    onChange={data => setUpmode(data)}
+                    defaultValue={upmode}
+                    options={[
+                        { value: 'shopee', label: 'Shopee' },
+                        { value: 'shopee_manual', label: 'Shopee Manual' },
+                        { value: 'tokopedia', label: 'Tokopedia' },
+                    ]}
+                    style={{
+                        minWidth: "180px"
+                    }}
+                />
+
+                {upmode === "tokopedia" &&
+                    <AntdCheckbox style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
+                        Use mapping
+                    </AntdCheckbox>
+                }
+            </Space>
+
+            <Button onClick={backup}>
+                report
+            </Button>
         </Space>
-        
-            
-        
-
-        <Button onClick={backup}>
-            report
-        </Button>
-    </Space>
-
     )
-    
+
 }
 
 
@@ -90,14 +90,13 @@ class AccountPage extends React.Component<unknown, IState> {
         kurirs: [],
         query: defquery,
         paging: defpaging,
-        mode: 'tokopedia'
+        mode: 'shopee'
     }
 
     accountRefs: SettingItem[] = []
-
     showBulk = false
 
-    async getAccounts (): Promise<void> {
+    async getAccounts(): Promise<void> {
         const getAccount = await getAccounts(this.state.query)
         const paging = this.state.paging
 
@@ -107,17 +106,17 @@ class AccountPage extends React.Component<unknown, IState> {
         this.setState({ paging })
     }
 
-    async getUploadMode (): Promise<void> {
+    async getUploadMode(): Promise<void> {
         const mode = await getUploadMode()
         this.setState({ mode })
     }
 
-    componentDidMount (): void {
+    componentDidMount(): void {
         this.getUploadMode()
         this.getAccounts()
     }
 
-    async updateAll (): Promise<void> {
+    async updateAll(): Promise<void> {
         const delay = 500
         let currentDelay = 0
 
@@ -133,7 +132,7 @@ class AccountPage extends React.Component<unknown, IState> {
         this.getAccounts()
     }
 
-    async deleteAll (): Promise<void> {
+    async deleteAll(): Promise<void> {
         const delay = 500
         let currentDelay = 0
 
@@ -149,11 +148,11 @@ class AccountPage extends React.Component<unknown, IState> {
         this.getAccounts()
     }
 
-    pasteAll (): void {
+    pasteAll(): void {
         this.accountRefs.map(ref => ref.pasteAkun())
     }
 
-    selectAll (check: boolean): void {
+    selectAll(check: boolean): void {
         const paging = this.state.paging
 
         paging.select = check
@@ -162,7 +161,7 @@ class AccountPage extends React.Component<unknown, IState> {
             .map(ref => ref.setState({ check }))
     }
 
-    activeAll (active: boolean): void {
+    activeAll(active: boolean): void {
         const paging = this.state.paging
 
         paging.active = active
@@ -170,11 +169,11 @@ class AccountPage extends React.Component<unknown, IState> {
             akun.active = active
             return akun
         })
-        
+
         this.setState({ paging })
     }
 
-    renderAccountSettingItems (): JSX.Element {
+    renderAccountSettingItems(): JSX.Element {
         const { paging, mode } = this.state
         const settingItems: JSX.Element[] = []
         this.accountRefs = []
@@ -198,7 +197,7 @@ class AccountPage extends React.Component<unknown, IState> {
         </div>
     }
 
-    render (): JSX.Element {
+    render(): JSX.Element {
         const { query, paging } = this.state
 
         return <div className="row" style={{
@@ -209,7 +208,7 @@ class AccountPage extends React.Component<unknown, IState> {
             <NewAccount onAddAccount={() => this.getAccounts()} />
             <UploadShipping />
             {/* <SettingShipping /> */}
-            
+
             <div className="clearfix"></div>
             <SettingBulkAccount
                 query={query}
@@ -230,9 +229,12 @@ class AccountPage extends React.Component<unknown, IState> {
             <div className="col-lg-12" style={{ marginTop: -15, marginBottom: -35 }}>
                 <hr />
                 <label>SETTING <span style={{ color: 'red' }}>{paging.total}</span> ACCOUNT :</label>
-                <div className="float-right" style={{ marginBottom:5, marginTop: 6 }}>
+                <div className="float-right" style={{ marginBottom: 5, marginTop: 6 }}>
 
-                    <AkunAction />
+                    <AkunAction
+                        upmode={this.state.mode}
+                        setUpmode={(mode) => this.setState({ mode })}
+                    />
                 </div>
             </div>
 

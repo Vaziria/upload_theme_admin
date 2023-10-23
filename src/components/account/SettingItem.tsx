@@ -3,23 +3,23 @@ import { IAccount } from "../../model/Account"
 import Pass from "./Setting/Pass"
 import Watermark from "./Setting/Watermark"
 
-import Markup from "./Setting/Markup"
-import SpinTitle from "./Setting/SpinTitle"
-import Hastag from "./Setting/Hastag"
-import Collection from "./Setting/Collection"
-import LimitPost from "./Setting/LimitPost"
-import { UploadMode } from "../../api/bot_configuration"
 import { deleteAccount, getProductAccount, updateAccount } from "../../api/account"
-import Checkbox from "../common/Checkbox"
+import { UploadMode } from "../../api/bot_configuration"
 import { emitEvent } from "../../event"
 import dateFormater from "../../utils/date"
+import Checkbox from "../common/Checkbox"
+import Collection from "./Setting/Collection"
+import Hastag from "./Setting/Hastag"
+import LimitPost from "./Setting/LimitPost"
+import Markup from "./Setting/Markup"
+import SpinTitle from "./Setting/SpinTitle"
 
 interface IProps {
     akun: IAccount
     mode: UploadMode
     copyAccount?: IAccount
-    update (): void
-    onCopy (akun: IAccount): void
+    update(): void
+    onCopy(akun: IAccount): void
 }
 
 interface IState {
@@ -37,7 +37,7 @@ class Setting extends React.Component<IProps, IState> {
         akunChange: {}
     }
 
-    get account (): IAccount {
+    get account(): IAccount {
         const parentAccount = this.props.akun
         const changeAccount = this.state.akunChange
         return {
@@ -46,7 +46,7 @@ class Setting extends React.Component<IProps, IState> {
         }
     }
 
-    setAkunChange (item: Partial<IAccount>): void {
+    setAkunChange(item: Partial<IAccount>): void {
         const { akunChange } = this.state
         this.setState({
             akunChange: {
@@ -56,30 +56,30 @@ class Setting extends React.Component<IProps, IState> {
         })
     }
 
-    async getProductCount (): Promise<void> {
+    async getProductCount(): Promise<void> {
         const product = await getProductAccount(this.account)
         this.setState({ product })
     }
 
-    async updateAkun (): Promise<void> {
+    async updateAkun(): Promise<void> {
         await updateAccount(this.account)
         emitEvent('show_msg', {
             msg: 'Success Update Akun..',
         })
     }
 
-    async updateAkunActive (active: boolean): Promise<void> {
+    async updateAkunActive(active: boolean): Promise<void> {
         const akun = this.props.akun
         akun.active = active
         await updateAccount(akun)
     }
 
-    resetUploadCount (): void {
+    resetUploadCount(): void {
         this.setAkunChange({ count_upload: 0 })
         setTimeout(() => this.updateAkun(), 300)
     }
 
-    async deleteAkun (): Promise<void> {
+    async deleteAkun(): Promise<void> {
         this.setState({ check: false })
         await deleteAccount(this.account.user)
         emitEvent('show_msg', {
@@ -87,7 +87,7 @@ class Setting extends React.Component<IProps, IState> {
         })
     }
 
-    pasteAkun (): void {
+    pasteAkun(): void {
         const { copyAccount } = this.props
         const { akunChange } = this.state
 
@@ -99,7 +99,7 @@ class Setting extends React.Component<IProps, IState> {
                 polatitle,
                 hastag
             } = copyAccount
-            
+
             this.setState({
                 akunChange: {
                     ...akunChange,
@@ -113,7 +113,7 @@ class Setting extends React.Component<IProps, IState> {
         }
     }
 
-    getLastUp (): string {
+    getLastUp(): string {
         const { last_up } = this.account
 
         if (last_up) {
@@ -123,28 +123,28 @@ class Setting extends React.Component<IProps, IState> {
         return ''
     }
 
-    render (): JSX.Element {
+    render(): JSX.Element {
 
         const { item_count, product } = this.state
-        const { update, onCopy } = this.props
+        const { update, onCopy, mode } = this.props
 
         return <div>
             <hr />
             <div className="row">
-				<div className="col-4">
-					<div className="custom-control custom-checkbox mr-sm-2 mb-1">
-					<Checkbox
-                        className="custom-control-input"
-                        id={this.account._id}
-                        checked={this.state.check}
-                        onChange={check => this.setState({ check })}
-                    />
-					<label
-                        className="custom-control-label"
-                        htmlFor={this.account._id}
-                    > User : <strong>{this.account.user}</strong></label>
-					</div>
-					
+                <div className="col-4">
+                    <div className="custom-control custom-checkbox mr-sm-2 mb-1">
+                        <Checkbox
+                            className="custom-control-input"
+                            id={this.account._id}
+                            checked={this.state.check}
+                            onChange={check => this.setState({ check })}
+                        />
+                        <label
+                            className="custom-control-label"
+                            htmlFor={this.account._id}
+                        > User : <strong>{this.account.user}</strong></label>
+                    </div>
+
                     <Watermark
                         value={this.account.water}
                         update={water => this.setAkunChange({ water })}
@@ -156,24 +156,25 @@ class Setting extends React.Component<IProps, IState> {
                     />
 
                     <Collection
+                        mode={mode}
                         value={this.account.namespace}
                         update={namespace => this.setAkunChange({ namespace })}
                     />
 
                     <br />
                     {item_count > 0 && <span>
-                        Belum Diupload : <strong>{item_count}</strong><br/>
+                        Belum Diupload : <strong>{item_count}</strong><br />
                     </span>}
 
                     {product > 0 && <span>
-                        Jumlah Product : <strong>{product}</strong><br/>
+                        Jumlah Product : <strong>{product}</strong><br />
                     </span>}
                 </div>
 
                 <div className="col-lg-8">
                     <label>POST MARKUP:</label>
-					<div className="row">
-						<div className="col-lg-6">
+                    <div className="row">
+                        <div className="col-lg-6">
 
                             <Markup
                                 value={this.account.markup}
@@ -187,7 +188,7 @@ class Setting extends React.Component<IProps, IState> {
                                 value={this.account.hastag}
                                 update={hastag => this.setAkunChange({ hastag })}
                             />
-                            
+
                         </div>
 
                         <div className="col-lg-6">
@@ -240,13 +241,13 @@ class Setting extends React.Component<IProps, IState> {
                                     update()
                                 }}
                             >Delete</button>
-                            
+
                             <button
                                 className="btn btn-info btn-sm btn-app"
                                 type="button"
                                 onClick={() => this.updateAkun()}
                             >Update</button>
-                            
+
                             <br />
                             <div>
                                 <button
@@ -254,7 +255,7 @@ class Setting extends React.Component<IProps, IState> {
                                     type="button"
                                     onClick={() => onCopy(this.account)}
                                 >Copy</button>
-                                
+
                                 <button
                                     className="btn btn-info btn-sm btn-app"
                                     type="button"
@@ -267,11 +268,11 @@ class Setting extends React.Component<IProps, IState> {
                                     onClick={() => this.resetUploadCount()}
                                 >Reset</button>
                             </div>
-						</div>
+                        </div>
                     </div>
 
                 </div>
-                
+
             </div>
 
         </div>
