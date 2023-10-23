@@ -57,18 +57,31 @@ export class ProductManualUpdateModel {
         const { mutate: mutateBasic, pending: basicPending } = useMutation("PostPdcsourceEditSetBasic", {})
         const { mutate: mutateVariant, pending: variantPending } = useMutation("PostPdcsourceEditVariationUpdate", {})
         const { mutate: mutateFieldConfig, pending: fieldConfigPending } = useMutation("PostPdcsourceEditFieldConfig", {})
+        const { mutate: mutateShopeeAttribute, pending: shopeeAttributePending } = useMutation("PutPdcsourceAttShopee", {})
         const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {})
 
-        const pending = basicPending || variantPending || fieldConfigPending || publishPending
+        const pending = basicPending ||
+            variantPending ||
+            fieldConfigPending ||
+            shopeeAttributePending ||
+            publishPending
 
         const update = async (publish?: boolean): Promise<[boolean, UpdateResponse[]]> => {
 
             const payload = await this.form.getPayload()
 
+            if (payload.shopeeAttribute.data) {
+                payload.shopeeAttribute.data.attributes = payload.shopeeAttribute.data.attributes.filter(v => v)
+            }
+
             const promises = [
                 this.applyUpdate(mutateBasic, payload.basic, {
                     success: "informasi produk tersimpan",
                     error: "gagal menyimpan informasi produk",
+                }),
+                this.applyUpdate(mutateShopeeAttribute, payload.shopeeAttribute, {
+                    success: "atribut produk tersimpan",
+                    error: "gagal menyimpan atribut produk",
                 }),
                 this.applyUpdate(mutateFieldConfig, payload.fieldConfig, {
                     success: "field config tersimpan",
@@ -87,7 +100,9 @@ export class ProductManualUpdateModel {
             const isSuccess = responses.every((res) => res.success)
 
             if (isSuccess && publish) {
-                const publishRes = await this.applyUpdate(mutatePublish, {}, {
+                const publishRes = await this.applyUpdate(mutatePublish, {
+                    product_id: this.form.pid
+                }, {
                     success: "produk ditampilkan",
                     error: "gagal menampilkan produk",
                 })

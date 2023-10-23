@@ -1,59 +1,65 @@
-import { Col, Empty, Form, Row, Typography, message } from "antd"
+import { Col, Empty, Form, Row, Spin, Typography } from "antd"
 import React from "react"
+import { useRecoilValue } from "recoil"
 
-import { ShopeeAttributeResponse, getShopeeAttribute } from "../../../api/shopee/attribute"
+import { AttributePayload } from "../../../model/apisdk"
+import { shopeeAttributeFormState } from "../../../recoil/atoms/shopee_attribute"
+import { isSelectMultiply } from "../../attribute/base"
+import { requiredValidator } from "./validator/basic_validator"
+
 import AttributeInput from "../../attribute/AttributeInput"
 
-interface Props {
-    categories?: number[]
-}
+const AttributeShopeeSpecsForm: React.FC = () => {
 
-const AttributeShopeeSpecsForm: React.FC<Props> = (props: Props) => {
+    const { called, data, pending } = useRecoilValue(shopeeAttributeFormState)
 
-    const { categories } = props
-    const [shopeeAttribute, setShopeeAttribute] = React.useState<ShopeeAttributeResponse>({
-        exist: false,
-        attributes: []
-    })
+    return <Spin spinning={pending} tip="Loading...">
+        <Row gutter={[16, 16]}>
 
-    React.useEffect(() => {
-        if (categories && categories.length) {
-            const catId = categories[categories.length - 1]
-            getShopeeAttribute(catId).then((res) => {
-                if (!res.exist) {
-                    message.warning("Spesifikasi tidak ditemukan")
-                }
-                setShopeeAttribute(res)
-            })
-        }
-    }, [categories])
+            {(!called || !data.exist) && <Col span={24}>
+                <Empty
+                    image={Empty.PRESENTED_IMAGE_SIMPLE}
+                    description={called ?
+                        <Typography.Text type="secondary">
+                            Spesifikasi tidak ditemukan, silahkan sinkronisasi&nbsp;
+                            <Typography.Text strong type="warning">&quot;Atribut Shopee&quot;</Typography.Text>
+                        </Typography.Text>
+                        : "Pilih Kategori"
+                    }
+                />
+            </Col>}
 
-    return <Row gutter={[16, 16]}>
+            <Form.Item shouldUpdate noStyle>
+                {(form) => data.attributes.map((attribute, index) => {
+                    const { attributeId, attributeInfo } = attribute
+                    const { inputType, maxValueCount } = attributeInfo
 
-        {!shopeeAttribute.exist && <Col span={24}>
-            <Empty
-                image={Empty.PRESENTED_IMAGE_SIMPLE}
-                description={<Typography.Text type="secondary">
-                    Spesifikasi tidak ditemukan, silahkan sinkronisasi&nbsp;
-                    <Typography.Text strong type="warning">&quot;Atribut Shopee&quot;</Typography.Text>
-                </Typography.Text>}
-            />
-        </Col>}
+                    const data: AttributePayload | undefined = form.getFieldValue(["shopeeAttribute", "data", "attributes", index])
+                    const selected = data?.attribute_values.length || 0
+                    const isMultiply = isSelectMultiply(inputType)
 
-        {shopeeAttribute.attributes.map((attribute, index) => {
-            return <Col key={attribute.attributeId} span={24} xl={12}>
-                <Form.Item
-                    name={["shopeeAttribute", "data", "attributes", index]}
-                    label={<span style={{ whiteSpace: "normal", wordBreak: "break-word" }}>{attribute.displayName}</span>}
-                    labelCol={{ span: 8 }}
-                    className="mb-0"
-                    required={attribute.mandatory}
-                >
-                    <AttributeInput attribute={attribute} />
-                </Form.Item>
-            </Col>
-        })}
-    </Row>
+                    return <Col key={attributeId} span={24} xl={12}>
+                        <Form.Item
+                            name={["shopeeAttribute", "data", "attributes", index]}
+                            label={<Typography.Text style={{ whiteSpace: "normal", wordBreak: "break-word" }}>
+                                {attribute.displayName}
+                                {isMultiply && <>
+                                    <Typography.Text type="secondary" className="d-block" style={{ fontSize: 11 }}>
+                                        {selected}/{maxValueCount}
+                                    </Typography.Text>
+                                </>}
+                            </Typography.Text>}
+                            labelCol={{ span: 8 }}
+                            className="mb-0"
+                            rules={attribute.mandatory ? [requiredValidator] : []}
+                        >
+                            <AttributeInput attribute={attribute} />
+                        </Form.Item>
+                    </Col>
+                })}
+            </Form.Item>
+        </Row>
+    </Spin>
 }
 
 export default AttributeShopeeSpecsForm

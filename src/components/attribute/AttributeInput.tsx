@@ -1,30 +1,43 @@
 import { Typography } from "antd"
 import React from "react"
 
-import { AttributeInputProps } from "./base"
+import { AttributeInputProps, INPUT_TYPE_INPUT, INPUT_TYPE_SELECT_MULTI, INPUT_TYPE_SELECT_MULTI_CUSTOM, INPUT_TYPE_SELECT_SINGLE, INPUT_TYPE_SELECT_SINGLE_CUSTOM, INPUT_VALIDATION_DATE } from "./base"
 
-import InputType2 from "./InputType2"
-import InputType3 from "./InputType3"
-import InputType5 from "./InputType5"
+import TypeInput from "./TypeInput"
+import TypeSelect from "./TypeSelect"
+import TypeDate from "./TypeDate"
+import TypeSelectWithCustom from "./TypeSelectWithCustom"
 
 const AttributeInput: React.FC<AttributeInputProps> = (props: AttributeInputProps) => {
 
-    const inputType = props.attribute.attributeInfo.inputType
-    const validationType = props.attribute.attributeInfo.inputValidationType
+    const { inputType, inputValidationType } = props.attribute.attributeInfo
 
     switch (inputType) {
-        case 2:
-            return <InputType2 {...props} />
+        case INPUT_TYPE_SELECT_SINGLE:
+            return <TypeSelect {...props} />
 
-        case 3:
-            return <InputType3 {...props} />
+        case INPUT_TYPE_SELECT_SINGLE_CUSTOM:
+            return <TypeSelectWithCustom {...props}>
+                {(selecProps) => <TypeSelect {...selecProps} />}
+            </TypeSelectWithCustom>
 
-        case 5:
-            return <InputType5 {...props} />
+        case INPUT_TYPE_INPUT:
+            if (inputValidationType === INPUT_VALIDATION_DATE) {
+                return <TypeDate {...props} />
+            }
+            return <TypeInput {...props} />
+
+        case INPUT_TYPE_SELECT_MULTI:
+            return <TypeSelect multiple {...props} />
+
+        case INPUT_TYPE_SELECT_MULTI_CUSTOM:
+            return <TypeSelectWithCustom multiple {...props}>
+                {(selecProps) => <TypeSelect {...selecProps} />}
+            </TypeSelectWithCustom>
     }
 
     return <Typography.Text type="secondary">
-        Unsupported Type {inputType} - {validationType}
+        Unsupported Type {inputType} - {inputValidationType}
     </Typography.Text>
 }
 

@@ -4,6 +4,8 @@ import React from "react";
 
 import { InternalNamePath } from "antd/es/form/interface";
 import { FormModel, FormModelKey, ProductManualFormModel } from "./ProductManualForm";
+import { useRecoilValue } from "recoil";
+import { shopeeAttributeFormState } from "../../recoil/atoms/shopee_attribute";
 
 export type ValidatePayload<T> = {
 	validate: true
@@ -73,20 +75,30 @@ export class ProductManualFormProgressModel {
 		const [progress, setProgress] = React.useState<BatchProgressRes>({
 			basic: { ...defProgress },
 			variant: { ...defProgress },
-			fieldConfig: { ...defProgress }
+			fieldConfig: { ...defProgress },
+			shopeeAttribute: { ...defProgress },
+			tokpedAttribute: { ...defProgress },
 		})
 		const data = Form.useWatch([], this.formModel.form)
+
+		const shopeeAttributes = useRecoilValue(shopeeAttributeFormState)
 
 		React.useEffect(() => {
 			this.formModel.form.validateFields({ validateOnly: true })
 				.then(() => setProgress({
 					basic: { ...successProgress },
 					variant: { ...successProgress },
-					fieldConfig: { ...successProgress }
+					fieldConfig: { ...successProgress },
+					shopeeAttribute: { ...successProgress },
+					tokpedAttribute: { ...successProgress },
 				}))
 				.catch((validateErr: ValidateErrorEntity<FormModel>) => {
 
 					const { basic, variant } = validateErr.values
+
+					const { attributes } = shopeeAttributes.data
+					const shopeeAttrLen = attributes.filter(attr => attr.mandatory).length || 1
+
 					const { variant: variations, variant_option, variant_image } = variant
 					const variantLen = !basic.use_variant ? 0 : [
 						...(variations || []),
@@ -101,6 +113,8 @@ export class ProductManualFormProgressModel {
 						basic: validateErr.errorFields.reduce(progressReducer("basic", 8), { ...defProgress }),
 						variant: validateErr.errorFields.reduce(progressReducer("variant", variantLen, 2), { ...defProgress }),
 						fieldConfig: validateErr.errorFields.reduce(progressReducer("fieldConfig", fieldConfigLen, 2), { ...defProgress }),
+						shopeeAttribute: validateErr.errorFields.reduce(progressReducer("shopeeAttribute", shopeeAttrLen, 3), { ...defProgress }),
+						tokpedAttribute: { ...successProgress },
 					})
 				})
 		}, [data])

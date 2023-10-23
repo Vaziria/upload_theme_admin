@@ -1,4 +1,4 @@
-import { Card, Divider, Form, Space, Typography } from "antd";
+import { Card, Divider, Space, Typography } from "antd";
 import React from "react";
 
 import AttributeShopeeCategoryForm from "./form/AttributeShopeeCategoryForm";
@@ -18,11 +18,7 @@ const ProductFormAttribute: React.FC = (): JSX.Element => {
                 <Space direction="vertical" className="c-flex">
                     <AttributeShopeeCategoryForm />
                     <Divider>Spesifikasi</Divider>
-                    <Form.Item shouldUpdate noStyle>
-                        {(form) => <AttributeShopeeSpecsForm
-                            categories={form.getFieldValue(["shopeeAttribute", "data", "categories"])}
-                        />}
-                    </Form.Item>
+                    <AttributeShopeeSpecsForm />
                 </Space>
             </Card>
 
@@ -31,12 +27,6 @@ const ProductFormAttribute: React.FC = (): JSX.Element => {
                     Belum support atribut Tokopedia
                 </Typography.Text>
             </Card>
-
-            <Form.Item shouldUpdate>
-                {(form) => {
-                    return <pre>{JSON.stringify(form.getFieldsValue(["shopeeAttribute"]), null, 4)}</pre>;
-                }}
-            </Form.Item>
         </Space>
     </Card>
 }

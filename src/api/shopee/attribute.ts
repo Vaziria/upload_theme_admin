@@ -7,6 +7,7 @@ export interface AttributeInfo {
     inputType: number
     inputValidationType: number
     isNcc: boolean
+    maxValueCount: number
 }
 
 export interface MultiLang {

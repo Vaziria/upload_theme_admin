@@ -6,6 +6,9 @@ import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
 import { useQuery } from "../model/apisdk";
 import { FormModel, ProductManualFormModel } from "../model/product_manual/ProductManualForm";
+import { ProductManualFormProgressModel } from "../model/product_manual/ProductManualFormProgress";
+import { ProductManualUpdateModel } from "../model/product_manual/ProductManualUpdate";
+import { useSetShopeeAttribute } from "../recoil/callbacks/set_shopee_attribute";
 import { getErrMessage } from "../utils/errmsg";
 
 import ProductFormAttribute from "../components/productmanual/ProductFormAttribute";
@@ -14,8 +17,6 @@ import ProductFormFieldConfig from "../components/productmanual/ProductFormField
 import ProductFormProgress from "../components/productmanual/ProductFormProgress";
 import ProductFormSync from "../components/productmanual/ProductFormSync";
 import ProductFormVariant from "../components/productmanual/ProductFormVariant";
-import { ProductManualFormProgressModel } from "../model/product_manual/ProductManualFormProgress";
-import { ProductManualUpdateModel } from "../model/product_manual/ProductManualUpdate";
 
 interface Params {
     colid: string
@@ -27,12 +28,14 @@ const ProductManualForm: React.FC = (): JSX.Element => {
     const goback = useGoBack()
     const location = useLocation()
     const params = useParams<Params>()
+    const setShopeeAttribute = useSetShopeeAttribute()
 
     const pid = parseInt(params.pid)
     const formModel = new ProductManualFormModel(pid)
     const [showPromt, setShowPromt] = React.useState(false)
 
     const { data, pending, error, send: getProduct } = useQuery("GetPdcsourceProductItem")
+    const { send: getAttributeShopee } = useQuery("GetPdcsourceAttShopee")
     const isPublish = !data?.data?.as_draft
 
     // handle page refresh
@@ -57,6 +60,36 @@ const ProductManualForm: React.FC = (): JSX.Element => {
             }
         })
 
+        getAttributeShopee({
+            query: {
+                product_id: pid,
+                attribute_type: "shopee"
+            },
+            async onSuccess({ data }) {
+                const dataAttribute = data[0]
+                if (dataAttribute) {
+                    const { categories, attributes } = dataAttribute
+                    const shopeeAttribues = await setShopeeAttribute(categories)
+                    const mapAttribues = shopeeAttribues.map((sattr) => {
+                        return attributes.find((attr) => attr?.attribute_id === sattr.attributeId)
+                    })
+
+                    formModel.form.setFieldsValue({
+                        shopeeAttribute: {
+                            data: {
+                                categories,
+                                attributes: mapAttribues
+                            }
+                        },
+                    })
+                }
+            },
+            onError(err) {
+                const msg = getErrMessage(err as Error, "gagal mendapatkan attribute shopee.")
+                message.error(msg)
+            }
+        })
+
         window.addEventListener("beforeunload", alertUser)
         return () => window.removeEventListener("beforeunload", alertUser)
     }, [])
@@ -75,11 +108,13 @@ const ProductManualForm: React.FC = (): JSX.Element => {
     async function applyUpdateProduct(publish: boolean): Promise<void> {
         try {
             const [isSuccess, responses] = await updateProduct(publish)
+            let i = 0
             responses.forEach((res) => {
-                message.open({
+                setTimeout(() => message.open({
                     content: res.message,
                     type: res.success ? "success" : "error"
-                })
+                }), i * 500)
+                i++
             })
 
             if (isSuccess) {
@@ -119,6 +154,7 @@ const ProductManualForm: React.FC = (): JSX.Element => {
                     md: 16,
                     lg: 19,
                 }}
+                colon={false}
                 autoComplete="off"
                 onFinish={(a) => console.log(a)}
                 onFinishFailed={(a) => console.log(a)}

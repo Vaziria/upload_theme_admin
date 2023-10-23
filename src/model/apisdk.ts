@@ -42,6 +42,8 @@ export interface CustomValue {
 }
 
 export interface AttributeValue {
+	raw_value: string
+	unit: string
 	value_id: number
 }
 
@@ -392,6 +394,8 @@ export const clients = {
 								} as CustomValue | undefined,
 								attribute_values: [
 								{
+									raw_value: ``,
+									unit: ``,
 									value_id: 0
 								}
 								] as Array<AttributeValue>
@@ -422,6 +426,8 @@ export const clients = {
 								} as CustomValue | undefined,
 								attribute_values: [
 								{
+									raw_value: ``,
+									unit: ``,
 									value_id: 0
 								}
 								] as Array<AttributeValue>
@@ -445,6 +451,8 @@ export const clients = {
 								} as CustomValue | undefined,
 								attribute_values: [
 								{
+									raw_value: ``,
+									unit: ``,
 									value_id: 0
 								}
 								] as Array<AttributeValue>

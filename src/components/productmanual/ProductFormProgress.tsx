@@ -2,7 +2,6 @@ import { Anchor, Progress } from "antd"
 import { AnchorLinkItemProps } from "antd/es/anchor/Anchor"
 import React from "react"
 
-import { FormModelKey } from "../../model/product_manual/ProductManualForm"
 import { ProductManualFormProgressModel, ProgressRes } from "../../model/product_manual/ProductManualFormProgress"
 
 interface Props {
@@ -11,7 +10,6 @@ interface Props {
 
 interface ItemOptions {
     key: string
-    resKey?: FormModelKey
     title: string
     progress: ProgressRes
 }
@@ -24,19 +22,21 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
     const itemOptions: ItemOptions[] = [
         {
             key: "productbasic",
-            resKey: "basic",
             title: "Informasi Produk",
             progress: progress.basic
         },
         {
+            key: "productattribute",
+            title: "Atribut Produk",
+            progress: progress.shopeeAttribute
+        },
+        {
             key: "productvariant",
-            resKey: "variant",
             title: "Variasi Produk",
             progress: progress.variant
         },
         {
             key: "productfieldconfig",
-            resKey: "fieldConfig",
             title: "Field Config",
             progress: progress.fieldConfig
         },
