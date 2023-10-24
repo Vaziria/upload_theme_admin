@@ -3,6 +3,7 @@ import { Mutate, useMutation } from "../../hooks/mutation"
 import { getErrMessage } from "../../utils/errmsg"
 import { Clients, Target } from "../apisdk"
 import { ProductManualFormModel } from "./ProductManualForm"
+import { VariantDetailModel } from "./VariantDetailForm"
 
 export interface UpdateResponse {
     success: boolean
@@ -90,6 +91,16 @@ export class ProductManualUpdateModel {
             ]
 
             if (payload.basic.use_variant) {
+                const items = new VariantDetailModel(this.form.form).getItems()
+                payload.variant.variant = payload.variant.variant.map((variant, index) => {
+                    const { names, values } = items[index] || {}
+                    if (variant) {
+                        variant.names = names
+                        variant.values = values
+                    }
+                    return variant
+                })
+
                 promises.push(this.applyUpdate(mutateVariant, payload.variant, {
                     success: "variasi produk tersimpan",
                     error: "gagal menyimpan variasi produk",
