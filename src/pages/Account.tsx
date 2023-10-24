@@ -27,10 +27,17 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
     const [useMap, setUseMap] = useState(false)
 
     let url = ""
-    if (upmode === "shopee") {
-        url = "http://localhost:5000/upload/v6/shopee_to_shopee"
-    } else {
-        url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
+    switch (upmode) {
+        case "tokopedia":
+            url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
+            break
+
+        case "shopee_manual":
+            url = `http://localhost:5000/upload/v6/manual_to_shopee`
+            break
+
+        default:
+            url = "http://localhost:5000/upload/v6/shopee_to_shopee"
     }
 
     const runUpload = async () => {
