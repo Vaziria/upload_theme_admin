@@ -75,6 +75,16 @@ export class ProductManualUpdateModel {
                 payload.shopeeAttribute.data.attributes = payload.shopeeAttribute.data.attributes.filter(v => v)
             }
 
+            payload.fieldConfig.field_spin = payload.fieldConfig.field_spin.map((fieldSpin) => {
+                if (fieldSpin) {
+                    return {
+                        ...fieldSpin,
+                        use_once_text: !fieldSpin.use_spin,
+                    }
+                }
+                return fieldSpin
+            })
+
             const promises = [
                 this.applyUpdate(mutateBasic, payload.basic, {
                     success: "informasi produk tersimpan",
