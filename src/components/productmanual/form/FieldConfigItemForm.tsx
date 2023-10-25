@@ -6,7 +6,6 @@ import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfi
 import { FieldConfig } from "../../../model/apisdk";
 import TrashIconButton from "../../button/TrashIconButton";
 import FieldConfigOnceTextForm from "./FieldConfigOnceTextForm";
-import FieldConfigSpinTextForm from "./FieldConfigSpinTextForm";
 
 
 interface Props {
@@ -21,22 +20,6 @@ interface FieldTypeProps {
 
 const FieldTypeRadio: React.FC<FieldTypeProps> = (props: FieldTypeProps) => {
     const { value, onChange } = props
-    const [radioValue, setRadioValue] = React.useState<string>()
-
-    React.useEffect(() => {
-        if (value) {
-            setRadioValue(() => {
-                if (value.use_spin) {
-                    return "use_spin"
-                }
-                if (value.use_once_text) {
-                    return "use_once_text"
-                }
-
-                return undefined
-            })
-        }
-    }, [value])
 
     function onRadioChange(e: RadioChangeEvent) {
         const spin: Partial<FieldConfig> = {
@@ -46,99 +29,82 @@ const FieldTypeRadio: React.FC<FieldTypeProps> = (props: FieldTypeProps) => {
         }
 
         switch (e.target.value) {
-            case "use_spin":
+            case 0:
                 spin.use_spin = true
                 return onChange?.(spin)
 
-            case "use_once_text":
+            case 1:
                 spin.use_once_text = true
-                return onChange?.(spin)
-
-            default:
                 return onChange?.(spin)
         }
     }
 
-    return <Radio.Group value={radioValue} onChange={onRadioChange}>
-        <Radio.Button>Default</Radio.Button>
-        <Radio.Button value="use_spin">Gunakan Spin</Radio.Button>
-        <Radio.Button value="use_once_text">Gunakan Teks Sekali Pakai</Radio.Button>
+    return <Radio.Group value={value?.use_spin ? 0 : 1} onChange={onRadioChange}>
+        <Radio.Button value={0}>Gunakan Spin</Radio.Button>
+        <Radio.Button value={1}>Gunakan Teks Sekali Pakai</Radio.Button>
     </Radio.Group>
 }
 
 const FieldConfigItemForm: React.FC<Props> = (props: Props) => {
-    return <Form.Item shouldUpdate noStyle>
-        {(form) => {
+    const { field, onDelete } = props
+    return <div>
+        <Form.Item shouldUpdate noStyle>
+            {(form) => {
 
-            const { field, onDelete } = props
+                
 
-            const id: number | undefined = form.getFieldValue(["fieldConfig", "field_spin", field.name, "id"])
-            const fieldType: FieldType = form.getFieldValue(["fieldConfig", "field_spin", field.name, "field_type"])
+                const id: number | undefined = form.getFieldValue(["fieldConfig", "field_spin", field.name, "id"])
+                const fieldType: FieldType = form.getFieldValue(["fieldConfig", "field_spin", field.name, "field_type"])
+                const useSpin: boolean = form.getFieldValue(["fieldConfig", "field_spin", field.name, "use_spin"])
 
-            const label = <Space>
-                <i className="fas fa-cog c-tx-gray" />
-                {fieldType && fieldLabels[fieldType]}
-            </Space>
+                const label = <Space>
+                    <i className="fas fa-cog c-tx-gray" />
+                    {fieldType && fieldLabels[fieldType]}
+                </Space>
 
-            function removeItem() {
-                Modal.confirm({
-                    closable: true,
-                    maskClosable: true,
-                    centered: true,
-                    title: "Hapus Field Config?",
-                    content: <div className="my-3 mx-0">
-                        Penghapusan field config bersifat mutlak, config tidak akan kembali setelah dihapus, harap hati-hati.
-                    </div>,
-                    cancelButtonProps: {
-                        style: {
-                            width: "calc(50% - 4px)",
+                function removeItem() {
+                    Modal.confirm({
+                        closable: true,
+                        maskClosable: true,
+                        centered: true,
+                        title: "Hapus Field Config?",
+                        content: <div className="my-3 mx-0">
+                            Penghapusan field config bersifat mutlak, config tidak akan kembali setelah dihapus, harap hati-hati.
+                        </div>,
+                        cancelButtonProps: {
+                            style: {
+                                width: "calc(50% - 4px)",
+                            },
                         },
-                    },
-                    cancelText: "Batal",
-                    okButtonProps: {
-                        style: {
-                            width: "calc(50% - 4px)",
+                        cancelText: "Batal",
+                        okButtonProps: {
+                            style: {
+                                width: "calc(50% - 4px)",
+                            },
                         },
-                    },
-                    okText: "Hapus",
-                    onOk() {
-                        id && onDelete(id)
-                    }
-                })
-            }
-
-            return <Card
-                size="small"
-                title={label}
-                type="inner"
-                className="c-bg-gray"
-                extra={<TrashIconButton onClick={removeItem} />}
-            >
-                <Form.Item name={field.name} className="mb-3 mt-1">
-                    <FieldTypeRadio />
-                </Form.Item>
-
-                <Form.Item shouldUpdate noStyle>
-                    {(form) => {
-                        const fieldSpin: FieldConfig | undefined = form.getFieldValue(["fieldConfig", "field_spin", field.name])
-
-                        if (fieldSpin?.use_spin) {
-                            return <FieldConfigSpinTextForm
-                                field={field}
-                                fieldType={fieldSpin.field_type as FieldType}
-                            />
+                        okText: "Hapus",
+                        onOk() {
+                            id && onDelete(id)
                         }
+                    })
+                }
 
-                        if (fieldSpin?.use_once_text) {
-                            return <FieldConfigOnceTextForm field={field} />
-                        }
+                return <Card
+                    size="small"
+                    title={label}
+                    type="inner"
+                    className="c-bg-gray"
+                    extra={<TrashIconButton onClick={removeItem} />}
+                >
+                    <Form.Item name={field.name} className="mb-3 mt-1">
+                        <FieldTypeRadio />
+                    </Form.Item>
 
-                        return <p className="c-tx-gray mb-1">Tidak menggunakan config.</p>
-                    }}
-                </Form.Item>
-            </Card>
-        }}
-    </Form.Item>
+                    <FieldConfigOnceTextForm field={field} disabled={useSpin} />
+                </Card>
+            }}
+        </Form.Item>
+    </div>
 }
 
 export default FieldConfigItemForm

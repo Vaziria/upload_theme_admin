@@ -17,6 +17,7 @@ import DrawerBottom from "../../feedback/DrawerBottom";
 
 interface Props {
     field: FormListFieldData
+    disabled?: boolean
 }
 
 interface Paging {
@@ -25,7 +26,8 @@ interface Paging {
 }
 
 const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
-    const { field: parentField } = props
+    const { field: parentField, disabled } = props
+
     const [open, setOpen] = React.useState(false)
     const [keyword, setKeyword] = React.useState("")
     const [onlyEmpty, setOnlyEmpty] = React.useState(false)
@@ -121,6 +123,7 @@ const FieldConfigOnceTextForm: React.FC<Props> = (props: Props) => {
                                 type="dashed"
                                 className="c-btn-active"
                                 icon={<i className="fas fa-table" />}
+                                disabled={disabled}
                                 onClick={() => setOpen(true)}
                             >Buka Teks Sekali Pakai</Button>
                         </Badge>
