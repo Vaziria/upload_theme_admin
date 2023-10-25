@@ -103,11 +103,6 @@ const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
                         </Space>
                     }}
                 </Form.List>
-                <Form.Item shouldUpdate>
-                    {() => {
-                        return <pre>{JSON.stringify(form.getFieldsValue(["fieldConfig"]), null, 2)}</pre>;
-                    }}
-                </Form.Item>
             </Card>
         }}
     </Form.Item>
