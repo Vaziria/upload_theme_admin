@@ -47,9 +47,12 @@ const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
                             }
                             mutateCreate({
                                 onSuccess: (res) => {
-                                    opt.add(res.data)
-                                    setFieldType(undefined)
-                                    message.info("field config dibuat.")
+                                    if (res.data) {
+                                        res.data.use_spin = true
+                                        opt.add(res.data)
+                                        setFieldType(undefined)
+                                        message.info("field config dibuat.")
+                                    }
                                 },
                                 onError: (err) => {
                                     const msg = getErrMessage(err as Error, "gagal membuat field config.")
@@ -100,6 +103,11 @@ const ProductFormFieldConfig: React.FC<Props> = (props: Props): JSX.Element => {
                         </Space>
                     }}
                 </Form.List>
+                <Form.Item shouldUpdate>
+                    {() => {
+                        return <pre>{JSON.stringify(form.getFieldsValue(["fieldConfig"]), null, 2)}</pre>;
+                    }}
+                </Form.Item>
             </Card>
         }}
     </Form.Item>
