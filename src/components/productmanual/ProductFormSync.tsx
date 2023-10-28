@@ -6,7 +6,7 @@ import { updateShopeeAttributes } from "../../api/shopee/attribute"
 const ProductFormSync: React.FC = () => {
     return <Affix offsetTop={16}>
         <Card>
-            <div className="c-flex c-gap-2">
+            <div className="c-flex c-gap-2" style={{ flexWrap: "wrap" }}>
                 <Button
                     block
                     type="primary"

@@ -52,7 +52,7 @@ const ImageCollectionSelect: React.FC<Props> = (props: Props) => {
             {...props}
             value={props.value || undefined}
         >
-            {!collections.some((item) => item === props.value) && <Select.Option key="default" value={props.value}>
+            {props.value && !collections.some((item) => item === props.value) && <Select.Option key="default" value={props.value}>
                 <div className="d-flex c-item-center">
                     <span className="flex-1 c-truncate">{props.value}</span>
                 </div>

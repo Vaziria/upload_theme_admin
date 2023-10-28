@@ -26,9 +26,23 @@ const DetailInfo: React.FC<Props> = (props: Props) => {
             </Tag>)
         },
         {
+            key: "img_collection_path",
+            label: "Lokasi Koleksi Gambar",
+            children: <Typography.Text code>
+                {product.image_collection_path || "no path"}
+            </Typography.Text>
+        },
+        {
+            key: "img_count",
+            label: "Jumlah Gambar",
+            children: <Typography.Text>
+                {product.count_image}
+            </Typography.Text>
+        },
+        {
             key: "price",
             label: "Harga",
-            children: <Typography.Text type="warning" className="">
+            children: <Typography.Text type="warning" className="c-bold">
                 {product.getFormatPrice()}
             </Typography.Text>
         },
@@ -58,11 +72,10 @@ const DetailInfo: React.FC<Props> = (props: Props) => {
     return <Descriptions
         column={1}
         colon={false}
-        size="small"
         title="Informasi Produk"
         items={infoItems}
         labelStyle={{ width: 150, marginRight: 32 }}
-        contentStyle={{ fontWeight: 500 }}
+        contentStyle={{ fontWeight: 400 }}
     />
 }
 

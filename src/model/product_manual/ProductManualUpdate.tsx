@@ -72,7 +72,7 @@ export class ProductManualUpdateModel {
             const payload = await this.form.getPayload()
 
             if (payload.shopeeAttribute.data) {
-                payload.shopeeAttribute.data.attributes = payload.shopeeAttribute.data.attributes.filter(v => v)
+                payload.shopeeAttribute.data.attributes = payload.shopeeAttribute.data.attributes?.filter(v => v)
             }
 
             payload.fieldConfig.field_spin = payload.fieldConfig.field_spin.map((fieldSpin) => {

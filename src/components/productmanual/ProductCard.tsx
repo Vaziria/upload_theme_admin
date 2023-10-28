@@ -115,6 +115,10 @@ const ProductCard: React.FC<Props> = (props: Props): JSX.Element => {
             cover={<Image
                 src={product.getImageUrl()}
                 fallback={noimg}
+                height={200}
+                style={{
+                    objectFit: "cover"
+                }}
             />}
             actions={actions}
         >

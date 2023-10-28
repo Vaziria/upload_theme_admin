@@ -1,9 +1,9 @@
-import { Descriptions, Tag, Typography } from "antd";
+import { Descriptions, Tag } from "antd";
 import { DescriptionsItemType } from "antd/es/descriptions";
 import React from "react";
 
-import { ProductManualModel } from "../../../model/product_manual/ProductManual";
 import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfig";
+import { ProductManualModel } from "../../../model/product_manual/ProductManual";
 
 interface Props {
     product: ProductManualModel
@@ -12,19 +12,28 @@ interface Props {
 const DetailFieldConfig: React.FC<Props> = (props: Props) => {
     const { product } = props
     const fieldConfigItems: DescriptionsItemType[] = product.field_spin.map((spin) => {
-        let text = "default"
-        if (spin?.use_spin) {
-            text = "spin"
-        } else if (spin?.use_once_text) {
-            text = "teks sekali pakai"
+        if (spin?.use_once_text) {
+            return {
+                key: spin?.field_type,
+                label: fieldLabels[spin?.field_type as FieldType],
+                children: <Tag
+                    bordered={false}
+                    color="volcano"
+                >
+                    <i className="fas fa-random" /> Teks Sekali Pakai
+                </Tag>
+            }
         }
 
         return {
             key: spin?.field_type,
             label: fieldLabels[spin?.field_type as FieldType],
-            children: <Typography.Text>
-                <Tag>{text}</Tag>
-            </Typography.Text>
+            children: <Tag
+                bordered={false}
+                color="magenta"
+            >
+                <i className="fas fa-spinner" /> Spin
+            </Tag>
         }
     })
 
@@ -40,7 +49,6 @@ const DetailFieldConfig: React.FC<Props> = (props: Props) => {
     return <Descriptions
         column={1}
         colon={false}
-        size="small"
         title="Field Config"
         items={fieldConfigItems}
         labelStyle={{ width: empty ? "auto" : 150, marginRight: 32 }}
