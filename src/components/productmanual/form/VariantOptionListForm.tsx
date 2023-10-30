@@ -1,13 +1,18 @@
-import { Form, Space } from "antd";
+import { Form, Space, Typography } from "antd";
 import React from "react";
 
 import AddButton from "../../button/AddButton";
 import VariantOptionItemForm from "./VariantOptionItemForm";
+import { lengthValidator } from "./validator/variant_option_validator";
 
 
 const VariantOptionListForm: React.FC = () => {
-    return <Form.List name={["variant", "variant_option"]} initialValue={[]}>
-        {(fields, opt) => {
+    return <Form.List
+        name={["variant", "variant_option"]}
+        initialValue={[]}
+        rules={[lengthValidator]}
+    >
+        {(fields, opt, { errors }) => {
 
             const showAddOption = fields.length < 2
             const showRemoveOption = fields.length > 1
@@ -28,9 +33,19 @@ const VariantOptionListForm: React.FC = () => {
                 })}
 
                 {showAddOption && <div>
-                    <AddButton type="dashed" style={{ minWidth: 200 }} onClick={addOption}>
-                        Tambah Variasi
-                    </AddButton>
+                    <AddButton
+                        type="dashed"
+                        danger={!!errors.length}
+                        style={{ minWidth: 200 }}
+                        onClick={addOption}
+                    >Tambah Variasi</AddButton>
+
+                    {errors.length > 0 && <Typography.Text
+                        type="danger"
+                        className="d-block mt-2"
+                    >
+                        {errors}
+                    </Typography.Text>}
                 </div>}
             </Space>
         }}

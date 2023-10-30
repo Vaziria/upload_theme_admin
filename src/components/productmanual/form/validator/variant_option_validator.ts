@@ -1,7 +1,18 @@
-import { FormListFieldData, Rule } from "antd/es/form"
+import { FormListFieldData, Rule } from "antd/es/form";
+import type { ValidatorRule } from 'rc-field-form/lib/interface';
 
-import { FormModelInstance } from "../../../../model/product_manual/ProductManualForm"
-import { VariantOption } from "../../../../model/apisdk"
+import { VariantOption } from "../../../../model/apisdk";
+import { FormModelInstance } from "../../../../model/product_manual/ProductManualForm";
+
+function validator(_: unknown, options?: VariantOption[]): Promise<void> {
+    if ((options?.length || 0) === 0) {
+        return Promise.reject("Variasi tidak boleh kosong")
+    }
+
+    return Promise.resolve()
+}
+
+export const lengthValidator: ValidatorRule = { validator }
 
 function nameValidator(form: FormModelInstance, field: FormListFieldData){
     return async (_: unknown, value: string) => {
