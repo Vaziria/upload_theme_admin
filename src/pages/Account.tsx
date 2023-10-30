@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Select, Space, Typography } from 'antd'
+import { Button, InputNumber, Select, Space, Typography } from 'antd'
 
 import NewAccount from '../components/account/NewAccount'
 import AntdCheckbox from '../components/common/AntdCheckbox'
@@ -25,6 +25,9 @@ interface AkunActionProps {
 const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
     const { upmode, setUpmode } = props
     const [useMap, setUseMap] = useState(false)
+    const [resetMap, setResetMap] = useState(false)
+    const [oneToMulti, setOneToMulti] = useState(false)
+    const [limit, setLimit] = useState(0)
 
     let url = ""
     switch (upmode) {
@@ -33,7 +36,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
             break
 
         case "shopee_manual":
-            url = `http://localhost:5000/upload/v6/manual_to_shopee`
+            url = `http://localhost:5000/upload/v6/manual_to_shopee?reset=${resetMap}&one_to_multi=${oneToMulti}&limit=${limit}`
             break
 
         default:
@@ -69,9 +72,21 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                 />
 
                 {upmode === "tokopedia" &&
-                    <AntdCheckbox style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
+                    <AntdCheckbox value={useMap} style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
                         Use mapping
                     </AntdCheckbox>
+                }
+
+                {upmode === "shopee_manual" &&
+                    <Space>
+                        <AntdCheckbox value={resetMap} style={{ fontWeight: 300 }} onChange={(umap) => setResetMap(umap)}>
+                            Reset Mapper
+                        </AntdCheckbox>
+                        <AntdCheckbox value={oneToMulti} style={{ fontWeight: 300 }} onChange={(umap) => setOneToMulti(umap)}>
+                            One to Multi
+                        </AntdCheckbox>
+                        <InputNumber value={limit} addonBefore="limit" style={{ width: 150 }} onChange={(val) => setLimit(val || 1)} />
+                    </Space>
                 }
             </Space>
 
