@@ -17,7 +17,7 @@ export interface MapperParams {
 
 export async function getCategoryMappers(params: MapperParams): Promise<MapperItem[]> {
     
-    const res =  await client.get<MapperItem[]>("/tokopedia/mapper/category", {
+    const res =  await client.get<MapperItem[]>("/v1/category/mapper/tokopedia_to_shopee", {
         params,
     })
     return res.data
@@ -29,7 +29,7 @@ export interface UpdateMapperItem {
 }
 
 export async function updateCategoryMappers(data: UpdateMapperItem[]): Promise<BaseResponse> {
-    const res =  await client.put<BaseResponse>("/tokopedia/mapper/map", data)
+    const res =  await client.put<BaseResponse>("/v1/category/mapper/tokopedia_to_shopee", data)
     return res.data
 }
 

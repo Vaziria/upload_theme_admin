@@ -56,6 +56,9 @@ export const mapperItemsPageState = selectorFamily<[MapperItem[], number], Reado
             const itemPage = Math.ceil((index + 1) / pagesize)
             return itemPage == page
         })
+
+        console.log("paginate item", paginateItems)
+
         return [paginateItems, items.length]
     },
 })

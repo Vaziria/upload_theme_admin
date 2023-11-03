@@ -60,7 +60,7 @@ const MapperAction: React.FC<Props> = (props: Props) => {
         <Space style={{ display: 'flex' }}>
             <Button
                 disabled={disabled}
-                icon={<ClusterOutlined rev={null} />}
+                icon={<ClusterOutlined />}
                 onClick={() => autoSuggestMutation.mutate()}
             >Auto Suggest</Button>
             
@@ -74,7 +74,7 @@ const MapperAction: React.FC<Props> = (props: Props) => {
                 type="primary"
                 disabled={disabled}
                 style={{ background: "#52c41a" }}
-                icon={<SaveOutlined rev={null} />}
+                icon={<SaveOutlined />}
                 onClick={() => saveMutation.mutate()}
             >Save Mapping</Button>
         </Space>
