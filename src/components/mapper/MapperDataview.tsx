@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react"
-import { Pagination, Result, Space, Spin } from "antd"
+import { Empty, Pagination, Result, Space, Spin } from "antd"
+import React, { useEffect, useState } from "react"
 import { useRecoilValue } from "recoil"
 
-import { MapperItem } from "../../api/mapper"
 import { mapperItemsPageState } from "../../recoil/selectors/mapper_items_page"
 
 import type { MarketList } from "../../model/Common"
 import type { MapperFilterData } from "./MapperFilter"
 
+import { MapperItemState } from "../../recoil/atoms/mapper_items"
 import TokopediaToShopeeMapperItem from "./TokopediaToShopeeMapperItem"
 
 interface MapperDataviewProps {
     mode: MarketList
     filter: MapperFilterData
     loading: boolean
-    items?: MapperItem[]
+    items?: MapperItemState[]
 }
 
 const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
@@ -57,6 +57,10 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
         />
     }
 
+    if (items.length === 0) {
+        return <Empty description="Tidak ada category mapping ditemukan" />
+    }
+
     return <div>
         <Space
             direction="vertical"
@@ -77,9 +81,8 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
                         setPage(page)
                         setPagesize(pagesize)
                     }}
-                />
+                    />
             </Space>
-
         </Space>
     </div>
 }

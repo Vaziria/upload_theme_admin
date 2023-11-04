@@ -1,61 +1,37 @@
-import React from "react"
-import { StaticContext } from "react-router"
-import { RouteComponentProps, withRouter } from "react-router-dom"
-import { useQuery } from 'react-query'
 import { Card, Col, Divider, Row, Space } from "antd"
+import React from "react"
+import { useQuery } from 'react-query'
 import { useSetRecoilState } from "recoil"
 
 import { getCategoryMappers } from "../api/mapper"
-import { mapperItemsState } from "../recoil/atoms/mapper_items"
-import { createSearchParams } from "../utils/params"
 import type { MarketList } from "../model/Common"
+import { MapperItemState, mapperItemsState } from "../recoil/atoms/mapper_items"
 
 import MarketplaceSelect from "../components/common/MarketplaceSelect"
-import MapperFilter, { MapperFilterData } from "../components/mapper/MapperFilter"
 import MapperAction from "../components/mapper/MapperAction"
 import MapperDataview from "../components/mapper/MapperDataview"
+import MapperFilter, { MapperFilterData } from "../components/mapper/MapperFilter"
+import { defaultQuery, useCategmapQuery } from "../hooks/search_query/categmap_query"
 
-interface CategMapState extends MapperFilterData {
-    mode: MarketList
-}
-type CategMapParams = {[key in keyof CategMapState]: string}
-type Props = RouteComponentProps<CategMapParams, StaticContext, Partial<CategMapState>>
+const CategMap: React.FC = () => {
 
-const CategMap: React.FC<Props> = (props: Props) => {
-
-    const state: CategMapState = {
-        mode: "tokopedia",
-        search: "",
-        unmapped: false,
-        ...props.location.state,
-    }
-
-    const statePush = (state: CategMapState) => {
-        const search = createSearchParams({ ...state })
-        props.history.push({
-            pathname: "/categmap",
-            search,
-            state: state,
-        })
-    }
-
+    const [query, setQuery] = useCategmapQuery()
     const onFilterChange = (data: MapperFilterData) => {
-        statePush({ ...state, ...data })
+        setQuery(data)
     }
 
     const onModeChange = (mode?: MarketList) => {
-        statePush({
-            ...state,
-            mode: mode || "shopee",
-            namespace: ""
-        })
+        setQuery({ ...defaultQuery, mode: mode })
     }
 
     const setMapperItems = useSetRecoilState(mapperItemsState)
     const { isLoading } = useQuery({
-        queryKey: ["categoryMapperItems", state.namespace],
-        queryFn: () => getCategoryMappers({ namespace: state.namespace || "" })
-            .then(setMapperItems),
+        queryKey: ["categoryMapperItems", query.namespace],
+        queryFn: () => getCategoryMappers({ namespace: query.namespace || "" })
+            .then((mapper) => setMapperItems(mapper.map<MapperItemState>((map) => ({
+                ...map,
+                unmapped: map.shopee_id === 0,
+            })))),
         refetchOnWindowFocus: false,
     })
 
@@ -66,10 +42,9 @@ const CategMap: React.FC<Props> = (props: Props) => {
             xl={{ span: 16, offset: 4 }}
         >
             <Card>
-
                 <MapperFilter
-                    mode={state.mode}
-                    data={state}
+                    mode={query.mode}
+                    data={query}
                     onChange={onFilterChange}
                 />
 
@@ -78,18 +53,18 @@ const CategMap: React.FC<Props> = (props: Props) => {
                 <Space style={{ display: 'flex', justifyContent: "space-between" }}>
                     <MarketplaceSelect
                         style={{ minWidth: 180, width: 180 }}
-                        value={state.mode}
+                        value={query.mode}
                         onChange={onModeChange}
                     />
 
-                    <MapperAction filter={state} mode={state.mode} />
+                    <MapperAction filter={query} mode={query.mode} />
                 </Space>
                 
                 <Divider />
 
                 <MapperDataview
-                    mode={state.mode}
-                    filter={state}
+                    mode={query.mode}
+                    filter={query}
                     loading={isLoading}
                 />
             </Card>
@@ -97,4 +72,4 @@ const CategMap: React.FC<Props> = (props: Props) => {
     </Row>
 }
 
-export default withRouter(CategMap)
+export default CategMap

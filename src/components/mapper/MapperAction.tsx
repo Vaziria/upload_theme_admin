@@ -1,12 +1,12 @@
-import React from "react"
-import { Button, Space, message } from "antd"
 import { ClusterOutlined, SaveOutlined } from "@ant-design/icons"
+import { Button, Space, message } from "antd"
+import React from "react"
 import { useMutation } from "react-query"
-import { useRecoilValue } from "recoil"
+import { useRecoilState } from "recoil"
 
-import { UpdateMapperItem, updateCategoryMappers, tokopediaToShopeeAutosuggest } from "../../api/mapper"
-import { mapperItemsState } from "../../recoil/atoms/mapper_items"
+import { UpdateMapperItem, tokopediaToShopeeAutosuggest, updateCategoryMappers } from "../../api/mapper"
 import { MarketList } from "../../model/Common"
+import { mapperItemsState } from "../../recoil/atoms/mapper_items"
 import { MapperFilterData } from "./MapperFilter"
 
 interface Props {
@@ -19,7 +19,7 @@ const MapperAction: React.FC<Props> = (props: Props) => {
     const { mode, filter } = props
 
     const [messageApi, contextHolder] = message.useMessage();
-    const items = useRecoilValue(mapperItemsState)
+    const [items, setItems] = useRecoilState(mapperItemsState)
 
     async function autoSuggest() {
         return tokopediaToShopeeAutosuggest(filter.namespace || "")
@@ -43,10 +43,17 @@ const MapperAction: React.FC<Props> = (props: Props) => {
             }))
         
         return updateCategoryMappers(data)
-            .then(() => messageApi.open({
-                type: "success",
-                content: "Update mapping berhasil"
-            }))
+            .then(() => {
+                setItems(items.map((item) => ({
+                    ...item,
+                    unmapped: item.shopee_id === 0
+                })))
+
+                messageApi.open({
+                    type: "success",
+                    content: "Update mapping berhasil"
+                })
+            })
             .catch(() => messageApi.open({
                 type: "error",
                 content: "Update mapping gagal"
@@ -60,21 +67,21 @@ const MapperAction: React.FC<Props> = (props: Props) => {
         <Space style={{ display: 'flex' }}>
             <Button
                 disabled={disabled}
-                icon={<ClusterOutlined rev={null} />}
+                icon={<ClusterOutlined />}
                 onClick={() => autoSuggestMutation.mutate()}
             >Auto Suggest</Button>
             
             {/* <Button
                 type="primary"
                 style={{ background: "#fa541c" }}
-                icon={<ReloadOutlined rev={null} />}
+                icon={<ReloadOutlined />}
             >Reset Mapping</Button> */}
             
             <Button
                 type="primary"
                 disabled={disabled}
                 style={{ background: "#52c41a" }}
-                icon={<SaveOutlined rev={null} />}
+                icon={<SaveOutlined />}
                 onClick={() => saveMutation.mutate()}
             >Save Mapping</Button>
         </Space>

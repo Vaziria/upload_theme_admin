@@ -1,24 +1,30 @@
+import { Badge, Card, Tag } from "antd"
 import React from "react"
-import { Badge, Card } from "antd"
 import { useSetRecoilState } from "recoil"
 
-import { MapperItem } from "../../api/mapper"
-import { mapperItemsState } from "../../recoil/atoms/mapper_items"
+import { MapperItemState, mapperItemsState } from "../../recoil/atoms/mapper_items"
 
 import ShopeeCategoryCascader from "../shopee/ShopeeCategoryCascader"
 
 
 interface Props {
-    item: MapperItem
+    item: MapperItemState
 }
 
 const TokopediaToShopeeMapperItem: React.FC<Props> = (props: Props) => {
+
+    const {
+        tokopedia_id,
+        tokopedia_category_name,
+        product_count,
+        unmapped
+    } = props.item
 
     const setMapperItems = useSetRecoilState(mapperItemsState)
     function onCategoryChange(shopee_id: number) {
         setMapperItems((mapper) => mapper.map((map) => {
 
-            if (map.tokopedia_id === props.item.tokopedia_id) {
+            if (map.tokopedia_id === tokopedia_id) {
                 return { ...map, shopee_id }
             }
 
@@ -26,25 +32,27 @@ const TokopediaToShopeeMapperItem: React.FC<Props> = (props: Props) => {
         }))
     }
 
-    const nameLength = props.item.tokopedia_category_name?.length || 0
+    const nameLength = tokopedia_category_name?.length || 0
     const title = <div style={{ display: "flex", gap: 5, fontSize: 13 }}>
-        {props.item.tokopedia_category_name?.reduce<React.ReactNode[]>((node, name, index) => {
-            
-            if (nameLength-1 != index) {
+        {tokopedia_category_name?.reduce<React.ReactNode[]>((node, name, index) => {
+
+            if (nameLength - 1 != index) {
                 node.push(
-                    <span key={"name" + index} style={{fontWeight: 300}}>{name}</span>,
+                    <span key={"name" + index} style={{ fontWeight: 300 }}>{name}</span>,
                     <span key={"slash" + index}>/</span>
                 )
             } else {
-                node.push(<strong key={"name" + index} style={{fontWeight: 700}}>{name}</strong>)
+                node.push(<strong key={"name" + index} style={{ fontWeight: 700 }}>{name}</strong>)
             }
 
             return node
-    
+
         }, [])}
 
+        {unmapped && <Tag color="orange" className="ml-2">unmapped</Tag>}
+
         <div style={{ justifyContent: "end", flex: "1", "display": "flex" }}>
-            <Badge count={props.item.product_count} />
+            <Badge count={product_count} />
         </div>
     </div>
 

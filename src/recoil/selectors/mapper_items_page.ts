@@ -1,8 +1,7 @@
 import { selectorFamily } from "recoil"
 
-import { mapperItemsState } from "../atoms/mapper_items"
-import type { MapperItem } from "../../api/mapper"
 import type { MarketList } from "../../model/Common"
+import { MapperItemState, mapperItemsState } from "../atoms/mapper_items"
 
 export type MapperMode =  MarketList | "all"
 
@@ -14,7 +13,7 @@ export interface MapperPageFilter {
     pagesize: number
 }
 
-export const mapperItemsPageState = selectorFamily<[MapperItem[], number], Readonly<MapperPageFilter>>({
+export const mapperItemsPageState = selectorFamily<[MapperItemState[], number], Readonly<MapperPageFilter>>({
     key: "mapperItemsPage",
     get: ({ mode, search, unmapped, page, pagesize }) => ({get}) => {
 
@@ -39,7 +38,7 @@ export const mapperItemsPageState = selectorFamily<[MapperItem[], number], Reado
             
             case "tokopedia":
                 items = items
-                    .filter((item) => !unmapped || !item.shopee_id)
+                    .filter((item) => !unmapped || item.unmapped)
                     .filter((item) => {
                         return item.tokopedia_category_name
                             ?.some((name) => name.toLowerCase().includes(search))

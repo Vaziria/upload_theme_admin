@@ -24,7 +24,7 @@ const MapperFilter: React.FC<Props> = (props: Props) => {
 
     const { data, mode, onChange } = props
     const { namespace, search, unmapped } = data
-    const [ searchValue, setSearchValue ] = useState("")
+    const [ searchValue, setSearchValue ] = useState(search)
 
     const onNamespaceChange = (namespace?: string) => {
         setSearchValue("")

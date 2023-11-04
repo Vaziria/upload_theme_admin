@@ -62,6 +62,13 @@ export function searchParamsToQuery<T extends Record<keyof T, AllowedValue>>(bas
                     }
                     break
                 
+                case "boolean":
+                    query = {
+                        ...query,
+                        [key]: value === "true"
+                    }
+                    break
+                
                 default:
                     console.warn("[ params ] unsupported type", type)
             }

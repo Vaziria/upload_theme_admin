@@ -33,6 +33,7 @@ const ShopeeeCategoryCascader: React.FC<Props> = (props: Props) => {
 
     return <Cascader
         placeholder="pilih kategori shopee..."
+        allowClear={false}
         {...reProps}
         value={categoryValue?.chain_ids}
         options={options}
