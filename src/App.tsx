@@ -22,7 +22,7 @@ import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./f
 import { loadSpin } from './features/spin'
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import { useQuery } from './model/apisdk'
-import { shopeePublicCategoriesState, shopeeSellerCategoriesState } from "./recoil/atoms/categories"
+import { shopeePublicCategoriesState, shopeeSellerCategoriesState, tokopediaPublicCategoriesState } from "./recoil/atoms/categories"
 import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
@@ -35,6 +35,7 @@ const Loader: React.FC = () => {
     const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
     const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
     const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
+    const setTokopediaCategories = useSetRecoilState(tokopediaPublicCategoriesState)
     const setNamespaceData = useSetRecoilState(namespaceDataState)
     const setProductManualCollection = useSetRecoilState(collectionSelectState)
     const setMarkupData = useSetRecoilState(markupDataState)
@@ -51,6 +52,7 @@ const Loader: React.FC = () => {
             getSearchShopeeShipping(),
             tokopediaGetManifest().then((manifest) => {
                 setTokopediaCities(manifest.cities)
+                setTokopediaCategories(manifest.categories)
             }),
             loadSpin(),
             loadCollection(),

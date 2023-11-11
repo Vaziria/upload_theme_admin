@@ -7,7 +7,7 @@ export interface ProductNamespace {
 
 export interface ICategoryStat {
   count: number
-  name: string[]
+  name?: string[]
   price_max: number
   price_min: number
   _id: number

@@ -7,8 +7,10 @@ import { RootState } from "../../features"
 // import { getChainName } from "../../features/tokopedia/manifest"
 import { MarketList } from "../../model/Common"
 import toCurrency, { ICategoryStat } from "../../model/product"
+import { useRecoilValue } from "recoil"
+import { tokopediaCategoryValueState } from "../../recoil/selectors/tokopedia_category_value"
 
-function mapState(state: RootState){
+function mapState(state: RootState) {
   return {
     publicCateg: state.ShopeeManifestReducer.publicCategory
   }
@@ -27,12 +29,31 @@ interface IProps extends PropsFromRedux {
   changeList: (stats: ICategoryStat[]) => any
 }
 
+interface CategoryNameProps {
+  marketplace: MarketList
+  cat: ICategoryStat
+}
+
+const CategoryName: React.FC<CategoryNameProps> = (props: CategoryNameProps) => {
+  const { cat, marketplace } = props
+  const name = cat.name?.join(' > ') || ""
+
+  const categoryValue = useRecoilValue(tokopediaCategoryValueState(cat._id))
+
+  if (!name && marketplace === "tokopedia") {
+    const name = categoryValue?.category.join(" > ")
+    return <span>{name}</span>
+  }
+
+  return <span>{name}</span>
+}
+
 class StatCategory extends React.Component<IProps> {
 
   async deleteCateg(categ: ICategoryStat): Promise<void> {
     await deleteStatCateg(categ._id, this.props.is_public)
 
-    const name = categ.name.join(' > ')
+    const name = categ.name?.join(' > ') || ""
 
     emitEvent('show_msg', {
       msg: `delete category ${name}`
@@ -40,42 +61,18 @@ class StatCategory extends React.Component<IProps> {
 
     const categs = this.props.stats.filter(item => item._id !== categ._id)
     this.props.changeList(categs)
-    
-  }
 
-  getChainName(stat: ICategoryStat): string {
-    // const { is_public, marketplace } = this.props
-    
-    // if(marketplace === 'tokopedia'){
-    //   const name = getChainName(stat._id)
-    //   return name.join(' > ')
-    // }
-
-    // if(is_public){
-
-    //   const { chain } = publicChainName(stat._id)
-
-    //   if(chain.length > 0){
-    //     return chain.join(' > ')
-    //   } else {
-    //     return 'Undefined'
-    //   }
-    // }
-
-    return stat.name.join(' > ')
   }
 
   renderList(stat: ICategoryStat): JSX.Element {
 
-    const name = this.getChainName(stat)
-
     return (
       <tr key={stat._id}>
-        <td>{name}</td>
-        <td scope="row">{ toCurrency(stat.price_min) } - { toCurrency(stat.price_max)}</td>
+        <td><CategoryName cat={stat} marketplace={this.props.marketplace} /></td>
+        <td scope="row">{toCurrency(stat.price_min)} - {toCurrency(stat.price_max)}</td>
         <td scope="row">{stat.count}</td>
         <td scope="row">
-          <button className="btn btn-sm btn-danger" type="button" onClick={()=> this.deleteCateg(stat)}>
+          <button className="btn btn-sm btn-danger" type="button" onClick={() => this.deleteCateg(stat)}>
             DELETE
           </button>
         </td>
@@ -84,7 +81,7 @@ class StatCategory extends React.Component<IProps> {
   }
 
   render(): JSX.Element {
-    
+
     const { stats } = this.props
 
     return (
@@ -92,13 +89,13 @@ class StatCategory extends React.Component<IProps> {
         <thead>
           <tr>
             <th scope="col">Category</th>
-			<th scope="col">Price</th>
-			<th scope="col">Jumlah</th>
-			<th scope="col">Action</th>
+            <th scope="col">Price</th>
+            <th scope="col">Jumlah</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>
-          {stats.map(stat=>this.renderList(stat))}
+          {stats.map(stat => this.renderList(stat))}
         </tbody>
       </table>
     )
