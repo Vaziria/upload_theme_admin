@@ -3,9 +3,9 @@ import { ValidateErrorEntity } from "rc-field-form/lib/interface";
 
 import {
 	BasicUpdatePayload, CreateAttributePayloadShopeeAttribute,
-	CreateAttributePayloadTokpedAttr, ManualProduct,
+	CreateAttributePayloadTokopediaAttribute, ManualProduct,
 	UpdateFieldConfigPayload, UpdateVariationPayload
-} from "../apisdk";
+} from "../newapisdk";
 import { ProductManualModel } from "./ProductManual";
 
 export interface FormModel {
@@ -13,7 +13,7 @@ export interface FormModel {
 	variant: UpdateVariationPayload
 	fieldConfig: UpdateFieldConfigPayload
 	shopeeAttribute: CreateAttributePayloadShopeeAttribute
-	tokpedAttribute: CreateAttributePayloadTokpedAttr
+	tokpedAttribute: CreateAttributePayloadTokopediaAttribute
 }
 
 export type FormModelInstance = FormInstance<FormModel>
@@ -58,8 +58,8 @@ export class ProductManualFormModel {
 
 	async getPayload(): Promise<FormModel> {
 		return new Promise<FormModel>((resolve, reject) => {
-			this.form.validateFields()
-				.then((data) => resolve({
+			const setData = (data: FormModel) => {
+				resolve({
 					basic: {
 						...data.basic,
 						product_id: this.pid
@@ -82,9 +82,22 @@ export class ProductManualFormModel {
 						attribute_type: "tokopedia",
 						product_id: this.pid
 					}
-				}))
-				.catch((validateErr: ValidateErrorEntity<BasicUpdatePayload>) => {
-					reject(new Error(`terdapat ${validateErr.errorFields.length} kesalahan`))
+				})
+			}
+			this.form.validateFields()
+				.then((data) => setData(data))
+				.catch((validateErr: ValidateErrorEntity<FormModel>) => {
+					const { errorFields, values } = validateErr
+					const errorLength = errorFields.filter((field) =>
+						!values.basic.use_variant
+						&& field.name[0] !== "variant"
+					).length
+
+					if (errorLength > 0) {
+						reject(new Error(`terdapat ${errorLength} kesalahan`))
+					} else {
+						setData(values)
+					}
 				})
 		})
 	}

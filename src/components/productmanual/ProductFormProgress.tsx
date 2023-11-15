@@ -1,4 +1,4 @@
-import { Anchor, Progress } from "antd"
+import { Anchor, Progress, ProgressProps } from "antd"
 import { AnchorLinkItemProps } from "antd/es/anchor/Anchor"
 import React from "react"
 
@@ -18,6 +18,12 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
     const { progressModel } = props
 
     const progress = progressModel.useProgress()
+    const { shopeeAttribute, tokpedAttribute } = progress
+
+    const attrStatus: ProgressProps["status"] = [shopeeAttribute.status, tokpedAttribute.status].includes("exception")
+        ? "exception"
+        : "success"
+    const attrPercent = Math.ceil((shopeeAttribute.percent + tokpedAttribute.percent) / 2)
 
     const itemOptions: ItemOptions[] = [
         {
@@ -28,7 +34,10 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
         {
             key: "productattribute",
             title: "Atribut Produk",
-            progress: progress.shopeeAttribute
+            progress: {
+                status: attrStatus,
+                percent: attrPercent,
+            },
         },
         {
             key: "productvariant",
@@ -43,7 +52,7 @@ const ProductFormProgress: React.FC<Props> = (props: Props) => {
     ]
 
     return <Anchor
-        offsetTop={116}
+        offsetTop={158}
         items={itemOptions.map<AnchorLinkItemProps>((option) => ({
             key: option.key,
             href: location.pathname + "#" + option.key,

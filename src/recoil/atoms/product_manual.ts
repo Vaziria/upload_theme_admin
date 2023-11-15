@@ -1,5 +1,5 @@
 import { atom } from "recoil"
-import { ProductListRes } from "../../model/apisdk"
+import { ProductListRes } from "../../model/newapisdk"
 
 export const productManualListState = atom<Omit<ProductListRes, "err_msg">>({
     key: "productManualList",

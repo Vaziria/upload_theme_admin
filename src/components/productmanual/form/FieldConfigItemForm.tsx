@@ -3,7 +3,7 @@ import React from "react";
 
 import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfig";
 
-import { FieldConfig } from "../../../model/apisdk";
+import { FieldConfig } from "../../../model/newapisdk";
 import TrashIconButton from "../../button/TrashIconButton";
 import FieldConfigOnceTextForm from "./FieldConfigOnceTextForm";
 

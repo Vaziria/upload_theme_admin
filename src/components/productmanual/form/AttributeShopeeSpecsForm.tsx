@@ -2,7 +2,7 @@ import { Col, Empty, Form, Row, Spin, Typography } from "antd"
 import React from "react"
 import { useRecoilValue } from "recoil"
 
-import { AttributePayload } from "../../../model/apisdk"
+import { AttributePayload } from "../../../model/newapisdk"
 import { shopeeAttributeFormState } from "../../../recoil/atoms/shopee_attribute"
 import { isSelectMultiply } from "../../attribute/base"
 import { requiredValidator } from "./validator/basic_validator"

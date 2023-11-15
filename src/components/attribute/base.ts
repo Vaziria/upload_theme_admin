@@ -1,5 +1,5 @@
 import { ShopeeAttribute } from '../../api/shopee/attribute'
-import { AttributePayload, AttributeValue } from "../../model/apisdk"
+import { AttributePayload, AttributeValue } from "../../model/newapisdk"
 
 // input validation
 export const

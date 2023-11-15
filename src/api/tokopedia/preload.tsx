@@ -23,10 +23,12 @@ function categReducer(parent?: ITokpedCateg): (res: ITokpedCateg[], value: Categ
     return (res, value) => {
         const { id, name } = value
         const categ: ITokpedCateg = {
-            _id: id.toString(),
-            id: id.toString(),
-            parentid: parent?.id.toString() || "0",
+            _id: id,
+            id: id,
+            parentid: parent?.id || 0,
             category: [...(parent?.category || []), name],
+            category_ids: [...(parent?.category_ids || []), id],
+            has_children: !!value.children?.length,
             name,
         }
 

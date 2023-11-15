@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import { useSetShopeeAttribute } from "../recoil/callbacks/set_shopee_attribute";
 import noimg from "../assets/images/no-image.webp";
 import { useGoBack } from "../hooks/back";
-import { useQuery } from "../model/apisdk";
+import { useQuery } from "../model/newapisdk";
 import { ProductManualModel } from "../model/product_manual/ProductManual";
 import { getErrMessage } from "../utils/errmsg";
 

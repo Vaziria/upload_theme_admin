@@ -114,7 +114,7 @@ export class ProductManualFormProgressModel {
 						variant: validateErr.errorFields.reduce(progressReducer("variant", variantLen, 2), { ...defProgress }),
 						fieldConfig: validateErr.errorFields.reduce(progressReducer("fieldConfig", fieldConfigLen, 2), { ...defProgress }),
 						shopeeAttribute: validateErr.errorFields.reduce(progressReducer("shopeeAttribute", shopeeAttrLen, 3), { ...defProgress }),
-						tokpedAttribute: { ...successProgress },
+						tokpedAttribute: validateErr.errorFields.reduce(progressReducer("tokpedAttribute", shopeeAttrLen, 3), { ...defProgress }),
 					})
 				})
 		}, [data])

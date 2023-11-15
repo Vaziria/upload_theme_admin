@@ -4,7 +4,7 @@ import { Affix, Card, Popconfirm } from "antd"
 import React from "react"
 import { useRecoilState, useRecoilValue } from "recoil"
 
-import { ColDeletePayload, SendOptions } from "../../model/apisdk"
+import { ColDeletePayload, SendOptions } from "../../model/newapisdk"
 import { collectionListSelectedState, collectionListState } from "../../recoil/atoms/collection_list"
 import { productManualCollectionIsSelectedAllState, productManualCollectionIsSelectedState } from "../../recoil/selectors/collection_list_page"
 

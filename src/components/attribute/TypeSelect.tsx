@@ -2,7 +2,7 @@ import { Empty, Select } from "antd"
 import { DefaultOptionType, SelectProps } from "antd/es/select"
 import React from "react"
 
-import { AttributeValue } from "../../model/apisdk"
+import { AttributeValue } from "../../model/newapisdk"
 import { OptionCustom } from "./TypeSelectWithCustom"
 import { AttributeInputProps, createCustomValue, createValue } from "./base"
 

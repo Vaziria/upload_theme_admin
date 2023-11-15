@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { PaginationQuery } from "../../model/apisdk";
+import { PaginationQuery } from "../../model/newapisdk";
 import { createSearchParams, searchParamsToQuery } from "../../utils/params";
 
 const defaultQuery = {

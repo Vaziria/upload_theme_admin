@@ -1,7 +1,7 @@
 
 import { Mutate, useMutation } from "../../hooks/mutation"
 import { getErrMessage } from "../../utils/errmsg"
-import { Clients, Target } from "../apisdk"
+import { Clients, Target } from "../newapisdk"
 import { ProductManualFormModel } from "./ProductManualForm"
 import { VariantDetailModel } from "./VariantDetailForm"
 
@@ -59,12 +59,14 @@ export class ProductManualUpdateModel {
         const { mutate: mutateVariant, pending: variantPending } = useMutation("PostPdcsourceEditVariationUpdate", {})
         const { mutate: mutateFieldConfig, pending: fieldConfigPending } = useMutation("PostPdcsourceEditFieldConfig", {})
         const { mutate: mutateShopeeAttribute, pending: shopeeAttributePending } = useMutation("PutPdcsourceAttShopee", {})
+        const { mutate: mutateTokopediaAttribute, pending: tokopediaAttributePending } = useMutation("PutPdcsourceAttrToped", {})
         const { mutate: mutatePublish, pending: publishPending } = useMutation("PutPdcsourceEditPublish", {})
 
         const pending = basicPending ||
             variantPending ||
             fieldConfigPending ||
             shopeeAttributePending ||
+            tokopediaAttributePending ||
             publishPending
 
         const update = async (publish?: boolean): Promise<[boolean, UpdateResponse[]]> => {
@@ -73,6 +75,10 @@ export class ProductManualUpdateModel {
 
             if (payload.shopeeAttribute.data) {
                 payload.shopeeAttribute.data.attributes = payload.shopeeAttribute.data.attributes?.filter(v => v)
+            }
+
+            if (payload.tokpedAttribute.data) {
+                payload.tokpedAttribute.data.attributes = payload.tokpedAttribute.data.attributes?.filter(v => v)
             }
 
             payload.fieldConfig.field_spin = payload.fieldConfig.field_spin.map((fieldSpin) => {
@@ -91,8 +97,12 @@ export class ProductManualUpdateModel {
                     error: "gagal menyimpan informasi produk",
                 }),
                 this.applyUpdate(mutateShopeeAttribute, payload.shopeeAttribute, {
-                    success: "atribut produk tersimpan",
-                    error: "gagal menyimpan atribut produk",
+                    success: "atribut shopee tersimpan",
+                    error: "gagal menyimpan atribut shopee",
+                }),
+                this.applyUpdate(mutateTokopediaAttribute, payload.tokpedAttribute, {
+                    success: "atribut tokopedia tersimpan",
+                    error: "gagal menyimpan atribut tokopedia",
                 }),
                 this.applyUpdate(mutateFieldConfig, payload.fieldConfig, {
                     success: "field config tersimpan",

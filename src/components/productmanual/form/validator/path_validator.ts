@@ -1,5 +1,5 @@
 import { Rule } from "antd/es/form"
-import { PathCheckPayload, PathCheckResponse, SendOptions } from "../../../../model/apisdk"
+import { PathCheckPayload, PathCheckResponse, SendOptions } from "../../../../model/newapisdk"
 
 export type CheckFS = (
     a: SendOptions<PathCheckResponse, undefined, Error>,

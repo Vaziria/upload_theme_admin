@@ -1,6 +1,6 @@
 import type { FormInstance } from 'rc-field-form';
 
-import { Variant, VariantOption } from "../apisdk"
+import { Variant, VariantOption } from "../newapisdk"
 import { FormModel } from "./ProductManualForm"
 
 export type VariantDetail = Pick<Variant, "names" | "values"> & {

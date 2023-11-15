@@ -1,7 +1,19 @@
 import noimg from "../../assets/images/no-image.webp";
 import { BASEURL } from "../../api/client"
 import { currency_custom } from "../../utils/currency"
-import { AttributeProduct, Collection, FieldConfig, FrameConfig, ManualProduct, ProductMap, ShopeeAttribute, Variant, VariantImage, VariantOption, WatermarkConfig } from "../apisdk"
+import {
+	AttributeProduct,
+	Collection,
+	FieldConfig,
+	FrameConfig,
+	ManualProduct,
+	ProductMap,
+	ShopeeAttribute,
+	Variant,
+	VariantImage,
+	VariantOption,
+	WatermarkConfig
+} from "../newapisdk"
 
 export interface VariantPreviewItem {
 	original_text: string

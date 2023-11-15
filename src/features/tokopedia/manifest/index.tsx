@@ -47,7 +47,7 @@ export function getChainName(idnya: number): string[] {
   for(let i = 0; i < categories.length; i++){
     const categ = categories[i]
     
-    if(parseInt(categ._id) === idnya){
+    if(categ._id === idnya){
       console.log(categ)
       return categ.category
     }

@@ -9,7 +9,7 @@ export const tokopediaCategoryValueState = selectorFamily<ITokpedCateg | undefin
 
         const categories = get(tokopediaPublicCategoriesState)
         for (const category of categories) {
-            if (catid.toString() === category._id) {
+            if (catid === category._id) {
                 return category
             }
         }
