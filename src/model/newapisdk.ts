@@ -963,9 +963,20 @@ export interface ManualShopeeUploadQueryCli {
 export interface ManualTokopediaUploadQueryCli {
 	base: string
 	use_mapper: boolean
+	reset: boolean
+	one_to_multi: boolean
+	limit: number
 }
 
 export interface ShopeeUploadQueryCli {
+	base: string
+}
+
+export interface ShopeeTopedUploadQueryCli {
+	base: string
+}
+
+export interface TopedTopedUploadQueryCli {
 	base: string
 }
 
@@ -3767,7 +3778,10 @@ export const clients = {
 		method: "GET" as const,
 		query: {
 				base: ``,
-				use_mapper: false
+				use_mapper: false,
+				reset: false,
+				one_to_multi: false,
+				limit: 0
 			} as ManualTokopediaUploadQueryCli ,
 		body: {},
 		response: {} as any
@@ -3793,7 +3807,9 @@ export const clients = {
 	GetTokopediaUploadShopee: {
 		url: "tokopedia/upload/shopee" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			base: ``
+		},
 		body: {},
 		response: {
 			msg: ``,
@@ -3803,7 +3819,9 @@ export const clients = {
 	GetTokopediaUploadTokopedia: {
 		url: "tokopedia/upload/tokopedia" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			base: ``
+		},
 		body: {},
 		response: {
 			msg: ``,
