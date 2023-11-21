@@ -5,7 +5,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ColDeletePayload, CollectionItem, SendOptions } from "../../model/apisdk";
+import { ColDeletePayload, CollectionItem, SendOptions } from "../../model/newapisdk";
 import { collectionListSelectedState } from "../../recoil/atoms/collection_list";
 import { productManualCollectionIsSelectedIdState, productManualCollectionIsSelectedState } from "../../recoil/selectors/collection_list_page";
 

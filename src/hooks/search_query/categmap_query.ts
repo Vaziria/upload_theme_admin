@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
 import { MarketList } from "../../model/Common";
-import { ProductListQuery } from "../../model/apisdk";
+import { ProductListQuery } from "../../model/newapisdk";
 import { MapperPageFilter } from "../../recoil/selectors/mapper_items_page";
 import { createSearchParams, searchParamsToQuery } from "../../utils/params";
 

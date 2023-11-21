@@ -3,7 +3,7 @@ import React from "react";
 
 
 import { ColumnsType } from "antd/es/table";
-import { Variant } from "../../../model/apisdk";
+import { Variant } from "../../../model/newapisdk";
 import { FormModel } from "../../../model/product_manual/ProductManualForm";
 import { requiredValidator } from "./validator/basic_validator";
 import { priceValidator } from "./validator/price_validator";

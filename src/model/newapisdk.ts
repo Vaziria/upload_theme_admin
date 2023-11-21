@@ -930,6 +930,29 @@ export interface EtalasePayload {
 	cat_ids: Array<number>
 }
 
+export interface TokopediaAttributeQuery {
+	cat_id: number
+}
+
+export interface DataValue {
+	id: number
+	name: string
+	selected: boolean
+	__typename: string
+}
+
+export interface AnnotationData {
+	variant: string
+	sortOrder: number
+	values: Array<DataValue>
+	__typename: string
+}
+
+export interface TokopediaAttributeResponse {
+	exist: boolean
+	attributes: Array<AnnotationData | undefined>
+}
+
 export interface ManualShopeeUploadQueryCli {
 	base: string
 	reset: boolean
@@ -940,9 +963,20 @@ export interface ManualShopeeUploadQueryCli {
 export interface ManualTokopediaUploadQueryCli {
 	base: string
 	use_mapper: boolean
+	reset: boolean
+	one_to_multi: boolean
+	limit: number
 }
 
 export interface ShopeeUploadQueryCli {
+	base: string
+}
+
+export interface ShopeeTopedUploadQueryCli {
+	base: string
+}
+
+export interface TopedTopedUploadQueryCli {
 	base: string
 }
 
@@ -962,8 +996,14 @@ export interface TokopediaToShopeeAutoSuggestQuery {
 	namespace: string
 }
 
+export interface SourceAttributeQuery {
+	product_id: number
+	attribute_type: string
+}
+
 export interface TokopediaAttribute {
 	categories: Array<number>
+	attributes: Array<string>
 }
 
 export interface AttributeResTokopediaAttribute {
@@ -3686,6 +3726,41 @@ export const clients = {
 				} as EtalasePayload | undefined
 		] as Array<EtalasePayload | undefined>
 	},
+	GetTokopediaAttributeUpdaterAttribute: {
+		url: "tokopedia/attribute/updater_attribute" as const,
+		method: "GET" as const,
+		query: {
+				base: ``
+			} as UpdaterAttributeCli ,
+		body: {},
+		response: {} as any
+	},
+	GetTokopediaAttributeGetAttribute: {
+		url: "tokopedia/attribute/get_attribute" as const,
+		method: "GET" as const,
+		query: {
+			cat_id: 0
+		},
+		body: {},
+		response: {
+			exist: false,
+			attributes: [
+			{
+					variant: ``,
+					sortOrder: 0,
+					values: [
+					{
+						id: 0,
+						name: ``,
+						selected: false,
+						__typename: ``
+					}
+					] as Array<DataValue>,
+					__typename: ``
+				} as AnnotationData | undefined
+			] as Array<AnnotationData | undefined>
+		}
+	},
 	GetUploadV6ManualToShopee: {
 		url: "upload/v6/manual_to_shopee" as const,
 		method: "GET" as const,
@@ -3703,7 +3778,10 @@ export const clients = {
 		method: "GET" as const,
 		query: {
 				base: ``,
-				use_mapper: false
+				use_mapper: false,
+				reset: false,
+				one_to_multi: false,
+				limit: 0
 			} as ManualTokopediaUploadQueryCli ,
 		body: {},
 		response: {} as any
@@ -3729,7 +3807,9 @@ export const clients = {
 	GetTokopediaUploadShopee: {
 		url: "tokopedia/upload/shopee" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			base: ``
+		},
 		body: {},
 		response: {
 			msg: ``,
@@ -3739,7 +3819,9 @@ export const clients = {
 	GetTokopediaUploadTokopedia: {
 		url: "tokopedia/upload/tokopedia" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			base: ``
+		},
 		body: {},
 		response: {
 			msg: ``,
@@ -3778,8 +3860,9 @@ export const clients = {
 		url: "pdcsource/attr_toped" as const,
 		method: "GET" as const,
 		query: {
-				cat_id: 0
-			} as AttributeQuery ,
+				product_id: 0,
+				attribute_type: ``
+			} as SourceAttributeQuery ,
 		body: {},
 		response: {
 				err_msg: ``,
@@ -3787,7 +3870,10 @@ export const clients = {
 				{
 						categories: [
 						0
-						] as Array<number>
+						] as Array<number>,
+						attributes: [
+						``
+						] as Array<string>
 					} as TokopediaAttribute | undefined
 				] as Array<TokopediaAttribute | undefined>
 			} as AttributeResTokopediaAttribute 
@@ -3802,7 +3888,10 @@ export const clients = {
 				data: {
 						categories: [
 						0
-						] as Array<number>
+						] as Array<number>,
+						attributes: [
+						``
+						] as Array<string>
 					} as TokopediaAttribute | undefined
 			} as CreateAttributePayloadTokopediaAttribute ,
 		response: {
@@ -3810,7 +3899,10 @@ export const clients = {
 				data: {
 						categories: [
 						0
-						] as Array<number>
+						] as Array<number>,
+						attributes: [
+						``
+						] as Array<string>
 					} as TokopediaAttribute | undefined
 			} as CreateAttributeResTokopediaAttribute 
 	},
@@ -3818,8 +3910,9 @@ export const clients = {
 		url: "pdcsource/att_shopee" as const,
 		method: "GET" as const,
 		query: {
-				cat_id: 0
-			} as AttributeQuery ,
+				product_id: 0,
+				attribute_type: ``
+			} as SourceAttributeQuery ,
 		body: {},
 		response: {
 				err_msg: ``,

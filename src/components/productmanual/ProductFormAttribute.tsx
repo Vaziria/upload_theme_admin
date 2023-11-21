@@ -1,8 +1,10 @@
-import { Card, Divider, Space, Typography } from "antd";
+import { Card, Divider, Space } from "antd";
 import React from "react";
 
 import AttributeShopeeCategoryForm from "./form/AttributeShopeeCategoryForm";
 import AttributeShopeeSpecsForm from "./form/AttributeShopeeSpecsForm";
+import AttributeTokopediaCategoryForm from "./form/AttributeTokopediaCategoryForm";
+import AttributeTokopediaSpecsForm from "./form/AttributeTokopediaSpecsForm";
 
 const ProductFormAttribute: React.FC = (): JSX.Element => {
 
@@ -23,9 +25,11 @@ const ProductFormAttribute: React.FC = (): JSX.Element => {
             </Card>
 
             <Card title="Tokopedia" size="small" type="inner" className="c-bg-gray">
-                <Typography.Text type="secondary">
-                    Belum support atribut Tokopedia
-                </Typography.Text>
+                <Space direction="vertical" className="c-flex">
+                    <AttributeTokopediaCategoryForm />
+                    <Divider>Spesifikasi</Divider>
+                    <AttributeTokopediaSpecsForm />
+                </Space>
             </Card>
         </Space>
     </Card>

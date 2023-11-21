@@ -207,7 +207,7 @@ export interface ManualProduct {
 	title: string
 	price: number
 	desc: string
-	use_variant: boolean
+	use_variant: boolean | undefined
 	use_markup: string
 	weight: number
 	stock: number
@@ -273,7 +273,7 @@ export interface BasicUpdatePayload {
 	title: string
 	price: number
 	desc: string
-	use_variant: boolean
+	use_variant: boolean | undefined
 	use_markup: string
 	weight: number
 	stock: number
@@ -550,7 +550,7 @@ export const clients = {
 						title: ``,
 						price: 0,
 						desc: ``,
-						use_variant: false,
+						use_variant: false as boolean | undefined,
 						use_markup: ``,
 						weight: 0,
 						stock: 0,
@@ -694,7 +694,7 @@ export const clients = {
 						title: ``,
 						price: 0,
 						desc: ``,
-						use_variant: false,
+						use_variant: false as boolean | undefined,
 						use_markup: ``,
 						weight: 0,
 						stock: 0,
@@ -810,7 +810,7 @@ export const clients = {
 						title: ``,
 						price: 0,
 						desc: ``,
-						use_variant: false,
+						use_variant: false as boolean | undefined,
 						use_markup: ``,
 						weight: 0,
 						stock: 0,
@@ -931,7 +931,7 @@ export const clients = {
 				title: ``,
 				price: 0,
 				desc: ``,
-				use_variant: false,
+				use_variant: false as boolean | undefined,
 				use_markup: ``,
 				weight: 0,
 				stock: 0

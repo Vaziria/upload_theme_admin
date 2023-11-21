@@ -2,8 +2,10 @@
 
 export interface ITokpedCateg {
     category: string[]
-    _id: string,
-    id: string,
-    parentid: string
+    category_ids: number[]
+    _id: number,
+    id: number,
+    parentid: number
     name: string
+    has_children: boolean
 }

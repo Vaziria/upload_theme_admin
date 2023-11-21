@@ -6,7 +6,7 @@ import { useRecoilState } from "recoil";
 import { useGoBack } from "../hooks/back";
 import { useMutation } from "../hooks/mutation";
 import { useProductListQuery } from "../hooks/search_query/productlist_query";
-import { useQuery } from "../model/apisdk";
+import { useQuery } from "../model/newapisdk";
 import { productManualListState } from "../recoil/atoms/product_manual";
 import { getErrMessage } from "../utils/errmsg";
 

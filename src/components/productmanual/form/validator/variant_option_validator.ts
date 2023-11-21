@@ -1,7 +1,7 @@
 import { FormListFieldData, Rule } from "antd/es/form";
 import type { ValidatorRule } from 'rc-field-form/lib/interface';
 
-import { VariantOption } from "../../../../model/apisdk";
+import { VariantOption } from "../../../../model/newapisdk";
 import { FormModelInstance } from "../../../../model/product_manual/ProductManualForm";
 
 function validator(_: unknown, options?: VariantOption[]): Promise<void> {

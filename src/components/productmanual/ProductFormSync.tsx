@@ -2,6 +2,7 @@ import { Affix, Button, Card } from "antd"
 import React from "react"
 
 import { updateShopeeAttributes } from "../../api/shopee/attribute"
+import { updateTokopediaAttributes } from "../../api/tokopedia/attribute"
 
 const ProductFormSync: React.FC = () => {
     return <Affix offsetTop={16}>
@@ -21,11 +22,11 @@ const ProductFormSync: React.FC = () => {
                 <Button
                     block
                     type="primary"
-                    disabled={true}
                     style={{
-                        // background: "#389e0d"
+                        background: "#389e0d"
                     }}
                     icon={<i className="fas fa-sync" />}
+                    onClick={updateTokopediaAttributes}
                 >
                     Atribut Tokopedia
                 </Button>

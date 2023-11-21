@@ -2,7 +2,7 @@ import { Divider } from "antd"
 import { DefaultOptionType, SelectProps } from "antd/es/select"
 import React from "react"
 
-import { AttributePayload } from "../../model/apisdk"
+import { AttributePayload } from "../../model/newapisdk"
 import { AttributeInputProps } from "./base"
 
 import AddButton from "../button/AddButton"

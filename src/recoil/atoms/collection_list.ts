@@ -1,5 +1,5 @@
 import { atom } from "recoil"
-import { CollectionResList } from "../../model/apisdk"
+import { CollectionResList } from "../../model/newapisdk"
 
 export const collectionSelectState = atom<CollectionResList["data"]>({
     key: "collectionSelect",

@@ -5,7 +5,7 @@ import { withRouter } from "react-router-dom"
 import { useRecoilState } from "recoil"
 import { useMutation } from "../hooks/mutation"
 import { useCollectionListQuery } from "../hooks/search_query/collectionlist_query"
-import { useQuery } from "../model/apisdk"
+import { useQuery } from "../model/newapisdk"
 import { collectionListState } from "../recoil/atoms/collection_list"
 
 import Dataview from "../components/common/Dataview"

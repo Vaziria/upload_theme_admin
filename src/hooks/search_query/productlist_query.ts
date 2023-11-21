@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory, useLocation } from "react-router-dom";
 
-import { ProductListQuery } from "../../model/apisdk";
+import { ProductListQuery } from "../../model/newapisdk";
 import { createSearchParams, searchParamsToQuery } from "../../utils/params";
 
 const defaultQuery = {

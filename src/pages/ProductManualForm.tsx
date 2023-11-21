@@ -8,7 +8,6 @@ import { useQuery } from "../model/apisdk";
 import { FormModel, ProductManualFormModel } from "../model/product_manual/ProductManualForm";
 import { ProductManualFormProgressModel } from "../model/product_manual/ProductManualFormProgress";
 import { ProductManualUpdateModel } from "../model/product_manual/ProductManualUpdate";
-import { useSetShopeeAttribute } from "../recoil/callbacks/set_shopee_attribute";
 import { getErrMessage } from "../utils/errmsg";
 
 import ProductFormAttribute from "../components/productmanual/ProductFormAttribute";
@@ -17,6 +16,8 @@ import ProductFormFieldConfig from "../components/productmanual/ProductFormField
 import ProductFormProgress from "../components/productmanual/ProductFormProgress";
 import ProductFormSync from "../components/productmanual/ProductFormSync";
 import ProductFormVariant from "../components/productmanual/ProductFormVariant";
+import { useInitShopeeAttributeForm } from "../hooks/product_manual/use_init_shopee_attribute_form";
+import { useInitTokopediaAttributeForm } from "../hooks/product_manual/use_init_tokopedia_attribute_form";
 
 interface Params {
     colid: string
@@ -28,14 +29,15 @@ const ProductManualForm: React.FC = (): JSX.Element => {
     const goback = useGoBack()
     const location = useLocation()
     const params = useParams<Params>()
-    const setShopeeAttribute = useSetShopeeAttribute()
 
     const pid = parseInt(params.pid)
     const formModel = new ProductManualFormModel(pid)
     const [showPromt, setShowPromt] = React.useState(false)
 
+    const initShopeeAttribute = useInitShopeeAttributeForm(pid, formModel)
+    const initTokopediaAttribute = useInitTokopediaAttributeForm(pid, formModel)
+
     const { data, pending, error, send: getProduct } = useQuery("GetPdcsourceProductItem")
-    const { send: getAttributeShopee } = useQuery("GetPdcsourceAttShopee")
     const isPublish = !data?.data?.as_draft
 
     // handle page refresh
@@ -60,35 +62,8 @@ const ProductManualForm: React.FC = (): JSX.Element => {
             }
         })
 
-        getAttributeShopee({
-            query: {
-                product_id: pid,
-                attribute_type: "shopee"
-            },
-            async onSuccess({ data }) {
-                const dataAttribute = data[0]
-                if (dataAttribute) {
-                    const { categories, attributes } = dataAttribute
-                    const shopeeAttribues = await setShopeeAttribute(categories)
-                    const mapAttribues = shopeeAttribues.map((sattr) => {
-                        return attributes.find((attr) => attr?.attribute_id === sattr.attributeId)
-                    })
-
-                    formModel.form.setFieldsValue({
-                        shopeeAttribute: {
-                            data: {
-                                categories,
-                                attributes: mapAttribues
-                            }
-                        },
-                    })
-                }
-            },
-            onError(err) {
-                const msg = getErrMessage(err as Error, "gagal mendapatkan attribute shopee.")
-                message.error(msg)
-            }
-        })
+        initShopeeAttribute()
+        initTokopediaAttribute()
 
         window.addEventListener("beforeunload", alertUser)
         return () => window.removeEventListener("beforeunload", alertUser)

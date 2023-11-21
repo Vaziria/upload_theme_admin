@@ -6,6 +6,7 @@ import { InternalNamePath } from "antd/es/form/interface";
 import { FormModel, FormModelKey, ProductManualFormModel } from "./ProductManualForm";
 import { useRecoilValue } from "recoil";
 import { shopeeAttributeFormState } from "../../recoil/atoms/shopee_attribute";
+import { debounce } from "../../utils/debounce";
 
 export type ValidatePayload<T> = {
 	validate: true
@@ -82,8 +83,7 @@ export class ProductManualFormProgressModel {
 		const data = Form.useWatch([], this.formModel.form)
 
 		const shopeeAttributes = useRecoilValue(shopeeAttributeFormState)
-
-		React.useEffect(() => {
+		const progressEffect = () => {
 			this.formModel.form.validateFields({ validateOnly: true })
 				.then(() => setProgress({
 					basic: { ...successProgress },
@@ -114,9 +114,14 @@ export class ProductManualFormProgressModel {
 						variant: validateErr.errorFields.reduce(progressReducer("variant", variantLen, 2), { ...defProgress }),
 						fieldConfig: validateErr.errorFields.reduce(progressReducer("fieldConfig", fieldConfigLen, 2), { ...defProgress }),
 						shopeeAttribute: validateErr.errorFields.reduce(progressReducer("shopeeAttribute", shopeeAttrLen, 3), { ...defProgress }),
-						tokpedAttribute: { ...successProgress },
+						tokpedAttribute: validateErr.errorFields.reduce(progressReducer("tokpedAttribute", shopeeAttrLen, 3), { ...defProgress }),
 					})
 				})
+		}
+
+		const progressEffectBouncer = debounce(progressEffect, 500)
+		React.useEffect(() => {
+			progressEffectBouncer()
 		}, [data])
 
 		return progress

@@ -2,7 +2,7 @@ import { Badge, Button, Col, Empty, Form, FormListFieldData, Input, Row, Space, 
 import { ColumnsType } from "antd/es/table";
 import React from "react";
 
-import { UseOnceText } from "../../../model/apisdk";
+import { UseOnceText } from "../../../model/newapisdk";
 
 import { UploadChangeParam, UploadFile } from "antd/es/upload";
 import { FieldType, fieldLabels } from "../../../model/product_manual/FieldConfig";

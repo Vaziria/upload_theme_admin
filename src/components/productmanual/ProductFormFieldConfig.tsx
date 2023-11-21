@@ -3,7 +3,7 @@ import { DefaultOptionType } from "antd/es/select";
 import React from "react";
 
 import { useMutation } from "../../hooks/mutation";
-import { FieldConfig } from "../../model/apisdk";
+import { FieldConfig } from "../../model/newapisdk";
 import { FieldType, fieldLabels, fieldTypes } from "../../model/product_manual/FieldConfig";
 import { getErrMessage } from "../../utils/errmsg";
 

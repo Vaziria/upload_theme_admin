@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { ClientReturn, Clients, MaybeNull, SendOptions, Target, clients } from "../model/apisdk";
+import { ClientReturn, Clients, MaybeNull, SendOptions, Target, clients } from "../model/newapisdk";
 
 export interface MutationClientReturn<Data, Query, Body, Err = Error> extends Omit<ClientReturn<Data, Query, Err>, "send">{
     mutate(a: SendOptions<Data, Query, Err>, b?: Partial<Body>): void
