@@ -1,202 +1,238 @@
-import React from "react"
-import { Button, Col, Divider, Row, Select, Space } from 'antd';
+import { Button, Col, Divider, message, Row, Select, Space } from 'antd';
+import React from "react";
 
-import { 
-  deleteTask, getTaskAll, runGrabShopee,
-  runGrabTokopedia, saveTask,
-} from "../api/task"
+import {
+    deleteTask, getTaskAll,
+    saveTask
+} from "../api/task";
 
-import TaskItem from "../components/grab/TaskItem"
-import { MarketList } from "../model/Common"
-import { emitEvent } from "../event"
-import { createTaskId, ITask } from "../model/Task"
+import TaskItem from "../components/grab/TaskItem";
+import { emitEvent } from "../event";
+import { MarketList } from "../model/Common";
+import { useQuery } from "../model/newapisdk";
+import { createTaskId, ITask } from "../model/Task";
 
 interface IState {
-  tasks: ITask[]
-  loading: boolean
-  mode: MarketList
+    tasks: ITask[]
+    loading: boolean
+    mode: MarketList
+}
+
+const RunShopeeGrab: React.FC = () => {
+
+    const { send } = useQuery("GetLauncherV1RunGrabShopee")
+    function runGrab() {
+        send({
+            onSuccess(res) {
+                if (res.empty_csv) {
+                    message.warning("csv tidak ada category tersedia untuk grab")
+                }
+            },
+        })
+    }
+
+    return <Button
+        type="primary"
+        style={{ backgroundColor: "#ff4d4f" }}
+        onClick={runGrab}
+    >
+        <small>GRAB SHOPEE</small>
+    </Button>
+}
+
+const RunTokopediaGrab: React.FC = () => {
+
+    const { send } = useQuery("GetLauncherV1RunGrabTokopedia")
+    function runGrab() {
+        send({
+            onSuccess(res) {
+                if (res.empty_csv) {
+                    message.warning("csv tidak ada category tersedia untuk grab")
+                }
+                if (res.deprecated) {
+                    message.warning("csv deprecated, silahkan update")
+                }
+            },
+        })
+    }
+
+    return <Button
+        type="primary"
+        style={{ backgroundColor: "#52c41a" }}
+        onClick={runGrab}
+    >
+        <small>GRAB TOKOPEDIA</small>
+    </Button>
 }
 
 export class TaskGrab extends React.Component<unknown, IState> {
 
-  state: IState = {
-    tasks: [],
-    loading: true,
-    mode: "shopee"
-  }
+    state: IState = {
+        tasks: [],
+        loading: true,
+        mode: "shopee"
+    }
 
-  async get(): Promise<void> {
-    const tasks: ITask[] = await getTaskAll()
-    this.setState({
-      tasks,
-      loading: false
-    })
-  }
+    async get(): Promise<void> {
+        const tasks: ITask[] = await getTaskAll()
+        this.setState({
+            tasks,
+            loading: false
+        })
+    }
 
-  async componentDidMount(): Promise<void> {
-    await this.get()
-  }
+    async componentDidMount(): Promise<void> {
+        await this.get()
+    }
 
-  updateData(id: string, data: Partial<ITask>): void {
-    const tasks = this.state.tasks.map((task) => {
-      if(task._id === id){
-        const newtask = { ...task, ...data }
-        console.log(newtask)
-        return newtask
-      }
+    updateData(id: string, data: Partial<ITask>): void {
+        const tasks = this.state.tasks.map((task) => {
+            if (task._id === id) {
+                const newtask = { ...task, ...data }
+                console.log(newtask)
+                return newtask
+            }
 
-      return task
-    })
+            return task
+        })
 
-    this.setState({
-      tasks
-    })
-  }
+        this.setState({
+            tasks
+        })
+    }
 
-  async onDelete(taskdel: ITask): Promise<void> {
-    const tasks: ITask[] = this.state.tasks.filter((task)=> task._id !== taskdel._id)
-    this.setState({
-      tasks
-    })
-    await deleteTask(taskdel._id)
-    
-    emitEvent('show_msg', {
-      msg: 'Delete Berhasil....'
-    })
-  }
+    async onDelete(taskdel: ITask): Promise<void> {
+        const tasks: ITask[] = this.state.tasks.filter((task) => task._id !== taskdel._id)
+        this.setState({
+            tasks
+        })
+        await deleteTask(taskdel._id)
 
-  onCopy(task: ITask): void {
-    const tasks: ITask[] = [task, ...this.state.tasks]
-    this.setState({
-      tasks
-    })
-  }
+        emitEvent('show_msg', {
+            msg: 'Delete Berhasil....'
+        })
+    }
 
-  renderTask(task: ITask): JSX.Element {
-    return <TaskItem
-      update={(id, data) => this.updateData(id, data)}
-      delete={(task)=> this.onDelete(task)}
-      copy={(task)=> this.onCopy(task)}
-      task={task}
-      key={task._id}
-    ></TaskItem>
-  }
+    onCopy(task: ITask): void {
+        const tasks: ITask[] = [task, ...this.state.tasks]
+        this.setState({
+            tasks
+        })
+    }
 
-  addTask(): void {
-    const task: ITask = {
-      _id: createTaskId(),
-      toko_username: '',
-      mode: 'category',
-      marketplace: this.state.mode,
-      product_url: '',
-      namespace: 'default',
-      tokped_categ: ["0", "0", "0"],
-      use_filter: false,
-      keyword: ''
+    renderTask(task: ITask): JSX.Element {
+        return <TaskItem
+            update={(id, data) => this.updateData(id, data)}
+            delete={(task) => this.onDelete(task)}
+            copy={(task) => this.onCopy(task)}
+            task={task}
+            key={task._id}
+        ></TaskItem>
+    }
+
+    addTask(): void {
+        const task: ITask = {
+            _id: createTaskId(),
+            toko_username: '',
+            mode: 'category',
+            marketplace: this.state.mode,
+            product_url: '',
+            namespace: 'default',
+            tokped_categ: ["0", "0", "0"],
+            use_filter: false,
+            keyword: ''
+
+        }
+
+        this.setState({
+            tasks: [task, ...this.state.tasks]
+        })
 
     }
 
-    this.setState({
-      tasks: [task, ...this.state.tasks]
-    })
+    async save(): Promise<void> {
+        await saveTask(this.state.tasks)
+        await this.get()
 
-  }
-
-  async save(): Promise<void> {
-    await saveTask(this.state.tasks)
-    await this.get()
-
-    emitEvent('show_msg', {
-      msg: 'Save Task Berhasil....'
-    })
-  }
-
-  renderGrabButton(): JSX.Element {
-    
-    if (this.state.mode === "shopee") {
-      return <Button
-        type="primary"
-        style={{ backgroundColor: "#ff4d4f" }}
-        onClick={() => runGrabShopee()}
-      >
-        <small>GRAB SHOPEE</small>
-      </Button>
+        emitEvent('show_msg', {
+            msg: 'Save Task Berhasil....'
+        })
     }
 
-    return <Button
-      type="primary"
-      style={{ backgroundColor: "#52c41a" }}
-      onClick={() => runGrabTokopedia()}
-    >
-      <small>GRAB TOKOPEDIA</small>
-    </Button>
-  }
+    renderGrabButton(): JSX.Element {
 
-  render(): JSX.Element {
-    const tasks = this.state.tasks
-    const loading = this.state.loading
+        if (this.state.mode === "shopee") {
+            return <RunShopeeGrab />
+        }
 
-    return (
-      <div className="mt-5">
-        <div className="mx-2 mt-4">
+        return <RunTokopediaGrab />
+    }
 
-        <Row gutter={10}>
+    render(): JSX.Element {
+        const tasks = this.state.tasks
+        const loading = this.state.loading
 
-          <Col span={24}>
-            <h2>Tasker :</h2>
+        return (
+            <div className="mt-5">
+                <div className="mx-2 mt-4">
 
-            <Space direction="horizontal">
+                    <Row gutter={10}>
 
-              <Select
-                defaultValue={this.state.mode}
-                onChange={(mode) => this.setState({ mode })}
-                style={{ minWidth: "120px" }}
-                options={[
-                  { value: 'shopee', label: 'Shopee' },
-                  { value: 'tokopedia', label: 'Tokopedia' },
-                ]}
-              />
+                        <Col span={24}>
+                            <h2>Tasker :</h2>
 
-              <Button
-                type="primary"
-                onClick={() => this.addTask()}
-              >
-                <small>ADD</small>
-              </Button>
+                            <Space direction="horizontal">
 
-              <Button
-                type="primary"
-                style={{ backgroundColor: "#fa8c16" }}
-                onClick={() => this.save()}
-              >
-                <small>SAVE</small>
-              </Button>
+                                <Select
+                                    defaultValue={this.state.mode}
+                                    onChange={(mode) => this.setState({ mode })}
+                                    style={{ minWidth: "120px" }}
+                                    options={[
+                                        { value: 'shopee', label: 'Shopee' },
+                                        { value: 'tokopedia', label: 'Tokopedia' },
+                                    ]}
+                                />
 
-              {this.renderGrabButton()}
+                                <Button
+                                    type="primary"
+                                    onClick={() => this.addTask()}
+                                >
+                                    <small>ADD</small>
+                                </Button>
 
-            </Space>
-          </Col>
+                                <Button
+                                    type="primary"
+                                    style={{ backgroundColor: "#fa8c16" }}
+                                    onClick={() => this.save()}
+                                >
+                                    <small>SAVE</small>
+                                </Button>
 
-          <Col span={24}>
+                                {this.renderGrabButton()}
 
-            <Divider />
+                            </Space>
+                        </Col>
 
-            <div>
-                {
-                  tasks
-                    .filter((task => task.marketplace == this.state.mode))
-                    .map((task) => this.renderTask(task))
-                }
-                { loading &&
-                  <strong>Loading.......</strong>
-                }
-              </div>
-          </Col>
+                        <Col span={24}>
 
-        </Row>
+                            <Divider />
 
-        </div>
-      </div>
-    )
-  }
+                            <div>
+                                {
+                                    tasks
+                                        .filter((task => task.marketplace == this.state.mode))
+                                        .map((task) => this.renderTask(task))
+                                }
+                                {loading &&
+                                    <strong>Loading.......</strong>
+                                }
+                            </div>
+                        </Col>
+
+                    </Row>
+
+                </div>
+            </div>
+        )
+    }
 }

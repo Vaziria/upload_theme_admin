@@ -15,8 +15,19 @@ export interface GrabShopeeQueryCli {
 	base: string
 }
 
+export interface GrabShopeeResponse {
+	use_csv: boolean
+	empty_csv: boolean
+}
+
 export interface GrabTokopediaQueryCli {
 	base: string
+}
+
+export interface GrabTokopediaResponse {
+	deprecated: boolean
+	use_csv: boolean
+	empty_csv: boolean
 }
 
 export interface DataSpinQuery {
@@ -1327,7 +1338,10 @@ export const clients = {
 				base: ``
 			} as GrabShopeeQueryCli ,
 		body: {},
-		response: {} as any
+		response: {
+			use_csv: false,
+			empty_csv: false
+		}
 	},
 	GetLauncherV1RunGrabTokopedia: {
 		url: "launcher/v1/run_grab_tokopedia" as const,
@@ -1336,7 +1350,11 @@ export const clients = {
 				base: ``
 			} as GrabTokopediaQueryCli ,
 		body: {},
-		response: {} as any
+		response: {
+			deprecated: false,
+			use_csv: false,
+			empty_csv: false
+		}
 	},
 	GetLegacyApiDataspin: {
 		url: "legacy/api/dataspin" as const,
