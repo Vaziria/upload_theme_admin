@@ -65,6 +65,16 @@ const RunTokopediaGrab: React.FC = () => {
     </Button>
 }
 
+const RunJakmallGrab: React.FC = () => {
+
+    return <Button
+        type="primary"
+        style={{ backgroundColor: "#fa541c" }}
+    >
+        <small>GRAB JAKMALL</small>
+    </Button>
+}
+
 export class TaskGrab extends React.Component<unknown, IState> {
 
     state: IState = {
@@ -165,6 +175,10 @@ export class TaskGrab extends React.Component<unknown, IState> {
             return <RunShopeeGrab />
         }
 
+        if (this.state.mode === "jakmall") {
+            return <RunJakmallGrab />
+        }
+
         return <RunTokopediaGrab />
     }
 
@@ -190,6 +204,7 @@ export class TaskGrab extends React.Component<unknown, IState> {
                                     options={[
                                         { value: 'shopee', label: 'Shopee' },
                                         { value: 'tokopedia', label: 'Tokopedia' },
+                                        { value: 'jakmall', label: 'Jakmall' },
                                     ]}
                                 />
 

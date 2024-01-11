@@ -21,12 +21,14 @@ import { loadMarkup } from './features/markup'
 import { getSearchShopeeShipping, getShopeeCities, shopeeGetManifest } from "./features/shopee/manifest"
 import { loadSpin } from './features/spin'
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
-import { useQuery } from './model/apisdk'
+import { useQuery } from './model/newapisdk'
 import { shopeePublicCategoriesState, shopeeSellerCategoriesState, tokopediaPublicCategoriesState } from "./recoil/atoms/categories"
 import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
+import { setJakmallCategoriesCallback } from './recoil/callbacks/set_jakmall_categories'
+import { setJakmallFilterDataCallback } from './recoil/callbacks/set_jakmall_filter'
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = BASEURL
@@ -39,8 +41,12 @@ const Loader: React.FC = () => {
     const setNamespaceData = useSetRecoilState(namespaceDataState)
     const setProductManualCollection = useSetRecoilState(collectionSelectState)
     const setMarkupData = useSetRecoilState(markupDataState)
+    const setJakmallCategories = setJakmallCategoriesCallback()
+    const setJakmallFilterData = setJakmallFilterDataCallback()
 
     const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
+    const { send: getJakmallCategories } = useQuery("GetJakmallCategoryList")
+    const { send: getJakmallFilterData } = useQuery("GetJakmallSearchFilterData")
 
     useEffect(() => {
         Promise.all([
@@ -82,6 +88,14 @@ const Loader: React.FC = () => {
                 onSuccess(res) {
                     setProductManualCollection(res.data)
                 }
+            }),
+
+            getJakmallCategories({
+                onSuccess: setJakmallCategories,
+            }),
+
+            getJakmallFilterData({
+                onSuccess: setJakmallFilterData,
             })
         ])
 

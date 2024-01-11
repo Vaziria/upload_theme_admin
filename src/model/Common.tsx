@@ -1,2 +1,2 @@
-export const marketList = ['shopee', 'tokopedia'] as const
+export const marketList = ['shopee', 'tokopedia', 'jakmall'] as const
 export type MarketList = typeof marketList[number]

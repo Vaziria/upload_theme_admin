@@ -609,6 +609,7 @@ export interface GrabTasker {
 	use_filter: boolean
 	keyword: string
 	shopee_categ: ShopeeCateg
+	jakmall_categ_urls: Array<string>
 }
 
 export interface DumpCategoryQuery {
@@ -962,6 +963,81 @@ export interface AnnotationData {
 export interface TokopediaAttributeResponse {
 	exist: boolean
 	attributes: Array<AnnotationData | undefined>
+}
+
+export interface CheckOrderConfig {
+	useDateRange: boolean
+	startDate: string
+	endDate: string
+	useStatus: boolean
+	statusKeys: Array<string>
+}
+
+export interface TokopediaCheckOrderQueryCli {
+	base: string
+	fname: string
+	output: string
+}
+
+export interface CheckOrderAkunItem {
+	password: string
+	secret: string
+	username: string
+}
+
+export interface CategoryNavigation {
+	name: string
+	url: string
+	icon: string
+	color: string
+	children: Array<CategoryNavigation | undefined>
+}
+
+export interface JkmlCategoryListResponse {
+	msg: string
+	error: string
+	data: Array<CategoryNavigation | undefined>
+}
+
+export interface JkmlWebResponse {
+	msg: string
+	error: string
+}
+
+export interface SearchCityOption {
+	label: string
+	value: string
+}
+
+export interface SearchSortOption {
+	label: string
+	value: string
+}
+
+export interface JkmlSearchDataResponse {
+	msg: string
+	error: string
+	cities: Array<SearchCityOption | undefined>
+	delivery_types: Array<string>
+	sorts: Array<SearchSortOption | undefined>
+}
+
+export interface GrabSearchFilter {
+	category: string
+	price_min: number
+	price_max: number
+	untung_paling_besar: number
+	in_stock: number
+	bulk_price: number
+	delivery_types: Array<string>
+	cities: Array<string>
+	sort: string
+}
+
+export interface JkmlSearchFilterResponse {
+	msg: string
+	error: string
+	data: GrabSearchFilter | undefined
 }
 
 export interface ManualShopeeUploadQueryCli {
@@ -2941,7 +3017,10 @@ export const clients = {
 				parent_display_name: ``,
 				display_name: ``,
 				is_collection: 0
-			}
+			},
+				jakmall_categ_urls: [
+				``
+				] as Array<string>
 			}
 		] as Array<GrabTasker>
 	},
@@ -2968,7 +3047,10 @@ export const clients = {
 				parent_display_name: ``,
 				display_name: ``,
 				is_collection: 0
-			}
+			},
+				jakmall_categ_urls: [
+				``
+				] as Array<string>
 			}
 		] as Array<GrabTasker>,
 		response: {
@@ -3777,6 +3859,142 @@ export const clients = {
 					__typename: ``
 				} as AnnotationData | undefined
 			] as Array<AnnotationData | undefined>
+		}
+	},
+	PutTokopediaCekorderSaveConfig: {
+		url: "tokopedia/cekorder/save_config" as const,
+		method: "PUT" as const,
+		query: undefined,
+		body: {
+				useDateRange: false,
+				startDate: ``,
+				endDate: ``,
+				useStatus: false,
+				statusKeys: [
+				``
+				] as Array<string>
+			} as CheckOrderConfig ,
+		response: {} as any
+	},
+	PutTokopediaCekorderRun: {
+		url: "tokopedia/cekorder/run" as const,
+		method: "PUT" as const,
+		query: {
+				base: ``,
+				fname: ``,
+				output: ``
+			} as TokopediaCheckOrderQueryCli ,
+		body: [
+			{
+					password: ``,
+					secret: ``,
+					username: ``
+				} as CheckOrderAkunItem | undefined
+		] as Array<CheckOrderAkunItem | undefined>,
+		response: {} as any
+	},
+	GetJakmallCategoryList: {
+		url: "jakmall/category/list" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: [
+			{
+					name: ``,
+					url: ``,
+					icon: ``,
+					color: ``,
+					children: [
+					] as Array<CategoryNavigation | undefined>
+				} as CategoryNavigation | undefined
+			] as Array<CategoryNavigation | undefined>
+		}
+	},
+	GetJakmallCategoryDumpCsv: {
+		url: "jakmall/category/dump_csv" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	GetJakmallSearchFilterData: {
+		url: "jakmall/search_filter/data" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			cities: [
+			{
+					label: ``,
+					value: ``
+				} as SearchCityOption | undefined
+			] as Array<SearchCityOption | undefined>,
+			delivery_types: [
+			``
+			] as Array<string>,
+			sorts: [
+			{
+					label: ``,
+					value: ``
+				} as SearchSortOption | undefined
+			] as Array<SearchSortOption | undefined>
+		}
+	},
+	GetJakmallSearchFilter: {
+		url: "jakmall/search_filter" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: {
+				category: ``,
+				price_min: 0,
+				price_max: 0,
+				untung_paling_besar: 0,
+				in_stock: 0,
+				bulk_price: 0,
+				delivery_types: [
+				``
+				] as Array<string>,
+				cities: [
+				``
+				] as Array<string>,
+				sort: ``
+			} as GrabSearchFilter | undefined
+		}
+	},
+	PostJakmallSearchFilter: {
+		url: "jakmall/search_filter" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: {
+			category: ``,
+			price_min: 0,
+			price_max: 0,
+			untung_paling_besar: 0,
+			in_stock: 0,
+			bulk_price: 0,
+			delivery_types: [
+			``
+			] as Array<string>,
+			cities: [
+			``
+			] as Array<string>,
+			sort: ``
+		},
+		response: {
+			msg: ``,
+			error: ``
 		}
 	},
 	GetUploadV6ManualToShopee: {

@@ -27,6 +27,7 @@ import Stock from "../components/uploadconfig/Stock"
 import UpThread from "../components/uploadconfig/UpThread"
 import { emitEvent } from "../event"
 import { MarketList } from "../model/Common"
+import JackmallSearchConfig from "../components/jakmall/JakmallSearchConfig"
 
 // komponen belum terlalu terorganisir
 
@@ -83,7 +84,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
           <div className="col-lg-7">
 
             <div>
-              <br/>
+              <br />
               <BlacklistTitle />
               <FilterTitle />
             </div>
@@ -92,88 +93,89 @@ export default class SettingPage extends React.Component<unknown, IState> {
               <div>
                 <BlacklistWord></BlacklistWord>
               </div>
-              
-            
+
+
               <div>
                 <BlacklistWordAja></BlacklistWordAja>
               </div>
               <SettingSet></SettingSet>
-          </div>
-        </div>
-        <div className="col-lg-5">
-          <div className="row mb-2">
-            {/* <div className="col update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateTokpedCategories()}>UPDATETOPEDCAT</button></div> */}
-            <div className="col-6 update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateShopeeCategories()}>UPDATESHOPEECAT</button></div>
-          </div>
-          <CropImageConfig></CropImageConfig>
-          <GrabInterval></GrabInterval>
-          <div className="colss">
-            <LimitGrab></LimitGrab>
-          </div>
-          <div className="colss">
-            <UpThread></UpThread>
-          </div>
-
-          <div className="colss">
-            <ConcurentRequest></ConcurentRequest>
-          </div>
-
-          <div className="colss">
-            <MinPenjualan></MinPenjualan>
-          </div>
-          <div className="colss">
-            <ProsentaseSold></ProsentaseSold>
-          </div>
-          <div className="colss">
-            <Stock></Stock>
-          </div>
-          <hr />
-
-          <FilterTokpedBadge></FilterTokpedBadge>
-          
-          <p className="warn"><i>*Tokopedia Points Misal Antara Silver 4 - Gold 5 </i></p>
-          <p className="warn"><i>*(Auto Save) </i></p>
-
-          <hr />
-          <LastLogin></LastLogin>
-          <LastReview></LastReview>
-          <hr />
-          <SettingMarkup></SettingMarkup>
-          <hr/>
-          <div className="input-group input-group-sm mb-3">
-            <div className="input-group-prepend">
-              <label className="input-group-text darkorange">Select Mode:</label>
             </div>
-            
-            <br />
-            <MpSelect
-              value={this.state.upmode}
-              onChange={(upmode) => this.setMode(upmode)}
-            ></MpSelect>
-            { this.state.upmode === 'shopee' && <ShopeeUpConfig></ShopeeUpConfig> }
-            { this.state.upmode === 'tokopedia' && <TokopediaUpConfig />}
           </div>
-          <hr/>
+          <div className="col-lg-5">
+            <div className="row mb-2">
+              {/* <div className="col update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateTokpedCategories()}>UPDATETOPEDCAT</button></div> */}
+              <div className="col-6 update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateShopeeCategories()}>UPDATESHOPEECAT</button></div>
+            </div>
+            <CropImageConfig></CropImageConfig>
+            <GrabInterval></GrabInterval>
+            <div className="colss">
+              <LimitGrab></LimitGrab>
+            </div>
+            <div className="colss">
+              <UpThread></UpThread>
+            </div>
 
-          <div className="col-lg-8 setgrab">
-            <div>
-              <AdvancedSetting></AdvancedSetting>
-              <div className="row">
-              <div className="col-lg-12">
-                <div>
-                  <Cloudinary></Cloudinary>
-                  <button className="btn btn-dark btn-sm" type="button" onClick={() => this.backup()}>Backup Data</button>
-                  <RestoreConfig></RestoreConfig>
+            <div className="colss">
+              <ConcurentRequest></ConcurentRequest>
+            </div>
+
+            <div className="colss">
+              <MinPenjualan></MinPenjualan>
+            </div>
+            <div className="colss">
+              <ProsentaseSold></ProsentaseSold>
+            </div>
+            <div className="colss">
+              <Stock></Stock>
+            </div>
+            <hr />
+
+            <FilterTokpedBadge></FilterTokpedBadge>
+
+            <p className="warn"><i>*Tokopedia Points Misal Antara Silver 4 - Gold 5 </i></p>
+            <p className="warn"><i>*(Auto Save) </i></p>
+
+            <hr />
+            <LastLogin></LastLogin>
+            <LastReview></LastReview>
+            <hr />
+            <SettingMarkup></SettingMarkup>
+            <hr />
+            <div className="input-group input-group-sm mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text darkorange">Select Mode:</label>
+              </div>
+
+              <br />
+              <MpSelect
+                value={this.state.upmode}
+                onChange={(upmode) => this.setMode(upmode)}
+              ></MpSelect>
+            </div>
+            {this.state.upmode === 'shopee' && <ShopeeUpConfig />}
+            {this.state.upmode === 'tokopedia' && <TokopediaUpConfig />}
+            {this.state.upmode === 'jakmall' && <JackmallSearchConfig />}
+            <hr />
+
+            <div className="col-lg-8 setgrab">
+              <div>
+                <AdvancedSetting></AdvancedSetting>
+                <div className="row">
+                  <div className="col-lg-12">
+                    <div>
+                      <Cloudinary></Cloudinary>
+                      <button className="btn btn-dark btn-sm" type="button" onClick={() => this.backup()}>Backup Data</button>
+                      <RestoreConfig></RestoreConfig>
+                    </div>
+                  </div>
                 </div>
               </div>
-              </div>
             </div>
+
           </div>
 
         </div>
-        
       </div>
-    </div>
     )
   }
 }
