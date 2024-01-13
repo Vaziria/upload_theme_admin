@@ -29,16 +29,16 @@ type PropsFromRedux = ConnectedProps<typeof connector>
 interface IProp extends PropsFromRedux {
   showLabel?: boolean
   disabled?: boolean
-  value: [string, string, string]
-  selected: (categs: [string, string, string]) => void
+  value: string[]
+  selected: (categs: string[]) => void
 }
 
 class TokopediaCategorySelect extends React.Component<IProp> {
 
   onChange(index: number, categ?: ITokpedCateg):void {
-    const value: [string, string, string] = [...this.props.value]
+    const value: string[] = [...this.props.value]
     if(categ){
-      value[index] = categ.id
+      value[index] = categ.id.toString()
 
       for(let i=index + 1; i<3; i++){
         value[i] = "0"

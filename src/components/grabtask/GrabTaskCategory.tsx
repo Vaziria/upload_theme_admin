@@ -1,64 +1,45 @@
-import React from "react"
+import React from "react";
 
-import { toPublicCategCsv } from "../../model/shopee/public_category"
-import PublicCategSelect from "../shopee/PublicCategSelect"
-import TokopediaCategorySelect from "../tokopedia/TokopediaCategorySelect"
+import { toPublicCategCsv } from "../../model/shopee/public_category";
+import CategoryCascader from "../jakmall/input/CategoryCascader";
+import PublicCategSelect from "../shopee/PublicCategSelect";
+import TokopediaCategorySelect from "../tokopedia/TokopediaCategorySelect";
 import { PropGrabTask } from "./PropGrabTask";
 
-type ShopeeSelect = React.ComponentProps<typeof PublicCategSelect>;
-type TokpedSelect = React.ComponentProps<typeof TokopediaCategorySelect>;
+const GrabTaskCategory: React.FC<PropGrabTask> = (props: PropGrabTask): JSX.Element => {
+    const { task, updateData } = props
+    const { shopee_categ, tokped_categ, jakmall_categs, marketplace } = task
 
-export default class GrabTaskCategory extends React.Component<PropGrabTask> {
-    marketplace = "shopee";
+    switch (marketplace) {
 
-    renderSelect(): JSX.Element {
-        const { task, updateData } = this.props
-        const { shopee_categ, tokped_categ } = task
-        if(this.marketplace === 'shopee'){
-            const props: ShopeeSelect = {}
-            props.showLabel = true
-            props.value = shopee_categ?.catid || 0
-            props.onSelected = (categ) => {
-                const shopee_categ = toPublicCategCsv(categ)
-                updateData({ shopee_categ })
-            }
-      
-            return <PublicCategSelect {...props} />
-        }
-        
-        const props: TokpedSelect = {
-            showLabel: true,
-            value: tokped_categ || ["0", "0", "0"],
-            selected: (tokped_categ) => updateData({ tokped_categ })
-        }
-        return <TokopediaCategorySelect {...props} />
-    }
+        case "tokopedia":
+            return <TokopediaCategorySelect
+                showLabel={true}
+                value={tokped_categ || ["0", "0", "0"]}
+                selected={(tokped_categ) => updateData({ tokped_categ })}
+            />
 
-    render(): JSX.Element {     
-        
-        const { task, updateData } = this.props
-        const { shopee_categ } = task
+        case "jakmall":
+            return <div className="form-group">
+                <label>Jakmall :</label>
+                <CategoryCascader
+                    size="large"
+                    className="w-100"
+                    value={jakmall_categs}
+                    onChange={(jakmall_categs) => updateData({ jakmall_categs })}
+                />
+            </div>
 
-        const shopee_props: ShopeeSelect = {}
-        shopee_props.showLabel = true
-        shopee_props.value = shopee_categ?.catid || 0
-        shopee_props.onSelected = (categ) => {
-            const shopee_categ = toPublicCategCsv(categ)
-            updateData({ shopee_categ })
-        }
-
-        if (task.marketplace == "shopee") {
-            return  <PublicCategSelect {...shopee_props} />
-        }
-
-
-        const { tokped_categ } = task
-        const tokped_props: TokpedSelect = {
-            showLabel: true,
-            value: tokped_categ || ["0", "0", "0"],
-            selected: (tokped_categ) => updateData({ tokped_categ })
-        }
-
-        return <TokopediaCategorySelect {...tokped_props} />
+        default:
+            return <PublicCategSelect
+                showLabel={true}
+                value={shopee_categ?.catid || 0}
+                onSelected={(categ) => {
+                    const shopee_categ = toPublicCategCsv(categ)
+                    updateData({ shopee_categ })
+                }}
+            />
     }
 }
+
+export default GrabTaskCategory

@@ -67,9 +67,21 @@ const RunTokopediaGrab: React.FC = () => {
 
 const RunJakmallGrab: React.FC = () => {
 
+    const { send } = useQuery("GetLauncherV1RunGrabJakmall")
+    function runGrab() {
+        send({
+            onSuccess(res) {
+                if (res.empty_csv) {
+                    message.warning("csv tidak ada category tersedia untuk grab")
+                }
+            },
+        })
+    }
+
     return <Button
         type="primary"
         style={{ backgroundColor: "#fa541c" }}
+        onClick={runGrab}
     >
         <small>GRAB JAKMALL</small>
     </Button>

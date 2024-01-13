@@ -118,6 +118,10 @@ const App: React.FC = () => {
                                     Card: {
                                         actionsLiMargin: "6px",
                                     },
+                                    Rate: {
+                                        starBg: "#bfbfbf",
+                                        starColor: "#fa541c"
+                                    },
                                 },
                             }}
                         >

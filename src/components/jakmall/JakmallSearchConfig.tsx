@@ -1,6 +1,7 @@
-import { Button, Col, Row } from "antd"
+import { Button, Col, Rate, Row } from "antd"
 import React from "react"
 
+import { useMutation } from "../../hooks/mutation"
 import { GrabSearchFilter, useQuery } from "../../model/newapisdk"
 import AntdSelectAddon from "../common/AntdSelectAddon"
 import CitySelect from "./input/CitySelect"
@@ -8,7 +9,6 @@ import DeliverySelect from "./input/DeliverySelect"
 import SearchFilterGroupCheckbox from "./input/SearchFilterGroupCheckbox"
 import SearchPriceRange from "./input/SearchPriceRange"
 import SearchSortSelect from "./input/SearchSortSelect"
-import { useMutation } from "../../hooks/mutation"
 
 const JackmallSearchConfig: React.FC = (): JSX.Element => {
 
@@ -25,6 +25,7 @@ const JackmallSearchConfig: React.FC = (): JSX.Element => {
         delivery_types: [],
         cities: [],
         sort: "",
+        rating: 0,
     })
 
     React.useEffect(() => {
@@ -87,14 +88,29 @@ const JackmallSearchConfig: React.FC = (): JSX.Element => {
 
         </Col>
 
-        <Col span={10}>
-            <SearchFilterGroupCheckbox
-                value={searchFilter}
-                onChange={(priceRange) => setSearchFilter({
-                    ...searchFilter,
-                    ...priceRange,
-                })}
-            />
+        <Col span={10} className="d-flex flex-column" style={{ gap: 14 }}>
+            <div>
+                <label className="d-block mb-0">Rating</label>
+                <Rate
+                    allowHalf
+                    value={searchFilter.rating}
+                    onChange={(rating) => setSearchFilter({
+                        ...searchFilter,
+                        rating,
+                    })}
+                />
+            </div>
+
+            <div>
+                <label>Filter Berdasarkan</label>
+                <SearchFilterGroupCheckbox
+                    value={searchFilter}
+                    onChange={(priceRange) => setSearchFilter({
+                        ...searchFilter,
+                        ...priceRange,
+                    })}
+                />
+            </div>
         </Col>
 
         <Col span={24} className="mt-3">

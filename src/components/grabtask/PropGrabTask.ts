@@ -1,6 +1,6 @@
-import { ITask } from "../../model/Task"
+import { GrabTasker } from "../../model/newapisdk"
 
 export interface PropGrabTask {
-    task: ITask
-    updateData(data: Partial<ITask>): void
+    task: GrabTasker
+    updateData(data: Partial<GrabTasker>): void
 }

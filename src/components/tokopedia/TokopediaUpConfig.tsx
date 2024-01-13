@@ -101,7 +101,7 @@ export default class TokopediaUpConfig extends React.Component<unknown, Tokopedi
                 </div>
                 <div className="input-group input-group-sm mb-3" style={{ display: "flex" }}>
                     <div className="input-group-prepend">
-                        <span className="input-group-text">Rating</span>
+                        <span className="input-group-text">Kota</span>
                     </div>
                     <KotaSelect
                         value={this.state.fcity}

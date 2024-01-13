@@ -1,85 +1,74 @@
-import React from "react"
 import { Button } from 'antd';
+import React from "react";
 
-import { generateShopeeCategoryCsv, generateTokopediaCategoryCsv } from "../../api/task"
-import { PropGrabTask } from "./PropGrabTask"
+import { useQuery } from "../../model/newapisdk";
+import { PropGrabTask } from "./PropGrabTask";
+import { MarketList } from '../../model/Common';
 
-interface IState {
-    shopeeLoading: boolean
-    tokopediaLoading: boolean
+const color: { [key in MarketList]: string } = {
+    shopee: "#ff4d4f",
+    tokopedia: "#52c41a",
+    jakmall: "#fa541c",
 }
 
-export default class GrabTaskDumpCategory extends React.Component<PropGrabTask, IState> {
+const label: { [key in MarketList]: string } = {
+    shopee: "GENERATE SHOPEE CSV",
+    tokopedia: "GENERATE TOKOPEDIA CSV",
+    jakmall: "GENERATE JAKMALL CSV",
+}
 
-    state: IState = {
-        shopeeLoading: false,
-        tokopediaLoading: false
+const GrabTaskDumpCategory: React.FC<PropGrabTask> = (props: PropGrabTask): JSX.Element => {
+    const { marketplace } = props.task
+
+    const [loading, setLoading] = React.useState(false)
+    const { send: dumpShopee } = useQuery("GetLegacyApiCategoryDumpCsv")
+    const { send: dumpTokopedia } = useQuery("GetTokopediaDumpCategoryDump")
+    const { send: dumpJakmall } = useQuery("GetJakmallCategoryDumpCsv")
+
+    const setLoadingFalse = () => setLoading(false)
+
+    const dumper: { [key in MarketList]: () => void } = {
+        shopee() {
+            setLoading(true)
+            dumpShopee({
+                query: {
+                    mp: marketplace,
+                },
+                onSuccess: setLoadingFalse,
+                onError: setLoadingFalse
+            })
+        },
+        tokopedia() {
+            setLoading(true)
+            dumpTokopedia({
+                onSuccess: setLoadingFalse,
+                onError: setLoadingFalse
+            })
+        },
+        jakmall() {
+            setLoading(true)
+            dumpJakmall({
+                onSuccess: setLoadingFalse,
+                onError: setLoadingFalse
+            })
+        },
     }
 
-    async genShopeeCsv(): Promise<void> {
-        this.setState({ shopeeLoading: true })
-
-        try {
-            await generateShopeeCategoryCsv()
-            this.setState({ shopeeLoading: false })
-        } catch {
-            this.setState({ shopeeLoading: false })
-        }
-    }
-
-    async genTokopediaCsv(): Promise<void> {
-        this.setState({ tokopediaLoading: true })
-
-        try {
-            await generateTokopediaCategoryCsv()
-            this.setState({ tokopediaLoading: false })
-        } catch {
-            this.setState({ tokopediaLoading: false })
-        }
-    }
-
-    renderDumpButton(): JSX.Element {
-
-        const { task } = this.props
-
-        if (task.marketplace === "shopee") {
-            return <Button
-                type="primary"
-                style={{ backgroundColor: "#ff4d4f" }}
-                loading={this.state.shopeeLoading}
-                onClick={() => this.genShopeeCsv()}
-            >
-                <small>GENERATE SHOPEE CSV</small>
-            </Button>
-        }
-
-        return <Button
-            type="primary"
-            style={{ backgroundColor: "#52c41a" }}
-            loading={this.state.tokopediaLoading}
-            onClick={() => this.genTokopediaCsv()}
-        >
-            <small>GENERATE TOKOPEDIA CSV</small>
-        </Button>
-    }
-
-    render(): JSX.Element {
-
-        const { task } = this.props
-
-        const buttonGenerateProps: JSX.IntrinsicElements["button"] = {}
-        buttonGenerateProps.className = "btn btn-sm btn-info mb-2"
-        buttonGenerateProps.style = { width: "55%" }
-        buttonGenerateProps.children = "GENERATE CATEGORY"
-
-        return <div>
-            <label>Keterangan :</label>
-            <div className="mb-1">
-                silahkan edit di <strong>{task.marketplace}_list_category.csv</strong> atau
-            </div>
-            <div>
-                {this.renderDumpButton()}
-            </div>
+    return <div>
+        <label>Keterangan :</label>
+        <div className="mb-1">
+            silahkan edit di <strong>{marketplace}_list_category.csv</strong> atau
         </div>
-    }
+
+        <Button
+            type="primary"
+            style={{ backgroundColor: color[marketplace] }}
+            loading={loading}
+            onClick={dumper[marketplace]}
+        >
+            <small>{label[marketplace]}</small>
+        </Button>
+    </div>
 }
+
+export default GrabTaskDumpCategory

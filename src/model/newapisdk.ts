@@ -30,6 +30,15 @@ export interface GrabTokopediaResponse {
 	empty_csv: boolean
 }
 
+export interface GrabJakmallQueryCli {
+	base: string
+}
+
+export interface GrabJakmallResponse {
+	use_csv: boolean
+	empty_csv: boolean
+}
+
 export interface DataSpinQuery {
 	name: string
 }
@@ -609,7 +618,7 @@ export interface GrabTasker {
 	use_filter: boolean
 	keyword: string
 	shopee_categ: ShopeeCateg
-	jakmall_categ_urls: Array<string>
+	jakmall_categs: Array<string>
 }
 
 export interface DumpCategoryQuery {
@@ -1032,6 +1041,7 @@ export interface GrabSearchFilter {
 	delivery_types: Array<string>
 	cities: Array<string>
 	sort: string
+	rating: number
 }
 
 export interface JkmlSearchFilterResponse {
@@ -1428,6 +1438,18 @@ export const clients = {
 		body: {},
 		response: {
 			deprecated: false,
+			use_csv: false,
+			empty_csv: false
+		}
+	},
+	GetLauncherV1RunGrabJakmall: {
+		url: "launcher/v1/run_grab_jakmall" as const,
+		method: "GET" as const,
+		query: {
+				base: ``
+			} as GrabJakmallQueryCli ,
+		body: {},
+		response: {
 			use_csv: false,
 			empty_csv: false
 		}
@@ -3018,7 +3040,7 @@ export const clients = {
 				display_name: ``,
 				is_collection: 0
 			},
-				jakmall_categ_urls: [
+				jakmall_categs: [
 				``
 				] as Array<string>
 			}
@@ -3048,7 +3070,7 @@ export const clients = {
 				display_name: ``,
 				is_collection: 0
 			},
-				jakmall_categ_urls: [
+				jakmall_categs: [
 				``
 				] as Array<string>
 			}
@@ -3969,7 +3991,8 @@ export const clients = {
 				cities: [
 				``
 				] as Array<string>,
-				sort: ``
+				sort: ``,
+				rating: 0.00
 			} as GrabSearchFilter | undefined
 		}
 	},
@@ -3990,7 +4013,8 @@ export const clients = {
 			cities: [
 			``
 			] as Array<string>,
-			sort: ``
+			sort: ``,
+			rating: 0.00
 		},
 		response: {
 			msg: ``,
