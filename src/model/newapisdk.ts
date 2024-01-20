@@ -1050,6 +1050,41 @@ export interface JkmlSearchFilterResponse {
 	data: GrabSearchFilter | undefined
 }
 
+export interface JkmlCategoryMapListQuery {
+	type: string
+	namespace: string
+}
+
+export interface MapCateg {
+	id: number
+	name: string
+}
+
+export interface JkmlCategoryMap {
+	type: string
+	name: string
+	categs: Array<MapCateg | undefined>
+	mapper_id: number
+	mapper_name: string
+	mapper_categs: Array<MapCateg | undefined>
+	count: number
+}
+
+export interface JkmlCategoryMapListResponse {
+	msg: string
+	error: string
+	data: Array<JkmlCategoryMap | undefined>
+}
+
+export interface CategoryMapper {
+	type: string
+	name: string
+	categs: Array<MapCateg | undefined>
+	mapper_id: number
+	mapper_name: string
+	mapper_categs: Array<MapCateg | undefined>
+}
+
 export interface ManualShopeeUploadQueryCli {
 	base: string
 	reset: boolean
@@ -1077,10 +1112,8 @@ export interface TopedTopedUploadQueryCli {
 	base: string
 }
 
-export interface RenameCollectionPayload {
-	marketplace: string
+export interface TokopediaToShopeeAutoSuggestQuery {
 	namespace: string
-	update_namespace: string
 }
 
 export interface BaseWebResponse {
@@ -1089,8 +1122,10 @@ export interface BaseWebResponse {
 	status: string
 }
 
-export interface TokopediaToShopeeAutoSuggestQuery {
+export interface RenameCollectionPayload {
+	marketplace: string
 	namespace: string
+	update_namespace: string
 }
 
 export interface SourceAttributeQuery {
@@ -4021,6 +4056,82 @@ export const clients = {
 			error: ``
 		}
 	},
+	GetJakmallCategoryMapperList: {
+		url: "jakmall/category_mapper/list" as const,
+		method: "GET" as const,
+		query: {
+			type: ``,
+			namespace: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: [
+			{
+					type: ``,
+					name: ``,
+					categs: [
+					{
+							id: 0,
+							name: ``
+						} as MapCateg | undefined
+					] as Array<MapCateg | undefined>,
+					mapper_id: 0,
+					mapper_name: ``,
+					mapper_categs: [
+					{
+							id: 0,
+							name: ``
+						} as MapCateg | undefined
+					] as Array<MapCateg | undefined>,
+					count: 0
+				} as JkmlCategoryMap | undefined
+			] as Array<JkmlCategoryMap | undefined>
+		}
+	},
+	PostJakmallCategoryMapperSave: {
+		url: "jakmall/category_mapper/save" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: [
+			{
+				type: ``,
+				name: ``,
+				categs: [
+				{
+						id: 0,
+						name: ``
+					} as MapCateg | undefined
+				] as Array<MapCateg | undefined>,
+				mapper_id: 0,
+				mapper_name: ``,
+				mapper_categs: [
+				{
+						id: 0,
+						name: ``
+					} as MapCateg | undefined
+				] as Array<MapCateg | undefined>
+			}
+		] as Array<CategoryMapper>,
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	PutJakmallCategoryMapperAutosuggest: {
+		url: "jakmall/category_mapper/autosuggest" as const,
+		method: "PUT" as const,
+		query: {
+			type: ``,
+			namespace: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
 	GetUploadV6ManualToShopee: {
 		url: "upload/v6/manual_to_shopee" as const,
 		method: "GET" as const,
@@ -4088,6 +4199,19 @@ export const clients = {
 			error: ``
 		}
 	},
+	GetV1CategoryMapperTokopediaToShopeeAutosuggest: {
+		url: "v1/category/mapper/tokopedia_to_shopee_autosuggest" as const,
+		method: "GET" as const,
+		query: {
+			namespace: ``
+		},
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
 	PostV1ProductRenameNamespace: {
 		url: "v1/product/rename_namespace" as const,
 		method: "POST" as const,
@@ -4097,19 +4221,6 @@ export const clients = {
 			namespace: ``,
 			update_namespace: ``
 		},
-		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
-		}
-	},
-	GetV1CategoryMapperTokopediaToShopeeAutosuggest: {
-		url: "v1/category/mapper/tokopedia_to_shopee_autosuggest" as const,
-		method: "GET" as const,
-		query: {
-			namespace: ``
-		},
-		body: {},
 		response: {
 			errcode: 0,
 			message: ``,

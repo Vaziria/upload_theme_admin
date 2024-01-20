@@ -5,6 +5,7 @@ import type { ProductNamespace } from "../../model/product"
 interface NamespaceData {
     shopeeNamespaces: ProductNamespace[]
     tokopediaNamespaces: ProductNamespace[]
+    jakmallNamespaces: ProductNamespace[]
 }
 
 export const namespaceDataState = atom<NamespaceData>({
@@ -12,5 +13,6 @@ export const namespaceDataState = atom<NamespaceData>({
     default: {
         shopeeNamespaces: [],
         tokopediaNamespaces: [],
+        jakmallNamespaces: [],
     },
 })

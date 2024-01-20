@@ -1,12 +1,20 @@
 import { atom } from "recoil"
+import { JkmlCategoryMap, TokopediaMapItem } from "../../model/newapisdk"
 
-import type { MapperItem } from "../../api/mapper"
-
-export interface MapperItemState extends MapperItem {
+export interface MapperTokpedShopeeItem extends TokopediaMapItem {
     unmapped: boolean
 }
 
-export const mapperItemsState = atom<MapperItemState[]>({
-    key: "mapperItems",
+export interface MapperJakmallShopeeItem extends JkmlCategoryMap {
+    unmapped: boolean
+}
+
+export const mapperTokpedShopeeItemsState = atom<MapperTokpedShopeeItem[]>({
+    key: "mapperTokpedShopeeItems",
+    default: [],
+})
+
+export const mapperJakmallShopeeItemsState = atom<MapperJakmallShopeeItem[]>({
+    key: "mapperJakmallShopeeItems",
     default: [],
 })

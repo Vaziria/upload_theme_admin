@@ -80,6 +80,13 @@ const Loader: React.FC = () => {
                 }))
             ),
 
+            getNamespaces("jakmall").then(
+                (jakmallNamespaces) => setNamespaceData((data) => ({
+                    ...data,
+                    jakmallNamespaces
+                }))
+            ),
+
             getCollections({
                 query: {
                     page: 1,

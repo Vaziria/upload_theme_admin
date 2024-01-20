@@ -1,30 +1,31 @@
-import React, { useState } from "react"
-import { Input } from "antd"
+import { Input } from "antd";
+import React, { useState } from "react";
 
-import type { MarketList } from "../../model/Common"
-import type { MapperPageFilter } from "../../recoil/selectors/mapper_items_page"
+import { CategmapQuery } from "../../hooks/search_query/categmap_query";
 import { debounce } from "../../utils/debounce";
 
-import AntdCheckbox from "../common/AntdCheckbox"
-import NamespaceSelectNew from "../common/NamespaceSelectNew"
+import AntdCheckbox from "../common/AntdCheckbox";
+import AntdSelectAddon from "../common/AntdSelectAddon";
+import NamespaceSelectNew from "../common/NamespaceSelectNew";
 
-export interface MapperFilterData extends Pick<MapperPageFilter, "search" | "unmapped"> {
+export interface MapperFilterData {
+    search: string
+    unmapped: boolean
     namespace?: string
 }
 
 interface Props {
-    data: MapperFilterData
-    mode: MarketList
-    onChange?: (data: MapperFilterData) => void
+    query: CategmapQuery
+    onChange?: (data: Partial<CategmapQuery>) => void
 }
 
 const { Search } = Input;
 
 const MapperFilter: React.FC<Props> = (props: Props) => {
 
-    const { data, mode, onChange } = props
-    const { namespace, search, unmapped } = data
-    const [ searchValue, setSearchValue ] = useState(search)
+    const { query, onChange } = props
+    const { from, namespace, search, unmapped } = query
+    const [searchValue, setSearchValue] = useState(search)
 
     const onNamespaceChange = (namespace?: string) => {
         setSearchValue("")
@@ -36,22 +37,25 @@ const MapperFilter: React.FC<Props> = (props: Props) => {
     }
 
     const onUnmappedChange = (unmapped: boolean) => {
-        onChange?.({ ...data, unmapped })
+        onChange?.({ unmapped, page: 1 })
     }
 
     const onSearchChange = (search: string) => {
-        onChange?.({ ...data, search })
+        onChange?.({ search, page: 1 })
     }
 
     const onSearchBouncer = debounce(onSearchChange, 500)
 
     return <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-        <NamespaceSelectNew
-            style={{ minWidth: 180, maxWidth: 180 }}
-            marketplace={mode}
-            value={namespace || null}
-            onChange={onNamespaceChange}
-        />
+        <AntdSelectAddon addon="Collection" style={{ width: "auto" }}>
+            <NamespaceSelectNew
+                className="w-100"
+                style={{ maxWidth: 200, minWidth: 200 }}
+                marketplace={from}
+                value={namespace || null}
+                onChange={onNamespaceChange}
+            />
+        </AntdSelectAddon>
         <AntdCheckbox
             style={{ fontWeight: 400 }}
             disabled={!namespace}

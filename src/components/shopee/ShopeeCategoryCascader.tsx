@@ -20,11 +20,12 @@ function shopeePublicNestedMapper(category: ShopeeCategoryNested): CascaderOptio
 interface Props extends Pick<CascaderProps, "style" | "disabled"> {
     value: number
     onChange?: (value: number) => void
+    onOptionsChange?: (options: CascaderOption[]) => void
 }
 
 const ShopeeeCategoryCascader: React.FC<Props> = (props: Props) => {
 
-    const { onChange, ...reProps } = props
+    const { onChange, onOptionsChange, ...reProps } = props
 
     const categories = useRecoilValue(shopeeCategoryNestedState)
     const options = categories.map(shopeePublicNestedMapper)
@@ -37,9 +38,10 @@ const ShopeeeCategoryCascader: React.FC<Props> = (props: Props) => {
         {...reProps}
         value={categoryValue?.chain_ids}
         options={options}
-        onChange={(values) => {
+        onChange={(values, options) => {
             const val = values[values.length - 1] as number
             onChange?.(val || 0)
+            onOptionsChange?.(options)
         }}
     />
 }

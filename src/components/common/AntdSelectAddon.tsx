@@ -1,9 +1,9 @@
-import { SelectProps } from "antd";
 import React, { ReactNode } from "react";
+import { DivProps } from "../../types/props";
 
 type Direction = "left" | "right"
 
-interface Props extends SelectProps {
+interface Props extends DivProps {
     addondir?: Direction
     addon?: ReactNode
     children: ReactNode
@@ -11,9 +11,9 @@ interface Props extends SelectProps {
 
 const AntdSelectAddon: React.FC<Props> = (props: Props): JSX.Element => {
 
-    const { addondir, addon, children } = props;
+    const { addondir, addon, children, className, ...reprops } = props;
     const childrens: ReactNode[] = []
-    const classess = ["with-addon"]
+    const classess = [className, "with-addon"]
 
     if ((!addondir && addon) || addondir === "left") {
         classess.push("left-addon-container")
@@ -27,7 +27,7 @@ const AntdSelectAddon: React.FC<Props> = (props: Props): JSX.Element => {
         childrens.push(<div key="addon-right" className="right-addon">{addon}</div>)
     }
 
-    return <div className={classess.join(" ")}>
+    return <div className={classess.join(" ")} {...reprops}>
         {childrens}
     </div>
 }

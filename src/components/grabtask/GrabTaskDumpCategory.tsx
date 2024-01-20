@@ -4,12 +4,7 @@ import React from "react";
 import { useQuery } from "../../model/newapisdk";
 import { PropGrabTask } from "./PropGrabTask";
 import { MarketList } from '../../model/Common';
-
-const color: { [key in MarketList]: string } = {
-    shopee: "#ff4d4f",
-    tokopedia: "#52c41a",
-    jakmall: "#fa541c",
-}
+import { MarketplaceColor } from '../../const/mpcolor';
 
 const label: { [key in MarketList]: string } = {
     shopee: "GENERATE SHOPEE CSV",
@@ -62,7 +57,7 @@ const GrabTaskDumpCategory: React.FC<PropGrabTask> = (props: PropGrabTask): JSX.
 
         <Button
             type="primary"
-            style={{ backgroundColor: color[marketplace] }}
+            style={{ backgroundColor: MarketplaceColor[marketplace] }}
             loading={loading}
             onClick={dumper[marketplace]}
         >

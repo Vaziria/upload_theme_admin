@@ -1,90 +1,100 @@
-import { Empty, Pagination, Result, Space, Spin } from "antd"
-import React, { useEffect, useState } from "react"
-import { useRecoilValue } from "recoil"
+import { Result, Space, Spin } from "antd"
+import React from "react"
+import { useRecoilState } from "recoil"
 
-import { mapperItemsPageState } from "../../recoil/selectors/mapper_items_page"
+import { CategmapQuery } from "../../hooks/search_query/categmap_query"
+import { mapperJakmallShopeeItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
 
 import type { MarketList } from "../../model/Common"
-import type { MapperFilterData } from "./MapperFilter"
-
-import { MapperItemState } from "../../recoil/atoms/mapper_items"
-import TokopediaToShopeeMapperItem from "./TokopediaToShopeeMapperItem"
+import MapperDataRender from "./MapperDataRender"
+import TokopediaToShopeeItem from "./mapperitem/TokopediaToShopeeItem"
+import JakmallToShopeeItem from "./mapperitem/JakmallToShopeeItem"
 
 interface MapperDataviewProps {
+    from: MarketList
     mode: MarketList
-    filter: MapperFilterData
+    query: CategmapQuery
     loading: boolean
-    items?: MapperItemState[]
+    onChange: (data: Partial<CategmapQuery>) => void
+}
+
+const MapperTokpedShopeeView: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
+
+    const [items, setItems] = useRecoilState(mapperTokpedShopeeItemsState)
+
+    return <MapperDataRender
+        query={props.query}
+        items={items}
+        filterSearch={({ tokopedia_category_name: names }, search) => {
+            search = search.toLowerCase()
+            return names?.some((name) => name.toLowerCase().includes(search))
+        }}
+        render={(item, key) => <TokopediaToShopeeItem
+            key={key}
+            item={item}
+            onChange={(item) => setItems((mapItems) => {
+                return mapItems.map((mapItem) => mapItem.tokopedia_id === item.tokopedia_id ? item : mapItem)
+            })}
+        />}
+        onChange={props.onChange}
+    />
+}
+
+const MapperJakmallShopeeView: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
+
+    const [items, setItems] = useRecoilState(mapperJakmallShopeeItemsState)
+
+    return <MapperDataRender
+        query={props.query}
+        items={items}
+        filterSearch={({ categs }, search) => {
+            search = search.toLowerCase()
+            return categs?.some((categ) => categ?.name.toLowerCase().includes(search))
+        }}
+        render={(item, key) => <JakmallToShopeeItem
+            key={key}
+            item={item}
+            onChange={(item) => setItems((mapItems) => mapItems.map(
+                (mapItem) => mapItem.name === item.name ? item : mapItem
+            ))}
+        />}
+        onChange={props.onChange}
+    />
 }
 
 const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
 
-    const { mode, filter } = props
-    const { namespace, search, unmapped } = filter
-
-    const [page, setPage] = useState(1)
-    const [pagesize, setPagesize] = useState(10)
-
-    useEffect(() => setPage(1), [props.filter])
-
-    const [items, total] = useRecoilValue(mapperItemsPageState({
-        mode,
-        search,
-        unmapped,
-        page,
-        pagesize
-    }))
+    const { from, mode } = props
 
     if (props.loading) {
         return <Space align="center" direction="vertical" style={{ display: "flex" }}>
-            <Spin tip="Loading" />
+            <Spin tip="Loading"><div className="p-5" /></Spin>
         </Space>
     }
 
-    if (mode === "shopee") {
-        return <Result
-            status="404"
-            title="unsupported mode shopee"
-            subTitle="mapping kategori shopee ke tokopedia belum didukung untuk sementara."
-        />
+    switch (from) {
+
+        case "tokopedia":
+            switch (mode) {
+
+                case "shopee":
+                    return <MapperTokpedShopeeView {...props} />
+            }
+            break
+
+        case "jakmall":
+            switch (mode) {
+
+                case "shopee":
+                    return <MapperJakmallShopeeView {...props} />
+            }
     }
 
-    if (!namespace) {
-        return <Result
-            status="404"
-            title="namespace belum dipilih"
-            subTitle="pilih namespace terlebih dahulu sebelum melanjutkan."
-        />
-    }
-
-    if (items.length === 0) {
-        return <Empty description="Tidak ada category mapping ditemukan" />
-    }
-
-    return <div>
-        <Space
-            direction="vertical"
-            className="mt-2"
-            style={{ display: 'flex' }}
-            size={"middle"}
-        >
-
-            {items.map((item, key) => <TokopediaToShopeeMapperItem key={key} item={item} />)}
-
-            <Space style={{ display: 'flex', justifyContent: "center" }}>
-                <Pagination
-                    current={page}
-                    pageSize={pagesize}
-                    total={total}
-                    pageSizeOptions={[10, 20, 30, 50]}
-                    onChange={(page, pagesize) => {
-                        setPage(page)
-                        setPagesize(pagesize)
-                    }}
-                    />
-            </Space>
-        </Space>
-    </div>
+    return <Result
+        status="404"
+        title={`unsupported mapping ${from}`}
+        subTitle={`mapping kategori ${from} ke ${mode} belum didukung untuk sementara.`}
+    />
 }
 
 export default MapperDataview

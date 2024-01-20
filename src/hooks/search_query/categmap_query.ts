@@ -3,19 +3,24 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import { MarketList } from "../../model/Common";
 import { ProductListQuery } from "../../model/newapisdk";
-import { MapperPageFilter } from "../../recoil/selectors/mapper_items_page";
 import { createSearchParams, searchParamsToQuery } from "../../utils/params";
 
-interface CategmapQuery extends MapperPageFilter {
+export interface CategmapQuery {
+    from: MarketList
     mode: MarketList
     namespace: string
+    search: string
+    unmapped: boolean
+    page: number
+    pagesize: number
 }
 
 export const defaultQuery: CategmapQuery = {
-    mode: "tokopedia",
+    from: "tokopedia",
+    mode: "shopee",
     namespace: "",
     page: 1,
-    pagesize: 20,
+    pagesize: 10,
     search: "",
     unmapped: false
 }
