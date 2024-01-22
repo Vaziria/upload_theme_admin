@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil"
 import { useMutation } from "../../hooks/mutation"
 import { MarketList } from "../../model/Common"
 import { useQuery } from "../../model/newapisdk"
-import { mapperJakmallShopeeItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
+import { mapperJakmallItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
 
 interface Props {
     from: MarketList
@@ -31,10 +31,10 @@ const TokopediaShopeeAutoSuggest: React.FC<Props> = (props: Props) => {
     />
 }
 
-const JakmallShopeeAutoSuggest: React.FC<Props> = (props: Props) => {
+const JakmallAutoSuggest: React.FC<Props> = (props: Props) => {
     const { mode: type, namespace, onSuccess, onError } = props
     const { mutate } = useMutation("PutJakmallCategoryMapperAutosuggest")
-    const data = useRecoilValue(mapperJakmallShopeeItemsState)
+    const data = useRecoilValue(mapperJakmallItemsState)
 
     return <AutoSuggestButton
         disabled={!data.length}
@@ -59,10 +59,7 @@ const MapperAutoSuggest: React.FC<Props> = (props: Props) => {
             break
 
         case "jakmall":
-            switch (mode) {
-                case "shopee":
-                    return <JakmallShopeeAutoSuggest {...props} />
-            }
+            return <JakmallAutoSuggest {...props} />
     }
 
     return <AutoSuggestButton disabled />

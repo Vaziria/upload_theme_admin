@@ -5,7 +5,7 @@ export interface MapperTokpedShopeeItem extends TokopediaMapItem {
     unmapped: boolean
 }
 
-export interface MapperJakmallShopeeItem extends JkmlCategoryMap {
+export interface MapperJakmallItem extends JkmlCategoryMap {
     unmapped: boolean
 }
 
@@ -14,7 +14,7 @@ export const mapperTokpedShopeeItemsState = atom<MapperTokpedShopeeItem[]>({
     default: [],
 })
 
-export const mapperJakmallShopeeItemsState = atom<MapperJakmallShopeeItem[]>({
+export const mapperJakmallItemsState = atom<MapperJakmallItem[]>({
     key: "mapperJakmallShopeeItems",
     default: [],
 })

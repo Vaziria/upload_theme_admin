@@ -4,13 +4,13 @@ import React from "react"
 import { CategmapQuery, defaultQuery, useCategmapQuery } from "../hooks/search_query/categmap_query"
 import type { MarketList } from "../model/Common"
 import { useQuery } from "../model/newapisdk"
-import { setJakmallShopeeMapitemCallback } from "../recoil/callbacks/set_jakmall_shopee_mapitem"
+import { setJakmallMapitemCallback } from "../recoil/callbacks/set_jakmall_mapitem"
 import { setTokpedShopeeMapitemCallback } from "../recoil/callbacks/set_tokped_shopee_mapitem"
 
 import AntdSelectAddon from "../components/common/AntdSelectAddon"
 import MarketplaceSelect from "../components/common/MarketplaceSelect"
 import MapperAutoSuggest from "../components/mapper/MapperAutoSuggest"
-import MapperDataView from "../components/mapper/MapperDataView"
+import MapperDataview from "../components/mapper/MapperDataview"
 import MapperFilter from "../components/mapper/MapperFilter"
 import MapperSave from "../components/mapper/MapperSave"
 
@@ -39,7 +39,7 @@ const CategMap: React.FC = () => {
     }
 
     const setTokpedShopeeMapitem = setTokpedShopeeMapitemCallback()
-    const setJakmallShopeeMapitem = setJakmallShopeeMapitemCallback()
+    const setJakmallMapitem = setJakmallMapitemCallback()
 
     const { send: getTokpedShopeeMapper } = useQuery("GetTokopediaMapperCategory")
     const { send: getJakmallMapper } = useQuery("GetJakmallCategoryMapperList")
@@ -62,14 +62,10 @@ const CategMap: React.FC = () => {
                 break
 
             case "jakmall":
-                switch (query.mode) {
-
-                    case "shopee":
-                        getJakmallMapper({
-                            query: { namespace, type: "shopee" },
-                            onSuccess: setJakmallShopeeMapitem,
-                        })
-                }
+                getJakmallMapper({
+                    query: { namespace, type: query.mode },
+                    onSuccess: setJakmallMapitem,
+                })
                 break
         }
 
@@ -133,7 +129,7 @@ const CategMap: React.FC = () => {
                     </Space>
                 </Space>
 
-                <MapperDataView
+                <MapperDataview
                     from={query.from}
                     mode={query.mode}
                     query={query}

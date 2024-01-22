@@ -3,12 +3,13 @@ import React from "react"
 import { useRecoilState } from "recoil"
 
 import { CategmapQuery } from "../../hooks/search_query/categmap_query"
-import { mapperJakmallShopeeItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
+import { mapperJakmallItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
 
 import type { MarketList } from "../../model/Common"
 import MapperDataRender from "./MapperDataRender"
 import TokopediaToShopeeItem from "./mapperitem/TokopediaToShopeeItem"
 import JakmallToShopeeItem from "./mapperitem/JakmallToShopeeItem"
+import JakmallToTokopediaItem from "./mapperitem/JakmallToTokopediaItem"
 
 interface MapperDataviewProps {
     from: MarketList
@@ -40,26 +41,50 @@ const MapperTokpedShopeeView: React.FC<MapperDataviewProps> = (props: MapperData
     />
 }
 
-const MapperJakmallShopeeView: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
+const MapperJakmallView: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
 
-    const [items, setItems] = useRecoilState(mapperJakmallShopeeItemsState)
+    const [items, setItems] = useRecoilState(mapperJakmallItemsState)
 
-    return <MapperDataRender
-        query={props.query}
-        items={items}
-        filterSearch={({ categs }, search) => {
-            search = search.toLowerCase()
-            return categs?.some((categ) => categ?.name.toLowerCase().includes(search))
-        }}
-        render={(item, key) => <JakmallToShopeeItem
-            key={key}
-            item={item}
-            onChange={(item) => setItems((mapItems) => mapItems.map(
-                (mapItem) => mapItem.name === item.name ? item : mapItem
-            ))}
-        />}
-        onChange={props.onChange}
-    />
+    switch (props.query.mode) {
+
+        case "shopee":
+            return <MapperDataRender
+                query={props.query}
+                items={items}
+                filterSearch={({ categs }, search) => {
+                    search = search.toLowerCase()
+                    return categs?.some((categ) => categ?.name.toLowerCase().includes(search))
+                }}
+                render={(item, key) => <JakmallToShopeeItem
+                    key={key}
+                    item={item}
+                    onChange={(item) => setItems((mapItems) => mapItems.map(
+                        (mapItem) => mapItem.name === item.name ? item : mapItem
+                    ))}
+                />}
+                onChange={props.onChange}
+            />
+
+        case "tokopedia":
+            return <MapperDataRender
+                query={props.query}
+                items={items}
+                filterSearch={({ categs }, search) => {
+                    search = search.toLowerCase()
+                    return categs?.some((categ) => categ?.name.toLowerCase().includes(search))
+                }}
+                render={(item, key) => <JakmallToTokopediaItem
+                    key={key}
+                    item={item}
+                    onChange={(item) => setItems((mapItems) => mapItems.map(
+                        (mapItem) => mapItem.name === item.name ? item : mapItem
+                    ))}
+                />}
+                onChange={props.onChange}
+            />
+    }
+
+    return <></>
 }
 
 const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
@@ -83,11 +108,7 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
             break
 
         case "jakmall":
-            switch (mode) {
-
-                case "shopee":
-                    return <MapperJakmallShopeeView {...props} />
-            }
+            return <MapperJakmallView {...props} />
     }
 
     return <Result

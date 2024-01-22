@@ -105,9 +105,8 @@ class CategMap extends React.Component<IProp, IState> {
     })
   }
 
-  shopeeCateg(tokpedid: string): CategIds {
-    const idnya = parseInt(tokpedid)
-    const mapper = this.state.mapper[idnya]
+  shopeeCateg(tokpedid: number): CategIds {
+    const mapper = this.state.mapper[tokpedid]
 
     if(mapper){
       const categval: CategIds = [0, 0, 0, 0]
@@ -125,14 +124,13 @@ class CategMap extends React.Component<IProp, IState> {
   }
 
   async changeShopeeCateg(tcateg: ITokpedCateg, value: CategIds): Promise<void> {
-    const idnya = parseInt(tcateg.id)
     const shopee_categ = value.map(val => val.toString())
     const mapItem: MapItem = {
       shopee_categ
     }
 
     const mapper = { ...this.state.mapper}
-    mapper[idnya] = mapItem
+    mapper[tcateg.id] = mapItem
 
     this.setState({
       mapper

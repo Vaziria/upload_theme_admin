@@ -23,13 +23,13 @@ export default function MapperDataRender<T extends { unmapped: boolean }>(props:
         />
     }
 
-    if (items.length === 0) {
-        return <Empty description="Tidak ada category mapping ditemukan" className="my-5" />
-    }
-
     const fixItems = items
         .filter((item) => props.filterSearch ? props.filterSearch(item, query.search) : true)
         .filter((item) => !query.unmapped || item.unmapped)
+
+    if (fixItems.length === 0) {
+        return <Empty description="Tidak ada category mapping ditemukan" className="my-5" />
+    }
 
     return <Space direction="vertical" className="mt-4 d-flex">
 

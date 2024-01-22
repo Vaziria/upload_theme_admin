@@ -1,7 +1,7 @@
 import client from "./client"
 
 export interface ISavePayload {
-  key: string,
+  key: number,
   data: {
     shopee_categ: string[]
   }

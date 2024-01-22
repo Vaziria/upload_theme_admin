@@ -1,13 +1,13 @@
 import { useRecoilCallback } from "recoil"
 
 import { JkmlCategoryMapListResponse } from "../../model/newapisdk"
-import { MapperJakmallShopeeItem, mapperJakmallShopeeItemsState } from "../atoms/mapper_items"
+import { MapperJakmallItem, mapperJakmallItemsState } from "../atoms/mapper_items"
 
 type TypeFunc = () => (res: JkmlCategoryMapListResponse) => void
 
-export const setJakmallShopeeMapitemCallback: TypeFunc = () => useRecoilCallback(({ set }) => (res: JkmlCategoryMapListResponse) => {
+export const setJakmallMapitemCallback: TypeFunc = () => useRecoilCallback(({ set }) => (res: JkmlCategoryMapListResponse) => {
 
-    const items = res.data.reduce<MapperJakmallShopeeItem[]>((res, item) => {
+    const items = res.data.reduce<MapperJakmallItem[]>((res, item) => {
 
         if (item) {
             res.push({
@@ -19,5 +19,5 @@ export const setJakmallShopeeMapitemCallback: TypeFunc = () => useRecoilCallback
         return res
     }, [])
 
-    set(mapperJakmallShopeeItemsState, items)
+    set(mapperJakmallItemsState, items)
 })
