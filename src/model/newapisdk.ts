@@ -754,6 +754,11 @@ export interface AttributeResponse {
 	attributes: Array<AttributeTree | undefined>
 }
 
+export interface QlobotShopeeImportCSVQuery {
+	namespace: string
+	per_item: number
+}
+
 export interface BulkItem {
 	username: string
 	password: string
@@ -962,6 +967,26 @@ export interface AnnotationData {
 export interface TokopediaAttributeResponse {
 	exist: boolean
 	attributes: Array<AnnotationData | undefined>
+}
+
+export interface CheckOrderConfig {
+	useDateRange: boolean
+	startDate: string
+	endDate: string
+	useStatus: boolean
+	statusKeys: Array<string>
+}
+
+export interface TokopediaCheckOrderQueryCli {
+	base: string
+	fname: string
+	output: string
+}
+
+export interface CheckOrderAkunItem {
+	password: string
+	secret: string
+	username: string
 }
 
 export interface ManualShopeeUploadQueryCli {
@@ -3267,6 +3292,20 @@ export const clients = {
 				] as Array<AttributeTree | undefined>
 			} as AttributeResponse 
 	},
+	PostShopeeV5QlobotShopeeImportCsv: {
+		url: "shopee/v5/qlobot/shopee_import_csv" as const,
+		method: "POST" as const,
+		query: {
+			namespace: ``,
+			per_item: 0
+		},
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
 	GetTokopediaAkunList: {
 		url: "tokopedia/akun/list" as const,
 		method: "GET" as const,
@@ -3778,6 +3817,38 @@ export const clients = {
 				} as AnnotationData | undefined
 			] as Array<AnnotationData | undefined>
 		}
+	},
+	PutTokopediaCekorderSaveConfig: {
+		url: "tokopedia/cekorder/save_config" as const,
+		method: "PUT" as const,
+		query: undefined,
+		body: {
+				useDateRange: false,
+				startDate: ``,
+				endDate: ``,
+				useStatus: false,
+				statusKeys: [
+				``
+				] as Array<string>
+			} as CheckOrderConfig ,
+		response: {} as any
+	},
+	PutTokopediaCekorderRun: {
+		url: "tokopedia/cekorder/run" as const,
+		method: "PUT" as const,
+		query: {
+				base: ``,
+				fname: ``,
+				output: ``
+			} as TokopediaCheckOrderQueryCli ,
+		body: [
+			{
+					password: ``,
+					secret: ``,
+					username: ``
+				} as CheckOrderAkunItem | undefined
+		] as Array<CheckOrderAkunItem | undefined>,
+		response: {} as any
 	},
 	GetUploadV6ManualToShopee: {
 		url: "upload/v6/manual_to_shopee" as const,
