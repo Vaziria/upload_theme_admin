@@ -12,7 +12,7 @@ import { BaseResponse, QlobotShopeeImportCSVQuery } from "../model/newapisdk"
 const ImportExport: React.FC = () => {
 
     const [query, setQuery] = React.useState<QlobotShopeeImportCSVQuery>({
-        namespace: "qlobot",
+        namespace: "default",
         per_item: 50
     })
     const [loading, setLoading] = React.useState(false)
@@ -39,7 +39,10 @@ const ImportExport: React.FC = () => {
                     }
                 },
             }, {}, { csv })
-            setTimeout(() => setLoading(false), 3000)
+            setTimeout(() => {
+                setCsv(undefined)
+                setLoading(false)
+            }, 3000)
         }
     }
 
@@ -58,7 +61,10 @@ const ImportExport: React.FC = () => {
                         onChange={(options) => setQuery((q) => ({ ...q, ...options }))}
                     />
 
-                    <ImportCsvFile csv={csv} onChange={setCsv} />
+                    <ImportCsvFile csv={csv} onChange={(info) => {
+                        console.log(info)
+                        setCsv(info)
+                    }} />
 
                     <div className="d-flex justify-content-end">
                         <Button

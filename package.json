@@ -29,6 +29,9 @@
     "uuid": "8.3.2",
     "web-vitals": "1.1.2"
   },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -69,6 +72,7 @@
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.6",
     "enzyme": "3.11.0",
     "eslint": "7.32.0",
-    "eslint-plugin-react": "7.24.0"
+    "eslint-plugin-react": "7.24.0",
+    "react-error-overlay": "6.0.9"
   }
 }

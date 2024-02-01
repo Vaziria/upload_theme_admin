@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
 import { Button, InputNumber, Select, Space, Typography } from 'antd'
+import React, { useState } from 'react'
 
-import NewAccount from '../components/account/NewAccount'
-import AntdCheckbox from '../components/common/AntdCheckbox'
 import {
     AccountPaging, AccountQuery,
     backup, defpaging, defquery, getAccounts
 } from '../api/account'
+import { UploadMode, getUploadMode } from '../api/bot_configuration'
+import NewAccount from '../components/account/NewAccount'
 import SettingBulkAccount from '../components/account/SettingBulkAccount'
 import SettingItem from '../components/account/SettingItem'
-import { getUploadMode, UploadMode } from '../api/bot_configuration'
-import { IAccount } from '../model/Account'
+import AntdCheckbox from '../components/common/AntdCheckbox'
 import UploadShipping from '../components/shopee/UploadShipping'
-import client from '../api/client'
+import { IAccount } from '../model/Account'
+import { useQuery } from '../model/newapisdk'
 
 
 const { Text } = Typography
@@ -29,22 +29,48 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
     const [oneToMulti, setOneToMulti] = useState(false)
     const [limit, setLimit] = useState(0)
 
-    let url = ""
-    switch (upmode) {
-        case "tokopedia":
-            url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
-            break
+    const { send: tokopediaToShopee } = useQuery("GetUploadV6TokopediaToShopee")
+    const { send: manualToShopee } = useQuery("GetUploadV6ManualToShopee")
+    const { send: shopeeToShopee } = useQuery("GetUploadV6ShopeeToShopee")
+    const { send: qlobotToShopee } = useQuery("GetUploadV6QlobotToShopee")
 
-        case "shopee_manual":
-            url = `http://localhost:5000/upload/v6/manual_to_shopee?reset=${resetMap}&one_to_multi=${oneToMulti}&limit=${limit}`
-            break
-
-        default:
-            url = "http://localhost:5000/upload/v6/shopee_to_shopee"
-    }
-
-    const runUpload = async () => {
-        await client.get(url)
+    const runUpload = () => {
+        switch (upmode) {
+            case "tokopedia":
+                tokopediaToShopee({
+                    query: {
+                        base: "./",
+                        use_mapper: useMap,
+                    }
+                })
+                break
+    
+            case "shopee_manual":
+                manualToShopee({
+                    query: {
+                        base: "./",
+                        reset: resetMap,
+                        one_to_multi: oneToMulti,
+                        limit: limit,
+                    },
+                })
+                break
+            
+            case "qlobot_shopee":
+                qlobotToShopee({
+                    query: {
+                        base: "./",
+                    },
+                })
+                break
+    
+            default:
+                shopeeToShopee({
+                    query: {
+                        base: "./",
+                    },
+                })
+        }
     }
 
     return (
@@ -65,6 +91,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                         { value: 'shopee', label: 'Shopee' },
                         { value: 'shopee_manual', label: 'Shopee Manual' },
                         { value: 'tokopedia', label: 'Tokopedia' },
+                        { value: 'qlobot_shopee', label: 'Qlobot Shopee' },
                     ]}
                     style={{
                         minWidth: "180px"

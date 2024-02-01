@@ -1008,6 +1008,15 @@ export interface ShopeeUploadQueryCli {
 	base: string
 }
 
+export interface TopedShopeeUploadQueryCli {
+	base: string
+	use_mapper: boolean
+}
+
+export interface QlobotShopeeUploadQueryCli {
+	base: string
+}
+
 export interface ShopeeTopedUploadQueryCli {
 	base: string
 }
@@ -3888,10 +3897,23 @@ export const clients = {
 		url: "upload/v6/tokopedia_to_shopee" as const,
 		method: "GET" as const,
 		query: {
-				base: ``
-			} as ShopeeUploadQueryCli ,
+				base: ``,
+				use_mapper: false
+			} as TopedShopeeUploadQueryCli ,
 		body: {},
 		response: {} as any
+	},
+	GetUploadV6QlobotToShopee: {
+		url: "upload/v6/qlobot_to_shopee" as const,
+		method: "GET" as const,
+		query: {
+			base: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
 	},
 	GetTokopediaUploadShopee: {
 		url: "tokopedia/upload/shopee" as const,

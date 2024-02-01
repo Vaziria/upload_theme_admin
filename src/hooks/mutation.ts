@@ -58,11 +58,12 @@ export function useMutation<
         }
 
 
+        const paydata = files ? formData : body
         try {
             const { data } = await axios({
                 method,
                 url: uri,
-                data: formData,
+                data: paydata,
                 headers,
                 ...(query
                     ? {
