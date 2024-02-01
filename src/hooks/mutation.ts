@@ -4,8 +4,18 @@ import axios from "axios";
 import { useState } from "react";
 import { ClientReturn, Clients, MaybeNull, SendOptions, Target, clients } from "../model/newapisdk";
 
-export interface MutationClientReturn<Data, Query, Body, Err = Error> extends Omit<ClientReturn<Data, Query, Err>, "send">{
-    mutate(a: SendOptions<Data, Query, Err>, b?: Partial<Body>): void
+declare global {
+    interface FormData {
+        getBoundary(): string
+    }
+}
+
+export type MutateFiles = {
+    [key in string]: File
+}
+
+export interface MutationClientReturn<Data, Query, Body, Err = Error> extends Omit<ClientReturn<Data, Query, Err>, "send"> {
+    mutate(a: SendOptions<Data, Query, Err>, b?: Partial<Body>, files?: MutateFiles): void
 }
 
 export type Mutate<K extends Target> = MutationClientReturn<
@@ -28,20 +38,37 @@ export function useMutation<
     const [data, setData] = useState<MaybeNull<R>>(null);
     const [error, setError] = useState<MaybeNull<Error>>(null);
 
-    async function mutate(options: SendOptions<R, Q> | undefined = queryOptions, body?: Partial<B>) {
+    async function mutate(options: SendOptions<R, Q> | undefined = queryOptions, body?: Partial<B>, files?: MutateFiles) {
         setPending(true);
 
         const query = queryOptions?.query || options?.query;
 
+        const formData = new FormData();
+
+        for (const key in body) {
+            formData.set(key, body[key] as string)
+        }
+        for (const key in files) {
+            formData.append(key, files[key], "csv.csv")
+        }
+
+        const headers = {};
+        if (files && Object.keys(files).length > 0) {
+            headers["Content-Type"] = `multipart/form-data; boundary=${formData.getBoundary}`
+        }
+
+
+        const paydata = files ? formData : body
         try {
             const { data } = await axios({
                 method,
                 url: uri,
-                data: body,
+                data: paydata,
+                headers,
                 ...(query
                     ? {
-                          params: query
-                      }
+                        params: query
+                    }
                     : {})
             });
 

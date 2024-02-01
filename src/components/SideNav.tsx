@@ -47,6 +47,11 @@ const menuItem: MenuItem[] = [
     icon: 'fa fa-print'
   }, 
   {
+    name: 'Import / Export',
+    path: '/import_export',
+    icon: 'fa fa-file-export'
+  }, 
+  {
     name: 'Category Mapper',
     path: '/categmap',
     icon: 'fas fa-th-list'

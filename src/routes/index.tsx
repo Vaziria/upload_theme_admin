@@ -3,6 +3,7 @@ import React from "react"
 import { Route, Switch } from "react-router-dom"
 import AccountPage from "../pages/Account"
 import CategMapNewPage from "../pages/CategMapNew"
+import ImportExport from "../pages/ImportExport"
 import { HomePage } from "../pages/HomePage"
 import DetailProduct from "../pages/ProductDetail/DetailProduct"
 import ProductManual from "../pages/ProductManual"
@@ -89,6 +90,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/productmanual/:colid/update/:pid',
     component: ProductManualForm
+  },
+  {
+    path: '/import_export',
+    component: ImportExport
   }
 ]
 
