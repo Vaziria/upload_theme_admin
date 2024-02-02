@@ -74,6 +74,13 @@ const Loader: React.FC = () => {
                 }))
             ),
 
+            getNamespaces("qlobot_shopee").then(
+                (qlobotShopeeNamespaces) => setNamespaceData((data) => ({
+                    ...data,
+                    qlobotShopeeNamespaces
+                }))
+            ),
+
             getCollections({
                 query: {
                     page: 1,

@@ -10,7 +10,8 @@ type SelProps = SelectProps<string | undefined>
 
 interface Props extends Omit<SelProps, "options" | "onChange"> {
     marketplace?: NamespaceSelectKey
-    onChange?: (namespace?: string) => void;
+    onChange?: (namespace?: string) => void
+    showCount?: boolean
 }
 
 const NamespaceSelect: React.FC<Props> = (props: Props) => {
@@ -19,7 +20,7 @@ const NamespaceSelect: React.FC<Props> = (props: Props) => {
     const namespaces = useRecoilValue(namespaceSelectState(mode))
     const options: SelProps["options"] = namespaces.map((namespace) => ({
         value: namespace.name,
-        label: namespace.name,
+        label: namespace.name + (props.showCount ? ` ( ${ namespace.count } )` : ""),
     }))
 
     const onChange: Props["onChange"] = (value) => {

@@ -1041,6 +1041,12 @@ export interface TokopediaToShopeeAutoSuggestQuery {
 	namespace: string
 }
 
+export interface TempAkunRes {
+	data: string
+	message: string
+	error: number
+}
+
 export interface SourceAttributeQuery {
 	product_id: number
 	attribute_type: string
@@ -3965,6 +3971,17 @@ export const clients = {
 			errcode: 0,
 			message: ``,
 			status: ``
+		}
+	},
+	GetV1AkunTempAkun: {
+		url: "v1/akun/temp_akun" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			data: ``,
+			message: ``,
+			error: 0
 		}
 	},
 	GetPdcsourceAttrToped: {
