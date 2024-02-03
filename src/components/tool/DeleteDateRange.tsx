@@ -1,4 +1,4 @@
-import { DatePicker } from "antd"
+import { DatePicker, TimeRangePickerProps } from "antd"
 import dayjs from "dayjs"
 import React from "react"
 
@@ -13,17 +13,26 @@ interface Props {
 
 const dateformat = "YYYY-MM-DD HH:mm:ss"
 
+const presets: TimeRangePickerProps["presets"] = [
+    { label: "1 Minggu", value: [dayjs().add(-1, "w"), dayjs()] },
+    { label: "2 Minggu", value: [dayjs().add(-2, "w"), dayjs()] },
+    { label: "1 Bulan", value: [dayjs().add(-1, "m"), dayjs()] },
+    { label: "3 Bulan", value: [dayjs().add(-3, "m"), dayjs()] },
+    { label: "1 Tahun", value: [dayjs().add(-1, "y"), dayjs()] },
+  ];
+
 const DeleteDateRange: React.FC<Props> = (props: Props) => {
 
     const { value, onChange } = props
 
-    const datemin = dayjs(value.awaltanggal, dateformat)
-    const datemax = dayjs(value.tanggal, dateformat)
+    const datemin = value.awaltanggal ? dayjs(value.awaltanggal, dateformat) : null
+    const datemax = value.tanggal ? dayjs(value.tanggal, dateformat) : null
 
     return <DatePicker.RangePicker
         value={[datemin, datemax]}
         className="w-100"
         placeholder={["Tanggal Awal", "Tanggal Akhir"]}
+        presets={presets}
         onChange={(value) => {
 
             const awaltanggal = value?.[0]?.format(dateformat) || ""

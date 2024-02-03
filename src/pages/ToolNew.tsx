@@ -7,6 +7,8 @@ import DeleteModal from "../components/tool/DeleteModal"
 import { useMutation } from "../hooks/mutation"
 import { BaseWebResponse, DeleteConfig, DeleteProduct, TempAkunRes, useQuery } from "../model/newapisdk"
 
+type BaseOnSuccess = (res: BaseWebResponse) => void
+
 const ToolPageNew: React.FC = () => {
 
     const [akuns, setAkuns] = React.useState("")
@@ -51,10 +53,11 @@ const ToolPageNew: React.FC = () => {
 
     }
 
-    function applySaveTempAkun() {
+    function applySaveTempAkun(onSuccess?: BaseOnSuccess) {
         saveTempAkun({
-            onSuccess() {
+            onSuccess(res) {
                 messageApi.success("akunlist saved...")
+                onSuccess?.(res)
             },
             onError: errHandler,
         }, {
@@ -62,20 +65,22 @@ const ToolPageNew: React.FC = () => {
         })
     }
 
-    function applySaveDeleteConfig() {
+    function applySaveDeleteConfig(onSuccess?: BaseOnSuccess) {
         saveDeleteConfig({
-            onSuccess() {
+            onSuccess(res) {
                 messageApi.success("delete config saved...")
+                onSuccess?.(res)
             },
             onError: errHandler,
         }, deleteConfig)
     }
 
 
-    function applySaveDeleteConfigProduct() {
+    function applySaveDeleteConfigProduct(onSuccess?: BaseOnSuccess) {
         saveDeleteConfigProduct({
-            onSuccess() {
+            onSuccess(res) {
                 messageApi.success("delete config product saved...")
+                onSuccess?.(res)
             },
             onError: errHandler,
         }, {
@@ -85,34 +90,39 @@ const ToolPageNew: React.FC = () => {
 
 
     function applyCheckbot() {
-        applySaveTempAkun()
-        checkbot({
-            onSuccess() {
-                messageApi.success("check bot running...")
-            },
-            onError: errHandler,
+        applySaveTempAkun(() => {
+            checkbot({
+                onSuccess() {
+                    messageApi.success("check bot running...")
+                },
+                onError: errHandler,
+            })
         })
     }
 
     function applyCheckorder() {
-        applySaveTempAkun()
-        checkorder({
-            onSuccess() {
-                messageApi.success("check order running...")
-            },
-            onError: errHandler,
+        applySaveTempAkun(() => {
+            checkorder({
+                onSuccess() {
+                    messageApi.success("check order running...")
+                },
+                onError: errHandler,
+            })
         })
     }
 
     function applyDeleteProduct() {
-        applySaveTempAkun()
-        applySaveDeleteConfig()
-        applySaveDeleteConfigProduct()
-        deleteProduct({
-            onSuccess() {
-                messageApi.success("delete produk running...")
-            },
-            onError: errHandler,
+        applySaveTempAkun(() => {
+            applySaveDeleteConfig(() => {
+                applySaveDeleteConfigProduct(() => {
+                    deleteProduct({
+                        onSuccess() {
+                            messageApi.success("delete produk running...")
+                        },
+                        onError: errHandler,
+                    })
+                })
+            })
         })
     }
 
@@ -163,7 +173,7 @@ const ToolPageNew: React.FC = () => {
                     <Space>
                         <Button
                             className="c-tx-sm"
-                            onClick={applySaveTempAkun}
+                            onClick={() => applySaveTempAkun()}
                         >SAVE</Button>
 
                         <Button

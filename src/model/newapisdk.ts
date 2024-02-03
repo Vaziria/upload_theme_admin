@@ -1047,6 +1047,28 @@ export interface TempAkunRes {
 	error: number
 }
 
+export interface InfoRes {
+	lisensi: string
+	version: string
+}
+
+export interface CacheSizeQuery {
+	reset: boolean
+}
+
+export interface SizeSum {
+	size: number
+	size_kb: number
+	size_mb: number
+	size_gb: number
+}
+
+export interface CacheSizeRes {
+	processing: boolean
+	cache_size: SizeSum | undefined
+	webdriver_size: SizeSum | undefined
+}
+
 export interface SourceAttributeQuery {
 	product_id: number
 	attribute_type: string
@@ -3982,6 +4004,61 @@ export const clients = {
 			data: ``,
 			message: ``,
 			error: 0
+		}
+	},
+	GetV1MainInfo: {
+		url: "v1/main/info" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			lisensi: ``,
+			version: ``
+		}
+	},
+	GetV1MainCacheSize: {
+		url: "v1/main/cache_size" as const,
+		method: "GET" as const,
+		query: {
+			reset: false
+		},
+		body: {},
+		response: {
+			processing: false,
+			cache_size: {
+				size: 0.00,
+				size_kb: 0.00,
+				size_mb: 0.00,
+				size_gb: 0.00
+			} as SizeSum | undefined,
+			webdriver_size: {
+				size: 0.00,
+				size_kb: 0.00,
+				size_mb: 0.00,
+				size_gb: 0.00
+			} as SizeSum | undefined
+		}
+	},
+	DeleteV1MainClearCache: {
+		url: "v1/main/clear_cache" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
+	DeleteV1MainClearCacheWebdriver: {
+		url: "v1/main/clear_cache_webdriver" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
 		}
 	},
 	GetPdcsourceAttrToped: {
