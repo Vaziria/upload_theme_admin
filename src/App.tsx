@@ -28,6 +28,8 @@ import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
 import { infoState } from './recoil/atoms/info'
+import { spinDataState } from './recoil/atoms/spin'
+import { hastagDataState } from './recoil/atoms/hastag'
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = BASEURL
@@ -41,6 +43,8 @@ const Loader: React.FC = () => {
     const setProductManualCollection = useSetRecoilState(collectionSelectState)
     const setMarkupData = useSetRecoilState(markupDataState)
     const setInfo = useSetRecoilState(infoState)
+    const setSpinData = useSetRecoilState(spinDataState)
+    const setHastagData = useSetRecoilState(hastagDataState)
 
     const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
     const { send: getInfo } = useQuery("GetV1MainInfo")
@@ -57,9 +61,11 @@ const Loader: React.FC = () => {
                 setTokopediaCities(manifest.cities)
                 setTokopediaCategories(manifest.categories)
             }),
-            loadSpin(),
+            loadSpin().then((data) => {
+                setSpinData(data.spin)
+            }),
             loadCollection(),
-            loadHastags(),
+            loadHastags().then(setHastagData),
             loadMarkup().then(setMarkupData),
             setupV2Notification().catch(() => console.error('setup notification gagal')),
 

@@ -7,7 +7,7 @@ interface IState {
     exampleTitle: string
 }
 
-interface LoadAction {
+export interface LoadAction {
     type: 'spin/load'
     payload: {
         spin: Spin[]

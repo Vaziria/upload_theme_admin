@@ -13,6 +13,7 @@ import AntdCheckbox from '../components/common/AntdCheckbox'
 import UploadShipping from '../components/shopee/UploadShipping'
 import { IAccount } from '../model/Account'
 import { useQuery } from '../model/newapisdk'
+import SettingItemNew from '../components/account/SettingItemNew'
 
 
 const { Text } = Typography
@@ -44,7 +45,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                     }
                 })
                 break
-    
+
             case "shopee_manual":
                 manualToShopee({
                     query: {
@@ -55,7 +56,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                     },
                 })
                 break
-            
+
             case "qlobot_shopee":
                 qlobotToShopee({
                     query: {
@@ -63,7 +64,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                     },
                 })
                 break
-    
+
             default:
                 shopeeToShopee({
                     query: {
@@ -132,6 +133,7 @@ export interface IState {
     paging: AccountPaging
     mode: UploadMode
     copyAkun?: IAccount
+    useOld: boolean
 }
 
 class AccountPage extends React.Component<unknown, IState> {
@@ -139,10 +141,11 @@ class AccountPage extends React.Component<unknown, IState> {
         kurirs: [],
         query: defquery,
         paging: defpaging,
-        mode: 'shopee'
+        mode: 'shopee',
+        useOld: localStorage.getItem("useOldFE") == "true",
     }
 
-    accountRefs: SettingItem[] = []
+    accountRefs: (SettingItem | SettingItemNew)[] = []
     showBulk = false
 
     async getAccounts(): Promise<void> {
@@ -228,21 +231,47 @@ class AccountPage extends React.Component<unknown, IState> {
         this.accountRefs = []
 
         paging.data.forEach(akun => {
-            settingItems.push(<SettingItem
-                key={akun._id}
-                ref={ref => {
-                    if (ref) this.accountRefs.push(ref)
-                }}
-                akun={akun}
-                mode={mode}
-                copyAccount={this.state.copyAkun}
-                update={() => this.getAccounts()}
-                onCopy={copyAkun => this.setState({ copyAkun })}
-            />)
+
+            if (this.state.useOld) {
+                settingItems.push(<SettingItem
+                    key={akun._id}
+                    ref={ref => {
+                        if (ref) this.accountRefs.push(ref)
+                    }}
+                    akun={akun}
+                    mode={mode}
+                    copyAccount={this.state.copyAkun}
+                    update={() => this.getAccounts()}
+                    onCopy={copyAkun => this.setState({ copyAkun })}
+                />)
+
+            } else {
+                settingItems.push(<SettingItemNew
+                    key={akun._id}
+                    ref={ref => {
+                        if (ref) this.accountRefs.push(ref)
+                    }}
+                    akun={akun}
+                    mode={mode}
+                    copyAccount={this.state.copyAkun}
+                    update={() => this.getAccounts()}
+                    onCopy={copyAkun => this.setState({ copyAkun })}
+                />)
+            }
         })
 
-        return <div id="itemContainer" className="col-lg-12" style={{ marginTop: 20 }}>
-            {settingItems}
+        return <div className="m-4 w-100">
+            <AntdCheckbox
+                className="mb-3"
+                checked={this.state.useOld}
+                onChange={(useOld) => {
+                    this.setState({ useOld })
+                    localStorage.setItem("useOldFE", useOld ? "true" : "false")
+                }}
+            >Gunakan Tampilan Lama</AntdCheckbox>
+            <Space id="itemContainer" direction="vertical" size="large" className="d-flex">
+                {settingItems}
+            </Space>
         </div>
     }
 
@@ -275,7 +304,7 @@ class AccountPage extends React.Component<unknown, IState> {
             />
 
             {/* actions */}
-            <div className="col-lg-12" style={{ marginTop: -15, marginBottom: -35 }}>
+            <div className="col-lg-12" style={{ marginTop: -15 }}>
                 <hr />
                 <label>SETTING <span style={{ color: 'red' }}>{paging.total}</span> ACCOUNT :</label>
                 <div className="float-right" style={{ marginBottom: 5, marginTop: 6 }}>

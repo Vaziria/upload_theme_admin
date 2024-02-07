@@ -1,6 +1,7 @@
 import { store } from '..'
 import { exampleSpin, getSpinConfig } from '../../api/spin'
 import { ErrKey, Spin, SpinConfig } from '../../model/Spin'
+import { LoadAction } from './SpinReducer'
 
 export async function getExample (title: string): Promise<void> {
     const exTitle = await exampleSpin(title)
@@ -11,20 +12,23 @@ export async function getExample (title: string): Promise<void> {
     })
 }
 
-export async function loadSpin (): Promise<void> {
+export async function loadSpin (): Promise<LoadAction["payload"]> {
     const spin = await getSpinConfig()
 
     if (spin.data?.title) {
         getExample(spin.data.title)
     }
 
+    const payload = {
+        spin: spin.titlePool,
+        config: spin.data
+    }
     store.dispatch({
         type: 'spin/load',
-        payload: {
-            spin: spin.titlePool,
-            config: spin.data
-        }
+        payload: payload
     })
+
+    return payload
 }
 
 export async function addSpin (spin: Spin): Promise<void> {
