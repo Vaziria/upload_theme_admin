@@ -23,6 +23,11 @@ export const namespaceSelectState = selectorFamily<ProductNamespace[], Namespace
                 namespaces.push(...data.tokopediaNamespaces)
                 break
 
+            case "qlobot_shopee":
+                namespaces.push(...data.qlobotShopeeNamespaces)
+                break
+
+
             case "jakmall":
                 namespaces.push(...data.jakmallNamespaces)
                 break
@@ -30,7 +35,8 @@ export const namespaceSelectState = selectorFamily<ProductNamespace[], Namespace
             default:
                 namespaces.push(
                     ...data.shopeeNamespaces,
-                    ...data.tokopediaNamespaces
+                    ...data.tokopediaNamespaces,
+                    ...data.qlobotShopeeNamespaces
                 )
         }
 

@@ -27,6 +27,9 @@ import { tokopediaCitiesState } from "./recoil/atoms/cities"
 import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
+import { infoState } from './recoil/atoms/info'
+import { spinDataState } from './recoil/atoms/spin'
+import { hastagDataState } from './recoil/atoms/hastag'
 import { setJakmallCategoriesCallback } from './recoil/callbacks/set_jakmall_categories'
 import { setJakmallFilterDataCallback } from './recoil/callbacks/set_jakmall_filter'
 
@@ -41,10 +44,14 @@ const Loader: React.FC = () => {
     const setNamespaceData = useSetRecoilState(namespaceDataState)
     const setProductManualCollection = useSetRecoilState(collectionSelectState)
     const setMarkupData = useSetRecoilState(markupDataState)
+    const setInfo = useSetRecoilState(infoState)
+    const setSpinData = useSetRecoilState(spinDataState)
+    const setHastagData = useSetRecoilState(hastagDataState)
     const setJakmallCategories = setJakmallCategoriesCallback()
     const setJakmallFilterData = setJakmallFilterDataCallback()
 
     const { send: getCollections } = useQuery("GetPdcsourceCollectionList")
+    const { send: getInfo } = useQuery("GetV1MainInfo")
     const { send: getJakmallCategories } = useQuery("GetJakmallCategoryList")
     const { send: getJakmallFilterData } = useQuery("GetJakmallSearchFilterData")
 
@@ -60,9 +67,11 @@ const Loader: React.FC = () => {
                 setTokopediaCities(manifest.cities)
                 setTokopediaCategories(manifest.categories)
             }),
-            loadSpin(),
+            loadSpin().then((data) => {
+                setSpinData(data.spin)
+            }),
             loadCollection(),
-            loadHastags(),
+            loadHastags().then(setHastagData),
             loadMarkup().then(setMarkupData),
             setupV2Notification().catch(() => console.error('setup notification gagal')),
 
@@ -77,6 +86,13 @@ const Loader: React.FC = () => {
                 (tokopediaNamespaces) => setNamespaceData((data) => ({
                     ...data,
                     tokopediaNamespaces
+                }))
+            ),
+
+            getNamespaces("qlobot_shopee").then(
+                (qlobotShopeeNamespaces) => setNamespaceData((data) => ({
+                    ...data,
+                    qlobotShopeeNamespaces
                 }))
             ),
 
@@ -95,6 +111,10 @@ const Loader: React.FC = () => {
                 onSuccess(res) {
                     setProductManualCollection(res.data)
                 }
+            }),
+
+            getInfo({
+                onSuccess: setInfo,
             }),
 
             getJakmallCategories({

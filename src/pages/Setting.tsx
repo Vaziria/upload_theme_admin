@@ -6,7 +6,8 @@ import AdvancedSetting from "../components/botconfig/AdvancedSetting"
 import Cloudinary from "../components/botconfig/Cloudirary"
 import RestoreConfig from "../components/botconfig/RestoreConfig"
 import { SettingSet } from "../components/botconfig/SettingSet"
-import MpSelect from "../components/common/MpSelect"
+import AntdSelectAddon from "../components/common/AntdSelectAddon"
+import MarketplaceSelect from "../components/common/MarketplaceSelect"
 import BlacklistTitle from "../components/grab/BlacklistTitle"
 import BlacklistWord from "../components/grab/BlacklistWord"
 import BlacklistWordAja from "../components/grab/BlacklistWordAja"
@@ -132,30 +133,25 @@ export default class SettingPage extends React.Component<unknown, IState> {
 
             <FilterTokpedBadge></FilterTokpedBadge>
 
-            <p className="warn"><i>*Tokopedia Points Misal Antara Silver 4 - Gold 5 </i></p>
-            <p className="warn"><i>*(Auto Save) </i></p>
-
-            <hr />
-            <LastLogin></LastLogin>
-            <LastReview></LastReview>
-            <hr />
-            <SettingMarkup></SettingMarkup>
-            <hr />
-            <div className="input-group input-group-sm mb-3">
-              <div className="input-group-prepend">
-                <label className="input-group-text darkorange">Select Mode:</label>
-              </div>
-
-              <br />
-              <MpSelect
+          <hr />
+          <LastLogin></LastLogin>
+          <LastReview></LastReview>
+          <hr />
+          <SettingMarkup></SettingMarkup>
+          <hr/>
+          <div className="mb-3">
+            <AntdSelectAddon addon="Select Mode" className="mb-3">
+              <MarketplaceSelect
                 value={this.state.upmode}
-                onChange={(upmode) => this.setMode(upmode)}
-              ></MpSelect>
-            </div>
-            {this.state.upmode === 'shopee' && <ShopeeUpConfig />}
-            {this.state.upmode === 'tokopedia' && <TokopediaUpConfig />}
+                className="w-100"
+                onChange={(upmode) => upmode && this.setMode(upmode)}
+              />
+            </AntdSelectAddon>
+            { this.state.upmode === 'shopee' && <ShopeeUpConfig></ShopeeUpConfig> }
+            { this.state.upmode === 'tokopedia' && <TokopediaUpConfig />}
             {this.state.upmode === 'jakmall' && <JackmallSearchConfig />}
-            <hr />
+          </div>
+          <hr/>
 
             <div className="col-lg-8 setgrab">
               <div>

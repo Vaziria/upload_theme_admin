@@ -32,7 +32,7 @@ const menuItem: MenuItem[] = [
     icon: 'fas fa-tasks'
   },
   {
-    name: 'Tool',
+    name: 'Tools',
     path: '/tool',
     icon: 'fas fa-hammer'
   },
@@ -45,7 +45,12 @@ const menuItem: MenuItem[] = [
     name: 'Product Manual',
     path: '/productmanual',
     icon: 'fa fa-print'
-  }, 
+  },
+  {
+    name: 'Import / Export',
+    path: '/import_export',
+    icon: 'fa fa-file-export'
+  },
   {
     name: 'Category Mapper',
     path: '/categmap',
@@ -61,19 +66,19 @@ const menuItem: MenuItem[] = [
     path: '/toped',
     icon: 'fas fa-project-diagram'
   }
-] 
+]
 
 class SideNav extends React.Component<RouteComponentProps> {
 
   renderLink(menu: MenuItem): JSX.Element {
     let clsname = 'list-group-item navi-custom'
     const loc = this.props.location.pathname
-    if(loc === menu.path){
-      clsname += ' active' 
+    if (loc === menu.path) {
+      clsname += ' active'
     }
 
     return (
-      <TypedLink to={menu.path} params={{}} key={menu.path} className={clsname}><i className={menu.icon}></i> { menu.name }</TypedLink>
+      <TypedLink to={menu.path} params={{}} key={menu.path} className={clsname}><i className={menu.icon}></i> {menu.name}</TypedLink>
     )
   }
 
@@ -81,8 +86,10 @@ class SideNav extends React.Component<RouteComponentProps> {
     return (
       <div className="col-2">
         <nav className="side-nav mb-1 navbar navbar-expand-lg navbar-dark">
-            <nav className="nav mb-4">
+          <nav className="nav mb-4">
+            <a href="">
               <h2 className="title-bot">Upload Tool</h2>
+            </a>
           </nav>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-4"
             aria-controls="navbarSupportedContent-4" aria-expanded="false" aria-label="Toggle navigation">
@@ -90,7 +97,7 @@ class SideNav extends React.Component<RouteComponentProps> {
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent-4">
             <ul className="list-group list-group-flush ul-navi-custom">
-              { menuItem.map((menu) => this.renderLink(menu)) }
+              {menuItem.map((menu) => this.renderLink(menu))}
             </ul>
           </div>
         </nav>

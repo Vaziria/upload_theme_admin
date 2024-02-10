@@ -764,6 +764,11 @@ export interface AttributeResponse {
 	attributes: Array<AttributeTree | undefined>
 }
 
+export interface QlobotShopeeImportCSVQuery {
+	namespace: string
+	per_item: number
+}
+
 export interface BulkItem {
 	username: string
 	password: string
@@ -994,97 +999,6 @@ export interface CheckOrderAkunItem {
 	username: string
 }
 
-export interface CategoryNavigation {
-	name: string
-	url: string
-	icon: string
-	color: string
-	children: Array<CategoryNavigation | undefined>
-}
-
-export interface JkmlCategoryListResponse {
-	msg: string
-	error: string
-	data: Array<CategoryNavigation | undefined>
-}
-
-export interface JkmlWebResponse {
-	msg: string
-	error: string
-}
-
-export interface SearchCityOption {
-	label: string
-	value: string
-}
-
-export interface SearchSortOption {
-	label: string
-	value: string
-}
-
-export interface JkmlSearchDataResponse {
-	msg: string
-	error: string
-	cities: Array<SearchCityOption | undefined>
-	delivery_types: Array<string>
-	sorts: Array<SearchSortOption | undefined>
-}
-
-export interface GrabSearchFilter {
-	category: string
-	price_min: number
-	price_max: number
-	untung_paling_besar: number
-	in_stock: number
-	bulk_price: number
-	delivery_types: Array<string>
-	cities: Array<string>
-	sort: string
-	rating: number
-}
-
-export interface JkmlSearchFilterResponse {
-	msg: string
-	error: string
-	data: GrabSearchFilter | undefined
-}
-
-export interface JkmlCategoryMapListQuery {
-	type: string
-	namespace: string
-}
-
-export interface MapCateg {
-	id: number
-	name: string
-}
-
-export interface JkmlCategoryMap {
-	type: string
-	name: string
-	categs: Array<MapCateg | undefined>
-	mapper_id: number
-	mapper_name: string
-	mapper_categs: Array<MapCateg | undefined>
-	count: number
-}
-
-export interface JkmlCategoryMapListResponse {
-	msg: string
-	error: string
-	data: Array<JkmlCategoryMap | undefined>
-}
-
-export interface CategoryMapper {
-	type: string
-	name: string
-	categs: Array<MapCateg | undefined>
-	mapper_id: number
-	mapper_name: string
-	mapper_categs: Array<MapCateg | undefined>
-}
-
 export interface ManualShopeeUploadQueryCli {
 	base: string
 	reset: boolean
@@ -1101,6 +1015,15 @@ export interface ManualTokopediaUploadQueryCli {
 }
 
 export interface ShopeeUploadQueryCli {
+	base: string
+}
+
+export interface TopedShopeeUploadQueryCli {
+	base: string
+	use_mapper: boolean
+}
+
+export interface QlobotShopeeUploadQueryCli {
 	base: string
 }
 
@@ -1126,6 +1049,34 @@ export interface RenameCollectionPayload {
 	marketplace: string
 	namespace: string
 	update_namespace: string
+}
+
+export interface TempAkunRes {
+	data: string
+	message: string
+	error: number
+}
+
+export interface InfoRes {
+	lisensi: string
+	version: string
+}
+
+export interface CacheSizeQuery {
+	reset: boolean
+}
+
+export interface SizeSum {
+	size: number
+	size_kb: number
+	size_mb: number
+	size_gb: number
+}
+
+export interface CacheSizeRes {
+	processing: boolean
+	cache_size: SizeSum | undefined
+	webdriver_size: SizeSum | undefined
 }
 
 export interface SourceAttributeQuery {
@@ -3406,6 +3357,20 @@ export const clients = {
 				] as Array<AttributeTree | undefined>
 			} as AttributeResponse 
 	},
+	PostShopeeV5QlobotShopeeImportCsv: {
+		url: "shopee/v5/qlobot/shopee_import_csv" as const,
+		method: "POST" as const,
+		query: {
+			namespace: ``,
+			per_item: 0
+		},
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
 	GetTokopediaAkunList: {
 		url: "tokopedia/akun/list" as const,
 		method: "GET" as const,
@@ -3950,188 +3915,6 @@ export const clients = {
 		] as Array<CheckOrderAkunItem | undefined>,
 		response: {} as any
 	},
-	GetJakmallCategoryList: {
-		url: "jakmall/category/list" as const,
-		method: "GET" as const,
-		query: undefined,
-		body: {},
-		response: {
-			msg: ``,
-			error: ``,
-			data: [
-			{
-					name: ``,
-					url: ``,
-					icon: ``,
-					color: ``,
-					children: [
-					] as Array<CategoryNavigation | undefined>
-				} as CategoryNavigation | undefined
-			] as Array<CategoryNavigation | undefined>
-		}
-	},
-	GetJakmallCategoryDumpCsv: {
-		url: "jakmall/category/dump_csv" as const,
-		method: "GET" as const,
-		query: undefined,
-		body: {},
-		response: {
-			msg: ``,
-			error: ``
-		}
-	},
-	GetJakmallSearchFilterData: {
-		url: "jakmall/search_filter/data" as const,
-		method: "GET" as const,
-		query: undefined,
-		body: {},
-		response: {
-			msg: ``,
-			error: ``,
-			cities: [
-			{
-					label: ``,
-					value: ``
-				} as SearchCityOption | undefined
-			] as Array<SearchCityOption | undefined>,
-			delivery_types: [
-			``
-			] as Array<string>,
-			sorts: [
-			{
-					label: ``,
-					value: ``
-				} as SearchSortOption | undefined
-			] as Array<SearchSortOption | undefined>
-		}
-	},
-	GetJakmallSearchFilter: {
-		url: "jakmall/search_filter" as const,
-		method: "GET" as const,
-		query: undefined,
-		body: {},
-		response: {
-			msg: ``,
-			error: ``,
-			data: {
-				category: ``,
-				price_min: 0,
-				price_max: 0,
-				untung_paling_besar: 0,
-				in_stock: 0,
-				bulk_price: 0,
-				delivery_types: [
-				``
-				] as Array<string>,
-				cities: [
-				``
-				] as Array<string>,
-				sort: ``,
-				rating: 0.00
-			} as GrabSearchFilter | undefined
-		}
-	},
-	PostJakmallSearchFilter: {
-		url: "jakmall/search_filter" as const,
-		method: "POST" as const,
-		query: undefined,
-		body: {
-			category: ``,
-			price_min: 0,
-			price_max: 0,
-			untung_paling_besar: 0,
-			in_stock: 0,
-			bulk_price: 0,
-			delivery_types: [
-			``
-			] as Array<string>,
-			cities: [
-			``
-			] as Array<string>,
-			sort: ``,
-			rating: 0.00
-		},
-		response: {
-			msg: ``,
-			error: ``
-		}
-	},
-	GetJakmallCategoryMapperList: {
-		url: "jakmall/category_mapper/list" as const,
-		method: "GET" as const,
-		query: {
-			type: ``,
-			namespace: ``
-		},
-		body: {},
-		response: {
-			msg: ``,
-			error: ``,
-			data: [
-			{
-					type: ``,
-					name: ``,
-					categs: [
-					{
-							id: 0,
-							name: ``
-						} as MapCateg | undefined
-					] as Array<MapCateg | undefined>,
-					mapper_id: 0,
-					mapper_name: ``,
-					mapper_categs: [
-					{
-							id: 0,
-							name: ``
-						} as MapCateg | undefined
-					] as Array<MapCateg | undefined>,
-					count: 0
-				} as JkmlCategoryMap | undefined
-			] as Array<JkmlCategoryMap | undefined>
-		}
-	},
-	PostJakmallCategoryMapperSave: {
-		url: "jakmall/category_mapper/save" as const,
-		method: "POST" as const,
-		query: undefined,
-		body: [
-			{
-				type: ``,
-				name: ``,
-				categs: [
-				{
-						id: 0,
-						name: ``
-					} as MapCateg | undefined
-				] as Array<MapCateg | undefined>,
-				mapper_id: 0,
-				mapper_name: ``,
-				mapper_categs: [
-				{
-						id: 0,
-						name: ``
-					} as MapCateg | undefined
-				] as Array<MapCateg | undefined>
-			}
-		] as Array<CategoryMapper>,
-		response: {
-			msg: ``,
-			error: ``
-		}
-	},
-	PutJakmallCategoryMapperAutosuggest: {
-		url: "jakmall/category_mapper/autosuggest" as const,
-		method: "PUT" as const,
-		query: {
-			type: ``,
-			namespace: ``
-		},
-		body: {},
-		response: {
-			msg: ``,
-			error: ``
-		}
-	},
 	GetUploadV6ManualToShopee: {
 		url: "upload/v6/manual_to_shopee" as const,
 		method: "GET" as const,
@@ -4170,10 +3953,23 @@ export const clients = {
 		url: "upload/v6/tokopedia_to_shopee" as const,
 		method: "GET" as const,
 		query: {
-				base: ``
-			} as ShopeeUploadQueryCli ,
+				base: ``,
+				use_mapper: false
+			} as TopedShopeeUploadQueryCli ,
 		body: {},
 		response: {} as any
+	},
+	GetUploadV6QlobotToShopee: {
+		url: "upload/v6/qlobot_to_shopee" as const,
+		method: "GET" as const,
+		query: {
+			base: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
 	},
 	GetTokopediaUploadShopee: {
 		url: "tokopedia/upload/shopee" as const,
@@ -4221,6 +4017,85 @@ export const clients = {
 			namespace: ``,
 			update_namespace: ``
 		},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
+	GetV1CategoryMapperTokopediaToShopeeAutosuggest: {
+		url: "v1/category/mapper/tokopedia_to_shopee_autosuggest" as const,
+		method: "GET" as const,
+		query: {
+			namespace: ``
+		},
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
+	GetV1AkunTempAkun: {
+		url: "v1/akun/temp_akun" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			data: ``,
+			message: ``,
+			error: 0
+		}
+	},
+	GetV1MainInfo: {
+		url: "v1/main/info" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			lisensi: ``,
+			version: ``
+		}
+	},
+	GetV1MainCacheSize: {
+		url: "v1/main/cache_size" as const,
+		method: "GET" as const,
+		query: {
+			reset: false
+		},
+		body: {},
+		response: {
+			processing: false,
+			cache_size: {
+				size: 0.00,
+				size_kb: 0.00,
+				size_mb: 0.00,
+				size_gb: 0.00
+			} as SizeSum | undefined,
+			webdriver_size: {
+				size: 0.00,
+				size_kb: 0.00,
+				size_mb: 0.00,
+				size_gb: 0.00
+			} as SizeSum | undefined
+		}
+	},
+	DeleteV1MainClearCache: {
+		url: "v1/main/clear_cache" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
+	DeleteV1MainClearCacheWebdriver: {
+		url: "v1/main/clear_cache_webdriver" as const,
+		method: "DELETE" as const,
+		query: undefined,
+		body: {},
 		response: {
 			errcode: 0,
 			message: ``,

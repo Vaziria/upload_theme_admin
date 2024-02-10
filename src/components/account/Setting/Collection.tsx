@@ -1,63 +1,47 @@
-import React from "react"
-import { connect, ConnectedProps } from "react-redux"
-import { RootState } from "../../../features"
-import { UploadMode } from "../../../api/bot_configuration"
 import { Space } from "antd"
+import React from "react"
+import { UploadMode } from "../../../api/bot_configuration"
+import NamespaceSelect from "../../common/NamespaceSelectNew"
 import ProductManualCollectionSelect from "../../common/ProductManualCollectionSelect"
 
-function mapState(state: RootState) {
-    return {
-        namespaces: state.CollectionReducer.namespaces
-    }
-}
-
-const connector = connect(mapState, {})
-type PropsFromRedux = ConnectedProps<typeof connector>
-interface IProps extends PropsFromRedux {
+interface IProps {
     mode: UploadMode
     value?: string
     update(collection: string): void
 }
 
-class Collection extends React.Component<IProps> {
-    render(): JSX.Element {
+const Collection: React.FC<IProps> = (props: IProps) => {
 
-        const { mode, value, update } = this.props
+    const { mode, value, update } = props
 
-        if (mode === "shopee_manual") {
-            return <Space.Compact className="input-group mb-3 input-group-sm">
-                <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon3">Collection</span>
-                </div>
-                <ProductManualCollectionSelect
-                    value={value}
-                    placeholder="Pilih Collection"
-                    className="flex-1"
-                    onChange={update}
-                />
-            </Space.Compact>
-        }
-
-        return <div className="input-group mb-3 input-group-sm">
+    if (mode === "shopee_manual") {
+        return <Space.Compact className="input-group mb-3 input-group-sm">
             <div className="input-group-prepend">
                 <span className="input-group-text" id="basic-addon3">Collection</span>
             </div>
-            <select
+            <ProductManualCollectionSelect
                 value={value}
-                className="custom-select ng-valid ng-touched ng-dirty ng-valid-parse ng-empty"
-                onChange={select => update(select.target.value)}
-            >
-                <option value="">None</option>
-                {this.props.namespaces.map(namespace =>
-                    <option
-                        key={namespace.name}
-                        value={namespace.name}
-                    >{namespace.name} ( {namespace.count} )</option>
-                )}
-                <option value="all">all</option>
-            </select>
-        </div>
+                placeholder="Pilih Collection"
+                className="flex-1"
+                onChange={update}
+            />
+        </Space.Compact>
     }
+
+    return <Space.Compact className="input-group mb-3 input-group-sm">
+        <div className="input-group-prepend">
+            <span className="input-group-text" id="basic-addon3">Collection</span>
+        </div>
+        <NamespaceSelect
+            showAll
+            showCount
+            marketplace={mode}
+            value={value}
+            placeholder="Pilih Collection"
+            className="flex-1"
+            onChange={(namspace) => update(namspace || "")}
+        />
+    </Space.Compact>
 }
 
-export default connector(Collection)
+export default Collection

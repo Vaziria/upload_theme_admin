@@ -1,18 +1,19 @@
-import React, { useState } from 'react'
 import { Button, InputNumber, Select, Space, Typography } from 'antd'
+import React, { useState } from 'react'
 
-import NewAccount from '../components/account/NewAccount'
-import AntdCheckbox from '../components/common/AntdCheckbox'
 import {
     AccountPaging, AccountQuery,
     backup, defpaging, defquery, getAccounts
 } from '../api/account'
+import { UploadMode, getUploadMode } from '../api/bot_configuration'
+import NewAccount from '../components/account/NewAccount'
 import SettingBulkAccount from '../components/account/SettingBulkAccount'
 import SettingItem from '../components/account/SettingItem'
-import { getUploadMode, UploadMode } from '../api/bot_configuration'
-import { IAccount } from '../model/Account'
+import AntdCheckbox from '../components/common/AntdCheckbox'
 import UploadShipping from '../components/shopee/UploadShipping'
-import client from '../api/client'
+import { IAccount } from '../model/Account'
+import { useQuery } from '../model/newapisdk'
+import SettingItemNew from '../components/account/SettingItemNew'
 
 
 const { Text } = Typography
@@ -29,22 +30,48 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
     const [oneToMulti, setOneToMulti] = useState(false)
     const [limit, setLimit] = useState(0)
 
-    let url = ""
-    switch (upmode) {
-        case "tokopedia":
-            url = `http://localhost:5000/upload/v6/tokopedia_to_shopee?use_mapper=${useMap}`
-            break
+    const { send: tokopediaToShopee } = useQuery("GetUploadV6TokopediaToShopee")
+    const { send: manualToShopee } = useQuery("GetUploadV6ManualToShopee")
+    const { send: shopeeToShopee } = useQuery("GetUploadV6ShopeeToShopee")
+    const { send: qlobotToShopee } = useQuery("GetUploadV6QlobotToShopee")
 
-        case "shopee_manual":
-            url = `http://localhost:5000/upload/v6/manual_to_shopee?reset=${resetMap}&one_to_multi=${oneToMulti}&limit=${limit}`
-            break
+    const runUpload = () => {
+        switch (upmode) {
+            case "tokopedia":
+                tokopediaToShopee({
+                    query: {
+                        base: "./",
+                        use_mapper: useMap,
+                    }
+                })
+                break
 
-        default:
-            url = "http://localhost:5000/upload/v6/shopee_to_shopee"
-    }
+            case "shopee_manual":
+                manualToShopee({
+                    query: {
+                        base: "./",
+                        reset: resetMap,
+                        one_to_multi: oneToMulti,
+                        limit: limit,
+                    },
+                })
+                break
 
-    const runUpload = async () => {
-        await client.get(url)
+            case "qlobot_shopee":
+                qlobotToShopee({
+                    query: {
+                        base: "./",
+                    },
+                })
+                break
+
+            default:
+                shopeeToShopee({
+                    query: {
+                        base: "./",
+                    },
+                })
+        }
     }
 
     return (
@@ -65,6 +92,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                         { value: 'shopee', label: 'Shopee' },
                         { value: 'shopee_manual', label: 'Shopee Manual' },
                         { value: 'tokopedia', label: 'Tokopedia' },
+                        { value: 'qlobot_shopee', label: 'Qlobot Shopee' },
                     ]}
                     style={{
                         minWidth: "180px"
@@ -105,6 +133,7 @@ export interface IState {
     paging: AccountPaging
     mode: UploadMode
     copyAkun?: IAccount
+    useOld: boolean
 }
 
 class AccountPage extends React.Component<unknown, IState> {
@@ -112,10 +141,11 @@ class AccountPage extends React.Component<unknown, IState> {
         kurirs: [],
         query: defquery,
         paging: defpaging,
-        mode: 'shopee'
+        mode: 'shopee',
+        useOld: localStorage.getItem("useOldFE") == "true",
     }
 
-    accountRefs: SettingItem[] = []
+    accountRefs: (SettingItem | SettingItemNew)[] = []
     showBulk = false
 
     async getAccounts(): Promise<void> {
@@ -201,21 +231,47 @@ class AccountPage extends React.Component<unknown, IState> {
         this.accountRefs = []
 
         paging.data.forEach(akun => {
-            settingItems.push(<SettingItem
-                key={akun._id}
-                ref={ref => {
-                    if (ref) this.accountRefs.push(ref)
-                }}
-                akun={akun}
-                mode={mode}
-                copyAccount={this.state.copyAkun}
-                update={() => this.getAccounts()}
-                onCopy={copyAkun => this.setState({ copyAkun })}
-            />)
+
+            if (this.state.useOld) {
+                settingItems.push(<SettingItem
+                    key={akun._id}
+                    ref={ref => {
+                        if (ref) this.accountRefs.push(ref)
+                    }}
+                    akun={akun}
+                    mode={mode}
+                    copyAccount={this.state.copyAkun}
+                    update={() => this.getAccounts()}
+                    onCopy={copyAkun => this.setState({ copyAkun })}
+                />)
+
+            } else {
+                settingItems.push(<SettingItemNew
+                    key={akun._id}
+                    ref={ref => {
+                        if (ref) this.accountRefs.push(ref)
+                    }}
+                    akun={akun}
+                    mode={mode}
+                    copyAccount={this.state.copyAkun}
+                    update={() => this.getAccounts()}
+                    onCopy={copyAkun => this.setState({ copyAkun })}
+                />)
+            }
         })
 
-        return <div id="itemContainer" className="col-lg-12" style={{ marginTop: 20 }}>
-            {settingItems}
+        return <div className="m-4 w-100">
+            <AntdCheckbox
+                className="mb-3"
+                checked={this.state.useOld}
+                onChange={(useOld) => {
+                    this.setState({ useOld })
+                    localStorage.setItem("useOldFE", useOld ? "true" : "false")
+                }}
+            >Gunakan Tampilan Lama</AntdCheckbox>
+            <Space id="itemContainer" direction="vertical" size="large" className="d-flex">
+                {settingItems}
+            </Space>
         </div>
     }
 
@@ -248,7 +304,7 @@ class AccountPage extends React.Component<unknown, IState> {
             />
 
             {/* actions */}
-            <div className="col-lg-12" style={{ marginTop: -15, marginBottom: -35 }}>
+            <div className="col-lg-12" style={{ marginTop: -15 }}>
                 <hr />
                 <label>SETTING <span style={{ color: 'red' }}>{paging.total}</span> ACCOUNT :</label>
                 <div className="float-right" style={{ marginBottom: 5, marginTop: 6 }}>
