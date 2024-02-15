@@ -10,6 +10,7 @@ const label: { [key in MarketList]: string } = {
     shopee: "GENERATE SHOPEE CSV",
     tokopedia: "GENERATE TOKOPEDIA CSV",
     jakmall: "GENERATE JAKMALL CSV",
+    qlobot_shopee: "",
 }
 
 const GrabTaskDumpCategory: React.FC<PropGrabTask> = (props: PropGrabTask): JSX.Element => {
@@ -46,6 +47,9 @@ const GrabTaskDumpCategory: React.FC<PropGrabTask> = (props: PropGrabTask): JSX.
                 onSuccess: setLoadingFalse,
                 onError: setLoadingFalse
             })
+        },
+        qlobot_shopee() {
+            return
         },
     }
 

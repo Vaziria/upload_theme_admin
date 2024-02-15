@@ -34,6 +34,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
     const { send: manualToShopee } = useQuery("GetUploadV6ManualToShopee")
     const { send: shopeeToShopee } = useQuery("GetUploadV6ShopeeToShopee")
     const { send: qlobotToShopee } = useQuery("GetUploadV6QlobotToShopee")
+    const { send: jakmallToShopee } = useQuery("GetUploadV6JakmallToShopee")
 
     const runUpload = () => {
         switch (upmode) {
@@ -65,6 +66,14 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                 })
                 break
 
+            case "jakmall_shopee":
+                jakmallToShopee({
+                    query: {
+                        base: "./",
+                    },
+                })
+                break
+
             default:
                 shopeeToShopee({
                     query: {
@@ -73,6 +82,17 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                 })
         }
     }
+
+    const options: {
+        value: UploadMode
+        label: string
+    }[] = [
+            { value: 'shopee', label: 'Shopee' },
+            { value: 'shopee_manual', label: 'Shopee Manual' },
+            { value: 'tokopedia', label: 'Tokopedia' },
+            { value: 'qlobot_shopee', label: 'Qlobot Shopee' },
+            { value: 'jakmall_shopee', label: 'Jakmall Shopee' },
+        ]
 
     return (
         <Space>
@@ -88,12 +108,7 @@ const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
                 <Select
                     onChange={data => setUpmode(data)}
                     defaultValue={upmode}
-                    options={[
-                        { value: 'shopee', label: 'Shopee' },
-                        { value: 'shopee_manual', label: 'Shopee Manual' },
-                        { value: 'tokopedia', label: 'Tokopedia' },
-                        { value: 'qlobot_shopee', label: 'Qlobot Shopee' },
-                    ]}
+                    options={options}
                     style={{
                         minWidth: "180px"
                     }}

@@ -13,7 +13,7 @@ import ProductManualItems from "../pages/ProductManualItems"
 import SettingPage from "../pages/Setting"
 import SpinPage from "../pages/Spin"
 import TaskPage from "../pages/Task"
-import { TaskGrab } from "../pages/TaskGrab"
+import TaskGrabNew from "../pages/TaskGrabNew"
 import Test from "../pages/Test"
 import Tokopedia from "../pages/Tokopedia"
 import ToolPageNew from "../pages/ToolNew"
@@ -37,7 +37,7 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   },
   {
     path: '/customgrab',
-    component: TaskGrab
+    component: TaskGrabNew
   },
   {
     path: '/setting',

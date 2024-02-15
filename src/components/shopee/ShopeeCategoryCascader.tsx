@@ -9,11 +9,11 @@ import type { ShopeeCategoryNested } from "../../recoil/selectors/shopee_categor
 import type { CascaderOption } from "../../types/cascader"
 
 
-function shopeePublicNestedMapper(category: ShopeeCategoryNested): CascaderOption {
+function shopeeNestedMapper(category: ShopeeCategoryNested): CascaderOption {
     return {
         value: category.catid,
         label: category.name,
-        children: category.children?.map(shopeePublicNestedMapper)
+        children: category.children?.map(shopeeNestedMapper)
     }
 }
 
@@ -28,7 +28,7 @@ const ShopeeeCategoryCascader: React.FC<Props> = (props: Props) => {
     const { onChange, onOptionsChange, ...reProps } = props
 
     const categories = useRecoilValue(shopeeCategoryNestedState)
-    const options = categories.map(shopeePublicNestedMapper)
+    const options = categories.map(shopeeNestedMapper)
 
     const categoryValue = useRecoilValue(shopeeCategoryValueState(props.value))
 

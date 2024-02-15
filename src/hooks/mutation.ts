@@ -14,8 +14,12 @@ export type MutateFiles = {
     [key in string]: File
 }
 
+export interface MutateSendOptions<Data, Query, Err = Error> extends SendOptions<Data, Query, Err> {
+    urlReplacer?(url: string): string
+}
+
 export interface MutationClientReturn<Data, Query, Body, Err = Error> extends Omit<ClientReturn<Data, Query, Err>, "send"> {
-    mutate(a: SendOptions<Data, Query, Err>, b?: Partial<Body>, files?: MutateFiles): void
+    mutate(a: MutateSendOptions<Data, Query, Err>, b?: Partial<Body>, files?: MutateFiles): void
 }
 
 export type Mutate<K extends Target> = MutationClientReturn<
@@ -29,8 +33,8 @@ export function useMutation<
     R extends Clients[K]["response"],
     Q extends Clients[K]["query"],
     B extends Clients[K]["body"],
->(action: K, options?: SendOptions<R, Q>): MutationClientReturn<R, Q, B> {
-    const uri = clients[action].url;
+>(action: K, options?: MutateSendOptions<R, Q>): MutationClientReturn<R, Q, B> {
+    let uri: string = clients[action].url;
     const method = clients[action].method;
     const queryOptions = options;
 
@@ -38,8 +42,16 @@ export function useMutation<
     const [data, setData] = useState<MaybeNull<R>>(null);
     const [error, setError] = useState<MaybeNull<Error>>(null);
 
-    async function mutate(options: SendOptions<R, Q> | undefined = queryOptions, body?: Partial<B>, files?: MutateFiles) {
+    if (options?.urlReplacer) {
+        uri = options.urlReplacer(uri)
+    }
+
+    async function mutate(options: MutateSendOptions<R, Q> | undefined = queryOptions, body?: Partial<B>, files?: MutateFiles) {
         setPending(true);
+
+        if (options?.urlReplacer) {
+            uri = options.urlReplacer(uri)
+        }
 
         const query = queryOptions?.query || options?.query;
 

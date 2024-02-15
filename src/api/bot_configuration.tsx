@@ -8,7 +8,7 @@ export interface BotConfiguration {
     }
 }
 
-export type UploadMode = 'tokopedia' | 'shopee' | 'shopee_manual' | 'qlobot_shopee'
+export type UploadMode = 'tokopedia' | 'shopee' | 'shopee_manual' | 'qlobot_shopee' | 'jakmall_shopee'
 
 
 export async function getBotConfiguration(): Promise<BotConfiguration> {

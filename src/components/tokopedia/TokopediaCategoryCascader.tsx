@@ -17,7 +17,7 @@ function shopeePublicNestedMapper(category: TokopediaCategoryNested): CascaderOp
     }
 }
 
-interface Props extends Pick<CascaderProps, "style" | "disabled"> {
+interface Props extends Pick<CascaderProps, "style" | "disabled" | "className"> {
     value: number
     onChange?: (value: number) => void
     onOptionsChange?: (options: CascaderOption[]) => void

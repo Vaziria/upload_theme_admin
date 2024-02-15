@@ -11,6 +11,7 @@ import { useMutation } from "../hooks/mutation"
 import { useQuery } from "../model/newapisdk"
 import { infoState } from "../recoil/atoms/info"
 import ProductManualStat from "../components/home/ProductManualStat"
+import JakmallStat from "../components/home/JakmallStat"
 
 const HomePage: React.FC = () => {
 
@@ -130,6 +131,7 @@ const HomePage: React.FC = () => {
                         <ShopeeStat />
                         <TokopediaStat />
                         <QlobotShopeeStat />
+                        <JakmallStat />
                         <ProductManualStat />
                     </Card>
                 </Col>

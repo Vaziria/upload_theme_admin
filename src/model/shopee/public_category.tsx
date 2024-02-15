@@ -34,6 +34,7 @@ export interface IMainPublicCateg {
   name: string
   parent_category: number
   sort_weight: number
+  sub_sub?: IMainPublicCateg[]
 }
 
 export interface IPopularCollection {

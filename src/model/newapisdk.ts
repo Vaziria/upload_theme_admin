@@ -999,6 +999,97 @@ export interface CheckOrderAkunItem {
 	username: string
 }
 
+export interface CategoryNavigation {
+	name: string
+	url: string
+	icon: string
+	color: string
+	children: Array<CategoryNavigation | undefined>
+}
+
+export interface JkmlCategoryListResponse {
+	msg: string
+	error: string
+	data: Array<CategoryNavigation | undefined>
+}
+
+export interface JkmlWebResponse {
+	msg: string
+	error: string
+}
+
+export interface SearchCityOption {
+	label: string
+	value: string
+}
+
+export interface SearchSortOption {
+	label: string
+	value: string
+}
+
+export interface JkmlSearchDataResponse {
+	msg: string
+	error: string
+	cities: Array<SearchCityOption | undefined>
+	delivery_types: Array<string>
+	sorts: Array<SearchSortOption | undefined>
+}
+
+export interface GrabSearchFilter {
+	category: string
+	price_min: number
+	price_max: number
+	untung_paling_besar: number
+	in_stock: number
+	bulk_price: number
+	delivery_types: Array<string>
+	cities: Array<string>
+	sort: string
+	rating: number
+}
+
+export interface JkmlSearchFilterResponse {
+	msg: string
+	error: string
+	data: GrabSearchFilter | undefined
+}
+
+export interface JkmlCategoryMapListQuery {
+	type: string
+	namespace: string
+}
+
+export interface MapCateg {
+	id: number
+	name: string
+}
+
+export interface JkmlCategoryMap {
+	type: string
+	name: string
+	categs: Array<MapCateg | undefined>
+	mapper_id: number
+	mapper_name: string
+	mapper_categs: Array<MapCateg | undefined>
+	count: number
+}
+
+export interface JkmlCategoryMapListResponse {
+	msg: string
+	error: string
+	data: Array<JkmlCategoryMap | undefined>
+}
+
+export interface CategoryMapper {
+	type: string
+	name: string
+	categs: Array<MapCateg | undefined>
+	mapper_id: number
+	mapper_name: string
+	mapper_categs: Array<MapCateg | undefined>
+}
+
 export interface ManualShopeeUploadQueryCli {
 	base: string
 	reset: boolean
@@ -1035,8 +1126,10 @@ export interface TopedTopedUploadQueryCli {
 	base: string
 }
 
-export interface TokopediaToShopeeAutoSuggestQuery {
+export interface RenameCollectionPayload {
+	marketplace: string
 	namespace: string
+	update_namespace: string
 }
 
 export interface BaseWebResponse {
@@ -1045,10 +1138,8 @@ export interface BaseWebResponse {
 	status: string
 }
 
-export interface RenameCollectionPayload {
-	marketplace: string
+export interface TokopediaToShopeeAutoSuggestQuery {
 	namespace: string
-	update_namespace: string
 }
 
 export interface TempAkunRes {
@@ -3915,6 +4006,188 @@ export const clients = {
 		] as Array<CheckOrderAkunItem | undefined>,
 		response: {} as any
 	},
+	GetJakmallCategoryList: {
+		url: "jakmall/category/list" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: [
+			{
+					name: ``,
+					url: ``,
+					icon: ``,
+					color: ``,
+					children: [
+					] as Array<CategoryNavigation | undefined>
+				} as CategoryNavigation | undefined
+			] as Array<CategoryNavigation | undefined>
+		}
+	},
+	GetJakmallCategoryDumpCsv: {
+		url: "jakmall/category/dump_csv" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	GetJakmallSearchFilterData: {
+		url: "jakmall/search_filter/data" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			cities: [
+			{
+					label: ``,
+					value: ``
+				} as SearchCityOption | undefined
+			] as Array<SearchCityOption | undefined>,
+			delivery_types: [
+			``
+			] as Array<string>,
+			sorts: [
+			{
+					label: ``,
+					value: ``
+				} as SearchSortOption | undefined
+			] as Array<SearchSortOption | undefined>
+		}
+	},
+	GetJakmallSearchFilter: {
+		url: "jakmall/search_filter" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: {
+				category: ``,
+				price_min: 0,
+				price_max: 0,
+				untung_paling_besar: 0,
+				in_stock: 0,
+				bulk_price: 0,
+				delivery_types: [
+				``
+				] as Array<string>,
+				cities: [
+				``
+				] as Array<string>,
+				sort: ``,
+				rating: 0.00
+			} as GrabSearchFilter | undefined
+		}
+	},
+	PostJakmallSearchFilter: {
+		url: "jakmall/search_filter" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: {
+			category: ``,
+			price_min: 0,
+			price_max: 0,
+			untung_paling_besar: 0,
+			in_stock: 0,
+			bulk_price: 0,
+			delivery_types: [
+			``
+			] as Array<string>,
+			cities: [
+			``
+			] as Array<string>,
+			sort: ``,
+			rating: 0.00
+		},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	GetJakmallCategoryMapperList: {
+		url: "jakmall/category_mapper/list" as const,
+		method: "GET" as const,
+		query: {
+			type: ``,
+			namespace: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``,
+			data: [
+			{
+					type: ``,
+					name: ``,
+					categs: [
+					{
+							id: 0,
+							name: ``
+						} as MapCateg | undefined
+					] as Array<MapCateg | undefined>,
+					mapper_id: 0,
+					mapper_name: ``,
+					mapper_categs: [
+					{
+							id: 0,
+							name: ``
+						} as MapCateg | undefined
+					] as Array<MapCateg | undefined>,
+					count: 0
+				} as JkmlCategoryMap | undefined
+			] as Array<JkmlCategoryMap | undefined>
+		}
+	},
+	PostJakmallCategoryMapperSave: {
+		url: "jakmall/category_mapper/save" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: [
+			{
+				type: ``,
+				name: ``,
+				categs: [
+				{
+						id: 0,
+						name: ``
+					} as MapCateg | undefined
+				] as Array<MapCateg | undefined>,
+				mapper_id: 0,
+				mapper_name: ``,
+				mapper_categs: [
+				{
+						id: 0,
+						name: ``
+					} as MapCateg | undefined
+				] as Array<MapCateg | undefined>
+			}
+		] as Array<CategoryMapper>,
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	PutJakmallCategoryMapperAutosuggest: {
+		url: "jakmall/category_mapper/autosuggest" as const,
+		method: "PUT" as const,
+		query: {
+			type: ``,
+			namespace: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
 	GetUploadV6ManualToShopee: {
 		url: "upload/v6/manual_to_shopee" as const,
 		method: "GET" as const,
@@ -3971,6 +4244,18 @@ export const clients = {
 			error: ``
 		}
 	},
+	GetUploadV6JakmallToShopee: {
+		url: "upload/v6/jakmall_to_shopee" as const,
+		method: "GET" as const,
+		query: {
+			base: ``
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
 	GetTokopediaUploadShopee: {
 		url: "tokopedia/upload/shopee" as const,
 		method: "GET" as const,
@@ -3993,19 +4278,6 @@ export const clients = {
 		response: {
 			msg: ``,
 			error: ``
-		}
-	},
-	GetV1CategoryMapperTokopediaToShopeeAutosuggest: {
-		url: "v1/category/mapper/tokopedia_to_shopee_autosuggest" as const,
-		method: "GET" as const,
-		query: {
-			namespace: ``
-		},
-		body: {},
-		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
 		}
 	},
 	PostV1ProductRenameNamespace: {

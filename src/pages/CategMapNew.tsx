@@ -14,7 +14,9 @@ import MapperDataview from "../components/mapper/MapperDataview"
 import MapperFilter from "../components/mapper/MapperFilter"
 import MapperSave from "../components/mapper/MapperSave"
 
-const fromDefModes: { [key in MarketList]: MarketList } = {
+type Mp = Exclude<MarketList, "qlobot_shopee">
+
+const fromDefModes: { [key in Mp]: Mp } = {
     "shopee": "tokopedia",
     "tokopedia": "shopee",
     "jakmall": "shopee",

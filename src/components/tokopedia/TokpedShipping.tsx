@@ -16,7 +16,7 @@ export interface ShippingItem {
     valMax: string
     valMin: string
     hexColor: string
-    child: any[]
+    child: unknown[]
     isPopular: boolean
     isNew: boolean
 }

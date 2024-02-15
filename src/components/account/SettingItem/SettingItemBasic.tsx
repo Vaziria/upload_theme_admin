@@ -3,6 +3,7 @@ import React from "react"
 
 import { UploadMode } from "../../../api/bot_configuration"
 import { IAccount } from "../../../model/Account"
+import { MarketList } from "../../../model/Common"
 import AntdInput from "../../common/AntdInput"
 import AntdSelectAddon from "../../common/AntdSelectAddon"
 import NamespaceSelect from "../../common/NamespaceSelectNew"
@@ -28,10 +29,23 @@ const Collection: React.FC<Props> = (props: Props) => {
         />
     }
 
+    let mp: MarketList = "shopee"
+    switch (mode) {
+        case "shopee":
+        case "tokopedia":
+        case "qlobot_shopee":
+            mp = mode
+            break
+
+        case "jakmall_shopee":
+            mp = "jakmall"
+            break
+    }
+
     return <NamespaceSelect
         showAll
         showCount
-        marketplace={mode}
+        marketplace={mp}
         value={account.namespace}
         placeholder="Pilih Collection"
         className="flex-1"
