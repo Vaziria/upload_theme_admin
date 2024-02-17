@@ -2,7 +2,6 @@ import { Space } from "antd"
 import React from "react"
 
 import { UploadMode } from "../../../api/bot_configuration"
-import { MarketList } from "../../../model/Common"
 import NamespaceSelect from "../../common/NamespaceSelectNew"
 import ProductManualCollectionSelect from "../../common/ProductManualCollectionSelect"
 
@@ -30,19 +29,6 @@ const Collection: React.FC<IProps> = (props: IProps) => {
         </Space.Compact>
     }
 
-    let mp: MarketList = "shopee"
-    switch (mode) {
-        case "shopee":
-        case "tokopedia":
-        case "qlobot_shopee":
-            mp = mode
-            break
-
-        case "jakmall_shopee":
-            mp = "jakmall"
-            break
-    }
-
     return <Space.Compact className="input-group mb-3 input-group-sm">
         <div className="input-group-prepend">
             <span className="input-group-text" id="basic-addon3">Collection</span>
@@ -50,7 +36,7 @@ const Collection: React.FC<IProps> = (props: IProps) => {
         <NamespaceSelect
             showAll
             showCount
-            marketplace={mp}
+            marketplace={mode}
             value={value}
             placeholder="Pilih Collection"
             className="flex-1"

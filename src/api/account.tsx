@@ -18,7 +18,7 @@ export const defquery: AccountQuery = {
 	sort: '',
 	reverse: -1,
 	start: 0,
-	limit: 250
+	limit: 50
 }
 
 export interface AccountPaging {

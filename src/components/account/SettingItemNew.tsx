@@ -1,10 +1,9 @@
 import React from "react"
 import { IAccount } from "../../model/Account"
 
-import { Card, Space } from "antd"
+import { Card, Space, message } from "antd"
 import { deleteAccount, getProductAccount, updateAccount } from "../../api/account"
 import { UploadMode } from "../../api/bot_configuration"
-import { emitEvent } from "../../event"
 import SettingItemAction from "./SettingItem/SettingItemAction"
 import SettingItemActive from "./SettingItem/SettingItemActive"
 import SettingItemBasic from "./SettingItem/SettingItemBasic"
@@ -60,9 +59,7 @@ class SettingItemNew extends React.Component<IProps, IState> {
 
     async updateAkun(): Promise<void> {
         await updateAccount(this.account)
-        emitEvent('show_msg', {
-            msg: 'Success Update Akun..',
-        })
+        message.info("Akun updated...")
     }
 
     async updateAkunActive(active: boolean): Promise<void> {
@@ -79,9 +76,7 @@ class SettingItemNew extends React.Component<IProps, IState> {
     async deleteAkun(): Promise<void> {
         this.setState({ check: false })
         await deleteAccount(this.account.user)
-        emitEvent('show_msg', {
-            msg: 'Success Delete Akun..',
-        })
+        message.info("Akun deleted...")
     }
 
     pasteAkun(): void {
@@ -115,7 +110,9 @@ class SettingItemNew extends React.Component<IProps, IState> {
         const { update, onCopy, mode } = this.props
 
         return <Card
+            hoverable
             size="small"
+            type="inner"
             title={<div className="d-flex align-items-center" style={{ gap: 20 }}>
                 <SettingItemTitle
                     account={this.account}
@@ -146,11 +143,12 @@ class SettingItemNew extends React.Component<IProps, IState> {
                 />
 
                 <SettingItemAction
+                    allowPaste={!!this.props.copyAccount}
                     onDelete={async () => {
                         await this.deleteAkun()
                         update()
                     }}
-                    onUpdate={this.updateAkun}
+                    onUpdate={() => this.updateAkun()}
                     onCopy={() => onCopy(this.account)}
                     onPaste={() => this.pasteAkun()}
                     onResetUploaded={() => this.resetUploadCount()}

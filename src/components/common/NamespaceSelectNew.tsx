@@ -17,14 +17,15 @@ interface Props extends Omit<SelProps, "options" | "onChange"> {
 
 const NamespaceSelect: React.FC<Props> = (props: Props) => {
 
-    const mode = props.marketplace || "all"
+    const { marketplace, onChange, showCount, showAll, ...reprops } = props
+    const mode = marketplace || "all"
     const namespaces = useRecoilValue(namespaceSelectState(mode))
     const options: SelProps["options"] = namespaces.map((namespace) => ({
         value: namespace.name,
-        label: namespace.name + (props.showCount ? ` ( ${ namespace.count } )` : ""),
+        label: namespace.name + (showCount ? ` ( ${ namespace.count } )` : ""),
     }))
 
-    if (props.showAll) {
+    if (showAll) {
         const count = namespaces.reduce((res, v) => res + v.count, 0)
         options.unshift({
             value: "",
@@ -32,18 +33,17 @@ const NamespaceSelect: React.FC<Props> = (props: Props) => {
         })
     }
 
-    const onChange: Props["onChange"] = (value) => {
-        props.onChange?.(value || undefined)
+    const onChangeNamespaces: Props["onChange"] = (value) => {
+        onChange?.(value || undefined)
     }
 
     return <Select
         allowClear
         showSearch
         placeholder="pilih namespace"
-        {...props}
+        {...reprops}
         options={options}
-        onChange={onChange}
-        // onFocus={}
+        onChange={onChangeNamespaces}
     />
 }
 

@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil"
 import { MarketplaceColor, MarketplaceColorDisabled } from "../../const/mpcolor"
 import { useMutation } from "../../hooks/mutation"
 import { MarketList } from "../../model/Common"
-import { mapperJakmallItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
+import { mapperJakmallItemsState, mapperShopeeTokpedItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
 
 interface Props {
     from: MarketList
@@ -63,21 +63,48 @@ const JakmallSave: React.FC<Props> = (props: Props) => {
     />
 }
 
+const ShopeeTokopediaSave: React.FC<Props> = (props: Props) => {
+
+    const { mutate } = useMutation("PutTokopediaMapperMap")
+    const data = useRecoilValue(mapperShopeeTokpedItemsState)
+
+    const onSuccess = () => {
+        props.onSuccess()
+        message.info("mapper saved")
+    }
+    const onError = () => message.error("failed to save mapper")
+
+    return <SaveButton
+        from={props.from}
+        disabled={!data.length}
+        onClick={() => mutate({ onSuccess, onError }, data.filter((item) => !!item.tokopedia_id))}
+    />
+}
+
 const MapperSave: React.FC<Props> = (props: Props) => {
 
     const { from, mode } = props
-    switch (from) {
+    const saveBtn: {
+        [key in MarketList]?: {
+            [key in MarketList]?: JSX.Element
+        }
+    } = {
+        shopee: {
+            tokopedia: <ShopeeTokopediaSave {...props} />
+        },
 
-        case "tokopedia":
-            switch (mode) {
-                case "shopee":
-                    return <TokopediaShopeeSave {...props} />
-            }
-            break
-        
-        case "jakmall":
-            return <JakmallSave {...props} />
+        tokopedia: {
+            shopee: <TokopediaShopeeSave {...props} />
+        },
 
+        jakmall: {
+            shopee: <JakmallSave {...props} />,
+            tokopedia: <JakmallSave {...props} />
+        }
+    }
+
+    if (saveBtn[from]?.[mode]) {
+        return saveBtn[from]?.[mode]
     }
 
     return <SaveButton from={from} disabled />

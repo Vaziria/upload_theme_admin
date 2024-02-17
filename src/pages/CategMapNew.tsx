@@ -1,10 +1,13 @@
 import { Card, Col, Row, Space, message } from "antd"
 import React from "react"
+import { useSetRecoilState } from "recoil"
 
 import { CategmapQuery, defaultQuery, useCategmapQuery } from "../hooks/search_query/categmap_query"
 import type { MarketList } from "../model/Common"
 import { useQuery } from "../model/newapisdk"
+import { mapperShopeeCategoryState } from "../recoil/atoms/mapper_items"
 import { setJakmallMapitemCallback } from "../recoil/callbacks/set_jakmall_mapitem"
+import { setShopeeTokpedMapitemCallback } from "../recoil/callbacks/set_shopee_tokped_mapitem"
 import { setTokpedShopeeMapitemCallback } from "../recoil/callbacks/set_tokped_shopee_mapitem"
 
 import AntdSelectAddon from "../components/common/AntdSelectAddon"
@@ -42,35 +45,86 @@ const CategMap: React.FC = () => {
 
     const setTokpedShopeeMapitem = setTokpedShopeeMapitemCallback()
     const setJakmallMapitem = setJakmallMapitemCallback()
+    const setShopeeTokpedMapitem = setShopeeTokpedMapitemCallback()
+    const setMapperShopeeCategory = useSetRecoilState(mapperShopeeCategoryState)
 
     const { send: getTokpedShopeeMapper } = useQuery("GetTokopediaMapperCategory")
     const { send: getJakmallMapper } = useQuery("GetJakmallCategoryMapperList")
+    const { send: getTokopediaMapper } = useQuery("GetTokopediaMapperMap")
+    const { send: getTokopediaCategory } = useQuery("GetLegacyV1ProductCategory")
+
+    const { namespace, mode } = query
+    const jakmallLoader = () => {
+        if (namespace) {
+            getJakmallMapper({
+                query: { namespace, type: mode },
+                onSuccess: setJakmallMapitem,
+            })
+
+        } else {
+            setJakmallMapitem({
+                msg: "",
+                error: "",
+                data: []
+            })
+        }
+    }
+
+    const loader: {
+        [key in MarketList]?: {
+            [key in MarketList]?: () => void
+        }
+    } = {
+        shopee: {
+            tokopedia: () => {
+                if (namespace) {
+                    getTokopediaCategory({
+                        query: {
+                            kota: "",
+                            is_public: false,
+                            marketplace: "shopee",
+                            namespace,
+                            pmax: 0,
+                            pmin: 0,
+                            use_empty_city: false
+                        },
+                        onSuccess: setMapperShopeeCategory
+                    })
+                    getTokopediaMapper({
+                        query: { collection: namespace },
+                        onSuccess: setShopeeTokpedMapitem,
+                    })
+
+                } else {
+                    setMapperShopeeCategory([])
+                    setShopeeTokpedMapitem({ data: [] })
+                }
+            }
+        },
+
+        tokopedia: {
+            shopee: () => {
+                if (namespace) {
+                    getTokpedShopeeMapper({
+                        query: { namespace },
+                        onSuccess: setTokpedShopeeMapitem,
+                    })
+
+                } else {
+                    setTokpedShopeeMapitem([])
+                }
+            }
+        },
+
+        jakmall: {
+            shopee: jakmallLoader,
+            tokopedia: jakmallLoader
+        }
+    }
 
     function loadMapItems() {
         setLoading(true)
-
-        const namespace = query.namespace
-        switch (query.from) {
-
-            case "tokopedia":
-                switch (query.mode) {
-
-                    case "shopee":
-                        getTokpedShopeeMapper({
-                            query: { namespace },
-                            onSuccess: setTokpedShopeeMapitem,
-                        })
-                }
-                break
-
-            case "jakmall":
-                getJakmallMapper({
-                    query: { namespace, type: query.mode },
-                    onSuccess: setJakmallMapitem,
-                })
-                break
-        }
-
+        loader[query.from]?.[query.mode]?.()
         setLoading(false)
     }
 
@@ -86,8 +140,7 @@ const CategMap: React.FC = () => {
             lg={{ span: 20, offset: 2 }}
             xl={{ span: 16, offset: 4 }}
         >
-            <Card>
-
+            <Card title="Category Mapper">
                 <MapperFilter query={query} onChange={onQueryChange} />
 
                 <Space className="mt-3 d-flex justify-content-between">

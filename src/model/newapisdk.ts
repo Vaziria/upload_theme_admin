@@ -1118,6 +1118,16 @@ export interface QlobotShopeeUploadQueryCli {
 	base: string
 }
 
+export interface JakmallShopeeUploadQueryCli {
+	base: string
+	use_mapper: boolean
+}
+
+export interface JakmallTokopediaUploadQueryCli {
+	base: string
+	use_mapper: boolean
+}
+
 export interface ShopeeTopedUploadQueryCli {
 	base: string
 }
@@ -4248,7 +4258,21 @@ export const clients = {
 		url: "upload/v6/jakmall_to_shopee" as const,
 		method: "GET" as const,
 		query: {
-			base: ``
+			base: ``,
+			use_mapper: false
+		},
+		body: {},
+		response: {
+			msg: ``,
+			error: ``
+		}
+	},
+	GetUploadV6JakmallToTokopedia: {
+		url: "upload/v6/jakmall_to_tokopedia" as const,
+		method: "GET" as const,
+		query: {
+			base: ``,
+			use_mapper: false
 		},
 		body: {},
 		response: {

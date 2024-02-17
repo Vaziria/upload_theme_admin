@@ -1,145 +1,17 @@
-import { Button, InputNumber, Select, Space, Typography } from 'antd'
-import React, { useState } from 'react'
+import { Card, Col, Divider, Empty, Pagination, Row, Space } from 'antd'
+import React from 'react'
 
 import {
     AccountPaging, AccountQuery,
-    backup, defpaging, defquery, getAccounts
+    defpaging, defquery, getAccounts
 } from '../api/account'
-import { UploadMode, getUploadMode } from '../api/bot_configuration'
+import { UploadMode } from '../api/bot_configuration'
+import AkunAction from '../components/account/AkunAction'
 import NewAccount from '../components/account/NewAccount'
-import SettingBulkAccount from '../components/account/SettingBulkAccount'
+import SettingBulkAccountNew from '../components/account/SettingBulkAccountNew'
 import SettingItem from '../components/account/SettingItem'
-import AntdCheckbox from '../components/common/AntdCheckbox'
-import UploadShipping from '../components/shopee/UploadShipping'
-import { IAccount } from '../model/Account'
-import { useQuery } from '../model/newapisdk'
 import SettingItemNew from '../components/account/SettingItemNew'
-
-
-const { Text } = Typography
-
-interface AkunActionProps {
-    upmode: UploadMode
-    setUpmode(upmode: UploadMode): void
-}
-
-const AkunAction: React.FC<AkunActionProps> = (props: AkunActionProps) => {
-    const { upmode, setUpmode } = props
-    const [useMap, setUseMap] = useState(false)
-    const [resetMap, setResetMap] = useState(false)
-    const [oneToMulti, setOneToMulti] = useState(false)
-    const [limit, setLimit] = useState(0)
-
-    const { send: tokopediaToShopee } = useQuery("GetUploadV6TokopediaToShopee")
-    const { send: manualToShopee } = useQuery("GetUploadV6ManualToShopee")
-    const { send: shopeeToShopee } = useQuery("GetUploadV6ShopeeToShopee")
-    const { send: qlobotToShopee } = useQuery("GetUploadV6QlobotToShopee")
-    const { send: jakmallToShopee } = useQuery("GetUploadV6JakmallToShopee")
-
-    const runUpload = () => {
-        switch (upmode) {
-            case "tokopedia":
-                tokopediaToShopee({
-                    query: {
-                        base: "./",
-                        use_mapper: useMap,
-                    }
-                })
-                break
-
-            case "shopee_manual":
-                manualToShopee({
-                    query: {
-                        base: "./",
-                        reset: resetMap,
-                        one_to_multi: oneToMulti,
-                        limit: limit,
-                    },
-                })
-                break
-
-            case "qlobot_shopee":
-                qlobotToShopee({
-                    query: {
-                        base: "./",
-                    },
-                })
-                break
-
-            case "jakmall_shopee":
-                jakmallToShopee({
-                    query: {
-                        base: "./",
-                    },
-                })
-                break
-
-            default:
-                shopeeToShopee({
-                    query: {
-                        base: "./",
-                    },
-                })
-        }
-    }
-
-    const options: {
-        value: UploadMode
-        label: string
-    }[] = [
-            { value: 'shopee', label: 'Shopee' },
-            { value: 'shopee_manual', label: 'Shopee Manual' },
-            { value: 'tokopedia', label: 'Tokopedia' },
-            { value: 'qlobot_shopee', label: 'Qlobot Shopee' },
-            { value: 'jakmall_shopee', label: 'Jakmall Shopee' },
-        ]
-
-    return (
-        <Space>
-            <Button type="primary" onClick={runUpload}>
-                upload
-            </Button>
-
-            <Space>
-                <Text>
-                    Mode :
-                </Text>
-
-                <Select
-                    onChange={data => setUpmode(data)}
-                    defaultValue={upmode}
-                    options={options}
-                    style={{
-                        minWidth: "180px"
-                    }}
-                />
-
-                {upmode === "tokopedia" &&
-                    <AntdCheckbox value={useMap} style={{ fontWeight: 300 }} onChange={(umap) => setUseMap(umap)}>
-                        Use mapping
-                    </AntdCheckbox>
-                }
-
-                {upmode === "shopee_manual" &&
-                    <Space>
-                        <AntdCheckbox value={resetMap} style={{ fontWeight: 300 }} onChange={(umap) => setResetMap(umap)}>
-                            Reset Mapper
-                        </AntdCheckbox>
-                        <AntdCheckbox value={oneToMulti} style={{ fontWeight: 300 }} onChange={(umap) => setOneToMulti(umap)}>
-                            One to Multi
-                        </AntdCheckbox>
-                        <InputNumber value={limit} addonBefore="limit" style={{ width: 150 }} onChange={(val) => setLimit(val || 1)} />
-                    </Space>
-                }
-            </Space>
-
-            <Button onClick={backup}>
-                report
-            </Button>
-        </Space>
-    )
-
-}
+import { IAccount } from '../model/Account'
 
 
 export interface IState {
@@ -156,7 +28,7 @@ class AccountPage extends React.Component<unknown, IState> {
         kurirs: [],
         query: defquery,
         paging: defpaging,
-        mode: 'shopee',
+        mode: "shopee",
         useOld: localStorage.getItem("useOldFE") == "true",
     }
 
@@ -173,13 +45,7 @@ class AccountPage extends React.Component<unknown, IState> {
         this.setState({ paging })
     }
 
-    async getUploadMode(): Promise<void> {
-        const mode = await getUploadMode()
-        this.setState({ mode })
-    }
-
     componentDidMount(): void {
-        this.getUploadMode()
         this.getAccounts()
     }
 
@@ -240,99 +106,84 @@ class AccountPage extends React.Component<unknown, IState> {
         this.setState({ paging })
     }
 
-    renderAccountSettingItems(): JSX.Element {
-        const { paging, mode } = this.state
-        const settingItems: JSX.Element[] = []
-        this.accountRefs = []
-
-        paging.data.forEach(akun => {
-
-            if (this.state.useOld) {
-                settingItems.push(<SettingItem
-                    key={akun._id}
-                    ref={ref => {
-                        if (ref) this.accountRefs.push(ref)
-                    }}
-                    akun={akun}
-                    mode={mode}
-                    copyAccount={this.state.copyAkun}
-                    update={() => this.getAccounts()}
-                    onCopy={copyAkun => this.setState({ copyAkun })}
-                />)
-
-            } else {
-                settingItems.push(<SettingItemNew
-                    key={akun._id}
-                    ref={ref => {
-                        if (ref) this.accountRefs.push(ref)
-                    }}
-                    akun={akun}
-                    mode={mode}
-                    copyAccount={this.state.copyAkun}
-                    update={() => this.getAccounts()}
-                    onCopy={copyAkun => this.setState({ copyAkun })}
-                />)
-            }
-        })
-
-        return <div className="m-4 w-100">
-            <AntdCheckbox
-                className="mb-3"
-                checked={this.state.useOld}
-                onChange={(useOld) => {
-                    this.setState({ useOld })
-                    localStorage.setItem("useOldFE", useOld ? "true" : "false")
-                }}
-            >Gunakan Tampilan Lama</AntdCheckbox>
-            <Space id="itemContainer" direction="vertical" size="large" className="d-flex">
-                {settingItems}
-            </Space>
-        </div>
-    }
-
     render(): JSX.Element {
         const { query, paging } = this.state
 
-        return <div className="row" style={{
-            marginTop: 20,
-            padding: '20px 0px 20px 0px'
-        }}>
-            {/* settings */}
-            <NewAccount onAddAccount={() => this.getAccounts()} />
-            <UploadShipping />
-            {/* <SettingShipping /> */}
+        const updateQuery = (query: AccountQuery) => {
+            this.setState({ query })
+            setTimeout(() => this.getAccounts(), 300)
+        }
 
-            <div className="clearfix"></div>
-            <SettingBulkAccount
-                query={query}
-                paging={paging}
-                updateQuery={query => {
-                    this.setState({ query })
-                    setTimeout(() => this.getAccounts(), 300)
-                }}
-                updateAll={() => this.updateAll()}
-                deleteAll={() => this.deleteAll()}
-                pasteAll={() => this.pasteAll()}
-                refreshAkun={() => this.getAccounts()}
-                selectAll={check => this.selectAll(check)}
-                activeAll={active => this.activeAll(active)}
-            />
+        return <Row className="my-3">
+            <Col
+                md={{ span: 24 }}
+                lg={{ span: 20, offset: 2 }}
+                xl={{ span: 16, offset: 4 }}
+            >
+                <Card title="Akun">
+                    <Space direction="vertical" className="d-flex">
 
-            {/* actions */}
-            <div className="col-lg-12" style={{ marginTop: -15 }}>
-                <hr />
-                <label>SETTING <span style={{ color: 'red' }}>{paging.total}</span> ACCOUNT :</label>
-                <div className="float-right" style={{ marginBottom: 5, marginTop: 6 }}>
+                        <SettingBulkAccountNew
+                            query={query}
+                            updateQuery={updateQuery}
+                            selectAll={check => this.selectAll(check)}
+                            activeAll={active => this.activeAll(active)}
+                        />
+                        <Divider className="my-4" />
+                        <NewAccount onAddAccount={() => this.getAccounts()} />
 
-                    <AkunAction
-                        upmode={this.state.mode}
-                        setUpmode={(mode) => this.setState({ mode })}
-                    />
-                </div>
-            </div>
+                        <AkunAction
+                            allowPaste={!!this.state.copyAkun}
+                            upmode={this.state.mode}
+                            setUpmode={(mode) => this.setState({ mode })}
+                            updateAll={() => this.updateAll()}
+                            deleteAll={() => this.deleteAll()}
+                            pasteAll={() => this.pasteAll()}
+                            refreshAkun={() => this.getAccounts()}
+                        />
+                        <Divider className="my-4" />
 
-            {this.renderAccountSettingItems()}
-        </div>
+                        <Pagination
+                            showSizeChanger
+                            total={paging.total}
+                            pageSize={query.limit}
+                            className="mb-3"
+                            showTotal={(total) => `Total ${total} setting akun`}
+                            onChange={(page, pageSize) => {
+                                this.setState({
+                                    query: {
+                                        ...query,
+                                        limit: pageSize,
+                                        start: (page - 1) * query.limit
+                                    },
+                                })
+                                this.getAccounts()
+                            }}
+                        />
+
+                        {!paging.data.length && <Empty
+                            image={Empty.PRESENTED_IMAGE_SIMPLE}
+                            description="Tidak ada akun ditemukan"
+                            className="py-5"
+                        />}
+
+                        <Space direction="vertical" size="large" className="d-flex">
+                            {paging.data.map((akun) => <SettingItemNew
+                                key={akun._id}
+                                ref={ref => {
+                                    if (ref) this.accountRefs.push(ref)
+                                }}
+                                akun={akun}
+                                mode={this.state.mode}
+                                copyAccount={this.state.copyAkun}
+                                update={() => this.getAccounts()}
+                                onCopy={copyAkun => this.setState({ copyAkun })}
+                            />)}
+                        </Space>
+                    </Space>
+                </Card>
+            </Col>
+        </Row>
     }
 }
 
