@@ -27,26 +27,10 @@ const TaskGrabNew: React.FC = () => {
 
     const fixtasks = tasks.filter((task) => task.marketplace === mode)
 
-    function addTasker(task: Partial<GrabTasker>) {
+    function addTasker(task: GrabTasker) {
         setTasks((tasks) => [...tasks, {
-            toko_username: '',
-            mode: 'category',
-            marketplace: mode,
-            product_url: '',
-            namespace: 'default',
-            tokped_categ: ["0", "0", "0"],
-            use_filter: false,
-            keyword: '',
-            jakmall_categs: [],
-            shopee_categ: {
-                catid: 0,
-                parent_category: 0,
-                parent_display_name: "",
-                display_name: "",
-                is_collection: 0
-            },
             ...task,
-            _id: uuid.v4().toString().replace(/-/g, ''),
+            _id: uuid.v4().toString().replace(/-/g, ""),
             is_saved: false,
         }])
     }
@@ -63,9 +47,7 @@ const TaskGrabNew: React.FC = () => {
     function applyDelete(task: TaskItem) {
         if (task.is_saved) {
             deleteTasker({
-                urlReplacer(url: string) {
-                    return url.replace(":id", task._id)
-                },
+                urlReplacer: (url: string) => url.replace(":id", task._id),
                 onSuccess() {
                     setTasks((tasks) => tasks.filter((t) => t._id != task._id))
                     messageApi.success("task deleted")
@@ -95,6 +77,7 @@ const TaskGrabNew: React.FC = () => {
                 <GrabTaskTabs mode={mode} onChange={setMode} />
 
                 <Space direction="vertical" className="d-flex" size="large">
+
                     <GrabTaskAction
                         mode={mode}
                         onAdd={addTasker}

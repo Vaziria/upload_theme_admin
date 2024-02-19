@@ -20,7 +20,6 @@ export interface IState {
     paging: AccountPaging
     mode: UploadMode
     copyAkun?: IAccount
-    useOld: boolean
 }
 
 class AccountPage extends React.Component<unknown, IState> {
@@ -29,7 +28,6 @@ class AccountPage extends React.Component<unknown, IState> {
         query: defquery,
         paging: defpaging,
         mode: "shopee",
-        useOld: localStorage.getItem("useOldFE") == "true",
     }
 
     accountRefs: (SettingItem | SettingItemNew)[] = []

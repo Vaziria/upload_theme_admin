@@ -15,23 +15,23 @@ interface Props {
 const CacheStat: React.FC<Props> = (props: Props) => {
 
     const { title, color, loading, sizeSum } = props
-    let [size, suffix] = [0, "Mb"]
+    let [size, suffix] = [0, "MB"]
 
     if (sizeSum?.size_gb && sizeSum.size_gb > 1) {
         size = sizeSum.size_gb
-        suffix = "Gb"
+        suffix = "GB"
 
     } else if (sizeSum?.size_mb && sizeSum.size_mb > 1) {
         size = sizeSum.size_mb
-        suffix = "Mb"
+        suffix = "MB"
 
     } else if (sizeSum?.size_kb && sizeSum.size_kb > 1) {
         size = sizeSum.size_kb
-        suffix = "Kb"
+        suffix = "KB"
 
     } else if (sizeSum?.size && sizeSum.size > 1) {
         size = sizeSum.size
-        suffix = "b"
+        suffix = "B"
     }
 
     return <Statistic

@@ -16,8 +16,8 @@ const dateformat = "YYYY-MM-DD HH:mm:ss"
 const presets: TimeRangePickerProps["presets"] = [
     { label: "1 Minggu", value: [dayjs().add(-1, "w"), dayjs()] },
     { label: "2 Minggu", value: [dayjs().add(-2, "w"), dayjs()] },
-    { label: "1 Bulan", value: [dayjs().add(-1, "m"), dayjs()] },
-    { label: "3 Bulan", value: [dayjs().add(-3, "m"), dayjs()] },
+    { label: "1 Bulan", value: [dayjs().add(-1, "M"), dayjs()] },
+    { label: "3 Bulan", value: [dayjs().add(-3, "M"), dayjs()] },
     { label: "1 Tahun", value: [dayjs().add(-1, "y"), dayjs()] },
   ];
 

@@ -8,7 +8,7 @@ import { MarketplaceColor } from "../../const/mpcolor";
 
 interface Props {
     mode: MarketList
-    onAdd(task: Partial<GrabTasker>): void
+    onAdd(task: GrabTasker): void
     onSave(): void
     runGrabMode: {
         [key in MarketList]?: () => void
@@ -19,9 +19,29 @@ interface Props {
     }
 }
 
+const task: GrabTasker = {
+    _id: "",
+    toko_username: "",
+    mode: "category",
+    marketplace: "",
+    product_url: "",
+    namespace: "default",
+    tokped_categ: ["0", "0", "0"],
+    use_filter: false,
+    keyword: "",
+    jakmall_categs: [],
+    shopee_categ: {
+        catid: 0,
+        parent_category: 0,
+        parent_display_name: "",
+        display_name: "",
+        is_collection: 0
+    }
+}
+
 const GrabTaskAction: React.FC<Props> = (props: Props) => {
 
-    const { mode, onAdd, onSave, runGrabMode, generateCsvLoading, runGenerateCsv } = props;
+    const { mode, onAdd, onSave, runGrabMode, generateCsvLoading, runGenerateCsv } = props
 
     return <div className="d-flex justify-content-between">
         <Button
@@ -38,7 +58,7 @@ const GrabTaskAction: React.FC<Props> = (props: Props) => {
                 type="primary"
                 className="c-tx-sm"
                 icon={<PlusOutlined />}
-                onClick={() => onAdd({})}
+                onClick={() => onAdd({ ...task, marketplace: mode })}
             >ADD</Button>
 
             <Button

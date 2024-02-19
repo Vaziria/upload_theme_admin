@@ -32,6 +32,7 @@ import { spinDataState } from './recoil/atoms/spin'
 import { hastagDataState } from './recoil/atoms/hastag'
 import { setJakmallCategoriesCallback } from './recoil/callbacks/set_jakmall_categories'
 import { setJakmallFilterDataCallback } from './recoil/callbacks/set_jakmall_filter'
+import { shippingsState } from './recoil/atoms/shipping'
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = BASEURL
@@ -47,6 +48,7 @@ const Loader: React.FC = () => {
     const setInfo = useSetRecoilState(infoState)
     const setSpinData = useSetRecoilState(spinDataState)
     const setHastagData = useSetRecoilState(hastagDataState)
+    const setShippings = useSetRecoilState(shippingsState)
     const setJakmallCategories = setJakmallCategoriesCallback()
     const setJakmallFilterData = setJakmallFilterDataCallback()
 
@@ -62,7 +64,7 @@ const Loader: React.FC = () => {
                 setShopeePublicCategories(manifest.public_category_repo)
             }),
             getShopeeCities(),
-            getSearchShopeeShipping(),
+            getSearchShopeeShipping().then(setShippings),
             tokopediaGetManifest().then((manifest) => {
                 setTokopediaCities(manifest.cities)
                 setTokopediaCategories(manifest.categories)
