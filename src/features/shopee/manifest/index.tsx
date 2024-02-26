@@ -6,15 +6,15 @@ import { ICategItem, IMainPublicCateg, IPopularCollection } from "../../../model
 import { ShopeeManifest } from "../../../model/shopee/system"
 import { SearchFilterDynamicShipping } from "../../../model/newapisdk"
 
-export async function getShopeeCities(): Promise<void> {
+export async function getShopeeCities(): Promise<string[]> {
     const res = await client.get("shopee/v5/filter/grab_location")
-    console.log("cities", res.data)
     const cities = res.data
     store.dispatch({
         type: 'shopee/manifest/cities',
         payload: cities,
     })
 
+    return cities
 }
 
 export function setShopeeShippingError(error: boolean): void {

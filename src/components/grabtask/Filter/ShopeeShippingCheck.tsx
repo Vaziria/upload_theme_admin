@@ -28,7 +28,7 @@ const ShippingCheck: React.FC<Props> = (props: Props) => {
     return <Space size="small" className="d-flex" wrap>
         {shippings.map((shipping) => <AntdCheckbox
             key={shipping.positionid}
-            style={{ width: 200 }}
+            style={{ width: 200, fontWeight: 400 }}
             checked={value.some((s) => shipping.positionid === s.positionid)}
             onChange={(check) => onChecked(check, shipping)}
         >{shipping.display_name}</AntdCheckbox>)}

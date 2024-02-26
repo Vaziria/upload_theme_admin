@@ -62,6 +62,7 @@ export interface SettingSpinData {
 	smin: number
 	smax: number
 	merek_ins_t: boolean
+	ignore_first_word: boolean
 	title: string
 	desc: string
 }
@@ -155,7 +156,7 @@ export interface MarkupData {
 	mark: string
 	type: string
 	range: any
-	up: null
+	up: Array<number>
 }
 
 export interface Markup {
@@ -633,6 +634,10 @@ export interface CategoryTokopediaMapItem {
 	shopee_categ: Array<string>
 }
 
+export interface HastagQuery {
+	name: string
+}
+
 export interface HastagDataResponse {
 	name: string
 	data: Array<string>
@@ -649,7 +654,12 @@ export interface HastagDeleteQuery {
 
 export interface HastagLimitResponse {
 	name: string
-	data: null
+	data: Array<number>
+}
+
+export interface HastagLimitData {
+	min: number
+	max: number
 }
 
 export interface ExampleSpinProductsQuery {
@@ -1544,6 +1554,15 @@ export const clients = {
 	GetLegacyApiDataspin: {
 		url: "legacy/api/dataspin" as const,
 		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: [
+			``
+		] as Array<string>
+	},
+	GetLegacyApiDataspinGet: {
+		url: "legacy/api/dataspin/get" as const,
+		method: "GET" as const,
 		query: {
 			name: ``
 		},
@@ -1596,6 +1615,7 @@ export const clients = {
 				smin: 0,
 				smax: 0,
 				merek_ins_t: false,
+				ignore_first_word: false,
 				title: ``,
 				desc: ``
 			} as SettingSpinData | undefined,
@@ -1616,6 +1636,7 @@ export const clients = {
 			smin: 0,
 			smax: 0,
 			merek_ins_t: false,
+			ignore_first_word: false,
 			title: ``,
 			desc: ``
 		},
@@ -1853,7 +1874,9 @@ export const clients = {
 				mark: ``,
 				type: ``,
 				range: {},
-				up: null
+				up: [
+				0
+				] as Array<number>
 			}
 			] as Array<MarkupData>,
 			fix_mark: 0,
@@ -1878,7 +1901,9 @@ export const clients = {
 				mark: ``,
 				type: ``,
 				range: {},
-				up: null
+				up: [
+				0
+				] as Array<number>
 			}
 			] as Array<MarkupData>,
 			fix_mark: 0,
@@ -1898,7 +1923,9 @@ export const clients = {
 				mark: ``,
 				type: ``,
 				range: {},
-				up: null
+				up: [
+				0
+				] as Array<number>
 			}
 			] as Array<MarkupData>,
 			fix_mark: 0,
@@ -3222,7 +3249,9 @@ export const clients = {
 	GetLegacyApiHastag: {
 		url: "legacy/api/hastag" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			name: ``
+		},
 		body: {},
 		response: {
 			name: ``,
@@ -3230,6 +3259,15 @@ export const clients = {
 			``
 			] as Array<string>
 		}
+	},
+	GetLegacyApiHastagList: {
+		url: "legacy/api/hastag/list" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: [
+			``
+		] as Array<string>
 	},
 	PostLegacyApiHastag: {
 		url: "legacy/api/hastag" as const,
@@ -3267,7 +3305,23 @@ export const clients = {
 		body: {},
 		response: {
 			name: ``,
-			data: null
+			data: [
+			0
+			] as Array<number>
+		}
+	},
+	PostLegacyApiConfigHastagLimit: {
+		url: "legacy/api/config/hastagLimit" as const,
+		method: "POST" as const,
+		query: undefined,
+		body: {
+			min: 0,
+			max: 0
+		},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
 		}
 	},
 	GetLegacyV1ExamplespinProducts: {

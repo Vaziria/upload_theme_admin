@@ -2,7 +2,7 @@ import client from './client'
 
 
 export async function getHastags (): Promise<string[]> {
-    const res = await client.get('/legacy/api/hastag?list=1')    
+    const res = await client.get('/legacy/api/hastag/list')    
     return res.data
 }
 

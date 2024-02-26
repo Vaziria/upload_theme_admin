@@ -23,7 +23,7 @@ import { loadSpin } from './features/spin'
 import { tokopediaGetManifest } from "./features/tokopedia/manifest"
 import { useQuery } from './model/newapisdk'
 import { shopeePublicCategoriesState, shopeeSellerCategoriesState, tokopediaPublicCategoriesState } from "./recoil/atoms/categories"
-import { tokopediaCitiesState } from "./recoil/atoms/cities"
+import { shopeeCitiesState, tokopediaCitiesState } from "./recoil/atoms/cities"
 import { collectionSelectState } from './recoil/atoms/collection_list'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
@@ -40,6 +40,7 @@ axios.defaults.baseURL = BASEURL
 const Loader: React.FC = () => {
     const setShopeePublicCategories = useSetRecoilState(shopeePublicCategoriesState)
     const setShopeeSellerCategories = useSetRecoilState(shopeeSellerCategoriesState)
+    const setShopeeCities = useSetRecoilState(shopeeCitiesState)
     const setTokopediaCities = useSetRecoilState(tokopediaCitiesState)
     const setTokopediaCategories = useSetRecoilState(tokopediaPublicCategoriesState)
     const setNamespaceData = useSetRecoilState(namespaceDataState)
@@ -63,7 +64,7 @@ const Loader: React.FC = () => {
                 setShopeeSellerCategories(manifest.category)
                 setShopeePublicCategories(manifest.public_category_repo)
             }),
-            getShopeeCities(),
+            getShopeeCities().then(setShopeeCities),
             getSearchShopeeShipping().then(setShippings),
             tokopediaGetManifest().then((manifest) => {
                 setTokopediaCities(manifest.cities)

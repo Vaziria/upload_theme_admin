@@ -1,14 +1,14 @@
 import { store } from '..'
-import { exampleSpin, getSpinConfig } from '../../api/spin'
+import { getSpinConfig } from '../../api/spin'
 import { ErrKey, Spin, SpinConfig } from '../../model/Spin'
 import { LoadAction } from './SpinReducer'
 
 export async function getExample (title: string): Promise<void> {
-    const exTitle = await exampleSpin(title)
+    // const exTitle = await exampleSpin(title)
 
     store.dispatch({
         type: 'spin/example',
-        payload: exTitle
+        payload: title
     })
 }
 

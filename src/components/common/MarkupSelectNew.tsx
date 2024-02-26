@@ -14,13 +14,16 @@ function filterOption(input: string, option?: { label: string; value: string }) 
 
 const MarkupSelectNew: React.FC<Props> = (props: Props) => {
 
+    const { value, ...reprops } = props
     const markups = useRecoilValue(markupDataState)
 
     return <Select
         allowClear
         showSearch
         filterOption={filterOption}
-        {...props}
+        placeholder="pilih markup"
+        value={value || undefined}
+        {...reprops}
         options={markups.map((value) => ({
             value,
             label: value

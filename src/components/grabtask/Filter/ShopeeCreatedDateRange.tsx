@@ -29,15 +29,17 @@ const GrabTaskCreatedDateRange: React.FC<Props> = (props: Props) => {
     return <div>
         <AntdCheckbox
             checked={active}
+            className="mb-2"
             onChange={(active) => onChange({ active, min, max })}
         >Gunakan Product Created</AntdCheckbox>
+        <br />
 
         <DatePicker.RangePicker
             value={[datemin, datemax]}
-            className="w-100"
             placeholder={["Tanggal Awal", "Tanggal Akhir"]}
             presets={presets}
             disabled={!active}
+            style={{ width: 300 }}
             onChange={(value) => {
                 const min = value?.[0]?.unix() || 0
                 const max = value?.[1]?.unix() || 0

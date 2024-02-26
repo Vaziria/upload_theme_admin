@@ -22,7 +22,8 @@ const SettingItemSpinner: React.FC<Props> = (props: Props) => {
         <Space wrap>
             <AntdInput
                 addonBefore="Watermark"
-                value={account.water}
+                value={account.water || undefined}
+                placeholder="isi watermark"
                 style={{ minWidth: 200 }}
                 onChange={(water) => onChange({ water })}
             />

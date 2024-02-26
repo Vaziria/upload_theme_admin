@@ -133,7 +133,7 @@ const CategMap: React.FC = () => {
         [query.from, query.mode, query.namespace]
     )
 
-    return <Row className="mt-3">
+    return <Row className="my-3">
         {contextHolder}
         <Col
             md={{ span: 24 }}

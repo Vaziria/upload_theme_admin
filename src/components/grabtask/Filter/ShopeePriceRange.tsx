@@ -15,10 +15,9 @@ const PriceRange: React.FC<Props> = (props: Props): JSX.Element => {
     const { value, onChange } = props
     const { price_min: pMin, price_max: pMax } = value
 
-    return <Space.Compact block>
+    return <Space.Compact block style={{ width: 300 }}>
         <InputNumber
             value={pMin}
-            addonBefore="Harga"
             prefix="Rp."
             min={0}
             className="flex-1"

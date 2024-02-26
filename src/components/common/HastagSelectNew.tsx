@@ -14,13 +14,16 @@ function filterOption(input: string, option?: { label: string; value: string }) 
 
 const HastagSelectNew: React.FC<Props> = (props: Props) => {
 
+    const { value, ...reprops } = props
     const hastags = useRecoilValue(hastagDataState)
 
     return <Select
         allowClear
         showSearch
         filterOption={filterOption}
-        {...props}
+        placeholder="pilih hastag"
+        value={value || undefined}
+        {...reprops}
         options={hastags.map((value) => ({
             value,
             label: value

@@ -11,7 +11,8 @@ import ProductManualDetail from "../pages/ProductManualDetail"
 import ProductManualForm from "../pages/ProductManualForm"
 import ProductManualItems from "../pages/ProductManualItems"
 import SettingPage from "../pages/Setting"
-import SpinPage from "../pages/Spin"
+import SpinPageExample from "../pages/SpinExample"
+import SpinPageNew from "../pages/SpinNew"
 import TaskPage from "../pages/Task"
 import TaskGrabNew from "../pages/TaskGrabNew"
 import Test from "../pages/Test"
@@ -29,7 +30,11 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   },
   {
     path: '/spin',
-    component: SpinPage
+    component: SpinPageNew
+  },
+  {
+    path: '/spin/example',
+    component: SpinPageExample
   },
   {
     path: '/account',

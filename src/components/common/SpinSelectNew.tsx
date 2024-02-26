@@ -14,13 +14,16 @@ function filterOption(input: string, option?: { label: string; value: string }) 
 
 const SpinSelectNew: React.FC<Props> = (props: Props) => {
 
+    const { value, ...reprops } = props
     const spins = useRecoilValue(spinDataState)
 
     return <Select
         allowClear
         showSearch
         filterOption={filterOption}
-        {...props}
+        placeholder="pilih spin"
+        value={value || undefined}
+        {...reprops}
         options={spins.map((spin) => ({
             value: spin.name,
             label: spin.name

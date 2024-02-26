@@ -1,15 +1,20 @@
+import { Collapse } from "antd";
 import React from "react";
-import { Col, Collapse, Radio, Rate, Row, Select, Space } from "antd";
 
-import { GrabShopeeQuery, SettingGrabFilterShopeeExtraResponse, useQuery } from "../../model/newapisdk";
-import CreatedDateRange from "./Filter/CreatedDateRange";
-import SellerTypeCheck from "./Filter/SellerTypeCheck";
-import ShippingCheck from "./Filter/ShippingCheck";
-import PriceRange from "./Filter/PriceRange";
+import { useMutation } from "../../hooks/mutation";
+import { MarketList } from "../../model/Common";
+import { GrabShopeeQuery, GrabTokopediaQuery, SettingGrabFilterShopeeExtraResponse, useQuery } from "../../model/newapisdk";
+import GrabTaskFilterShopee from "./GrabTaskFilterShopee";
+import GrabTaskFilterTokopedia from "./GrabTaskFilterTokopedia";
 
-const GrabTaskFilter: React.FC = () => {
+interface Props {
+    mode: MarketList
+    onSave(): void
+}
 
-    const [grabFilter, setGrabFilter] = React.useState<SettingGrabFilterShopeeExtraResponse>({
+const GrabTaskFilter: React.FC<Props> = (props: Props) => {
+
+    const [shopeeGrabFilter, setShopeeGrabFilter] = React.useState<SettingGrabFilterShopeeExtraResponse>({
         product_created: {
             active: false,
             max: 0,
@@ -17,7 +22,7 @@ const GrabTaskFilter: React.FC = () => {
         },
         shippings: []
     })
-    const [grabSetting, setGrabSetting] = React.useState<GrabShopeeQuery>({
+    const [shopeeGrabSetting, setShopeeGrabSetting] = React.useState<GrabShopeeQuery>({
         by: "",
         locations: [],
         official_mall: false,
@@ -27,75 +32,92 @@ const GrabTaskFilter: React.FC = () => {
         shopee24: false,
         shopee_verified: false
     })
-    const { send: getFilter } = useQuery("GetLegacyShopeeFilterGrabber")
-    const { send: getSetting } = useQuery("GetLegacyApiConfigShopeeGrabSetting")
+    const [tokopediaGrabFilter, setTokopediaGrabFilter] = React.useState<GrabTokopediaQuery>({
+        pmin: 0,
+        pmax: 0,
+        ob: "",
+        rt: "",
+        condition: "",
+        fcity: [],
+        goldmerchant: false,
+        official: false,
+        shipping: [],
+        preorder: false
+    })
+
+    const { send: getShopeeFilter } = useQuery("GetLegacyShopeeFilterGrabber")
+    const { send: getShopeeSetting } = useQuery("GetLegacyApiConfigShopeeGrabSetting")
+    const { send: getTokopediaFilter } = useQuery("GetLegacyApiSettingGrab")
+    const { mutate: updateShopeeFilter } = useMutation("PutLegacyShopeeFilterGrabber")
+    const { mutate: updateShopeeSetting } = useMutation("PostLegacyApiConfigShopeeGrabSetting")
+
+    function saveShopeeGrabFilter() {
+        updateShopeeFilter({
+            onSuccess() {
+                updateShopeeSetting({
+                    onSuccess: props.onSave,
+                }, {
+                    data: shopeeGrabSetting,
+                    name: 'shopeeGrabSetting'
+                })
+            },
+        }, shopeeGrabFilter)
+    }
 
     React.useEffect(() => {
-        getFilter({
-            onSuccess: setGrabFilter,
-        })
-        getSetting({
-            onSuccess: (res) => setGrabSetting(res.data)
-        })
-    }, [])
 
-    const options = [
-        { label: "Terkait", value: "relevancy" },
-        { label: "Terbaru", value: "ctime" },
-        { label: "Terlaris", value: "sales" },
-        { label: "Harga", value: "price" },
-    ];
+        switch (props.mode) {
+
+            case "shopee":
+                getShopeeFilter({
+                    onSuccess: setShopeeGrabFilter,
+                })
+                getShopeeSetting({
+                    onSuccess: (res) => setShopeeGrabSetting(res.data)
+                })
+                break
+            
+            case "tokopedia":
+                getTokopediaFilter({
+                    onSuccess: (res) => setTokopediaGrabFilter(res.data.data),
+                })
+        }
+
+        return () => undefined
+    }, [props.mode])
+
+    const [showFilter, setShowFilter] = React.useState<string | string[]>()
+    let children = <>Tidak ada grab filter</>
+
+    switch (props.mode) {
+        case "shopee":
+            children = <GrabTaskFilterShopee
+                grabSetting={shopeeGrabSetting}
+                grabFilter={shopeeGrabFilter}
+                setGrabSetting={(val) => setShopeeGrabSetting((v) => ({ ...v, ...val }))}
+                setGrabFilter={(val) => setShopeeGrabFilter((v) => ({ ...v, ...val }))}
+                onSave={saveShopeeGrabFilter}
+            />
+            break
+
+        case "tokopedia":
+            children = <GrabTaskFilterTokopedia
+                grabFilter={tokopediaGrabFilter}
+                setGrabFilter={(val) => setTokopediaGrabFilter((v) => ({ ...v, ...val }))}
+                onSave={saveShopeeGrabFilter}
+            />
+            break
+    }
 
     return <Collapse
         ghost
+        activeKey={showFilter}
         items={[{
-            key: 1,
-            label: "Grab Filter",
-            children: <Row gutter={[16, 16]}>
-                <Col span={24} md={24} lg={12}>
-                    <Space direction="vertical" size="large" className="d-flex">
-                        <Radio.Group
-                            value={grabSetting.by}
-                            options={options}
-                            optionType="button"
-                            buttonStyle="solid"
-                            onChange={(val) => setGrabSetting((v) => ({ ...v, by: val.target.value }))}
-                        />
-
-                        <CreatedDateRange
-                            value={grabFilter.product_created}
-                            onChange={(product_created) => setGrabFilter((v) => ({ ...v, product_created }))}
-                        />
-
-                        <PriceRange
-                            value={grabSetting}
-                            onChange={(val) => setGrabSetting((v) => ({ ...v, ...val }))}
-                        />
-
-                        <SellerTypeCheck
-                            value={grabSetting}
-                            onChange={(val) => setGrabSetting((v) => ({ ...v, ...val }))}
-                        />
-                    </Space>
-                </Col>
-
-                <Col span={24} md={24} lg={12}>
-                    <Space direction="vertical" size="large" className="d-flex">
-                        <Rate
-                            value={grabSetting.rating_filter}
-                            onChange={(rating_filter) => setGrabSetting((v) => ({ ...v, rating_filter }))}
-                        />
-
-                        <Select className="w-100" />
-
-                        <ShippingCheck
-                            value={grabFilter.shippings}
-                            onChange={(shippings) => setGrabFilter((v) => ({ ...v, shippings }))}
-                        />
-                    </Space>
-                </Col>
-            </Row>
+            key: "1",
+            label: showFilter?.length ? "Sembunyikan Grab Filter" : "Tampilkan Grab Filter",
+            children: children,
         }]}
+        onChange={setShowFilter}
     />
 }
 
