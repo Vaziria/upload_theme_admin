@@ -33,6 +33,7 @@ const MapperFilter: React.FC<Props> = (props: Props) => {
             namespace,
             search: "",
             unmapped: false,
+            page: 1,
         })
     }
 

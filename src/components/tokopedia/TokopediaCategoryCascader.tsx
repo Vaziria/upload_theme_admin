@@ -32,6 +32,13 @@ const TokopediaCategoryCascader: React.FC<Props> = (props: Props) => {
 
     const categoryValue = useRecoilValue(tokopediaCategoryValueState(props.value))
 
+    React.useEffect(() => {
+        if (!categoryValue) {
+            onChange?.(0)
+            onOptionsChange?.([])
+        }
+    }, [categoryValue])
+
     return <Cascader
         placeholder="pilih kategori tokopedia..."
         allowClear={false}

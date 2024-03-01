@@ -27,7 +27,11 @@ const TokopediaToShopeeItem: React.FC<Props> = (props: Props) => {
         <ShopeeCategoryCascader
             value={props.item?.shopee_id || 0}
             style={{ width: "100%" }}
-            onChange={(shopee_id) => onChange({ ...item, shopee_id })}
+            onChange={(shopee_id) => onChange({
+                ...item,
+                shopee_id,
+                unmapped: !shopee_id
+            })}
         />
     </ItemCard>
 }

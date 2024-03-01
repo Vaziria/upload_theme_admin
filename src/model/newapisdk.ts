@@ -450,6 +450,10 @@ export interface SettingFilterWordQuery {
 	makedefault: boolean
 }
 
+export interface ReportQuery {
+	output: string
+}
+
 export interface Akun {
 	_id: string
 	user: string
@@ -2770,7 +2774,9 @@ export const clients = {
 	GetLegacyApiBackupAkun: {
 		url: "legacy/api/backupAkun" as const,
 		method: "GET" as const,
-		query: undefined,
+		query: {
+			output: ``
+		},
 		body: {},
 		response: {
 			errcode: 0,

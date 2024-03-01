@@ -3,7 +3,7 @@ import { useRecoilValue } from "recoil"
 
 import { MapperShopeeTokpedItem } from "../../../recoil/atoms/mapper_items"
 import { mapperCategoryShopeeState } from "../../../recoil/selectors/mapper_value"
-import ShopeeCategoryCascader from "../../shopee/ShopeeCategoryCascader"
+import TokopediaCategoryCascader from "../../tokopedia/TokopediaCategoryCascader"
 import ItemCard from "./ItemCard"
 import ItemTitle from "./ItemTitle"
 
@@ -26,10 +26,14 @@ const ShopeeToTokopediaItem: React.FC<Props> = (props: Props) => {
             unmapped={unmapped}
         />
     }>
-        <ShopeeCategoryCascader
-            value={props.item?.shopee_id || 0}
+        <TokopediaCategoryCascader
+            value={props.item?.tokopedia_id || 0}
             style={{ width: "100%" }}
-            onChange={(shopee_id) => onChange({ ...item, shopee_id })}
+            onChange={(tokopedia_id) => onChange({
+                ...item,
+                tokopedia_id,
+                unmapped: !tokopedia_id
+            })}
         />
     </ItemCard>
 }

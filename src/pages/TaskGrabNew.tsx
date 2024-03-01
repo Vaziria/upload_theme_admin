@@ -8,7 +8,6 @@ import GrabTaskTabs from "../components/grabtask/GrabTaskTabs";
 import { useMutation } from "../hooks/mutation";
 import { MarketList } from "../model/Common";
 import { GrabTasker, useQuery } from "../model/newapisdk";
-import AntdCheckbox from "../components/common/AntdCheckbox";
 
 const TaskGrabNew: React.FC = () => {
 
@@ -80,8 +79,6 @@ const TaskGrabNew: React.FC = () => {
 
                 <Space direction="vertical" className="d-flex" size="large">
                     {/* <GrabTaskFilter mode={mode} onSave={() => message.success("grab filter saved")} /> */}
-
-                    {mode === "jakmall" && <AntdCheckbox>Hilangkan kata pertama judul</AntdCheckbox>}
 
                     <GrabTaskAction
                         mode={mode}

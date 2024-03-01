@@ -1,36 +1,76 @@
-import { InputNumber, Modal, Space } from "antd"
+import { DeleteOutlined } from "@ant-design/icons"
+import { Alert, InputNumber, Modal, Space } from "antd"
 import React from "react"
 
-import { DeleteConfig, DeleteProduct } from "../../model/newapisdk"
+import { ConfigDeleteExtraResponse, DeleteConfig, DeleteProduct, DeleteProductQueryCli } from "../../model/newapisdk"
 import DeleteConfigCategory from "./DeleteConfigCategory"
 import DeleteConfigHarga from "./DeleteConfigHarga"
 import DeleteConfigKeyword from "./DeleteConfigKeyword"
 import DeleteDateRange from "./DeleteDateRange"
 import DeleteGroupCheck from "./DeleteGroupCheck"
+import AntdInput from "../common/AntdInput"
 
 interface Props {
-    config: DeleteConfig
-    configProd: DeleteProduct
+    initDeleteConfig?: DeleteConfig | null
+    initDeleteProductConfig?: DeleteProduct
     children: (showModal: () => void) => React.ReactNode
-    onConfigChange(config: Partial<DeleteConfig>): void
-    onConfigProdChange(config: Partial<DeleteProduct>): void
-    onDeleteProduct(): void
+    onDeleteProduct(query: DeleteProductQueryCli, config: DeleteConfig, configProd: ConfigDeleteExtraResponse): void
 }
+
+const defaultOut = "delete_report"
 
 const DeleteModal: React.FC<Props> = (props: Props) => {
 
-    const {
-        config, configProd, children,
-        onConfigChange, onConfigProdChange, onDeleteProduct
-    } = props
+    const { initDeleteConfig, initDeleteProductConfig, children, onDeleteProduct } = props
+
     const [open, setOpen] = React.useState(false)
+    const [query, setQuery] = React.useState<DeleteProductQueryCli>({
+        base: "./",
+        report: defaultOut,
+    })
+    const [config, setConfig] = React.useState<DeleteConfig>({
+        akun: "",
+        awaltanggal: "",
+        blokir: false,
+        delete: 0,
+        diarsipkan: false,
+        diperiksa: false,
+        sold: 0,
+        tanggal: "",
+        view: 0
+    })
+    const [configProd, setConfigProd] = React.useState<DeleteProduct>({
+        fil_category: false,
+        fil_harga: false,
+        fil_keyword: false,
+        category: [],
+        harga: {
+            min: 0,
+            max: 0
+        },
+        keyword: "",
+    })
+
+    React.useEffect(() => {
+        setConfig((conf) => ({ ...conf, ...initDeleteConfig }))
+        setConfigProd((conf) => ({ ...conf, ...initDeleteProductConfig }))
+    }, [initDeleteConfig, initDeleteProductConfig])
 
     function showModal() {
         setOpen(true)
     }
 
     function handleOk() {
-        onDeleteProduct()
+        const requery = { ...query }
+        if (!requery.report) {
+            requery.report = defaultOut
+        }
+        requery.report += ".csv"
+
+        onDeleteProduct(requery, config, {
+            data: configProd,
+            name: ""
+        })
         setOpen(false)
     }
 
@@ -41,24 +81,43 @@ const DeleteModal: React.FC<Props> = (props: Props) => {
     return <>
         {children(showModal)}
         <Modal
-            title="Delete Produk"
+            title={<span>
+                <DeleteOutlined /> Delete Produk
+            </span>}
             centered
             open={open}
             onOk={handleOk}
             okButtonProps={{
                 danger: true,
             }}
-            okText="Delete Produk"
+            okText="Run Delete Produk"
             onCancel={handleCancel}
             cancelText="Batal"
         >
-            <Space direction="vertical" className="d-flex" size="middle">
+            <Space direction="vertical" className="d-flex py-4" size="middle">
+
+                <Alert
+                    banner
+                    type="info"
+                    message={<span>nama report boleh dikosongi, default&nbsp;
+                        <strong style={{ fontWeight: 500 }}>&quot;{defaultOut}.csv&quot;</strong>
+                    </span>}
+                />
+
+                <AntdInput
+                    id="report_filename"
+                    value={query.report}
+                    placeholder="nama report"
+                    addonBefore="Nama Report"
+                    addonAfter=".csv"
+                    onChange={(report) => setQuery((q) => ({ ...q, report }))}
+                />
 
                 <InputNumber
                     value={config.delete}
                     className="w-100"
                     addonBefore="Limit Delete"
-                    onChange={(v) => onConfigChange({ delete: v || 0 })}
+                    onChange={(val) => setConfig((v) => ({ ...v, delete: val || 0 }))}
                 />
 
                 <div className="d-flex" style={{ gap: 10 }}>
@@ -66,39 +125,39 @@ const DeleteModal: React.FC<Props> = (props: Props) => {
                         value={config.view}
                         className="w-100"
                         addonBefore="Max View"
-                        onChange={(v) => onConfigChange({ view: v || 0 })}
+                        onChange={(val) => setConfig((v) => ({ ...v, view: val || 0 }))}
                     />
                     <InputNumber
                         value={config.sold}
                         className="w-100"
                         addonBefore="Max Sold"
-                        onChange={(v) => onConfigChange({ sold: v || 0 })}
+                        onChange={(val) => setConfig((v) => ({ ...v, sold: val || 0 }))}
                     />
                 </div>
 
                 <DeleteDateRange
                     value={config}
-                    onChange={(value) => onConfigChange(value)}
+                    onChange={(value) => setConfig((v) => ({ ...v, ...value }))}
                 />
 
                 <DeleteGroupCheck
                     value={config}
-                    onChange={(value) => onConfigChange(value)}
+                    onChange={(value) => setConfig((v) => ({ ...v, ...value }))}
                 />
 
                 <DeleteConfigKeyword
                     value={configProd}
-                    onChange={(conf) => onConfigProdChange(conf)}
+                    onChange={(conf) => setConfigProd((v) => ({ ...v, ...conf }))}
                 />
 
                 <DeleteConfigCategory
                     value={configProd}
-                    onChange={(conf) => onConfigProdChange(conf)}
+                    onChange={(conf) => setConfigProd((v) => ({ ...v, ...conf }))}
                 />
 
                 <DeleteConfigHarga
                     value={configProd}
-                    onChange={(conf) => onConfigProdChange(conf)}
+                    onChange={(conf) => setConfigProd((v) => ({ ...v, ...conf }))}
                 />
             </Space>
         </Modal>

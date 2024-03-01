@@ -2,11 +2,11 @@ import { CloudUploadOutlined, DeleteOutlined, FileTextOutlined, ReconciliationOu
 import { Button, Col, Popconfirm, Row, Space, message } from "antd"
 import React from "react"
 
-import { backup, resetAccount } from "../../api/account"
+import { resetAccount } from "../../api/account"
 import { UploadMode } from "../../api/bot_configuration"
-import { useQuery } from "../../model/newapisdk"
+import { ReportQuery, useQuery } from "../../model/newapisdk"
 import AkunActionSetting, { ActionSetting } from "./AkunActionSetting"
-import AkunActionShipping from "./AkunActionShipping"
+import AkunReportModal from "./AkunReportModal"
 
 interface Props {
     allowPaste: boolean
@@ -33,6 +33,7 @@ const AkunAction: React.FC<Props> = (props: Props) => {
     const { send: shopeeToShopee } = useQuery("GetUploadV6ShopeeToShopee")
     const { send: qlobotToShopee } = useQuery("GetUploadV6QlobotToShopee")
     const { send: jakmallToShopee } = useQuery("GetUploadV6JakmallToShopee")
+    const { send: reportAkun } = useQuery("GetLegacyApiBackupAkun")
 
     async function deleteAll() {
         if (confirm("Delete..?")) {
@@ -50,6 +51,13 @@ const AkunAction: React.FC<Props> = (props: Props) => {
     function updateAll() {
         props.updateAll()
         messageApi.info("Akun updated...")
+    }
+
+    function runReport(query: ReportQuery) {
+        reportAkun({
+            query,
+            onSuccess: () => messageApi.info(`Akun reported di ${query.output}`),
+        })
     }
 
     const runUpload = () => {
@@ -103,7 +111,7 @@ const AkunAction: React.FC<Props> = (props: Props) => {
     return <Space direction="vertical" size="large" className="d-flex">
         {ctxholder}
         <Row gutter={[8, 8]}>
-            <Col span={24} md={24} lg={12}>
+            <Col span={24}>
                 <AkunActionSetting
                     setting={setting}
                     onChange={(data) => {
@@ -116,13 +124,13 @@ const AkunAction: React.FC<Props> = (props: Props) => {
                 />
             </Col>
 
-            <Col span={24} md={24} lg={12}>
+            {/* <Col span={24} md={24} lg={12}>
                 <AkunActionShipping />
-            </Col>
+            </Col> */}
         </Row>
 
         <div className="d-flex" style={{ gap: 8 }}>
-            <Space className="flex-1">
+            <Space className="flex-1" wrap>
                 <Button
                     type="primary"
                     className="c-tx-sm"
@@ -162,11 +170,13 @@ const AkunAction: React.FC<Props> = (props: Props) => {
                 >PASTE ALL</Button>
             </Space>
 
-            <Button
-                className="c-tx-sm"
-                icon={<FileTextOutlined />}
-                onClick={backup}
-            >REPORT</Button>
+            <AkunReportModal onReport={runReport}>
+                {(showModal) => <Button
+                    className="c-tx-sm"
+                    icon={<FileTextOutlined />}
+                    onClick={showModal}
+                >REPORT</Button>}
+            </AkunReportModal>
 
             <Button
                 type="primary"

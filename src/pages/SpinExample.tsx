@@ -78,7 +78,7 @@ const SpinPageExample: React.FC = () => {
                     <Button
                         type="primary"
                         icon={<ReloadOutlined />}
-                        onClick={() => send({})}
+                        onClick={() => send({ query })}
                     >Generate Ulang</Button>
 
                     {data?.map((item, key) => <SpinExampleItem key={key} item={item} />)}

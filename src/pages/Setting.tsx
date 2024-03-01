@@ -103,10 +103,10 @@ export default class SettingPage extends React.Component<unknown, IState> {
             </div>
           </div>
           <div className="col-lg-5">
-            <div className="row mb-2">
-              {/* <div className="col update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateTokpedCategories()}>UPDATETOPEDCAT</button></div> */}
+            {/* <div className="row mb-2">
+              <div className="col update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateTokpedCategories()}>UPDATETOPEDCAT</button></div>
               <div className="col-6 update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateShopeeCategories()}>UPDATESHOPEECAT</button></div>
-            </div>
+            </div> */}
             <CropImageConfig></CropImageConfig>
             <GrabInterval></GrabInterval>
             <div className="colss">

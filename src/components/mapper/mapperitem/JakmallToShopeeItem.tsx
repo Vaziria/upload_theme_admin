@@ -1,7 +1,7 @@
 import React from "react"
 
 import { MapCateg } from "../../../model/newapisdk"
-import { MapperJakmallShopeeItem } from "../../../recoil/atoms/mapper_items"
+import { MapperJakmallItem } from "../../../recoil/atoms/mapper_items"
 
 import ShopeeCategoryCascader from "../../shopee/ShopeeCategoryCascader"
 import ItemCard from "./ItemCard"
@@ -9,8 +9,8 @@ import ItemTitle from "./ItemTitle"
 
 
 interface Props {
-    item: MapperJakmallShopeeItem
-    onChange: (item: MapperJakmallShopeeItem) => void
+    item: MapperJakmallItem
+    onChange: (item: MapperJakmallItem) => void
 }
 
 const JakmallToShopeeItem: React.FC<Props> = (props: Props) => {
@@ -46,6 +46,7 @@ const JakmallToShopeeItem: React.FC<Props> = (props: Props) => {
                 } else {
                     onChange({
                         ...item,
+                        unmapped: true,
                         mapper_id: 0,
                         mapper_name: "",
                         mapper_categs: []

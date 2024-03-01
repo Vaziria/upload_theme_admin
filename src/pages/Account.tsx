@@ -1,4 +1,4 @@
-import { Card, Col, Divider, Empty, Pagination, Row, Space } from 'antd'
+import { Alert, Card, Col, Divider, Empty, Pagination, Row, Space } from 'antd'
 import React from 'react'
 
 import {
@@ -120,6 +120,15 @@ class AccountPage extends React.Component<unknown, IState> {
             >
                 <Card title="Akun">
                     <Space direction="vertical" className="d-flex">
+
+                        <Alert
+                            showIcon
+                            type="info"
+                            className="mb-2"
+                            message={<span>report upload tersimpan di&nbsp;
+                                <strong style={{ fontWeight: 500 }}>&quot;shopee_upload_report.csv&quot;</strong>
+                            </span>}
+                        />
 
                         <SettingBulkAccountNew
                             query={query}
