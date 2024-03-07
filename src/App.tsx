@@ -11,9 +11,9 @@ import { setupV2Notification } from './api/notif'
 import { getNamespaces } from './api/product'
 import { TypedSwitch } from './routes'
 
-import SideNav from './components/SideNav'
 
 import { BASEURL } from './api/client'
+import BaseLayout from './components/BaseLayout'
 import { persistor, store } from "./features"
 import { loadCollection } from './features/collection'
 import { loadHastags } from './features/hastag'
@@ -25,14 +25,14 @@ import { useQuery } from './model/newapisdk'
 import { shopeePublicCategoriesState, shopeeSellerCategoriesState, tokopediaPublicCategoriesState } from "./recoil/atoms/categories"
 import { shopeeCitiesState, tokopediaCitiesState } from "./recoil/atoms/cities"
 import { collectionSelectState } from './recoil/atoms/collection_list'
+import { hastagDataState } from './recoil/atoms/hastag'
+import { infoState } from './recoil/atoms/info'
 import { markupDataState } from './recoil/atoms/markup'
 import { namespaceDataState } from "./recoil/atoms/namespace"
-import { infoState } from './recoil/atoms/info'
+import { shippingsState } from './recoil/atoms/shipping'
 import { spinDataState } from './recoil/atoms/spin'
-import { hastagDataState } from './recoil/atoms/hastag'
 import { setJakmallCategoriesCallback } from './recoil/callbacks/set_jakmall_categories'
 import { setJakmallFilterDataCallback } from './recoil/callbacks/set_jakmall_filter'
-import { shippingsState } from './recoil/atoms/shipping'
 
 // TODO: sdk belum support base url
 axios.defaults.baseURL = BASEURL
@@ -147,6 +147,7 @@ const App: React.FC = () => {
                                 components: {
                                     Card: {
                                         actionsLiMargin: "6px",
+                                        colorBorder: "red"
                                     },
                                     Rate: {
                                         starBg: "#bfbfbf",
@@ -158,9 +159,11 @@ const App: React.FC = () => {
 
                             <BrowserRouter basename="v2">
                                 <Loader />
-                                <div className="row">
+                                <BaseLayout>
+                                    <TypedSwitch></TypedSwitch>
+                                </BaseLayout>
+                                {/* <div className="row">
 
-                                    {/* navigation */}
                                     <SideNav></SideNav>
 
 
@@ -168,7 +171,7 @@ const App: React.FC = () => {
 
                                         <TypedSwitch></TypedSwitch>
                                     </div>
-                                </div>
+                                </div> */}
                             </BrowserRouter>
                         </ConfigProvider>
                     </PersistGate>

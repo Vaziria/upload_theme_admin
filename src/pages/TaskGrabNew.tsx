@@ -1,4 +1,4 @@
-import { Card, Col, Empty, Row, Space, Spin, message } from "antd";
+import { Col, Empty, Row, Space, Spin, message } from "antd";
 import React from "react";
 import * as uuid from "uuid";
 
@@ -73,9 +73,7 @@ const TaskGrabNew: React.FC = () => {
             lg={{ span: 20, offset: 2 }}
             xl={{ span: 16, offset: 4 }}
         >
-            <Card title="Grab">
-                <GrabTaskTabs mode={mode} onChange={setMode} />
-
+            <GrabTaskTabs mode={mode} onChange={setMode}>
 
                 <Space direction="vertical" className="d-flex" size="large">
                     {/* <GrabTaskFilter mode={mode} onSave={() => message.success("grab filter saved")} /> */}
@@ -126,7 +124,7 @@ const TaskGrabNew: React.FC = () => {
                         }}
                     />)}
                 </Space>
-            </Card>
+            </GrabTaskTabs>
         </Col>
     </Row>
 }

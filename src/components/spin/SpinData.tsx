@@ -1,5 +1,5 @@
 import { DatabaseOutlined, DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { Button, Select, Space, Typography } from "antd";
+import { Button, Card, Select, Space, Typography } from "antd";
 import React from "react";
 
 import { DataSpinItemResponse } from "../../model/newapisdk";
@@ -74,61 +74,60 @@ const SpinData: React.FC<Props> = (props: Props) => {
         onUpdate(activeData)
     }
 
-    return <Space direction="vertical" className="d-flex">
-        <Typography.Title level={5} className="mb-0">
-            <DatabaseOutlined /> Spin Data
-        </Typography.Title>
+    return <Card title={<><DatabaseOutlined /> Spin Data</>}>
+        <Space direction="vertical" className="d-flex">
 
-        <Space wrap>
-            <AntdSelectAddon addon="Nama">
-                <Select
-                    value={activeData.name || undefined}
-                    loading={dataLoading}
-                    placeholder="Pilih nama data"
-                    style={{ width: 300 }}
-                    options={options}
-                    onChange={(name) => onActive(name, setActiveData)}
+            <Space wrap>
+                <AntdSelectAddon addon="Nama">
+                    <Select
+                        value={activeData.name || undefined}
+                        loading={dataLoading}
+                        placeholder="Pilih nama data"
+                        style={{ width: 300 }}
+                        options={options}
+                        onChange={(name) => onActive(name, setActiveData)}
+                    />
+                </AntdSelectAddon>
+                <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    disabled={!activeData.name}
+                    onClick={deleteData}
                 />
-            </AntdSelectAddon>
-            <Button
-                danger
-                icon={<DeleteOutlined />}
+
+                <AntdInput
+                    status={addStatus}
+                    value={addData}
+                    placeholder="Tambah nama"
+                    onChange={setAddData}
+                    onPressEnter={addNewData}
+                />
+                <Button
+                    icon={<PlusOutlined />}
+                    disabled={!addData}
+                    onClick={addNewData}
+                />
+            </Space>
+
+            <AntdTextarea
+                value={activeData.data.join("\n")}
+                rows={8}
                 disabled={!activeData.name}
-                onClick={deleteData}
+                placeholder="Pilih nama data terlebih dahulu..."
+                onChange={(data) => setActiveData((v) => ({ ...v, data: data.split("\n") }))}
             />
 
-            <AntdInput
-                status={addStatus}
-                value={addData}
-                placeholder="Tambah nama"
-                onChange={setAddData}
-                onPressEnter={addNewData}
-            />
-            <Button
-                icon={<PlusOutlined />}
-                disabled={!addData}
-                onClick={addNewData}
-            />
+            <div className="d-flex justify-content-end">
+                <Button
+                    type="primary"
+                    icon={<SaveOutlined />}
+                    disabled={!activeData.name || updateLoading}
+                    loading={updateLoading}
+                    onClick={saveData}
+                >Simpan Data</Button>
+            </div>
         </Space>
-
-        <AntdTextarea
-            value={activeData.data.join("\n")}
-            rows={8}
-            disabled={!activeData.name}
-            placeholder="Pilih nama data terlebih dahulu..."
-            onChange={(data) => setActiveData((v) => ({ ...v, data: data.split("\n") }))}
-        />
-
-        <div className="d-flex justify-content-end">
-            <Button
-                type="primary"
-                icon={<SaveOutlined />}
-                disabled={!activeData.name || updateLoading}
-                loading={updateLoading}
-                onClick={saveData}
-            >Simpan Data</Button>
-        </div>
-    </Space>
+    </Card>
 }
 
 export default SpinData

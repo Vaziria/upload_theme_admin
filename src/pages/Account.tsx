@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Divider, Empty, Pagination, Row, Space } from 'antd'
+import { Alert, Card, Col, Empty, Pagination, Row, Space } from 'antd'
 import React from 'react'
 
 import {
@@ -118,27 +118,28 @@ class AccountPage extends React.Component<unknown, IState> {
                 lg={{ span: 20, offset: 2 }}
                 xl={{ span: 16, offset: 4 }}
             >
-                <Card title="Akun">
-                    <Space direction="vertical" className="d-flex">
 
-                        <Alert
-                            showIcon
-                            type="info"
-                            className="mb-2"
-                            message={<span>report upload tersimpan di&nbsp;
-                                <strong style={{ fontWeight: 500 }}>&quot;shopee_upload_report.csv&quot;</strong>
-                            </span>}
-                        />
+                <Space direction="vertical" size="middle" className="d-flex">
 
+                    <Alert
+                        showIcon
+                        type="info"
+                        message={<span>report upload tersimpan di&nbsp;
+                            <strong style={{ fontWeight: 500 }}>&quot;shopee_upload_report.csv&quot;</strong>
+                        </span>}
+                    />
+
+                    <NewAccount onAddAccount={() => this.getAccounts()} />
+                    <Card>
                         <SettingBulkAccountNew
                             query={query}
                             updateQuery={updateQuery}
                             selectAll={check => this.selectAll(check)}
                             activeAll={active => this.activeAll(active)}
                         />
-                        <Divider className="my-4" />
-                        <NewAccount onAddAccount={() => this.getAccounts()} />
+                    </Card>
 
+                    <Card>
                         <AkunAction
                             allowPaste={!!this.state.copyAkun}
                             upmode={this.state.mode}
@@ -148,8 +149,30 @@ class AccountPage extends React.Component<unknown, IState> {
                             pasteAll={() => this.pasteAll()}
                             refreshAkun={() => this.getAccounts()}
                         />
-                        <Divider className="my-4" />
+                    </Card>
 
+                    <Card
+                        tabList={[
+                            {
+                                key: "all",
+                                label: "Semua",
+                            },
+                            {
+                                key: "true",
+                                label: "Aktif",
+                            },
+                            {
+                                key: "false",
+                                label: "Tidak Aktif",
+                            },
+                        ]}
+                        tabProps={{ size: "middle" }}
+                        onTabChange={(key) => updateQuery({
+                            ...query,
+                            active: key === "all" ? "all" : key === "true",
+                            start: 0
+                        })}
+                    >
                         <Pagination
                             showSizeChanger
                             total={paging.total}
@@ -187,8 +210,8 @@ class AccountPage extends React.Component<unknown, IState> {
                                 onCopy={copyAkun => this.setState({ copyAkun })}
                             />)}
                         </Space>
-                    </Space>
-                </Card>
+                    </Card>
+                </Space>
             </Col>
         </Row>
     }

@@ -31,7 +31,7 @@ export default function MapperDataRender<T extends { unmapped: boolean }>(props:
         return <Empty description="Tidak ada category mapping ditemukan" className="my-5" />
     }
 
-    return <Space direction="vertical" className="mt-4 d-flex">
+    return <Space direction="vertical" size="middle" className="d-flex">
 
         {fixItems
             .filter((_, index) => {
@@ -41,7 +41,7 @@ export default function MapperDataRender<T extends { unmapped: boolean }>(props:
             .map(render)
         }
 
-        <Space style={{ display: 'flex', justifyContent: "center" }}>
+        <div className="d-flex justify-content-center">
             <Pagination
                 current={query.page}
                 pageSize={query.pagesize}
@@ -50,6 +50,6 @@ export default function MapperDataRender<T extends { unmapped: boolean }>(props:
                 pageSizeOptions={[10, 20, 30, 50]}
                 onChange={(page, pagesize) => props.onChange?.({ page, pagesize })}
             />
-        </Space>
+        </div>
     </Space>
 }

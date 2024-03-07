@@ -108,7 +108,7 @@ const AkunAction: React.FC<Props> = (props: Props) => {
         }
     }
 
-    return <Space direction="vertical" size="large" className="d-flex">
+    return <Space direction="vertical" size="middle" className="d-flex">
         {ctxholder}
         <Row gutter={[8, 8]}>
             <Col span={24}>

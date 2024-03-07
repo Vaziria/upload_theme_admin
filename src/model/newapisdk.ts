@@ -879,8 +879,43 @@ export interface UpdateTopedCategoryPayload {
 	secret: string
 }
 
+export interface AkunDeleteItem {
+	username: string
+	password: string
+	secret: string
+}
+
+export interface SoldConfig {
+	min: number
+	max: number
+}
+
+export interface ViewConfig {
+	min: number
+	max: number
+}
+
+export interface PriceConfig {
+	min: number
+	max: number
+}
+
+export interface TokopediaDeleteConfig {
+	limit_concurent: number
+	limit_product: number
+	title: Array<string>
+	product_status: string
+	category_id: string
+	start_time: number
+	end_time: number
+	akuns: Array<AkunDeleteItem | undefined>
+	sold_filter: SoldConfig | undefined
+	view_filter: ViewConfig | undefined
+	price_filter: PriceConfig | undefined
+}
+
 export interface DeleteSettingRes {
-	data: DeleteConfig | undefined
+	data: TokopediaDeleteConfig | undefined
 }
 
 export interface DumpCategoryResponse {
@@ -3781,16 +3816,35 @@ export const clients = {
 		body: {},
 		response: {
 			data: {
-				akun: ``,
-				awaltanggal: `2021-12-01T07:00:00+07:00`,
-				blokir: false,
-				delete: 0,
-				diarsipkan: false,
-				diperiksa: false,
-				sold: 0,
-				tanggal: `2021-12-01T07:00:00+07:00`,
-				view: 0
-			} as DeleteConfig | undefined
+				limit_concurent: 0,
+				limit_product: 0,
+				title: [
+				``
+				] as Array<string>,
+				product_status: ``,
+				category_id: ``,
+				start_time: 0,
+				end_time: 0,
+				akuns: [
+				{
+						username: ``,
+						password: ``,
+						secret: ``
+					} as AkunDeleteItem | undefined
+				] as Array<AkunDeleteItem | undefined>,
+				sold_filter: {
+					min: 0,
+					max: 0
+				} as SoldConfig | undefined,
+				view_filter: {
+					min: 0,
+					max: 0
+				} as ViewConfig | undefined,
+				price_filter: {
+					min: 0,
+					max: 0
+				} as PriceConfig | undefined
+			} as TokopediaDeleteConfig | undefined
 		}
 	},
 	PutTokopediaDeleterSetting: {
@@ -3798,28 +3852,66 @@ export const clients = {
 		method: "PUT" as const,
 		query: undefined,
 		body: {
-			akun: ``,
-			awaltanggal: `2021-12-01T07:00:00+07:00`,
-			blokir: false,
-			delete: 0,
-			diarsipkan: false,
-			diperiksa: false,
-			sold: 0,
-			tanggal: `2021-12-01T07:00:00+07:00`,
-			view: 0
+			limit_concurent: 0,
+			limit_product: 0,
+			title: [
+			``
+			] as Array<string>,
+			product_status: ``,
+			category_id: ``,
+			start_time: 0,
+			end_time: 0,
+			akuns: [
+			{
+					username: ``,
+					password: ``,
+					secret: ``
+				} as AkunDeleteItem | undefined
+			] as Array<AkunDeleteItem | undefined>,
+			sold_filter: {
+				min: 0,
+				max: 0
+			} as SoldConfig | undefined,
+			view_filter: {
+				min: 0,
+				max: 0
+			} as ViewConfig | undefined,
+			price_filter: {
+				min: 0,
+				max: 0
+			} as PriceConfig | undefined
 		},
 		response: {
 			data: {
-				akun: ``,
-				awaltanggal: `2021-12-01T07:00:00+07:00`,
-				blokir: false,
-				delete: 0,
-				diarsipkan: false,
-				diperiksa: false,
-				sold: 0,
-				tanggal: `2021-12-01T07:00:00+07:00`,
-				view: 0
-			} as DeleteConfig | undefined
+				limit_concurent: 0,
+				limit_product: 0,
+				title: [
+				``
+				] as Array<string>,
+				product_status: ``,
+				category_id: ``,
+				start_time: 0,
+				end_time: 0,
+				akuns: [
+				{
+						username: ``,
+						password: ``,
+						secret: ``
+					} as AkunDeleteItem | undefined
+				] as Array<AkunDeleteItem | undefined>,
+				sold_filter: {
+					min: 0,
+					max: 0
+				} as SoldConfig | undefined,
+				view_filter: {
+					min: 0,
+					max: 0
+				} as ViewConfig | undefined,
+				price_filter: {
+					min: 0,
+					max: 0
+				} as PriceConfig | undefined
+			} as TokopediaDeleteConfig | undefined
 		}
 	},
 	GetTokopediaDumpCategoryDump: {

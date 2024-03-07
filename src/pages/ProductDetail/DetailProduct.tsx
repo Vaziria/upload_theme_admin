@@ -305,7 +305,7 @@ export default class DetailProduct extends React.Component<unknown, IState> {
     } = this.state
 
     return (
-      <div className="mt-custom">
+      <div className="">
         <div className="row mt-3">
           <div className="col-3">
             

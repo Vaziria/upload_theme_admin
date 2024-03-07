@@ -308,3 +308,21 @@ button:focus {
 	padding: 0 11px;
 	border-bottom: 1px solid #d9d9d9;
 }
+
+.ant-card {
+	border-color: rgba(217, 217, 217, 0.6);
+}
+
+.ani-ease-in {
+	-webkit-transition: .2s ease-in;
+    -moz-transition: .2s ease-in;
+    -o-transition: .2s ease-in;
+    transition: .2s ease-in;
+}
+
+.ani-ease-out {
+	-webkit-transition: .1s ease-in;
+    -moz-transition: .1s ease-in;
+    -o-transition: .1s ease-in;
+    transition: .1s ease-in;
+}

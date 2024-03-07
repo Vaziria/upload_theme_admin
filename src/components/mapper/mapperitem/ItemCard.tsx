@@ -7,11 +7,9 @@ const ItemCard: React.FC<CardProps> = (props: CardProps) => {
 
     return <Card
         hoverable
-        size="small"
-        type="inner"
         {...reprops}
     >
-        <span style={{ fontWeight: 300, fontSize: 13 }}>mapping menjadi:</span>
+        <span>mapping menjadi:</span>
         {children}
     </Card>
 }

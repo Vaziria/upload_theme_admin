@@ -25,7 +25,7 @@ const BulkAccount: React.FC<Props> = (props: Props) => {
         props.onAddAccount()
     }
 
-    return <Space direction="vertical" className="d-flex mb-3">
+    return <Space direction="vertical" className="d-flex">
 
         {show && <div className="w-100">
             <AkunTextareaNew akuns={akuns} onChange={setAkuns} />

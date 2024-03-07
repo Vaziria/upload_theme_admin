@@ -99,7 +99,7 @@ const HomePage: React.FC = () => {
                         xl={{ span: 12 }}
                         xxl={{ span: 8 }}
                     >
-                        <Card bordered={false}>
+                        <Card>
                             <CacheStat
                                 title="Temp Size"
                                 color="#3f8600"
@@ -121,7 +121,7 @@ const HomePage: React.FC = () => {
                         xl={{ span: 12 }}
                         xxl={{ span: 8 }}
                     >
-                        <Card bordered={false}>
+                        <Card>
                             <CacheStat
                                 title="Webdriver Temp Size"
                                 color="#1677ff"
@@ -143,7 +143,7 @@ const HomePage: React.FC = () => {
                         xl={{ span: 12 }}
                         xxl={{ span: 8 }}
                     >
-                        <Card bordered={false}>
+                        <Card>
                             <ShopeeStat />
                             <TokopediaStat />
                             <QlobotShopeeStat />

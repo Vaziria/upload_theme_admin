@@ -1,4 +1,4 @@
-import { Input, Select, Space, Tabs, TabsProps } from 'antd'
+import { Input, Select, Space } from 'antd'
 import React from 'react'
 import { AccountQuery } from '../../api/account'
 import AntdCheckbox from '../common/AntdCheckbox'
@@ -20,33 +20,7 @@ const SettingBulkAccountNew: React.FC<Props> = (props: Props) => {
 
     const { query, selectAll, activeAll } = props
 
-    const items: TabsProps["items"] = [
-        {
-            key: "all",
-            label: "Semua",
-        },
-        {
-            key: "true",
-            label: "Aktif",
-        },
-        {
-            key: "false",
-            label: "Tidak Aktif",
-        },
-    ]
-
-    return <Space direction="vertical" className="d-flex">
-
-        <Tabs
-            activeKey={typeof query.active === "boolean" ? String(query.active) : query.active}
-            type="card"
-            items={items}
-            onChange={(key) => updateQuery({
-                ...query,
-                active: key === "all" ? "all" : key === "true",
-                start: 0
-            })}
-        />
+    return <Space direction="vertical" size="middle" className="d-flex">
         <div className="d-flex" style={{ gap: 8 }}>
             <Input.Search
                 value={query.search}

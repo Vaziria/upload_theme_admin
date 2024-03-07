@@ -140,49 +140,52 @@ const CategMap: React.FC = () => {
             lg={{ span: 20, offset: 2 }}
             xl={{ span: 16, offset: 4 }}
         >
-            <Card title="Category Mapper">
-                <MapperFilter query={query} onChange={onQueryChange} />
+            <Space direction="vertical" size="middle" className="d-flex">
+                <Card>
+                    <Space direction="vertical" size="middle" className="d-flex">
+                        <MapperFilter query={query} onChange={onQueryChange} />
+                        <Space className="d-flex justify-content-between">
+                            <div className="d-flex gap-1" style={{ gap: 10 }}>
+                                <AntdSelectAddon addon="Mapping" style={{ width: "auto" }}>
+                                    <Space.Compact>
 
-                <Space className="mt-3 d-flex justify-content-between">
-                    <div className="d-flex gap-1" style={{ gap: 10 }}>
-                        <AntdSelectAddon addon="Mapping" style={{ width: "auto" }}>
-                            <Space.Compact>
+                                        <MarketplaceSelect
+                                            style={{ minWidth: 180, width: 180 }}
+                                            value={query.from}
+                                            onChange={onFromChange}
+                                        />
 
-                                <MarketplaceSelect
-                                    style={{ minWidth: 180, width: 180 }}
-                                    value={query.from}
-                                    onChange={onFromChange}
+                                        <MarketplaceSelect
+                                            style={{ minWidth: 180, width: 180 }}
+                                            value={query.mode}
+                                            hidemp={[query.from]}
+                                            onChange={onModeChange}
+                                        />
+
+                                    </Space.Compact>
+                                </AntdSelectAddon>
+                            </div>
+
+                            <Space>
+                                <MapperAutoSuggest
+                                    from={query.from}
+                                    mode={query.mode}
+                                    namespace={query.namespace}
+                                    onSuccess={() => {
+                                        messageApi.info("running auto suggest")
+                                        loadMapItems()
+                                    }}
+                                    onError={() => messageApi.error("failed to run auto suggest")}
                                 />
-
-                                <MarketplaceSelect
-                                    style={{ minWidth: 180, width: 180 }}
-                                    value={query.mode}
-                                    hidemp={[query.from]}
-                                    onChange={onModeChange}
+                                <MapperSave
+                                    from={query.from}
+                                    mode={query.mode}
+                                    onSuccess={loadMapItems}
                                 />
-
-                            </Space.Compact>
-                        </AntdSelectAddon>
-                    </div>
-
-                    <Space>
-                        <MapperAutoSuggest
-                            from={query.from}
-                            mode={query.mode}
-                            namespace={query.namespace}
-                            onSuccess={() => {
-                                messageApi.info("running auto suggest")
-                                loadMapItems()
-                            }}
-                            onError={() => messageApi.error("failed to run auto suggest")}
-                        />
-                        <MapperSave
-                            from={query.from}
-                            mode={query.mode}
-                            onSuccess={loadMapItems}
-                        />
+                            </Space>
+                        </Space>
                     </Space>
-                </Space>
+                </Card>
 
                 <MapperDataview
                     from={query.from}
@@ -191,7 +194,7 @@ const CategMap: React.FC = () => {
                     loading={loading}
                     onChange={onQueryChange}
                 />
-            </Card>
+            </Space>
         </Col>
     </Row>
 }

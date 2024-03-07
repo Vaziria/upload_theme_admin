@@ -1,5 +1,5 @@
 import { BorderlessTableOutlined, DeleteOutlined, PlusOutlined, SaveOutlined } from "@ant-design/icons";
-import { Button, InputNumber, Select, Space, Typography } from "antd";
+import { Button, Card, InputNumber, Select, Space, Typography } from "antd";
 import React from "react";
 
 import { HastagLimitData, HastagUpdatePayload } from "../../model/newapisdk";
@@ -84,88 +84,87 @@ const SpinHastag: React.FC<Props> = (props: Props) => {
         onUpdateLimit(fixdata)
     }
 
-    return <Space direction="vertical" className="d-flex">
-        <Typography.Title level={5} className="mb-0">
-            <BorderlessTableOutlined /> Spin Hastag
-        </Typography.Title>
+    return <Card title={<><BorderlessTableOutlined /> Spin Hastag</>}>
+        <Space direction="vertical" className="d-flex">
 
-        <Space wrap>
-            <AntdSelectAddon addon="Nama">
-                <Select
-                    value={activeHastag.name || undefined}
-                    loading={hastagLoading}
-                    placeholder="Pilih nama data"
-                    style={{ width: 300 }}
-                    options={options}
-                    onChange={(name) => onActive(name, setActiveHastag)}
+            <Space wrap>
+                <AntdSelectAddon addon="Nama">
+                    <Select
+                        value={activeHastag.name || undefined}
+                        loading={hastagLoading}
+                        placeholder="Pilih nama data"
+                        style={{ width: 300 }}
+                        options={options}
+                        onChange={(name) => onActive(name, setActiveHastag)}
+                    />
+                </AntdSelectAddon>
+                <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    disabled={!activeHastag.name}
+                    onClick={deleteData}
                 />
+
+                <AntdInput
+                    status={addStatus}
+                    value={addHastag}
+                    placeholder="Tambah nama"
+                    onChange={setAddHastag}
+                    onPressEnter={addNewData}
+                />
+                <Button
+                    icon={<PlusOutlined />}
+                    disabled={!addHastag}
+                    onClick={addNewData}
+                />
+            </Space>
+
+            <AntdSelectAddon addon="Limit">
+                <Space.Compact block style={{ width: 300 }}>
+                    <InputNumber
+                        value={limit[0] || 0}
+                        min={0}
+                        style={{
+                            width: "calc(50% - 20px)",
+                            borderTopLeftRadius: 0,
+                            borderBottomLeftRadius: 0,
+                        }}
+                        onChange={(v) => updateLimit({ min: v || 0 })}
+                    />
+                    <InputNumber
+                        value={limit[1] || 0}
+                        prefix="-&nbsp;&nbsp;&nbsp;&nbsp;"
+                        min={0}
+                        className="flex-1"
+                        style={{
+                            borderTopLeftRadius: 0,
+                            borderBottomLeftRadius: 0,
+                            borderLeft: 0,
+                        }}
+                        onChange={(v) => updateLimit({ max: v || 0 })}
+                    />
+                </Space.Compact>
             </AntdSelectAddon>
-            <Button
-                danger
-                icon={<DeleteOutlined />}
+
+            <AntdTextarea
+                value={activeHastag.data.join("\n")}
+                rows={8}
                 disabled={!activeHastag.name}
-                onClick={deleteData}
+                placeholder="#sepatu"
+                onChange={(data) => setActiveHastag((v) => ({ ...v, data: data.split("\n") }))}
             />
 
-            <AntdInput
-                status={addStatus}
-                value={addHastag}
-                placeholder="Tambah nama"
-                onChange={setAddHastag}
-                onPressEnter={addNewData}
-            />
-            <Button
-                icon={<PlusOutlined />}
-                disabled={!addHastag}
-                onClick={addNewData}
-            />
+            <div className="d-flex justify-content-end">
+                <Button
+                    type="primary"
+                    icon={<SaveOutlined />}
+                    disabled={!activeHastag.name || updateLoading}
+                    loading={updateLoading}
+                    onClick={() => onUpdate(activeHastag)}
+                >Simpan Hastag</Button>
+            </div>
         </Space>
-
-        <AntdSelectAddon addon="Limit">
-            <Space.Compact block style={{ width: 300 }}>
-                <InputNumber
-                    value={limit[0] || 0}
-                    min={0}
-                    style={{
-                        width: "calc(50% - 20px)",
-                        borderTopLeftRadius: 0,
-                        borderBottomLeftRadius: 0,
-                    }}
-                    onChange={(v) => updateLimit({ min: v || 0 })}
-                />
-                <InputNumber
-                    value={limit[1] || 0}
-                    prefix="-&nbsp;&nbsp;&nbsp;&nbsp;"
-                    min={0}
-                    className="flex-1"
-                    style={{
-                        borderTopLeftRadius: 0,
-                        borderBottomLeftRadius: 0,
-                        borderLeft: 0,
-                    }}
-                    onChange={(v) => updateLimit({ max: v || 0 })}
-                />
-            </Space.Compact>
-        </AntdSelectAddon>
-
-        <AntdTextarea
-            value={activeHastag.data.join("\n")}
-            rows={8}
-            disabled={!activeHastag.name}
-            placeholder="#sepatu"
-            onChange={(data) => setActiveHastag((v) => ({ ...v, data: data.split("\n") }))}
-        />
-
-        <div className="d-flex justify-content-end">
-            <Button
-                type="primary"
-                icon={<SaveOutlined />}
-                disabled={!activeHastag.name || updateLoading}
-                loading={updateLoading}
-                onClick={() => onUpdate(activeHastag)}
-            >Simpan Hastag</Button>
-        </div>
-    </Space>
+    </Card>
 }
 
 export default SpinHastag

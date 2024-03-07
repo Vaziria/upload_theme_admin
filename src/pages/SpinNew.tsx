@@ -1,5 +1,5 @@
 import { ProfileOutlined, SaveOutlined } from "@ant-design/icons"
-import { Alert, Button, Card, Col, Divider, Row, Space, message } from "antd"
+import { Alert, Button, Col, Row, Space, message } from "antd"
 import React from "react"
 import { useHistory } from "react-router-dom"
 
@@ -153,93 +153,84 @@ const SpinPageNew: React.FC = () => {
             lg={{ span: 20, offset: 2 }}
             xl={{ span: 16, offset: 4 }}
         >
-            <Card title="Spin">
-                <Space direction="vertical" className="d-flex">
+            <Space direction="vertical" size="large" className="d-flex">
 
-                    <Button
-                        type="primary"
-                        className="mb-2"
-                        icon={<ProfileOutlined />}
-                        style={{ background: "#52c41a" }}
-                        onClick={() => history.push("/spin/example")}
-                    >Buka Contoh Konten</Button>
+                <Button
+                    type="primary"
+                    icon={<ProfileOutlined />}
+                    style={{ background: "#52c41a" }}
+                    onClick={() => history.push("/spin/example")}
+                >Buka Contoh Konten</Button>
 
-                    <Alert
-                        banner
-                        showIcon
-                        type="info"
-                        className="mb-3"
-                        message={<span>
-                            item dengan icon &apos; <SaveOutlined /> &apos; berarti belum disimpan
-                        </span>}
-                    />
+                <Alert
+                    showIcon
+                    type="info"
+                    message={<span>
+                        item dengan icon &apos; <SaveOutlined /> &apos; berarti belum disimpan
+                    </span>}
+                />
 
-                    <SpinData
-                        data={spinData}
-                        dataLoading={spinDataLoading}
-                        setData={setSpinData}
-                        updateLoading={updateSpinDataLoading}
-                        onUpdate={saveSpinData}
-                        onActive={(name, callback) => getSpinDataOne({
-                            query: { name },
-                            onSuccess: (res) => res[0] && callback(res[0])
-                        })}
-                        onDelete={applyDeleteSpinData}
-                        onCreateNameExist={onDuplicateName}
-                    />
+                <SpinData
+                    data={spinData}
+                    dataLoading={spinDataLoading}
+                    setData={setSpinData}
+                    updateLoading={updateSpinDataLoading}
+                    onUpdate={saveSpinData}
+                    onActive={(name, callback) => getSpinDataOne({
+                        query: { name },
+                        onSuccess: (res) => res[0] && callback(res[0])
+                    })}
+                    onDelete={applyDeleteSpinData}
+                    onCreateNameExist={onDuplicateName}
+                />
 
-                    <Divider />
-                    <SpinTitleNew
-                        example={exampleTitle}
-                        setExample={getExampleSpinTitle}
-                        dataLoading={settingSpinDataLoading}
-                        pools={titlePools}
-                        setPools={setTitlePools}
-                        updateLoading={updateConfigSettingSpinDataLoading}
-                        onUpdate={saveConfigSettingSpinData}
-                        onCreateNameExist={onDuplicateName}
-                    />
+                <SpinTitleNew
+                    example={exampleTitle}
+                    setExample={getExampleSpinTitle}
+                    dataLoading={settingSpinDataLoading}
+                    pools={titlePools}
+                    setPools={setTitlePools}
+                    updateLoading={updateConfigSettingSpinDataLoading}
+                    onUpdate={saveConfigSettingSpinData}
+                    onCreateNameExist={onDuplicateName}
+                />
 
-                    <Divider />
-                    <SpinAdditional
-                        data={settingSpinData}
-                        setData={setSettingSpinData}
-                        updateLoading={updateConfigSettingSpinDataLoading}
-                        onUpdate={saveSettingSpinData}
-                    />
+                <SpinAdditional
+                    data={settingSpinData}
+                    setData={setSettingSpinData}
+                    updateLoading={updateConfigSettingSpinDataLoading}
+                    onUpdate={saveSettingSpinData}
+                />
 
-                    <Divider />
-                    <SpinMarkup
-                        updateLoading={updateMarkupLoading}
-                        onUpdate={saveMarkup}
-                        onAdd={applyAddMarkup}
-                        onActive={(name, callback) => getMarkup({
-                            query: { name },
-                            onSuccess: callback
-                        })}
-                        onDelete={applyDeleteMarkup}
-                        onCreateNameExist={onDuplicateName}
-                    />
+                <SpinMarkup
+                    updateLoading={updateMarkupLoading}
+                    onUpdate={saveMarkup}
+                    onAdd={applyAddMarkup}
+                    onActive={(name, callback) => getMarkup({
+                        query: { name },
+                        onSuccess: callback
+                    })}
+                    onDelete={applyDeleteMarkup}
+                    onCreateNameExist={onDuplicateName}
+                />
 
-                    <Divider />
-                    <SpinHastag
-                        hastags={hastags}
-                        hastagLoading={hastagLoading}
-                        setHashtags={setHastags}
-                        limit={hastagLimit}
-                        updateLoading={updateHastagLoading}
-                        onUpdate={saveHastag}
-                        onUpdateLimit={saveHastagLimit}
-                        onActive={(name, callback) => getHastag({
-                            query: { name },
-                            onSuccess: callback
-                        })}
-                        onDelete={applyDeleteHastag}
-                        onCreateNameExist={onDuplicateName}
-                    />
+                <SpinHastag
+                    hastags={hastags}
+                    hastagLoading={hastagLoading}
+                    setHashtags={setHastags}
+                    limit={hastagLimit}
+                    updateLoading={updateHastagLoading}
+                    onUpdate={saveHastag}
+                    onUpdateLimit={saveHastagLimit}
+                    onActive={(name, callback) => getHastag({
+                        query: { name },
+                        onSuccess: callback
+                    })}
+                    onDelete={applyDeleteHastag}
+                    onCreateNameExist={onDuplicateName}
+                />
 
-                </Space>
-            </Card>
+            </Space>
         </Col>
     </Row>
 }
