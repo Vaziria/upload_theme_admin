@@ -108,7 +108,7 @@ export interface ProductPriceRangeAggQuery {
 	pmax: number
 	pmin: number
 	use_empty_city: boolean
-	range_price: number
+	rprice: number
 }
 
 export interface ProductPriceRangeAgg {
@@ -1737,7 +1737,7 @@ export const clients = {
 			pmax: 0,
 			pmin: 0,
 			use_empty_city: false,
-			range_price: 0
+			rprice: 0
 		},
 		body: {},
 		response: [

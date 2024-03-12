@@ -7,10 +7,11 @@ import {
 import { Layout, Menu, Typography } from "antd";
 import React from "react";
 import { useHistory, useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
-import { Path } from "../routes/path";
 import { useRecoilValue } from "recoil";
 import { infoState } from "../recoil/atoms/info";
+import { Path } from "../routes/path";
 
 interface Props {
     collapsed: boolean;
@@ -131,7 +132,7 @@ const BaseSider: React.FC<Props> = (props: Props) => {
             items={items.map((item) => ({
                 key: item.path,
                 icon: item.icon,
-                label: item.name,
+                label: <Link to={{ pathname: item.path }}>{item.name}</Link>,
                 onClick: () => history.push(item.path),
             }))}
         />

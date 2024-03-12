@@ -1,11 +1,12 @@
 import { createBrowserHistory } from "history"
 import React from "react"
 import { Route, Switch } from "react-router-dom"
+
 import AccountPage from "../pages/Account"
 import CategMapNewPage from "../pages/CategMapNew"
 import HomePage from "../pages/HomePage"
 import ImportExport from "../pages/ImportExport"
-import DetailProduct from "../pages/ProductDetail/DetailProduct"
+import ProductDetailNew from "../pages/ProductDetailNew"
 import ProductManual from "../pages/ProductManual"
 import ProductManualDetail from "../pages/ProductManualDetail"
 import ProductManualForm from "../pages/ProductManualForm"
@@ -58,7 +59,7 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   },
   {
     path: '/productstat',
-    component: DetailProduct
+    component: ProductDetailNew
   },
   {
     path: '/task',
