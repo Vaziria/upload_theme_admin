@@ -49,6 +49,7 @@ const ProductDetailNew: React.FC = () => {
     const { send: getCity } = useQuery("GetLegacyV1ProductKota")
     const { mutate: exportUrl } = useMutation("PutShopeeV5ProductExportUrl")
     const { mutate: exportSupplier } = useMutation("PutShopeeV5ProductExportSupplier")
+    const { mutate: renameNamespace } = useMutation("PostV1ProductRenameNamespace")
     const { mutate: productResync, pending: syncLoading } = useMutation("GetLegacyV1ProductResync")
     const { mutate: categToCSV, pending: catCSVLoading } = useMutation("PostLegacyV1ProductCategstatToCsv")
     const { mutate: deleteItem } = useMutation("PostLegacyApiDeleteItem")
@@ -71,6 +72,24 @@ const ProductDetailNew: React.FC = () => {
                 messageApi.success(`collection ${col.name} deleted`)
                 setColRefresh((c) => c + 1)
             },
+        })
+    }
+
+    function applyRenameNamespace(col: ProductNamespaceAgg, rename: string) {
+
+        if (selectCol?.name === col.name) {
+            setSelectCol(undefined)
+        }
+
+        renameNamespace({
+            onSuccess() {
+                messageApi.success(`collection ${col.name} renamed to ${rename}`)
+                setColRefresh((c) => c + 1)
+            },
+        }, {
+            marketplace: mp,
+            namespace: col.name,
+            update_namespace: rename,
         })
     }
 
@@ -165,7 +184,7 @@ const ProductDetailNew: React.FC = () => {
                             name: _id,
                             ...item,
                             onDelete: () => deleteNamespace({
-                                query: { ...colquery, kota: _id },
+                                query: { ...colquery, kota: _id, use_empty_city: true },
                                 onSuccess: onItemDeleted
                             })
                         }))),
@@ -207,6 +226,7 @@ const ProductDetailNew: React.FC = () => {
                     namespaces={namespaces || undefined}
                     onSelect={setSelectCol}
                     onDelete={applyDeleteNamespace}
+                    onRename={applyRenameNamespace}
                 />
             </div>
             <Space direction="vertical" size="middle" className="d-flex flex-1 p-4" style={{

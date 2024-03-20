@@ -9,9 +9,21 @@ interface Props {
     namespaces?: ProductNamespaceAgg[]
     onSelect(col: ProductNamespaceAgg): void
     onDelete(col: ProductNamespaceAgg): void
+    onRename(col: ProductNamespaceAgg, rename: string): void
 }
 
 const ListCollections: React.FC<Props> = (props: Props) => {
+
+    const [item, setItem] = React.useState<ProductNamespaceAgg>()
+    const [rename, setRename] = React.useState("")
+    const [renameCount, setRenameCount] = React.useState(0)
+
+    React.useEffect(() => {
+        if (item) {
+            props.onRename(item, rename)
+        }
+    }, [renameCount])
+
     return <List
         itemLayout="horizontal"
         dataSource={props.namespaces}
@@ -29,7 +41,13 @@ const ListCollections: React.FC<Props> = (props: Props) => {
                 <Space className="d-flex px-2" direction="vertical">
                     <Typography.Text
                         editable={{
-                            text: item.name
+                            text: rename,
+                            onChange: (v) => setRename(v),
+                            onStart: () => {
+                                setItem(item)
+                                setRename(item.name)
+                            },
+                            onEnd: () => setRenameCount((c) => c+1),
                         }}
                         strong
                         className="mb-0"

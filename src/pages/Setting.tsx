@@ -29,6 +29,7 @@ import UpThread from "../components/uploadconfig/UpThread"
 import { emitEvent } from "../event"
 import { MarketList } from "../model/Common"
 import JackmallSearchConfig from "../components/jakmall/JakmallSearchConfig"
+import ShopeeCrawlerSetting from "../components/setting/ShopeeCrawlerSetting"
 
 // komponen belum terlalu terorganisir
 
@@ -83,6 +84,8 @@ export default class SettingPage extends React.Component<unknown, IState> {
       <div className="margin-container">
         <div className="row">
           <div className="col-lg-7">
+            
+            {/* <ShopeeCrawlerSetting /> */}
 
             <div>
               <br />

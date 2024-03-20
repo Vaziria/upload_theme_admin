@@ -256,6 +256,14 @@ export interface ManifestResponse {
 	public_category_repo: Array<CategoryItem>
 }
 
+export interface CrawlerConfig {
+	username: string
+	password: string
+	email: string
+	email_password: string
+	login_timeout: number
+}
+
 export interface PredictWeightPayload {
 	itemid: number
 	shopid: number
@@ -360,13 +368,6 @@ export interface GrabShopeeShipping {
 export interface SettingGrabFilterShopeeExtraResponse {
 	product_created: GrabShopeeProductCreated
 	shippings: Array<GrabShopeeShipping>
-}
-
-export interface CrawlerConfig {
-	username: string
-	password: string
-	email: string
-	email_password: string
 }
 
 export interface GrabTokopediaQuery {
@@ -2090,6 +2091,36 @@ export const clients = {
 			] as Array<CategoryItem>
 		}
 	},
+	GetLegacyShopeeCrawlerSetting: {
+		url: "legacy/shopee/crawler_setting" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			username: ``,
+			password: ``,
+			email: ``,
+			email_password: ``,
+			login_timeout: 0
+		}
+	},
+	PutLegacyShopeeCrawlerSetting: {
+		url: "legacy/shopee/crawler_setting" as const,
+		method: "PUT" as const,
+		query: undefined,
+		body: {
+			username: ``,
+			password: ``,
+			email: ``,
+			email_password: ``,
+			login_timeout: 0
+		},
+		response: {
+			errcode: 0,
+			message: ``,
+			status: ``
+		}
+	},
 	PostLegacyV4ShopeeWeightPredict: {
 		url: "legacy/v4/shopee/weight/predict" as const,
 		method: "POST" as const,
@@ -2479,7 +2510,8 @@ export const clients = {
 			username: ``,
 			password: ``,
 			email: ``,
-			email_password: ``
+			email_password: ``,
+			login_timeout: 0
 		}
 	},
 	PutLegacyShopeeConfigCrawler: {
@@ -2490,13 +2522,15 @@ export const clients = {
 			username: ``,
 			password: ``,
 			email: ``,
-			email_password: ``
+			email_password: ``,
+			login_timeout: 0
 		},
 		response: {
 			username: ``,
 			password: ``,
 			email: ``,
-			email_password: ``
+			email_password: ``,
+			login_timeout: 0
 		}
 	},
 	GetLegacyApiSettingGrab: {
