@@ -262,6 +262,8 @@ export interface CrawlerConfig {
 	email: string
 	email_password: string
 	login_timeout: number
+	captcha_timeout: number
+	login_reply_attempt: number
 }
 
 export interface PredictWeightPayload {
@@ -2101,7 +2103,9 @@ export const clients = {
 			password: ``,
 			email: ``,
 			email_password: ``,
-			login_timeout: 0
+			login_timeout: 0,
+			captcha_timeout: 0,
+			login_reply_attempt: 0
 		}
 	},
 	PutLegacyShopeeCrawlerSetting: {
@@ -2113,7 +2117,9 @@ export const clients = {
 			password: ``,
 			email: ``,
 			email_password: ``,
-			login_timeout: 0
+			login_timeout: 0,
+			captcha_timeout: 0,
+			login_reply_attempt: 0
 		},
 		response: {
 			errcode: 0,
@@ -2511,7 +2517,9 @@ export const clients = {
 			password: ``,
 			email: ``,
 			email_password: ``,
-			login_timeout: 0
+			login_timeout: 0,
+			captcha_timeout: 0,
+			login_reply_attempt: 0
 		}
 	},
 	PutLegacyShopeeConfigCrawler: {
@@ -2523,14 +2531,18 @@ export const clients = {
 			password: ``,
 			email: ``,
 			email_password: ``,
-			login_timeout: 0
+			login_timeout: 0,
+			captcha_timeout: 0,
+			login_reply_attempt: 0
 		},
 		response: {
 			username: ``,
 			password: ``,
 			email: ``,
 			email_password: ``,
-			login_timeout: 0
+			login_timeout: 0,
+			captcha_timeout: 0,
+			login_reply_attempt: 0
 		}
 	},
 	GetLegacyApiSettingGrab: {

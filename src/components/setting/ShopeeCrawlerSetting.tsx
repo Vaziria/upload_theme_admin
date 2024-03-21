@@ -14,7 +14,9 @@ const ShopeeCrawlerSetting: React.FC = () => {
         password: "",
         email: "",
         email_password: "",
-        login_timeout: 0
+        login_timeout: 0,
+        captcha_timeout: 0,
+        login_reply_attempt: 0,
     })
 
     const { send: getSetting } = useQuery("GetLegacyShopeeCrawlerSetting")
@@ -36,7 +38,7 @@ const ShopeeCrawlerSetting: React.FC = () => {
         {ctxholder}
         <Space direction="vertical" size="middle" className="d-flex">
 
-            <Divider className="my-0" orientation="left">Akun Crawler</Divider>
+            <label className="mb-0">Akun Crawler</label>
 
             <Space wrap size="middle">
                 <AntdInput
@@ -67,18 +69,35 @@ const ShopeeCrawlerSetting: React.FC = () => {
                 />
             </Space>
 
-            <Divider className="mb-0" orientation="left">Global Setting</Divider>
+            <Divider className="mb-0 mt-2" />
+            <label className="mb-0">Global Setting</label>
 
-            <div>
+            <InputNumber
+                value={setting.login_reply_attempt}
+                addonBefore="Login Attempt"
+                className="d-block"
+                style={{ width: 350 }}
+                onChange={(val) => setSetting((v) => ({ ...v, login_reply_attempt: val || 600 }))}
+            />
+
+            <Space wrap size="middle">
                 <InputNumber
                     value={setting.login_timeout}
                     addonBefore="Login Timeout"
-                    suffix="Detik"
+                    suffix="detik"
                     className="d-block"
-                    style={{ width: 250 }}
+                    style={{ width: 350 }}
                     onChange={(val) => setSetting((v) => ({ ...v, login_timeout: val || 600 }))}
                 />
-            </div>
+                <InputNumber
+                    value={setting.captcha_timeout}
+                    addonBefore="Captcha Timeout"
+                    suffix="detik"
+                    className="d-block"
+                    style={{ width: 350 }}
+                    onChange={(val) => setSetting((v) => ({ ...v, captcha_timeout: val || 600 }))}
+                />
+            </Space>
 
             <div className="d-flex justify-content-end">
                 <Button

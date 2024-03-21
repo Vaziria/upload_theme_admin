@@ -85,7 +85,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
         <div className="row">
           <div className="col-lg-7">
             
-            {/* <ShopeeCrawlerSetting /> */}
+            <ShopeeCrawlerSetting />
 
             <div>
               <br />
