@@ -262,7 +262,7 @@ export interface CrawlerConfig {
 	email: string
 	email_password: string
 	login_timeout: number
-	captcha_timeout: number
+	email_validate_timeout: number
 	login_reply_attempt: number
 }
 
@@ -2104,7 +2104,7 @@ export const clients = {
 			email: ``,
 			email_password: ``,
 			login_timeout: 0,
-			captcha_timeout: 0,
+			email_validate_timeout: 0,
 			login_reply_attempt: 0
 		}
 	},
@@ -2118,7 +2118,7 @@ export const clients = {
 			email: ``,
 			email_password: ``,
 			login_timeout: 0,
-			captcha_timeout: 0,
+			email_validate_timeout: 0,
 			login_reply_attempt: 0
 		},
 		response: {
@@ -2518,7 +2518,7 @@ export const clients = {
 			email: ``,
 			email_password: ``,
 			login_timeout: 0,
-			captcha_timeout: 0,
+			email_validate_timeout: 0,
 			login_reply_attempt: 0
 		}
 	},
@@ -2532,7 +2532,7 @@ export const clients = {
 			email: ``,
 			email_password: ``,
 			login_timeout: 0,
-			captcha_timeout: 0,
+			email_validate_timeout: 0,
 			login_reply_attempt: 0
 		},
 		response: {
@@ -2541,7 +2541,7 @@ export const clients = {
 			email: ``,
 			email_password: ``,
 			login_timeout: 0,
-			captcha_timeout: 0,
+			email_validate_timeout: 0,
 			login_reply_attempt: 0
 		}
 	},

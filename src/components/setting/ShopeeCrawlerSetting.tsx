@@ -15,7 +15,7 @@ const ShopeeCrawlerSetting: React.FC = () => {
         email: "",
         email_password: "",
         login_timeout: 0,
-        captcha_timeout: 0,
+        email_validate_timeout: 0,
         login_reply_attempt: 0,
     })
 
@@ -90,8 +90,8 @@ const ShopeeCrawlerSetting: React.FC = () => {
                     onChange={(val) => setSetting((v) => ({ ...v, login_timeout: val || 600 }))}
                 />
                 <InputNumber
-                    value={setting.captcha_timeout}
-                    addonBefore="Captcha Timeout"
+                    value={setting.email_validate_timeout}
+                    addonBefore="Email Validate Timeout"
                     suffix="detik"
                     className="d-block"
                     style={{ width: 350 }}
