@@ -1,4 +1,4 @@
-import { DeleteOutlined, FileDoneOutlined, SaveOutlined, UserSwitchOutlined } from "@ant-design/icons"
+import { DeleteOutlined, FileDoneOutlined, SaveOutlined, ShopOutlined, UserSwitchOutlined } from "@ant-design/icons"
 import { Button, Card, Col, Row, Space, message } from "antd"
 import { AxiosError } from "axios"
 import React from "react"
@@ -8,7 +8,8 @@ import CheckbotModal from "../components/tool/CheckbotModal"
 import CheckorderModal from "../components/tool/CheckorderModal"
 import DeleteModal from "../components/tool/DeleteModal"
 import { useMutation } from "../hooks/mutation"
-import { BaseWebResponse, CheckOrderQueryCli, CheckbotQueryCli, ConfigDeleteExtraResponse, DeleteConfig, DeleteProductQueryCli, useQuery } from "../model/newapisdk"
+import { BaseWebResponse, CheckOrderQueryCli, CheckbotQueryCli, ConfigDeleteExtraResponse, DeleteConfig, DeleteProductQueryCli, TokoLiburQueryCli, useQuery } from "../model/newapisdk"
+import TokoLiburModal from "../components/tool/TokoLiburModal"
 
 const ToolPageNew: React.FC = () => {
 
@@ -25,6 +26,7 @@ const ToolPageNew: React.FC = () => {
     const { mutate: checkbot } = useMutation("GetShopeeV5RunCheckbot")
     const { mutate: checkorder } = useMutation("GetShopeeV5RunCheckOrder")
     const { mutate: deleteProduct } = useMutation("PostShopeeV5RunDeleteProduct")
+    const { mutate: tokoLibur } = useMutation("GetShopeeV5RunTokoLibur")
 
     function errHandler(err: Error) {
         const rerr = err as AxiosError<BaseWebResponse>
@@ -73,6 +75,14 @@ const ToolPageNew: React.FC = () => {
                 })
             }, configProd)
         }, config))
+    }
+
+    function applyTokoLibur(query: TokoLiburQueryCli) {
+        applySaveTempAkun(() => tokoLibur({
+            query,
+            onError: errHandler,
+            onSuccess: () => messageApi.success("toko libur running...")
+        }))
     }
 
     React.useEffect(() => {
@@ -136,6 +146,16 @@ const ToolPageNew: React.FC = () => {
                                 onClick={showModal}
                             >DELETE PRODUK</Button>}
                         </DeleteModal>
+
+                        <TokoLiburModal onTokoLibur={applyTokoLibur}>
+                            {(showModal) => <Button
+                                type="primary"
+                                style={{ background: "#722ed1" }}
+                                icon={<ShopOutlined style={{ fontSize: 16 }} />}
+                                className="c-tx-sm"
+                                onClick={showModal}
+                            >TOKO LIBUR</Button>}
+                        </TokoLiburModal>
                     </Space>
                 </Space>
             </Card>

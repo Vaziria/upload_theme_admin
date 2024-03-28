@@ -724,6 +724,13 @@ export interface UpdaterAttributeCli {
 	base: string
 }
 
+export interface TokoLiburQueryCli {
+	base: string
+	libur: boolean
+	report: string
+	akun: string
+}
+
 export interface ExportSupplierQuery {
 	namespace: string
 }
@@ -1049,6 +1056,21 @@ export interface CheckOrderAkunItem {
 	password: string
 	secret: string
 	username: string
+}
+
+export interface TokopediaTokoLiburQueryCli {
+	base: string
+	libur: boolean
+	report: string
+	limit: number
+	closeStart: number
+	closeEnd: number
+}
+
+export interface AkunTokoLibur {
+	username: string
+	password: string
+	secret: string
 }
 
 export interface CategoryNavigation {
@@ -3492,6 +3514,18 @@ export const clients = {
 		body: {},
 		response: {} as any
 	},
+	GetShopeeV5RunTokoLibur: {
+		url: "shopee/v5/run_toko_libur" as const,
+		method: "GET" as const,
+		query: {
+				base: ``,
+				libur: false,
+				report: ``,
+				akun: ``
+			} as TokoLiburQueryCli ,
+		body: {},
+		response: {} as any
+	},
 	PutShopeeV5ProductExportSupplier: {
 		url: "shopee/v5/product/export_supplier" as const,
 		method: "PUT" as const,
@@ -4212,6 +4246,26 @@ export const clients = {
 					username: ``
 				} as CheckOrderAkunItem | undefined
 		] as Array<CheckOrderAkunItem | undefined>,
+		response: {} as any
+	},
+	PostTokopediaTokoLiburRunTokoLibur: {
+		url: "tokopedia/toko_libur/run_toko_libur" as const,
+		method: "POST" as const,
+		query: {
+				base: ``,
+				libur: false,
+				report: ``,
+				limit: 0,
+				closeStart: 0,
+				closeEnd: 0
+			} as TokopediaTokoLiburQueryCli ,
+		body: [
+			{
+				username: ``,
+				password: ``,
+				secret: ``
+			}
+		] as Array<AkunTokoLibur>,
 		response: {} as any
 	},
 	GetJakmallCategoryList: {
