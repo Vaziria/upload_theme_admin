@@ -1,7 +1,7 @@
 import {
     AppstoreAddOutlined, AppstoreOutlined, BarChartOutlined,
     BranchesOutlined, DeliveredProcedureOutlined, FontSizeOutlined,
-    HomeOutlined, OrderedListOutlined, SettingOutlined,
+    HomeOutlined, NotificationOutlined, OrderedListOutlined, SettingOutlined,
     ToolOutlined, UserOutlined, VerticalAlignMiddleOutlined
 } from "@ant-design/icons";
 import { Layout, Menu, Typography } from "antd";
@@ -83,6 +83,11 @@ const items: MenuItem[] = [
         name: "Tokopedia",
         path: "/toped",
         icon: <AppstoreOutlined />
+    },
+    {
+        name: "What's News",
+        path: "/whats-news",
+        icon: <NotificationOutlined />
     }
 ]
 

@@ -19,6 +19,7 @@ import TaskGrabNew from "../pages/TaskGrabNew"
 import Test from "../pages/Test"
 import Tokopedia from "../pages/Tokopedia"
 import ToolPageNew from "../pages/ToolNew"
+import WhatsNews from "../pages/WhatsNews"
 import HitungBeratPage from "../pages/shopee/HitungBerat"
 import { Path } from "./path"
 
@@ -100,6 +101,10 @@ export const routes: ReadonlyArray<{ path: Path, component: React.ComponentType 
   {
     path: '/import_export',
     component: ImportExport
+  },
+  {
+    path: '/whats-news',
+    component: WhatsNews
   }
 ]
 

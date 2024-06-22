@@ -402,7 +402,7 @@ export interface Cloudinary {
 
 export interface SettingCloudinaryResponse {
 	name: string
-	data: Cloudinary
+	data: Cloudinary | undefined
 }
 
 export interface SettingBoolResponse {
@@ -417,7 +417,7 @@ export interface RandomAttribute {
 
 export interface SettingRandomAttributeResponse {
 	name: string
-	data: RandomAttribute
+	data: RandomAttribute | undefined
 }
 
 export interface SettingTextFilterResponse {
@@ -747,6 +747,14 @@ export interface WeightPredictionItem {
 
 export interface WeightPrediction {
 	data: Array<WeightPredictionItem | undefined>
+}
+
+export interface SettingAdvanced {
+	cloudinary: Cloudinary | undefined
+	random: boolean
+	random_attribute: RandomAttribute | undefined
+	same_resource: boolean
+	force_split: boolean
 }
 
 export interface AttributeQuery {
@@ -2637,9 +2645,9 @@ export const clients = {
 		response: {
 			name: ``,
 			data: {
-			active: false,
-			url: ``
-		}
+				active: false,
+				url: ``
+			} as Cloudinary | undefined
 		}
 	},
 	PostLegacyApiConfigCloudinary: {
@@ -2649,9 +2657,9 @@ export const clients = {
 		body: {
 			name: ``,
 			data: {
-			active: false,
-			url: ``
-		}
+				active: false,
+				url: ``
+			} as Cloudinary | undefined
 		},
 		response: {
 			errcode: 0,
@@ -2691,9 +2699,9 @@ export const clients = {
 		response: {
 			name: ``,
 			data: {
-			active: false,
-			force_tidakada: false
-		}
+				active: false,
+				force_tidakada: false
+			} as RandomAttribute | undefined
 		}
 	},
 	PostLegacyApiConfigRndAttribute: {
@@ -2703,9 +2711,9 @@ export const clients = {
 		body: {
 			name: ``,
 			data: {
-			active: false,
-			force_tidakada: false
-		}
+				active: false,
+				force_tidakada: false
+			} as RandomAttribute | undefined
 		},
 		response: {
 			errcode: 0,
@@ -3598,6 +3606,56 @@ export const clients = {
 					} as WeightPredictionItem | undefined
 				] as Array<WeightPredictionItem | undefined>
 			} as WeightPrediction 
+	},
+	GetShopeeV5ConfigConfigAdvanced: {
+		url: "shopee/v5/config/config_advanced" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: {
+			cloudinary: {
+				active: false,
+				url: ``
+			} as Cloudinary | undefined,
+			random: false,
+			random_attribute: {
+				active: false,
+				force_tidakada: false
+			} as RandomAttribute | undefined,
+			same_resource: false,
+			force_split: false
+		}
+	},
+	PutShopeeV5ConfigConfigAdvanced: {
+		url: "shopee/v5/config/config_advanced" as const,
+		method: "PUT" as const,
+		query: undefined,
+		body: {
+			cloudinary: {
+				active: false,
+				url: ``
+			} as Cloudinary | undefined,
+			random: false,
+			random_attribute: {
+				active: false,
+				force_tidakada: false
+			} as RandomAttribute | undefined,
+			same_resource: false,
+			force_split: false
+		},
+		response: {
+			cloudinary: {
+				active: false,
+				url: ``
+			} as Cloudinary | undefined,
+			random: false,
+			random_attribute: {
+				active: false,
+				force_tidakada: false
+			} as RandomAttribute | undefined,
+			same_resource: false,
+			force_split: false
+		}
 	},
 	GetShopeeV5Attribute: {
 		url: "shopee/v5/attribute" as const,

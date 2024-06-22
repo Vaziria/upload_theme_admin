@@ -15,6 +15,9 @@ import FilterTitle from "../components/grab/FilterTitle"
 import FilterTokpedBadge from "../components/grab/FilterTokpedBadge"
 import LastLogin from "../components/grab/LastLogin"
 import LastReview from "../components/grab/LastReview"
+import JackmallSearchConfig from "../components/jakmall/JakmallSearchConfig"
+import ShopeeCrawlerSetting from "../components/setting/ShopeeCrawlerSetting"
+import UploadSplitSetting from "../components/setting/UploadSplitSetting"
 import ShopeeUpConfig from "../components/shopee/ShopeeUpConfig"
 import TokopediaUpConfig from "../components/tokopedia/TokopediaUpConfig"
 import ConcurentRequest from "../components/uploadconfig/ConcurentRequest"
@@ -28,8 +31,6 @@ import Stock from "../components/uploadconfig/Stock"
 import UpThread from "../components/uploadconfig/UpThread"
 import { emitEvent } from "../event"
 import { MarketList } from "../model/Common"
-import JackmallSearchConfig from "../components/jakmall/JakmallSearchConfig"
-import ShopeeCrawlerSetting from "../components/setting/ShopeeCrawlerSetting"
 
 // komponen belum terlalu terorganisir
 
@@ -110,6 +111,7 @@ export default class SettingPage extends React.Component<unknown, IState> {
               <div className="col update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateTokpedCategories()}>UPDATETOPEDCAT</button></div>
               <div className="col-6 update-cat"><button className="btn btn-secondary btn-sm" onClick={() => this.updateShopeeCategories()}>UPDATESHOPEECAT</button></div>
             </div> */}
+            <UploadSplitSetting />
             <CropImageConfig></CropImageConfig>
             <GrabInterval></GrabInterval>
             <div className="colss">
