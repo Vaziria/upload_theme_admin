@@ -11,6 +11,13 @@ const data = [
             "Fix tokopedia upload gambar duplikat"
         ],
     },
+    {
+        title: "v6.0.99",
+        items: [
+            "Fix tokopedia variasi karakter minimal 3",
+            "Fix upload advanced config nil",
+        ],
+    },
 ]
 
 
