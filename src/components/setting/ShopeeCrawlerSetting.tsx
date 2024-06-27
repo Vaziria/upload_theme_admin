@@ -1,15 +1,17 @@
-import { GlobalOutlined, SaveOutlined } from "@ant-design/icons"
+import { DownloadOutlined, GlobalOutlined, SaveOutlined } from "@ant-design/icons"
 import { Button, Card, Divider, Input, InputNumber, Space, message } from "antd"
 import React from "react"
 
+import { useMutation } from "../../hooks/mutation"
 import { CrawlerConfig, useQuery } from "../../model/newapisdk"
 import AntdInput from "../common/AntdInput"
-import { useMutation } from "../../hooks/mutation"
+
+console.log(process.env.REACT_APP_CONNECTOR_EXTENSION_LINK)
 
 const ShopeeCrawlerSetting: React.FC = () => {
 
     const [messageApi, ctxholder] = message.useMessage()
-    const [setting, setSetting] = React.useState<CrawlerConfig>({
+    const [setting, setSetting] = React.useState<Partial<CrawlerConfig>>({
         username: "",
         password: "",
         email: "",
@@ -33,11 +35,35 @@ const ShopeeCrawlerSetting: React.FC = () => {
     }, [])
 
     return <Card title={<>
-        <GlobalOutlined /> Shopee Browser Setting
+        <GlobalOutlined /> Shopee Crawler Setting
     </>}>
         {ctxholder}
         <Space direction="vertical" size="middle" className="d-flex">
 
+            <label className="mb-0">Worker Connector</label>
+
+            <Space wrap size="middle">
+                <AntdInput
+                    value={setting.connector?.server}
+                    addonBefore="Server"
+                    style={{ width: 350 }}
+                    onChange={(server) => setSetting((v) => ({
+                        ...v,
+                        connector: { ...v.connector, server },
+                    }))}
+                />
+                <a
+                    href={process.env.REACT_APP_CONNECTOR_EXTENSION_LINK}
+                    download="shopee_connector_extension.zip"
+                >
+                    <Button
+                        icon={<DownloadOutlined />}
+                        style={{ background: "#bae0ff", border: 0, color: "#1677ff" }}
+                    >Download Extension</Button>
+                </a>
+            </Space>
+
+            <Divider className="mb-0 mt-2" />
             <label className="mb-0">Akun Crawler</label>
 
             <Space wrap size="middle">

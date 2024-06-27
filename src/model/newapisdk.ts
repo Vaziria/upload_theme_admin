@@ -253,7 +253,11 @@ export interface CategoryItem {
 
 export interface ManifestResponse {
 	category: Array<ShopeeCategory>
-	public_category_repo: Array<CategoryItem>
+	public_category_repo: Array<CategoryItem | undefined>
+}
+
+export interface ConnectorConfig {
+	server: string
 }
 
 export interface CrawlerConfig {
@@ -264,6 +268,7 @@ export interface CrawlerConfig {
 	login_timeout: number
 	email_validate_timeout: number
 	login_reply_attempt: number
+	connector: ConnectorConfig | undefined
 }
 
 export interface PredictWeightPayload {
@@ -2097,18 +2102,7 @@ export const clients = {
 			] as Array<ShopeeCategory>,
 			public_category_repo: [
 			{
-				main: {
-				catid: 0,
-				display_name: ``,
-				name: ``,
-				image: ``,
-				is_adult: {},
-				parent_category: 0,
-				sort_weight: 0,
-				block_buyer_platform: {}
-			},
-				sub: [
-				{
+					main: {
 					catid: 0,
 					display_name: ``,
 					name: ``,
@@ -2116,19 +2110,30 @@ export const clients = {
 					is_adult: {},
 					parent_category: 0,
 					sort_weight: 0,
-					block_buyer_platform: {},
-					sub_sub: [
+					block_buyer_platform: {}
+				},
+					sub: [
 					{
 						catid: 0,
 						display_name: ``,
+						name: ``,
 						image: ``,
-						block_buyer_platform: {}
+						is_adult: {},
+						parent_category: 0,
+						sort_weight: 0,
+						block_buyer_platform: {},
+						sub_sub: [
+						{
+							catid: 0,
+							display_name: ``,
+							image: ``,
+							block_buyer_platform: {}
+						}
+						] as Array<CategorySubSub>
 					}
-					] as Array<CategorySubSub>
-				}
-				] as Array<CategorySub>
-			}
-			] as Array<CategoryItem>
+					] as Array<CategorySub>
+				} as CategoryItem | undefined
+			] as Array<CategoryItem | undefined>
 		}
 	},
 	GetLegacyShopeeCrawlerSetting: {
@@ -2143,7 +2148,10 @@ export const clients = {
 			email_password: ``,
 			login_timeout: 0,
 			email_validate_timeout: 0,
-			login_reply_attempt: 0
+			login_reply_attempt: 0,
+			connector: {
+				server: ``
+			} as ConnectorConfig | undefined
 		}
 	},
 	PutLegacyShopeeCrawlerSetting: {
@@ -2157,7 +2165,10 @@ export const clients = {
 			email_password: ``,
 			login_timeout: 0,
 			email_validate_timeout: 0,
-			login_reply_attempt: 0
+			login_reply_attempt: 0,
+			connector: {
+				server: ``
+			} as ConnectorConfig | undefined
 		},
 		response: {
 			errcode: 0,
@@ -2557,7 +2568,10 @@ export const clients = {
 			email_password: ``,
 			login_timeout: 0,
 			email_validate_timeout: 0,
-			login_reply_attempt: 0
+			login_reply_attempt: 0,
+			connector: {
+				server: ``
+			} as ConnectorConfig | undefined
 		}
 	},
 	PutLegacyShopeeConfigCrawler: {
@@ -2571,7 +2585,10 @@ export const clients = {
 			email_password: ``,
 			login_timeout: 0,
 			email_validate_timeout: 0,
-			login_reply_attempt: 0
+			login_reply_attempt: 0,
+			connector: {
+				server: ``
+			} as ConnectorConfig | undefined
 		},
 		response: {
 			username: ``,
@@ -2580,7 +2597,10 @@ export const clients = {
 			email_password: ``,
 			login_timeout: 0,
 			email_validate_timeout: 0,
-			login_reply_attempt: 0
+			login_reply_attempt: 0,
+			connector: {
+				server: ``
+			} as ConnectorConfig | undefined
 		}
 	},
 	GetLegacyApiSettingGrab: {
@@ -3613,49 +3633,49 @@ export const clients = {
 		query: undefined,
 		body: {},
 		response: {
-			cloudinary: {
-				active: false,
-				url: ``
-			} as Cloudinary | undefined,
-			random: false,
-			random_attribute: {
-				active: false,
-				force_tidakada: false
-			} as RandomAttribute | undefined,
-			same_resource: false,
-			force_split: false
-		}
+				cloudinary: {
+					active: false,
+					url: ``
+				} as Cloudinary | undefined,
+				random: false,
+				random_attribute: {
+					active: false,
+					force_tidakada: false
+				} as RandomAttribute | undefined,
+				same_resource: false,
+				force_split: false
+			} as SettingAdvanced 
 	},
 	PutShopeeV5ConfigConfigAdvanced: {
 		url: "shopee/v5/config/config_advanced" as const,
 		method: "PUT" as const,
 		query: undefined,
 		body: {
-			cloudinary: {
-				active: false,
-				url: ``
-			} as Cloudinary | undefined,
-			random: false,
-			random_attribute: {
-				active: false,
-				force_tidakada: false
-			} as RandomAttribute | undefined,
-			same_resource: false,
-			force_split: false
-		},
+				cloudinary: {
+					active: false,
+					url: ``
+				} as Cloudinary | undefined,
+				random: false,
+				random_attribute: {
+					active: false,
+					force_tidakada: false
+				} as RandomAttribute | undefined,
+				same_resource: false,
+				force_split: false
+			} as SettingAdvanced ,
 		response: {
-			cloudinary: {
-				active: false,
-				url: ``
-			} as Cloudinary | undefined,
-			random: false,
-			random_attribute: {
-				active: false,
-				force_tidakada: false
-			} as RandomAttribute | undefined,
-			same_resource: false,
-			force_split: false
-		}
+				cloudinary: {
+					active: false,
+					url: ``
+				} as Cloudinary | undefined,
+				random: false,
+				random_attribute: {
+					active: false,
+					force_tidakada: false
+				} as RandomAttribute | undefined,
+				same_resource: false,
+				force_split: false
+			} as SettingAdvanced 
 	},
 	GetShopeeV5Attribute: {
 		url: "shopee/v5/attribute" as const,
