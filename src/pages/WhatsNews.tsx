@@ -18,6 +18,14 @@ const data = [
             "Fix upload advanced config nil",
         ],
     },
+    {
+        title: "v6.0.100",
+        items: [
+            "Fix tokopedia upload gambar panduan masih error",
+            "Fix tokopedia upload invalid number of specifed variant",
+            "Adding shopee grab with worker connector"
+        ],
+    },
 ]
 
 
