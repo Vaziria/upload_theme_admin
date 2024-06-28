@@ -10,6 +10,7 @@ export interface MapperJakmallItem extends JkmlCategoryMap {
 }
 
 export interface MapperShopeeTokpedItem extends ShopeeMapItem {
+    names: string[]
     unmapped: boolean
 }
 

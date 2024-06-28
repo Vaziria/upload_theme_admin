@@ -848,6 +848,7 @@ export interface ShopeeMapItem {
 }
 
 export interface GetMapQuery {
+	qlobot: boolean
 	collection: string
 }
 
@@ -3867,6 +3868,7 @@ export const clients = {
 		url: "tokopedia/mapper/map" as const,
 		method: "GET" as const,
 		query: {
+			qlobot: false,
 			collection: ``
 		},
 		body: {},
@@ -3883,6 +3885,7 @@ export const clients = {
 		url: "tokopedia/mapper/autosuggest" as const,
 		method: "PUT" as const,
 		query: {
+			qlobot: false,
 			collection: ``
 		},
 		body: {},

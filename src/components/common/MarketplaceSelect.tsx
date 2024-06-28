@@ -20,6 +20,7 @@ const MarketplaceSelect: React.FC<Props> = (props: Props) => {
 
     const options: { value: MarketList, label: string }[] = [
         { value: 'shopee', label: 'Shopee' },
+        { value: "qlobot_shopee", label: 'Shopee Qlobot' },
         { value: 'tokopedia', label: 'Tokopedia' },
         { value: 'jakmall', label: 'Jakmall' },
     ]

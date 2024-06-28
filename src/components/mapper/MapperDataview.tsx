@@ -92,6 +92,30 @@ const MapperShopeeTokpedView: React.FC<MapperDataviewProps> = (props: MapperData
     />
 }
 
+const MapperShopeeQlobotTokpedView: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
+
+    const [items, setItems] = useRecoilState(mapperShopeeTokpedItemsState)
+    const categs = useRecoilValue(mapperShopeeCategoryState)
+
+    return <MapperDataRender
+        query={props.query}
+        items={items}
+        filterSearch={({ shopee_id }, search) => {
+            search = search.toLowerCase()
+            const prod = categs.find((c) => c._id === shopee_id)
+            return !!prod?.name?.some((name) => name.toLowerCase().includes(search))
+        }}
+        render={(item, key) => <ShopeeToTokopediaItem
+            key={key}
+            item={item}
+            onChange={(item) => setItems((mapItems) => {
+                return mapItems.map((mapItem) => mapItem.shopee_id === item.shopee_id ? item : mapItem)
+            })}
+        />}
+        onChange={props.onChange}
+    />
+}
+
 const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProps) => {
 
     const { from, mode, loading } = props
@@ -108,6 +132,10 @@ const MapperDataview: React.FC<MapperDataviewProps> = (props: MapperDataviewProp
     } = {
         shopee: {
             tokopedia: <MapperShopeeTokpedView {...props} />
+        },
+
+        qlobot_shopee: {
+            tokopedia: <MapperShopeeQlobotTokpedView {...props} />
         },
 
         tokopedia: {

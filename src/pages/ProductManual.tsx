@@ -67,7 +67,7 @@ const ProductManual: React.FC = () => {
         >
             <Card>
                 <h4 className="c-bold">Collection</h4>
-                <p className="c-bolder">
+                <p>
                     <span className="c-tx-gray">Total Collection :</span> {collectionList.count}
                 </p>
 

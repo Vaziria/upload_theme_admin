@@ -6,7 +6,7 @@ import { useRecoilValue } from "recoil"
 import { useMutation } from "../../hooks/mutation"
 import { MarketList } from "../../model/Common"
 import { useQuery } from "../../model/newapisdk"
-import { mapperJakmallItemsState, mapperShopeeTokpedItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
+import { mapperJakmallItemsState, mapperTokpedShopeeItemsState } from "../../recoil/atoms/mapper_items"
 
 interface Props {
     from: MarketList
@@ -46,17 +46,19 @@ const JakmallAutoSuggest: React.FC<Props> = (props: Props) => {
     />
 }
 
-const ShopeeTokopediaAutoSuggest: React.FC<Props> = (props: Props) => {
-    const { onSuccess, onError, namespace: collection } = props
+const ShopeeTokopediaAutoSuggest: React.FC<Props & { qlobot: boolean }> = (props: Props & { qlobot: boolean }) => {
+    const { onSuccess, onError, namespace: collection, qlobot } = props
     const { send } = useQuery("PutTokopediaMapperAutosuggest")
-    const data = useRecoilValue(mapperShopeeTokpedItemsState)
 
     return <AutoSuggestButton
-        disabled={!data.length}
+        disabled={!collection}
         onClick={() => send({
             onSuccess,
             onError,
-            query: { collection },
+            query: {
+                qlobot,
+                collection
+            },
         })}
     />
 }
@@ -70,7 +72,10 @@ const MapperAutoSuggest: React.FC<Props> = (props: Props) => {
         }
     } = {
         shopee: {
-            tokopedia: <ShopeeTokopediaAutoSuggest {...props} />
+            tokopedia: <ShopeeTokopediaAutoSuggest qlobot={false} {...props} />
+        },
+        qlobot_shopee: {
+            tokopedia: <ShopeeTokopediaAutoSuggest qlobot={true} {...props} />
         },
 
         tokopedia: {

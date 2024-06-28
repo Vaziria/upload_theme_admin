@@ -1,4 +1,4 @@
-import { Card, Col, Row, Space, message } from "antd"
+import { Alert, Card, Col, Row, Space, message } from "antd"
 import React from "react"
 import { useSetRecoilState } from "recoil"
 
@@ -17,12 +17,11 @@ import MapperDataview from "../components/mapper/MapperDataview"
 import MapperFilter from "../components/mapper/MapperFilter"
 import MapperSave from "../components/mapper/MapperSave"
 
-type Mp = Exclude<MarketList, "qlobot_shopee">
-
-const fromDefModes: { [key in Mp]: Mp } = {
-    "shopee": "tokopedia",
-    "tokopedia": "shopee",
-    "jakmall": "shopee",
+const fromDefModes: { [key in MarketList]: MarketList } = {
+    shopee: "tokopedia",
+    tokopedia: "shopee",
+    jakmall: "shopee",
+    qlobot_shopee: "tokopedia"
 }
 
 const CategMap: React.FC = () => {
@@ -70,36 +69,45 @@ const CategMap: React.FC = () => {
         }
     }
 
+    const shopeeLoader = (marketplace: MarketList) => {
+        if (namespace) {
+            getTokopediaCategory({
+                query: {
+                    kota: "",
+                    is_public: false,
+                    marketplace,
+                    namespace,
+                    pmax: 0,
+                    pmin: 0,
+                    use_empty_city: false
+                },
+                onSuccess: setMapperShopeeCategory
+            })
+            getTokopediaMapper({
+                query: {
+                    qlobot: marketplace === "qlobot_shopee",
+                    collection: namespace,
+                },
+                onSuccess: setShopeeTokpedMapitem,
+            })
+
+        } else {
+            setMapperShopeeCategory([])
+            setShopeeTokpedMapitem({ data: [] })
+        }
+    }
+
     const loader: {
         [key in MarketList]?: {
             [key in MarketList]?: () => void
         }
     } = {
         shopee: {
-            tokopedia: () => {
-                if (namespace) {
-                    getTokopediaCategory({
-                        query: {
-                            kota: "",
-                            is_public: false,
-                            marketplace: "shopee",
-                            namespace,
-                            pmax: 0,
-                            pmin: 0,
-                            use_empty_city: false
-                        },
-                        onSuccess: setMapperShopeeCategory
-                    })
-                    getTokopediaMapper({
-                        query: { collection: namespace },
-                        onSuccess: setShopeeTokpedMapitem,
-                    })
+            tokopedia: () => shopeeLoader("shopee"),
+        },
 
-                } else {
-                    setMapperShopeeCategory([])
-                    setShopeeTokpedMapitem({ data: [] })
-                }
-            }
+        qlobot_shopee: {
+            tokopedia: () => shopeeLoader("qlobot_shopee"),
         },
 
         tokopedia: {
@@ -152,13 +160,14 @@ const CategMap: React.FC = () => {
                                         <MarketplaceSelect
                                             style={{ minWidth: 180, width: 180 }}
                                             value={query.from}
+                                            hidemp={["qlobot_shopee"]}
                                             onChange={onFromChange}
                                         />
 
                                         <MarketplaceSelect
                                             style={{ minWidth: 180, width: 180 }}
                                             value={query.mode}
-                                            hidemp={[query.from]}
+                                            hidemp={[query.from, "qlobot_shopee"]}
                                             onChange={onModeChange}
                                         />
 
@@ -186,6 +195,13 @@ const CategMap: React.FC = () => {
                         </Space>
                     </Space>
                 </Card>
+
+                {(query.from === "qlobot_shopee" && query.mode === "tokopedia") && <Alert type="info" className="font-weight-normal" message={<>
+                    Mapping <span className="font-weight-bold">&quot;Shopee Qlobot&quot;</span> ke&nbsp;
+                    <span className="font-weight-bold">&quot;Tokopedia&quot;</span> sumbernya sama seperti&nbsp;
+                    <span className="font-weight-bold">&quot;Shopee&quot;</span> ke&nbsp;
+                    <span className="font-weight-bold">&quot;Tokopedia&quot;</span>, mungkin beberapa kategori telah punya mapping
+                </>} />}
 
                 <MapperDataview
                     from={query.from}

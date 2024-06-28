@@ -28,6 +28,12 @@ export default function MapperDataRender<T extends { unmapped: boolean }>(props:
         .filter((item) => !query.unmapped || item.unmapped)
 
     if (fixItems.length === 0) {
+        if (!items.length) {
+            return <Empty className="my-5" description={<>
+                Category mapping kosong, coba <strong>&quot;auto suggest&quot;</strong>
+            </>} />
+        }
+
         return <Empty description="Tidak ada category mapping ditemukan" className="my-5" />
     }
 

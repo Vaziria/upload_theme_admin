@@ -24,7 +24,7 @@ interface EditProps extends Props {
 }
 
 const CollectionContent: React.FC<EditProps> = (props: EditProps) => {
-    
+
     const { collection, edit } = props
     const [editName, setEditName] = React.useState(collection.name)
 
@@ -39,7 +39,7 @@ const CollectionContent: React.FC<EditProps> = (props: EditProps) => {
     }
 
     return <div className="c-flex-1">
-        <strong>{collection.name}</strong><br />
+        {collection.name}
         {/* <small className="c-tx-gray">
             <i className="far fa-clock" />&nbsp;
             {collection.created_at.slice(0, 10)}

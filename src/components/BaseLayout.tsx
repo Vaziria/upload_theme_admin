@@ -37,7 +37,7 @@ const BaseLayout: React.FC<Props> = (props: Props) => {
                 />
             </Layout.Header>
             <Layout.Content
-                className="px-3"
+                className="px-3 font-weight-normal"
                 style={{
                     minHeight: "calc(100vh - 48px)",
                     marginTop: 48

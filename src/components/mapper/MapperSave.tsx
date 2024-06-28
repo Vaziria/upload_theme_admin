@@ -93,6 +93,10 @@ const MapperSave: React.FC<Props> = (props: Props) => {
             tokopedia: <ShopeeTokopediaSave {...props} />
         },
 
+        qlobot_shopee: {
+            tokopedia: <ShopeeTokopediaSave {...props} />
+        },
+
         tokopedia: {
             shopee: <TokopediaShopeeSave {...props} />
         },
