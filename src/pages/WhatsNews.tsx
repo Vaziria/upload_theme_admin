@@ -26,6 +26,12 @@ const data = [
             "Adding shopee grab with worker connector"
         ],
     },
+    {
+        title: "v6.0.101",
+        items: [
+            "Fix shopee upload tamper gagal",
+        ],
+    },
 ]
 
 
