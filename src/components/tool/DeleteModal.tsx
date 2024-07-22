@@ -3,12 +3,11 @@ import { Alert, InputNumber, Modal, Space } from "antd"
 import React from "react"
 
 import { ConfigDeleteExtraResponse, DeleteConfig, DeleteProduct, DeleteProductQueryCli } from "../../model/newapisdk"
-import DeleteConfigCategory from "./DeleteConfigCategory"
+import AntdInput from "../common/AntdInput"
 import DeleteConfigHarga from "./DeleteConfigHarga"
 import DeleteConfigKeyword from "./DeleteConfigKeyword"
 import DeleteDateRange from "./DeleteDateRange"
 import DeleteGroupCheck from "./DeleteGroupCheck"
-import AntdInput from "../common/AntdInput"
 
 interface Props {
     initDeleteConfig?: DeleteConfig | null
@@ -150,10 +149,10 @@ const DeleteModal: React.FC<Props> = (props: Props) => {
                     onChange={(conf) => setConfigProd((v) => ({ ...v, ...conf }))}
                 />
 
-                <DeleteConfigCategory
+                {/* <DeleteConfigCategory
                     value={configProd}
                     onChange={(conf) => setConfigProd((v) => ({ ...v, ...conf }))}
-                />
+                /> */}
 
                 <DeleteConfigHarga
                     value={configProd}

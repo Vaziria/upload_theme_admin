@@ -1232,16 +1232,25 @@ export interface TopedTopedUploadQueryCli {
 	base: string
 }
 
-export interface RenameCollectionPayload {
-	marketplace: string
-	namespace: string
-	update_namespace: string
+export interface DeleteInboxQueryCli {
+	base: string
+}
+
+export interface EmailData {
+	email: string
+	pass: string
 }
 
 export interface BaseWebResponse {
 	errcode: number
 	message: string
 	status: string
+}
+
+export interface RenameCollectionPayload {
+	marketplace: string
+	namespace: string
+	update_namespace: string
 }
 
 export interface TokopediaToShopeeAutoSuggestQuery {
@@ -4649,6 +4658,43 @@ export const clients = {
 			error: ``
 		}
 	},
+	PostInboxRunDeleteInbox: {
+		url: "inbox/run_delete_inbox" as const,
+		method: "POST" as const,
+		query: {
+			base: ``
+		},
+		body: {},
+		response: {} as any
+	},
+	GetInboxGetEmails: {
+		url: "inbox/get_emails" as const,
+		method: "GET" as const,
+		query: undefined,
+		body: {},
+		response: [
+			{
+					email: ``,
+					pass: ``
+				} as EmailData | undefined
+		] as Array<EmailData | undefined>
+	},
+	PutInboxSetEmails: {
+		url: "inbox/set_emails" as const,
+		method: "PUT" as const,
+		query: undefined,
+		body: [
+			{
+					email: ``,
+					pass: ``
+				} as EmailData | undefined
+		] as Array<EmailData | undefined>,
+		response: {
+				errcode: 0,
+				message: ``,
+				status: ``
+			} as BaseWebResponse 
+	},
 	PostV1ProductRenameNamespace: {
 		url: "v1/product/rename_namespace" as const,
 		method: "POST" as const,
@@ -4659,10 +4705,10 @@ export const clients = {
 			update_namespace: ``
 		},
 		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
-		}
+				errcode: 0,
+				message: ``,
+				status: ``
+			}
 	},
 	GetV1CategoryMapperTokopediaToShopeeAutosuggest: {
 		url: "v1/category/mapper/tokopedia_to_shopee_autosuggest" as const,
@@ -4672,10 +4718,10 @@ export const clients = {
 		},
 		body: {},
 		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
-		}
+				errcode: 0,
+				message: ``,
+				status: ``
+			}
 	},
 	GetV1AkunTempAkun: {
 		url: "v1/akun/temp_akun" as const,
@@ -4727,10 +4773,10 @@ export const clients = {
 		query: undefined,
 		body: {},
 		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
-		}
+				errcode: 0,
+				message: ``,
+				status: ``
+			}
 	},
 	DeleteV1MainClearCacheWebdriver: {
 		url: "v1/main/clear_cache_webdriver" as const,
@@ -4738,10 +4784,10 @@ export const clients = {
 		query: undefined,
 		body: {},
 		response: {
-			errcode: 0,
-			message: ``,
-			status: ``
-		}
+				errcode: 0,
+				message: ``,
+				status: ``
+			}
 	},
 	GetPdcsourceAttrToped: {
 		url: "pdcsource/attr_toped" as const,

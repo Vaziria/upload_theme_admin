@@ -1,39 +1,7 @@
 import { Card, Col, List, Row } from "antd"
 import React from "react"
 
-const data = [
-    {
-        title: "v6.0.98",
-        items: [
-            "Adding setting split produk",
-            "Fix tokopedia banned kata di judul case sensitive",
-            "Fix tokopedia upload gambar panduan ukuran",
-            "Fix tokopedia upload gambar duplikat"
-        ],
-    },
-    {
-        title: "v6.0.99",
-        items: [
-            "Fix tokopedia variasi karakter minimal 3",
-            "Fix upload advanced config nil",
-        ],
-    },
-    {
-        title: "v6.0.100",
-        items: [
-            "Fix tokopedia upload gambar panduan masih error",
-            "Fix tokopedia upload invalid number of specifed variant",
-            "Adding shopee grab with worker connector"
-        ],
-    },
-    {
-        title: "v6.0.101",
-        items: [
-            "Fix shopee upload tamper gagal",
-        ],
-    },
-]
-
+import versions from "../versions"
 
 const WhatsNews: React.FC = () => {
     return <Row className="mt-3">
@@ -49,13 +17,13 @@ const WhatsNews: React.FC = () => {
 
                 <List
                     bordered
-                    dataSource={data}
-                    renderItem={(item) => (
-                        <div key={item.title}>
-                            <h5 className="mx-3 mt-3">{item.title}</h5>
+                    dataSource={Object.keys(versions)}
+                    renderItem={(key) => (
+                        <div key={key}>
+                            <h5 className="mx-3 mt-3">{key}</h5>
                             <List.Item>
                                 <ul className="mb-0">
-                                    {item.items.map((text, ind) => (
+                                    {versions[key].map((text, ind) => (
                                         <li key={ind}>{text}</li>
                                     ))}
                                 </ul>
