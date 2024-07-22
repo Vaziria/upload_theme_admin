@@ -18,10 +18,10 @@ const data = {
         "Fix shopee upload tamper gagal"
     ],
     "v6.0.102": [
+        "Adding email tools delete inbox",
         "Fix delete shopee filter sold & API product ganti",
         "Fix set status grabbed ketika error",
         "Fix upload shopee gampang close ketika item sedikit",
-        
     ],
 }
 
