@@ -23,6 +23,10 @@ const data = {
         "Fix set status grabbed ketika error",
         "Fix upload shopee gampang close ketika item sedikit",
     ],
+    "v6.0.103": [
+        "Fix delete shopee filter sold masih bocor",
+        "Fix category mapper tokopedia to shopee autosuggest dump tidak ditemukan",
+    ],
 }
 
 export default data
