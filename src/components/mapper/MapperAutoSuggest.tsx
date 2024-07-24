@@ -22,12 +22,18 @@ const AutoSuggestButton: React.FC<ButtonProps> = (props: ButtonProps) => {
 
 const TokopediaShopeeAutoSuggest: React.FC<Props> = (props: Props) => {
     const { onSuccess, onError } = props
-    const { send } = useQuery("GetTokopediaMapperAutosuggest")
+    const { send } = useQuery("GetV1CategoryMapperTokopediaToShopeeAutosuggest")
     const data = useRecoilValue(mapperTokpedShopeeItemsState)
 
     return <AutoSuggestButton
         disabled={!data.length}
-        onClick={() => send({ onSuccess, onError })}
+        onClick={() => send({
+            onSuccess,
+            onError,
+            query: {
+                namespace: props.namespace,
+            },
+        })}
     />
 }
 
