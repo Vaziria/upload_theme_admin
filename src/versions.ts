@@ -27,6 +27,12 @@ const data = {
         "Fix delete shopee filter sold masih bocor",
         "Fix category mapper tokopedia to shopee autosuggest dump tidak ditemukan",
     ],
+    "v6.0.104": [
+        "Fix delete shopee stuck page 1",
+        "Fix save markup percent",
+        "Fix shopee upload split harga kosong",
+        "Fix muncul banyak log unmarshal event di shopee upload",
+    ],
 }
 
 export default data
