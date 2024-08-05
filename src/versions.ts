@@ -33,6 +33,10 @@ const data = {
         "Fix shopee upload split harga kosong",
         "Fix muncul banyak log unmarshal event di shopee upload",
     ],
+    "v6.0.105": [
+        "Fix delete inbox",
+        "Fix tamper shopee upload",
+    ],
 }
 
 export default data
