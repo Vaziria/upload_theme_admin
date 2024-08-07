@@ -37,6 +37,9 @@ const data = {
         "Fix delete inbox",
         "Fix tamper shopee upload",
     ],
+    "v6.0.106": [
+        "Fix shopee email verification ganti dari pin ke link",
+    ],
 }
 
 export default data
