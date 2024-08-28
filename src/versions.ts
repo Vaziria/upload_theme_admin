@@ -38,7 +38,13 @@ const data = {
         "Fix tamper shopee upload",
     ],
     "v6.0.106": [
-        "Fix shopee email verification ganti dari pin ke link",
+        "Fix shopee email verification ganti dari code ke link",
+    ],
+    "v6.0.107": [
+        "Fix check order",
+    ],
+    "v6.0.108": [
+        "Fix tokopedia delete product sold kosong",
     ],
 }
 
